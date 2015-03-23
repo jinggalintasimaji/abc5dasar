@@ -10,14 +10,19 @@
 		<img src='{$host}__assets/images/logo_login.png' width='280px' style='margin-left:-5px;'>
 		<br/>
 		<br/>
-		<form name='frmLogin' action="{$host}home/login" method="post">
-			<input type="text" name="edUser" placeholder="Username">
-			<input type="password" name="edPass" placeholder="Password">
+		<form name='frmLogin' action="{$host}login" method="post">
+			<input type="text" name="user" placeholder="Username">
+			<input type="password" name="pwd" placeholder="Password">
 			<input type="submit" id="login" class="login login-submit" value="Login">
 		</form>
 		<div class="login-help">
 			Activity Based Cost Information System
 		</div>
+		{if isset($error)}
+            <div style="text-align:center;margin-top:30px">
+				<span style="color:red;"><b><i>{$error}</i></b></span>
+			</div>
+		{/if}	
 	</div>
 </body>
 </html>

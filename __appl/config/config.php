@@ -8,7 +8,7 @@ $config['url_suffix'] = '';
 $config['language']	= 'english';
 $config['charset'] = 'UTF-8';
 $config['enable_hooks'] = FALSE;
-$config['subclass_prefix'] = 'SHIPMENT_';
+$config['subclass_prefix'] = 'MY_';
 $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 $config['allow_get_array']		= TRUE;
 $config['enable_query_strings'] = FALSE;
@@ -42,6 +42,7 @@ $config['compress_output'] = FALSE;
 $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
+$config['user_data'] = 'p3l1nd0-413C5d4554r';
 
 
 
