@@ -30,6 +30,7 @@ class home extends MY_Controller {
 					$this->smarty->assign('menu',$menu);
 					$this->smarty->display('index.html');
 				break;
+				default:$this->smarty->display('konstruksi.html');
 			}
 		}
 		else{
