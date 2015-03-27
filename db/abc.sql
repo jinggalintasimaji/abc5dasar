@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-03-27 14:48:35
+Date: 2015-03-27 19:04:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -186,11 +186,12 @@ CREATE TABLE `tbl_acm` (
   `budgetchg` float DEFAULT NULL,
   `note` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm
 -- ----------------------------
+INSERT INTO `tbl_acm` VALUES ('1', '1', 'Acm. Test', '1', '10', '100', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '250', null, '1', '450', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -236,11 +237,12 @@ CREATE TABLE `tbl_bpd` (
   `rootcost` float DEFAULT NULL,
   `rootpct` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_bpd
 -- ----------------------------
+INSERT INTO `tbl_bpd` VALUES ('1', '1', 'Act. Test', null, 'Test', null, null, '100000', '100', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_bpm`
@@ -304,11 +306,12 @@ CREATE TABLE `tbl_cdm` (
   `coefficient` float DEFAULT NULL,
   `constant` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_cdm
 -- ----------------------------
+INSERT INTO `tbl_cdm` VALUES ('1', 'Driv. Test', 'Testing', '100', '100', '100', '300', '500', '300', null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_efx`
@@ -425,11 +428,22 @@ CREATE TABLE `tbl_menu` (
 -- Records of tbl_menu
 -- ----------------------------
 INSERT INTO `tbl_menu` VALUES ('1', null, 'P', 'Dashboard', null, null, '1', null);
-INSERT INTO `tbl_menu` VALUES ('2', null, 'P', 'Setting', null, null, '1', null);
-INSERT INTO `tbl_menu` VALUES ('100', '1', 'C', 'Dashboard 1', 'home/modul/100', 'icon-group_key', '1', null);
-INSERT INTO `tbl_menu` VALUES ('200', '2', 'C', 'User Management', 'home/modul/200', 'icon-group', '1', 'tbl_user');
-INSERT INTO `tbl_menu` VALUES ('201', '2', 'C', 'User Group', 'home/modul/201', 'icon-group', '1', 'cl_user_group');
-INSERT INTO `tbl_menu` VALUES ('202', '2', 'C', 'LogOut', 'login/logout', null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('2', null, 'P', 'Activity Master', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('3', null, 'P', 'Process Master', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('4', null, 'P', 'Cost Object', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('5', null, 'P', 'Item Master', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('6', null, 'P', 'Report', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('7', null, 'P', 'Setting', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('100', '1', 'C', 'Dashboard 1', 'home/modul/dashboard/main/100', 'icon-group_key', '1', null);
+INSERT INTO `tbl_menu` VALUES ('201', '2', 'C', 'Data Activity Master', 'home/modul/activity_master/main/201', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('301', '3', 'C', 'Data Process Master', 'home/modul/process_master/main/301', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('401', '4', 'C', 'Data Cost Object', 'home/modul/cost_object/main/401', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('501', '5', 'c', 'Data Item Master', 'home/modul/item_master/main/501', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('601', '6', 'C', 'Activity', 'home/modul/report/main/601', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('602', '6', 'C', 'Activity Attributes', 'home/modul/report/main/602', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('603', '6', 'C', 'Activity Driver', 'home/modul/report/main/603', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('701', '7', 'C', 'User Management', 'home/modul/setting/200', 'icon-group', '1', 'tbl_user');
+INSERT INTO `tbl_menu` VALUES ('702', '7', 'C', 'User Group', 'home/modul/setting/201', 'icon-group', '1', 'cl_user_group');
 
 -- ----------------------------
 -- Table structure for `tbl_prd`
@@ -462,7 +476,7 @@ CREATE TABLE `tbl_prev_group` (
   `ubah` smallint(6) DEFAULT NULL,
   `hapus` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prev_group
@@ -470,13 +484,25 @@ CREATE TABLE `tbl_prev_group` (
 INSERT INTO `tbl_prev_group` VALUES ('1', '1', '1', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('2', '1', '100', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('3', '1', '2', '1', '1', '1', '1');
-INSERT INTO `tbl_prev_group` VALUES ('4', '1', '200', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('5', '1', '201', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('6', '2', '1', '0', '1', '0', '0');
 INSERT INTO `tbl_prev_group` VALUES ('7', '2', '100', '0', '1', '0', '0');
 INSERT INTO `tbl_prev_group` VALUES ('9', '1', '202', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('10', '2', '202', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('11', '2', '2', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('13', '1', '3', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('14', '1', '301', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('15', '1', '4', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('16', '1', '401', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('17', '1', '5', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('18', '1', '501', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('19', '1', '6', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('20', '1', '601', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('21', '1', '602', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('22', '1', '603', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('23', '1', '7', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('24', '1', '701', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('25', '1', '702', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_prm`
