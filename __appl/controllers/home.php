@@ -9,7 +9,7 @@ class home extends MY_Controller {
 	
 	public function index(){
 		if($this->auth){
-			$this->modul();
+			$this->modul('awal');
 		}
 	}
 	
@@ -22,15 +22,21 @@ class home extends MY_Controller {
 		}
 	}
 	
-	function modul($p1=0,$p2="",$p3=""){
+	function modul($mod,$p2="",$p3="",$p4=""){
+		
 		if($this->auth){
-			switch($p1){
-				case 0:
+			switch($mod){
+				case "awal":
 					$menu=$this->get_menu();
 					$this->smarty->assign('menu',$menu);
 					$this->smarty->display('index.html');
 				break;
-				default:$this->smarty->display('konstruksi.html');
+				default:
+					$this->smarty->assign('mod',$mod);
+					$this->smarty->assign('main',$p2);
+					$this->smarty->assign('sub_mod',$p3);
+					$this->smarty->display($mod.'/'.$p2.'.html');
+				break;
 			}
 		}
 		else{
@@ -40,5 +46,11 @@ class home extends MY_Controller {
 	
 	function get_menu(){
 		return $menu=$this->mhome->getdata('menu');
+	}
+	function getdata($p1,$p2=""){
+		echo $this->mhome->getdata($p1,$p2);
+	}
+	function getdisplay(){
+		
 	}
 }

@@ -45,6 +45,12 @@ class mhome extends CI_Model{
 				return $menu;	
 				
 			break;
+			case "tbl_acm":
+				$sql="SELECT A.*,B.activity,C.cost_driver,B.nonvalcost
+						FROM tbl_acm A
+						LEFT JOIN tbl_bpd B ON A.tbl_bpd_id=B.id
+						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id";
+			break;
 		}
 		return $this->result_query($sql,'json');
 	}
