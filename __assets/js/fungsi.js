@@ -206,8 +206,79 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'first',title:'Target Rate',width:100, halign:'center',align:'left'},
 			]
 		break;	
+		case "301":
+			judulnya = "Process Master";
+			urlnya = "tbl_acm";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'level',title:'Process ID',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:150, halign:'center',align:'left'},
+				{field:'activity',title:'Level',width:80, halign:'center',align:'left'},
+				{field:'value_add',title:'Value %',width:100, halign:'right',align:'right'},
+				{field:'fte',title:'Total Cost',width:100, halign:'right',align:'right'},
+				{field:'head_count',title:'FTE',width:80, halign:'right',align:'right'},
+				{field:'cost_driver',title:'Excess Capacity $',width:200, halign:'right',align:'right'},
+				{field:'quantity',title:'Non-Value Added',width:150, halign:'right',align:'right'},
+				{field:'nonvalcost',title:'Budgeted Amount',width:150, halign:'right',align:'right'},
+				{field:'nonvalcost',title:'UDF 1',width:100, halign:'right',align:'right'},
+				{field:'nonvalcost',title:'UDF 2',width:100, halign:'right',align:'right'},
+			];
+		break;
+		case "tbl_employees_process":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'level',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Emp. ID',width:100, halign:'center',align:'left'},
+				{field:'activity',title:'Employee Name',width:200, halign:'center',align:'left'},
+				{field:'value_add',title:'Head Count',width:100, halign:'right',align:'right'},
+				{field:'fte',title:'FTE',width:100, halign:'right',align:'right'},
+				{field:'head_count',title:'Total Cost',width:100, halign:'right',align:'right'},
+				{field:'cost_driver',title:'Position',width:200, halign:'right',align:'right'},
+				{field:'quantity',title:'Reg Waves',width:150, halign:'right',align:'right'},
+				{field:'nonvalcost',title:'Fringe Benefits',width:150, halign:'right',align:'right'},
+				{field:'nonvalcost',title:'Allocation',width:150, halign:'right',align:'right'},
+			]
+		break;
+		case "tbl_expenses_process":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'level',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Account',width:100, halign:'center',align:'left'},
+				{field:'activity',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'value_add',title:'Head Count',width:100, halign:'right',align:'right'},
+				{field:'head_count',title:'Cost',width:100, halign:'right',align:'right'},
+				{field:'cost_driver',title:'Level',width:100, halign:'right',align:'right'},
+				{field:'quantity',title:'Budget 1',width:150, halign:'right',align:'right'},
+			]
+		break;
+		case "mst_build":
+			judulnya = "";
+			urlnya = "";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'cost_nbr',title:'Activity',width:100, halign:'center',align:'left'},
+				{field:'cost_nbr',title:'Performance Measures',width:300, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_build":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'level',title:'Activity',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Sub-Process',width:100, halign:'center',align:'left'},
+				{field:'activity',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'value_add',title:'Cost',width:100, halign:'center',align:'right'},
+				{field:'head_count',title:'%',width:100, halign:'center',align:'right'},
+				{field:'cost_driver',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'quantity',title:'Sequence',width:100, halign:'center',align:'right'},
+			]
+		break;
 		
-
 	}
 	
 	$("#"+divnya).datagrid({
