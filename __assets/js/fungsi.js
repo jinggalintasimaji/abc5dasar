@@ -406,7 +406,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         striped:true,
         pagination:true,
         remoteSort: false,
-        url:host+"home/getdata/"+urlnya,		
+        url: (urlnya!="" ? host+"home/getdata/"+urlnya : ""),		
 		nowrap: true,
         singleSelect:true,
 		columns:[
