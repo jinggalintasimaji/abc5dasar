@@ -88,16 +88,25 @@ function getClientWidth(){
 	return theWidth;
 }
 
-function genGrid(modnya, divnya){
+function genGrid(modnya, divnya, lebarnya, tingginya){
+	if(lebarnya == undefined){
+		lebarnya = getClientWidth-250;
+	}
+	if(tingginya == undefined){
+		tingginya = getClientHeight-300
+	}
+
 	var kolom ={};
 	var frozen ={};
 	var judulnya;
 	var urlnya;
+	var fitnya;
 	
 	switch(modnya){
 		case "201":
 			judulnya = "Activity Master";
 			urlnya = "tbl_acm";
+			fitnya = true;
 			kolom[modnya] = [	
 				{field:'level',title:'Level',width:80, halign:'center',align:'center'},
 				{field:'activity',title:'Activity',width:80, halign:'center',align:'left'},
@@ -110,17 +119,104 @@ function genGrid(modnya, divnya){
 				{field:'nonvalcost',title:'Non Value',width:100, halign:'right',align:'right'}
 			];
 		break;
+		case "mst_employees":
+			judulnya = "";
+			urlnya = "";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
+				{field:'first',title:'Employee Name',width:250, halign:'center',align:'left'},
+				{field:'cost_nbr',title:'Cost Center',width:100, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_employees":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_nbr',title:'Cost Center',width:100, halign:'center',align:'left'},
+				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
+				{field:'first',title:'Employee Name',width:200, halign:'center',align:'left'},
+				{field:'first',title:'Cost',width:100, halign:'center',align:'left'},
+				{field:'first',title:'%',width:80, halign:'center',align:'left'},
+				{field:'first',title:'Quantity',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Cost Type',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Budget',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Input Rate',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Output Rate',width:100, halign:'center',align:'left'},
+			]
+		break;	
+		case "mst_expenses":
+			judulnya = "";
+			urlnya = "";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'employee_id',title:'Account',width:80, halign:'center',align:'center'},
+				{field:'first',title:'Cost Center',width:100, halign:'center',align:'left'},
+				{field:'cost_nbr',title:'Description',width:150, halign:'center',align:'left'},
+				{field:'cost_nbr',title:'Level',width:80, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_expenses":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_nbr',title:'Cost Center',width:100, halign:'center',align:'left'},
+				{field:'employee_id',title:'Account',width:80, halign:'center',align:'center'},
+				{field:'cost_nbr',title:'Expenses Desc.',width:200, halign:'center',align:'left'},
+				{field:'first',title:'Cost',width:100, halign:'center',align:'left'},
+				{field:'first',title:'%',width:80, halign:'center',align:'left'},
+				{field:'first',title:'Quantity',width:80, halign:'center',align:'left'},
+				{field:'first',title:'Cost Type',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Budget',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Input Rate',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Output Rate',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Cooffecient',width:100, halign:'center',align:'left'},
+			]
+		break;	
+		case "tbl_processes":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_nbr',title:'Code',width:100, halign:'center',align:'left'},
+				{field:'employee_id',title:'Process Description',width:250, halign:'center',align:'center'},
+				{field:'cost_nbr',title:'Notes',width:150, halign:'center',align:'left'},
+			]
+		break;	
+		case "mst_measures":
+			judulnya = "";
+			urlnya = "";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'cost_nbr',title:'Performance Measures',width:250, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_measures":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_nbr',title:'Measures',width:100, halign:'center',align:'left'},
+				{field:'employee_id',title:'Description',width:200, halign:'center',align:'center'},
+				{field:'cost_nbr',title:'Quantity',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Rate',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Target Qty',width:100, halign:'center',align:'left'},
+				{field:'first',title:'Target Rate',width:100, halign:'center',align:'left'},
+			]
+		break;	
 		
-		
+
 	}
 	
 	$("#"+divnya).datagrid({
 		title:judulnya,
-        height:getClientHeight-300,
-        width:getClientWidth-250,
+        height:tingginya,
+        width:lebarnya,
 		rownumbers:true,
 		iconCls:'database',
-        fit:true,
+        fit:fitnya,
         striped:true,
         pagination:true,
         remoteSort: false,
