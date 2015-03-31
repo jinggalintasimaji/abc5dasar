@@ -51,6 +51,14 @@ class mhome extends CI_Model{
 						LEFT JOIN tbl_bpd B ON A.tbl_bpd_id=B.id
 						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id";
 			break;
+			case "tbl_prm":
+				$sql="SELECT A.*
+						FROM tbl_prm A ";
+			break;
+			case "tbl_cdm":
+				$sql="SELECT A.*
+						FROM tbl_cdm A ";
+			break;
 		}
 		return $this->result_query($sql,'json');
 	}

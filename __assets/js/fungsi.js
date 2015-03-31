@@ -278,7 +278,122 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'quantity',title:'Sequence',width:100, halign:'center',align:'right'},
 			]
 		break;
+		case "401":
+			judulnya = "";
+			urlnya = "tbl_prm";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Process ID',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Descript',width:250, halign:'center',align:'left'},
+				{field:'level',title:'Level',width:100, halign:'center',align:'center'},
+				{field:'revenue',title:'Revanue',width:100, halign:'center',align:'right'},
+				{field:'abc_cost',title:'ABC Cost',width:100, halign:'center',align:'right'},
+				{field:'profitable',title:'Profitable',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'unit_cost',title:'Unit Cost',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "mst_drivers":
+			judulnya = "";
+			urlnya = "tbl_cdm";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Drivers',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:300, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_drivers":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Drivers',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'quantity',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'weight',title:'Weight',width:100, halign:'center',align:'right'},
+				{field:'unweight',title:'Weighted',width:100, halign:'center',align:'right'},
+				{field:'input_rate',title:'Input Rate',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Output Rate',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "mst_over_head":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Category',width:100, halign:'center',align:'left'},
+				{field:'cost_driver',title:'BOA ID',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Unit(r)',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Batch(r)',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Product(r)',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Facility(r)',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Total Rolled',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Unit',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Batch',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Product',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Facility',width:100, halign:'center',align:'right'},
+				{field:'descript',title:'Total This Level',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "tbl_over_head":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'',title:'Activity',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Activity Description',width:250, halign:'center',align:'left'},
+				{field:'quantity',title:'Activity Cost',width:100, halign:'center',align:'right'},
+				{field:'quantity',title:'Driver',width:100, halign:'center',align:'center'},
+				{field:'quantity',title:'Activity Driver Description',width:300, halign:'center',align:'center'},
+				{field:'weight',title:'Activity Rate',width:100, halign:'center',align:'right'},
+				{field:'unweight',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'unweight',title:'Percent',width:100, halign:'center',align:'right'},
+				{field:'input_rate',title:'Budget Rate',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Budget Amount',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "mst_customers":
+			judulnya = "";
+			urlnya = "tbl_cdm";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'object_id',title:'Object ID',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:300, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_customers":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Object',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Object Type',width:250, halign:'center',align:'left'},
+				{field:'quantity',title:'Revenue',width:100, halign:'center',align:'right'},
+				{field:'weight',title:'Cost',width:100, halign:'center',align:'right'},
+				{field:'unweight',title:'Total Profit',width:100, halign:'center',align:'right'},
+				{field:'input_rate',title:'Percent',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Sell Price',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Unit Profit',width:100, halign:'center',align:'right'},
+			]
+		break;
 		
+		case "501":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Item',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Item Name',width:250, halign:'center',align:'left'},
+				{field:'level',title:'Unit',width:100, halign:'center',align:'center'},
+				{field:'revenue',title:'MakeBy',width:100, halign:'center',align:'left'},
+				{field:'abc_cost',title:'Class',width:100, halign:'center',align:'center'},
+				{field:'profitable',title:'Lost Factor',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'ABC Cost',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'ABC Cost(r)',width:100, halign:'center',align:'right'},
+				{field:'unit_cost',title:'Material Cost(r)',width:100, halign:'center',align:'right'},
+			]
+		break;
 	}
 	
 	$("#"+divnya).datagrid({
