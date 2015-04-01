@@ -377,6 +377,55 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'output_rate',title:'Unit Profit',width:100, halign:'center',align:'right'},
 			]
 		break;
+		case "mst_parent_item":
+			judulnya = "";
+			urlnya = "";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'object_id',title:'Item',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:300, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_parent_item":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Item#',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'quantity',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'weight',title:'Scrap ',width:100, halign:'center',align:'right'},
+				{field:'unweight',title:'Activity Cost',width:100, halign:'center',align:'right'},
+				{field:'input_rate',title:'Material Cost',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Setup',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Direct Labor',width:100, halign:'center',align:'right'},
+			]
+		break;
+		
+		case "mst_component_item":
+			judulnya = "";
+			urlnya = "";
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'object_id',title:'Item#',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:300, halign:'center',align:'left'},
+			]
+		break;
+		case "tbl_component_item":
+			judulnya = "";
+			urlnya = "";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Component',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'quantity',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'weight',title:'Scrap',width:100, halign:'center',align:'right'},
+				{field:'unweight',title:'Activity Cost',width:100, halign:'center',align:'right'},
+				{field:'input_rate',title:'Material Cost',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Setup',width:100, halign:'center',align:'right'},
+				{field:'output_rate',title:'Direct Labor',width:100, halign:'center',align:'right'},
+			]
+		break;
 		
 		case "501":
 			judulnya = "";
