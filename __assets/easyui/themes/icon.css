@@ -66,7 +66,6 @@
 }
 .icon-calculator_add{
 	background:url('icons/calculator_add.png') no-repeat center center;
-	
 }
 
 .icon-group{
@@ -76,7 +75,6 @@
 .icon-laporan{
 	background:url('icons/report_go.png') no-repeat center center;
 }
-
 .icon-bank{
 	background:url('icons/bank.png') no-repeat center center;
 }
@@ -89,7 +87,6 @@
 .icon-mini-refresh{
 	background:url('icons/mini_refresh.png') no-repeat center center;
 }
-
 .icon-large-picture{
 	background:url('icons/large_picture.png') no-repeat center center;
 }
@@ -108,7 +105,6 @@
 .icon-group_key{
 	background:url('icons/group_key.png') no-repeat center center;
 }
-
 .icon-jabatan{
 	background:url('icons/award_star_bronze_3.png') no-repeat center center;
 }
@@ -159,4 +155,15 @@
 .Target_Pajak_APBDP{
 	background:url('icons/chart_bar.png') no-repeat center center;
 }
-
+.log_out{
+	background:url('icons/logout.png') no-repeat center center;
+}
+.data_proses{
+	background:url('icons/cog_go.png') no-repeat center center;
+}
+.data_cost{
+	background:url('icons/money.png') no-repeat center center;
+}
+.dashboard{
+	background:url('icons/application_view_tile.png') no-repeat center center;
+}
