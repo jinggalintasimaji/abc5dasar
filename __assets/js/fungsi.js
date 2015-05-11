@@ -44,6 +44,37 @@ function getClientHeight(){
 	return theHeight;
 }
 
+var divcontainer;
+function windowFormPanel(html,judul,width,height){
+	divcontainer = $('#jendela');
+	$(divcontainer).unbind();
+	$('#isiJendela').html(html);
+    $(divcontainer).window({
+		title:judul,
+		width:width,
+		height:height,
+		autoOpen:false,
+		top: Math.round(frmHeight/2)-(height/2),
+		left: Math.round(frmWidth/2)-(width/2),
+		modal:true,
+		maximizable:false,
+		minimizable: false,
+		collapsible: false,
+		closable: true,
+		resizable: false,
+	    onBeforeClose:function(){	   
+			$(divcontainer).window("close",true);
+			//$(divcontainer).window("destroy",true);
+			return true;
+	    }		
+    });
+    $(divcontainer).window('open');       
+}
+function windowFormClosePanel(){
+    $(divcontainer).window('close');
+    //$(divcontainer).html("");
+}
+
 var container;
 function windowForm(html,judul,width,height){
     container = "win"+Math.floor(Math.random()*9999);
@@ -443,6 +474,51 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'unit_cost',title:'Material Cost(r)',width:100, halign:'center',align:'right'},
 			]
 		break;
+		
+		//Data Reference --
+		case "ref_employee":
+			judulnya = "";
+			urlnya = "tbl_emp";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Emp. Name',width:250, halign:'center',align:'left'},
+				{field:'level',title:'SSN',width:100, halign:'center',align:'center'},
+				{field:'revenue',title:'Wages',width:100, halign:'center',align:'left'},
+				{field:'abc_cost',title:'OT. Premium',width:100, halign:'center',align:'center'},
+				{field:'profitable',title:'Benefits',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'Total',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'Class',width:100, halign:'center',align:'right'},
+				{field:'unit_cost',title:'Position',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "ref_expense":
+			judulnya = "";
+			urlnya = "tbl_exp";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Account',width:250, halign:'center',align:'left'},
+				{field:'level',title:'Descript',width:100, halign:'center',align:'center'},
+				{field:'revenue',title:'Amount',width:100, halign:'center',align:'left'},
+				{field:'abc_cost',title:'Budget 1',width:100, halign:'center',align:'center'},
+				{field:'profitable',title:'Budget 2',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'Exp. Level',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'Class',width:100, halign:'center',align:'right'},
+				{field:'unit_cost',title:'Position',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "ref_allocation":
+			judulnya = "";
+			urlnya = "tbl_loc";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
+				{field:'costcenter',title:'Cost Center',width:150, halign:'center',align:'left'},
+				{field:'loc_name',title:'Location Name',width:100, halign:'center',align:'center'},
+			]
+		break;
+		// End Data Reference
 	}
 	
 	$("#"+divnya).datagrid({
@@ -466,13 +542,31 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 }
 
 
-function genform(type, modulnya, submodulnya){
+function genform(type, modulnya, submodulnya, stswindow){
 	switch(submodulnya){
 		case "201":
 			var lebar = getClientWidth()-990;
 			var tinggi = getClientHeight()-535;
 			var judulwindow = 'Form Data Provinsi';
 			var table="cl_provinsi";
+		break;
+		case "ref_employee":
+			var lebar = getClientWidth()-500;
+			var tinggi = getClientHeight()-200;
+			var judulwindow = 'Form Data Employee';
+			var table="tbl_emp";
+		break;
+		case "ref_expense":
+			var lebar = getClientWidth()-500;
+			var tinggi = getClientHeight()-300;
+			var judulwindow = 'Form Data Expense';
+			var table="tbl_exp";
+		break;
+		case "ref_allocation":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-400;
+			var judulwindow = 'Form Data Allocation';
+			var table="tbl_loc";
 		break;
 	}
 	
@@ -481,9 +575,14 @@ function genform(type, modulnya, submodulnya){
 			$('#grid_nya_'+submodulnya).hide();
 			$('#detil_nya_'+submodulnya).show();
 			$.post(host+'home/modul/'+modulnya+'/form_'+submodulnya, {'editstatus':'add'}, function(resp){
-				//windowForm(resp, judulwindow, lebar, tinggi);
-				$('#detil_nya_'+submodulnya).show();
-				$('#detil_nya_'+submodulnya).html(resp);
+				if(stswindow == 'windowform'){
+					windowForm(resp, judulwindow, lebar, tinggi);
+				}else if(stswindow == 'windowpanel'){
+					windowFormPanel(resp, judulwindow, lebar, tinggi);
+				}else{
+					$('#detil_nya_'+submodulnya).show();
+					$('#detil_nya_'+submodulnya).html(resp);
+				}
 			});
 		break;
 		case "edit":
@@ -499,19 +598,19 @@ function genform(type, modulnya, submodulnya){
 					if(confirm("Apakah Data Ini Akan Dihapus ?")){
 						$.post(host+'home/crud_na/'+table+'/delete/', {id:row.id}, function(r){
 							if(r==1){
-								$.messager.alert('SIPBB-KB',"Row Data Telah TerHapus",'info');
+								$.messager.alert('ABC System',"Row Data Telah TerHapus",'info');
 								$('#grid_'+submodulnya).datagrid('reload');
 							}
 							else{
 								console.log(r)
-								$.messager.alert('SIPBB-KB',"Row Data Gagal DiHapus",'error');
+								$.messager.alert('ABC System',"Row Data Gagal DiHapus",'error');
 							}
 						});	
 					}
 				}
 			}
 			else{
-				$.messager.alert('SIPBB-KB',"Pilih Row Data Dalam Grid",'error');
+				$.messager.alert('ABC System',"Pilih Row Data Dalam Grid",'error');
 			}
 		break;
 	}
@@ -626,8 +725,13 @@ function kumpulAction(type, p1, p2, p3){
 	switch(type){
 		case 'changemodul':
 			var param = $('#modul_reference').val();
-			var htmlnya = "<a href='"+host+"home/download/"+param+"' target='_blank' >Download Template</a>";
-			$('#template').html(htmlnya);
+			if(param == ""){
+				$('#template').html("");
+			}else{
+				var textnya = $('#modul_reference option:selected').text();
+				var htmlnya = "<a style='text-decoration:none;' href='"+host+"home/download/"+param+"' target='_blank' >Template "+textnya+"</a>";
+				$('#template').html(htmlnya);
+			}
 		break;
 	}
 }		
