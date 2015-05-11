@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MysqlLocal
-Source Server Version : 50528
+Source Server         : Mysql - Localhost
+Source Server Version : 50516
 Source Host           : localhost:3306
-Source Database       : abc
+Source Database       : pelindo
 
 Target Server Type    : MYSQL
-Target Server Version : 50528
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2015-05-11 10:30:29
+Date: 2015-05-11 19:31:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -402,11 +402,14 @@ CREATE TABLE `tbl_loc` (
   `costcenter` varchar(10) DEFAULT NULL,
   `loc_name` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_loc
 -- ----------------------------
+INSERT INTO `tbl_loc` VALUES ('1', null, '1-10', null);
+INSERT INTO `tbl_loc` VALUES ('2', null, '1-20', null);
+INSERT INTO `tbl_loc` VALUES ('3', null, '1-30', null);
 
 -- ----------------------------
 -- Table structure for `tbl_menu`
@@ -445,7 +448,7 @@ INSERT INTO `tbl_menu` VALUES ('602', '6', 'C', 'Activity Attributes', 'home/mod
 INSERT INTO `tbl_menu` VALUES ('603', '6', 'C', 'Activity Driver', 'home/modul/report/main/603', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('701', '7', 'C', 'User Management', 'home/modul/setting/200', 'icon-group', '1', 'tbl_user');
 INSERT INTO `tbl_menu` VALUES ('702', '7', 'C', 'User Group', 'home/modul/setting/201', 'icon-group', '1', 'cl_user_group');
-INSERT INTO `tbl_menu` VALUES ('801', '8', 'C', 'Employe', 'home/modul/reference/main/801', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('801', '8', 'C', 'Data Reference', 'home/modul/reference/main/801', 'icon-group', '1', null);
 
 -- ----------------------------
 -- Table structure for `tbl_prd`
@@ -602,24 +605,17 @@ CREATE TABLE `tbl_rdm` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `tbl_user`
+-- Table structure for `tbl_user-ttt`
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_user`;
-CREATE TABLE `tbl_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama_user` varchar(100) DEFAULT NULL,
-  `password` varchar(200) DEFAULT NULL,
-  `cl_user_group_id` smallint(6) DEFAULT NULL,
-  `nama_lengkap` varchar(200) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `jenis_kelamin` varchar(1) DEFAULT NULL,
-  `tlp` varchar(15) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `tbl_user-ttt`;
+CREATE TABLE `tbl_user-ttt` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of tbl_user
+-- Records of tbl_user-ttt
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'goyz', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
-INSERT INTO `tbl_user` VALUES ('2', 'user', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '2', 'User Guest', null, 'L', null, '1');
+INSERT INTO `tbl_user-ttt` VALUES ('admin', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '1');
