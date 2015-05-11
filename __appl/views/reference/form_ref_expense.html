@@ -1,0 +1,85 @@
+<form method='post' url="{$host}home/simpansavedata/tbl_exp" id="form_{$main}" enctype="multipart/form-data">			
+
+	<div style="float:left;width:50%;margin-right:5px;">
+		<fieldset>
+			<legend>Expenses Detail</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Emp. Allocation</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<select name='tbl_loc_id' id='tbl_loc_id' class="easyui-validatebox" style='padding:2px; width:200px;'>
+							{$tbl_loc_id}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Expense Level</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='exp_level' id='exp_level' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Account</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='account' id='account' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Descript</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='descript' id='descript' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	
+	<div style="float:left;width:49%;margin-right:0px;">
+		<fieldset>
+			<legend>Expenses Cost</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Amount</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='amount' id='amount' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget 1</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='budget_1' id='budget_1' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget 2</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='budget_2' id='budget_2' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='budgettype' id='budgettype' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Change</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='budgetchg' id='budgetchg' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				
+			</table>
+		</fieldset>
+	</div>
+	
+</form>

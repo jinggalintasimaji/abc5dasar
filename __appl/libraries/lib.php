@@ -221,8 +221,9 @@ class lib {
 		switch($type){
 			case "import_reference":
 				$data = array(
-					'0' => array('kode'=>'tbl_emp','txt'=>'Data Employee'),
-					'1' => array('kode'=>'tbl_exp','txt'=>'Data Expense'),
+					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
+					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
+					'2' => array('id'=>'tbl_loc','txt'=>'Data Allocation'),
 				);
 			break;
 			default:
@@ -232,10 +233,10 @@ class lib {
 		
 		if($data){
 			foreach($data as $k=>$v){
-				if($selTxt == $v['kode']){
-					$optTemp .= '<option selected value="'.$v['kode'].'">'.$v['txt'].'</option>';
+				if($selTxt == $v['id']){
+					$optTemp .= '<option selected value="'.$v['id'].'">'.$v['txt'].'</option>';
 				}else{ 
-					$optTemp .= '<option value="'.$v['kode'].'">'.$v['txt'].'</option>';	
+					$optTemp .= '<option value="'.$v['id'].'">'.$v['txt'].'</option>';	
 				}
 			}
 		}

@@ -1,0 +1,124 @@
+<form method='post' url="{$host}home/simpansavedata/tbl_emp" id="form_{$main}" enctype="multipart/form-data">			
+	
+	<div style="float:left;width:50%;margin-right:5px;">
+		<fieldset>
+			<legend>Employee Detail</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>First Name</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='first' id='first' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Last Name</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='last' id='last' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Emp. Allocation</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<select name='tbl_loc_id' id='tbl_loc_id' class="easyui-validatebox" style='padding:2px; width:200px;'>
+							{$tbl_loc_id}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Class</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='class' id='class' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Position</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='position' id='position' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+			</table>
+		</fieldset>	
+	</div>
+	
+	<div style="float:left;width:48%;margin-right:0px;">
+		<fieldset>
+			<legend>Employee Cost/Salary</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Wages</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='wages' id='wages' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>OT Premium</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='ot_premium' id='ot_premium' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Benefit</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='benefits' id='benefits' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Total</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='total' id='total' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget 1</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='budget_1' id='budget_1' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget 2</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='budget_2' id='budget_2' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Head Count</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='head_count' id='head_count' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>FTE Count</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='fte_count' id='fte_count' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' name='cost_nbr' id='cost_nbr' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+			</table>
+		</fieldset>	
+	</div>
+	
+</form>
+
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	
+</script>

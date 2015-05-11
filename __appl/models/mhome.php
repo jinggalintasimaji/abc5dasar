@@ -59,15 +59,38 @@ class mhome extends CI_Model{
 				$sql="SELECT A.*
 						FROM tbl_cdm A ";
 			break;
+			
+			//Data Reference
+			case "tbl_emp":
+				$sql = "
+					SELECT A.*
+					FROM tbl_emp A
+				";
+			break;
+			case "tbl_exp":
+				$sql = "
+					SELECT A.*
+					FROM tbl_exp A
+				";
+			break;
+			case "tbl_loc":
+				$sql = "
+					SELECT A.*
+					FROM tbl_loc A
+				";
+			break;
+			
+			//End Data Reference
 		}
 		return $this->result_query($sql,'json');
 	}
 	
 	function get_combo($p1,$p2="",$p3=""){
 		switch($p1){
-			case "tester":
+			case "tbl_loc":
 				$sql = "
-					
+					SELECT id, costcenter as txt
+					FROM tbl_loc
 				";
 			break;
 		}
@@ -109,8 +132,7 @@ class mhome extends CI_Model{
 		}
 	}
 	
-	// GOYZ CROTZZZ
-	function crud_na($table,$data,$sts_crud){//$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
+	function simpansavedata($table,$data,$sts_crud){ //$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
 		$this->db->trans_begin();
 		switch ($table){
 			case "tbl_emp":
@@ -140,7 +162,5 @@ class mhome extends CI_Model{
 		}
 		
 	}		
-	
-	// END GOYZ CROTZZZ
-	
+		
 }
