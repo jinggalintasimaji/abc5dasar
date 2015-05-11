@@ -4,7 +4,7 @@ class home extends MY_Controller {
 	
 	function __construct(){
 		parent::__construct();
-		$this->cek_user();
+		$this->cek_user();		
 	}
 	
 	public function index(){
@@ -32,6 +32,13 @@ class home extends MY_Controller {
 					$this->smarty->display('index.html');
 				break;
 				default:
+					
+					switch($p2){
+						case "import_data":
+							$this->smarty->assign('combo_modul' ,$this->lib->fillcombo('import_reference', 'return'));
+						break;
+					}
+				
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);
 					$this->smarty->assign('sub_mod',$p3);
@@ -50,7 +57,9 @@ class home extends MY_Controller {
 	function getdata($p1,$p2=""){
 		echo $this->mhome->getdata($p1,$p2);
 	}
-	function getdisplay(){
+	
+	function download($type=""){
 		
 	}
+	
 }

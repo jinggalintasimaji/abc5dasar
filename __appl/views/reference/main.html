@@ -1,0 +1,10 @@
+<div id="panel_{$main}" style="padding:5px;">
+	<div id="tab_{$main}"></div>
+</div>
+
+<script>
+	var tab_array=[
+					"Import Data", "Employee", "Expense"
+				  ];
+	genTab( '#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Data Reference', '{$sub_mod}' );
+</script>

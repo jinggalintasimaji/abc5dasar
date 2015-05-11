@@ -1,0 +1,45 @@
+<form method='post' url="{$host}home/crud_na/import_data" id="form_{$main}" enctype="multipart/form-data">
+	<div style="padding:10px;">
+		<div style="float:left;width:100%;margin-right:5px;">
+			<fieldset>
+				<legend>Form Import Data Reference</legend>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td width='20%'>Modul Reference</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<select name="modul_reference" id="modul_reference" onChange="kumpulAction('changemodul');" style='width:30%;padding:1px;border:0.5px #D3D3D3 solid' class="easyui-validatebox">
+								{$combo_modul}
+							</select>
+							&nbsp;&nbsp;
+							<font style='font-size:10px;color:red;'>*) Select Modul First To Download Template Reference</font>
+						</td>
+					</tr>
+					<tr>
+						<td width='20%'>Download Template</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<span id='template'></span>
+						</td>
+					</tr>
+					<tr>
+						<td width='20%'>File Import</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type='file' name='file_import' id='file_import' style='width:50%;padding:1px;border:0.5px #D3D3D3 solid' class="easyui-validatebox">
+						</td>
+					</tr>
+				</table>
+				<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="" onClick="">
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Save</span><span class="l-btn-icon icon-save"></span>
+					</span>
+				</a> 
+			</fieldset>
+		</div>
+	</div>
+</form>
+
+<script>
+	
+</script>

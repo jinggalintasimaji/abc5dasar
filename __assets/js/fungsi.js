@@ -474,7 +474,6 @@ function genform(type, modulnya, submodulnya){
 			var judulwindow = 'Form Data Provinsi';
 			var table="cl_provinsi";
 		break;
-		
 	}
 	
 	switch(type){
@@ -547,7 +546,7 @@ function submit_form(frm,func){
             }
     });
 }
-function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel){
+function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
 	var id_sub_mod=sub_mod.split("_");
 	$(div_panel).panel({
 		width:getClientWidth()-268,
@@ -559,7 +558,7 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel){
 					$('#grid_nya_'+id_sub_mod[1]).show();
 					$('#detil_nya_'+id_sub_mod[1]).hide();
 				}
-			}]
+		}]
 	}); 
 	
 	$(div).tabs({
@@ -583,12 +582,11 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel){
 			onSelect: function(title){
 				var isi_tab=title.replace(/ /g,"_");
 				$('#'+isi_tab.toLowerCase()).html('').addClass('loading');
-				$.get(host+'home/modul/'+mod+'/'+isi_tab.toLowerCase(),function(r){
-					//$('#'+isi_tab).html(isi_tab+' -> '+title);
-					$('#'+isi_tab.toLowerCase()).removeClass('loading').html(r);
-					//$('#'+isi_tab.toLowerCase()).html(r);
+					$.get(host+'home/modul/'+mod+'/'+isi_tab.toLowerCase(),function(r){
+						//$('#'+isi_tab).html(isi_tab+' -> '+title);
+						$('#'+isi_tab.toLowerCase()).removeClass('loading').html(r);
+						//$('#'+isi_tab.toLowerCase()).html(r);
 				});
-				
 				//console.log(title);
 			}
 		});
@@ -622,4 +620,14 @@ function formatDate(date) {
 		tgl='0'+tgl;
 	}
 	return date.getFullYear() + "-" + bulan + "-" + tgl;
+}
+
+function kumpulAction(type, p1, p2, p3){
+	switch(type){
+		case 'changemodul':
+			var param = $('#modul_reference').val();
+			var htmlnya = "<a href='"+host+"home/download/"+param+"' target='_blank' >Download Template</a>";
+			$('#template').html(htmlnya);
+		break;
+	}
 }		
