@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-03-27 19:04:48
+Date: 2015-05-11 10:30:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -428,22 +428,24 @@ CREATE TABLE `tbl_menu` (
 -- Records of tbl_menu
 -- ----------------------------
 INSERT INTO `tbl_menu` VALUES ('1', null, 'P', 'Dashboard', null, null, '1', null);
-INSERT INTO `tbl_menu` VALUES ('2', null, 'P', 'Activity Master', null, null, '1', null);
-INSERT INTO `tbl_menu` VALUES ('3', null, 'P', 'Process Master', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('2', null, 'P', 'Data Master', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('3', null, 'P', 'Process Master', null, null, '0', null);
 INSERT INTO `tbl_menu` VALUES ('4', null, 'P', 'Cost Object', null, null, '1', null);
-INSERT INTO `tbl_menu` VALUES ('5', null, 'P', 'Item Master', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('5', null, 'P', 'Item Master', null, null, '0', null);
 INSERT INTO `tbl_menu` VALUES ('6', null, 'P', 'Report', null, null, '1', null);
 INSERT INTO `tbl_menu` VALUES ('7', null, 'P', 'Setting', null, null, '1', null);
+INSERT INTO `tbl_menu` VALUES ('8', null, 'P', 'Reference', null, null, '1', null);
 INSERT INTO `tbl_menu` VALUES ('100', '1', 'C', 'Dashboard 1', 'home/modul/dashboard/main/100', 'icon-group_key', '1', null);
 INSERT INTO `tbl_menu` VALUES ('201', '2', 'C', 'Data Activity Master', 'home/modul/activity_master/main/201', 'icon-group', '1', null);
-INSERT INTO `tbl_menu` VALUES ('301', '3', 'C', 'Data Process Master', 'home/modul/process_master/main/301', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('301', '2', 'C', 'Data Process Master', 'home/modul/process_master/main/301', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('401', '4', 'C', 'Data Cost Object', 'home/modul/cost_object/main/401', 'icon-group', '1', null);
-INSERT INTO `tbl_menu` VALUES ('501', '5', 'c', 'Data Item Master', 'home/modul/item_master/main/501', 'icon-group', '1', null);
+INSERT INTO `tbl_menu` VALUES ('501', '2', 'c', 'Data Item Master', 'home/modul/item_master/main/501', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('601', '6', 'C', 'Activity', 'home/modul/report/main/601', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('602', '6', 'C', 'Activity Attributes', 'home/modul/report/main/602', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('603', '6', 'C', 'Activity Driver', 'home/modul/report/main/603', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('701', '7', 'C', 'User Management', 'home/modul/setting/200', 'icon-group', '1', 'tbl_user');
 INSERT INTO `tbl_menu` VALUES ('702', '7', 'C', 'User Group', 'home/modul/setting/201', 'icon-group', '1', 'cl_user_group');
+INSERT INTO `tbl_menu` VALUES ('801', '8', 'C', 'Employe', 'home/modul/reference/main/801', 'icon-group', '1', null);
 
 -- ----------------------------
 -- Table structure for `tbl_prd`
@@ -476,7 +478,7 @@ CREATE TABLE `tbl_prev_group` (
   `ubah` smallint(6) DEFAULT NULL,
   `hapus` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prev_group
@@ -503,6 +505,8 @@ INSERT INTO `tbl_prev_group` VALUES ('22', '1', '603', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('23', '1', '7', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('24', '1', '701', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('25', '1', '702', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('26', '1', '801', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('27', '1', '8', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_prm`
