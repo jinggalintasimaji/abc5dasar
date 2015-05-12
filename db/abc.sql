@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : Mysql - Localhost
-Source Server Version : 50516
+Source Server         : MysqlLocal
+Source Server Version : 50528
 Source Host           : localhost:3306
-Source Database       : pelindo
+Source Database       : a
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-05-11 19:31:16
+Date: 2015-05-13 00:56:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -113,20 +113,21 @@ CREATE TABLE `tbl_aa5` (
 DROP TABLE IF EXISTS `tbl_acm`;
 CREATE TABLE `tbl_acm` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `activity_code` varchar(10) DEFAULT NULL,
   `tbl_bpd_id` bigint(20) DEFAULT NULL,
   `descript` varchar(50) DEFAULT NULL,
   `tbl_cdm_id` bigint(20) DEFAULT NULL,
   `quantity` float DEFAULT NULL,
   `value_add` float DEFAULT NULL,
-  `udf_attr_1` float DEFAULT NULL,
-  `udf_attr_2` float DEFAULT NULL,
-  `udf_attr_3` float DEFAULT NULL,
-  `udf_attr_4` float DEFAULT NULL,
-  `udf_attr_5` float DEFAULT NULL,
-  `udf_attr_6` float DEFAULT NULL,
-  `udf_attr_7` float DEFAULT NULL,
-  `udf_attr_8` float DEFAULT NULL,
-  `udf_attr_9` float DEFAULT NULL,
+  `udf_attr_1` varchar(200) DEFAULT NULL,
+  `udf_attr_2` varchar(200) DEFAULT NULL,
+  `udf_attr_3` varchar(200) DEFAULT NULL,
+  `udf_attr_4` varchar(200) DEFAULT NULL,
+  `udf_attr_5` varchar(200) DEFAULT NULL,
+  `udf_attr_6` varchar(200) DEFAULT NULL,
+  `udf_attr_7` varchar(200) DEFAULT NULL,
+  `udf_attr_8` varchar(200) DEFAULT NULL,
+  `udf_attr_9` varchar(200) DEFAULT NULL,
   `costtype` varchar(10) DEFAULT NULL,
   `cost_1` float DEFAULT NULL,
   `cost_2` float DEFAULT NULL,
@@ -165,7 +166,7 @@ CREATE TABLE `tbl_acm` (
   `udn_acm_3` float DEFAULT NULL,
   `udn_acm_4` float DEFAULT NULL,
   `cycle_time` float DEFAULT NULL,
-  `resource` varchar(10) DEFAULT NULL,
+  `tbl_rdm_id` bigint(20) DEFAULT NULL,
   `rd_tot_qty` float DEFAULT NULL,
   `budget_amt` float DEFAULT NULL,
   `budget_rate` float DEFAULT NULL,
@@ -186,12 +187,15 @@ CREATE TABLE `tbl_acm` (
   `budgetchg` float DEFAULT NULL,
   `note` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm
 -- ----------------------------
-INSERT INTO `tbl_acm` VALUES ('1', '1', 'Acm. Test', '1', '10', '100', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '250', null, '1', '450', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('3', '02', null, 'XXX', '1', '4', '2', 'xz', 'sdf', 'sxc', '', '', '', '', '', '', null, null, null, null, null, '5', '656', null, null, null, '3', null, '1', '3', '342', null, null, null, '345', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '66', null, '345', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('4', '03', null, 'xxx', '1', '3234', '5435', 'dd', 'dd', 'ff', 'gg', 'vv', 'cc', 'cc', 'c', '', null, null, null, null, null, '23423', '234', null, null, null, '76', null, '2', '6456', '23444', null, null, null, '23', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '65', null, '767', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('5', '03', null, 'xx', '1', '1', '1', 'FFFFFFFF', 'xx', 'cc', 'vv', 'yy', 'xxxx', '', '', '', null, null, null, null, null, '1', '1', null, null, null, '1', null, '2', '1', '35', '5', '66', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '30', '1', '1', null, '33', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, 'TESSS');
+INSERT INTO `tbl_acm` VALUES ('7', '05', null, 'tes', '1', '345', '121', 'XYZ', '', '', '', '', '', '', '', '', null, null, null, null, null, '232', '545', null, null, null, '5454', null, '1', '434', '1500', '0', '0', '500', '234', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '150', '1', '3343', null, '3433', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, 'Ahayyy');
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -598,11 +602,35 @@ CREATE TABLE `tbl_rdm` (
   `constant` float DEFAULT NULL,
   `coefficient` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_rdm
 -- ----------------------------
+INSERT INTO `tbl_rdm` VALUES ('1', 'Test RDM', 'xxx', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+-- ----------------------------
+-- Table structure for `tbl_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_user`;
+CREATE TABLE `tbl_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_user` varchar(100) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `cl_user_group_id` smallint(6) DEFAULT NULL,
+  `nama_lengkap` varchar(200) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `jenis_kelamin` varchar(1) DEFAULT NULL,
+  `tlp` varchar(15) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_user
+-- ----------------------------
+INSERT INTO `tbl_user` VALUES ('1', 'goyz', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
+INSERT INTO `tbl_user` VALUES ('2', 'user', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '2', 'User Guest', null, 'L', null, '1');
 
 -- ----------------------------
 -- Table structure for `tbl_user-ttt`
