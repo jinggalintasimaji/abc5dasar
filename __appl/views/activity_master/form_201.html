@@ -4,6 +4,15 @@
 </head>
 <body>
 	<div id="panel_{$main}" style="padding:5px;">
+		
+			<fieldset>
+			<div style="margin-left:10%">
+			<label>Activity</label> : <input type="text" value="{$act_code|default:''}" name="par_1" id="par_1" style='width:10%;padding:2px;' class="easyui-validatebox" onchange="$('#activity_code').val($('#par_1').val())">&nbsp;&nbsp;
+			<label>Description</label> : <input type="text" value="{$desc|default:''}" name="par_2" id="par_2" style='width:30%;padding:2px;' class="easyui-validatebox" onchange="$('#descript').val($('#par_2').val())">&nbsp;&nbsp;
+			<label>Level</label> : <input type="text" value="{$level|default:''}" name="par_3" id="par_3" style='width:2%;padding:2px;' class="easyui-validatebox" onchange="$('#level').val($('#par_3').val())">
+			</div>
+			</fieldset>
+		
 		<div id="tab_{$main}"></div>
 	</div>
 </body>

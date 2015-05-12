@@ -4,6 +4,8 @@ var myVar = setInterval(function(){
 	$('#waktu').html(d.toLocaleString());
 },1000);
 
+
+
 $(document).ready(function(){
     frmWidth = getClientWidth();
     frmHeight = getClientHeight();
@@ -140,7 +142,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			kolom[modnya] = [	
 				{field:'level',title:'Level',width:80, halign:'center',align:'center'},
-				{field:'activity',title:'Activity',width:80, halign:'center',align:'left'},
+				{field:'activity_code',title:'Activity',width:80, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:150, halign:'center',align:'left'},
 				{field:'value_add',title:'Total Cost',width:120, halign:'right',align:'right'},
 				{field:'fte',title:'FTE',width:80, halign:'right',align:'right'},
@@ -542,7 +544,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 }
 
 
-function genform(type, modulnya, submodulnya, stswindow){
+function genform(type, modulnya, submodulnya, stswindow,tabel){
 	switch(submodulnya){
 		case "201":
 			var lebar = getClientWidth()-990;
@@ -590,18 +592,30 @@ function genform(type, modulnya, submodulnya, stswindow){
 			var row = $("#grid_"+submodulnya).datagrid('getSelected');
 			if(row){
 				if(type=='edit'){
-					$.post(host+'home/getdisplay/'+modulnya+'/'+submodulnya+'/form/', {'editstatus':'edit',id:row.id}, function(resp){
-						windowForm(resp, judulwindow, lebar, tinggi);
+					$('#grid_nya_'+submodulnya).hide();
+					$('#detil_nya_'+submodulnya).show();
+					$.post(host+'home/modul/'+modulnya+'/form_'+submodulnya, {'editstatus':'edit',id:row.id}, function(resp){
+						if(stswindow == 'windowform'){
+							windowForm(resp, judulwindow, lebar, tinggi);
+						}else if(stswindow == 'windowpanel'){
+							windowFormPanel(resp, judulwindow, lebar, tinggi);
+						}else{
+							$('#detil_nya_'+submodulnya).show();
+							$('#detil_nya_'+submodulnya).html(resp);
+						}
 					});
 				}
 				else{
-					if(confirm("Apakah Data Ini Akan Dihapus ?")){
-						$.post(host+'home/crud_na/'+table+'/delete/', {id:row.id}, function(r){
+					if(confirm("Do You Want To Delete This Data ?")){
+						loadingna();
+						$.post(host+'home/simpansavedata/'+tabel, {id:row.id,'editstatus':'delete'}, function(r){
 							if(r==1){
+								winLoadingClose();
 								$.messager.alert('ABC System',"Row Data Telah TerHapus",'info');
 								$('#grid_'+submodulnya).datagrid('reload');
 							}
 							else{
+								winLoadingClose();
 								console.log(r)
 								$.messager.alert('ABC System',"Row Data Gagal DiHapus",'error');
 							}
@@ -656,13 +670,14 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
 				handler:function(){
 					$('#grid_nya_'+id_sub_mod[1]).show();
 					$('#detil_nya_'+id_sub_mod[1]).hide();
+					$('#grid_'+id_sub_mod[1]).datagrid('reload');
 				}
 		}]
 	}); 
 	
 	$(div).tabs({
 		title:'AA',
-		height: getClientHeight()-140,
+		height: getClientHeight()-190,
 		width: getClientWidth()-280,
 		plain: false,
 		selected:0
@@ -680,8 +695,20 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
 		$(div).tabs({
 			onSelect: function(title){
 				var isi_tab=title.replace(/ /g,"_");
+				var par={};
 				$('#'+isi_tab.toLowerCase()).html('').addClass('loading');
-					$.get(host+'home/modul/'+mod+'/'+isi_tab.toLowerCase(),function(r){
+				switch(mod){
+					case "activity_master":
+						par['par_1']=$('#par_1').val();
+						par['par_2']=$('#par_2').val();
+						par['par_3']=$('#par_3').val();
+						//if($('#par_1').val()!='' && $('#par_2').val()!='' && $('#par_3').val()!=''){
+							//alert('LOAD GOYZ');
+						//}
+					break;
+				}
+				console.log(par);
+					$.post(host+'home/modul/'+mod+'/'+isi_tab.toLowerCase(),par,function(r){
 						//$('#'+isi_tab).html(isi_tab+' -> '+title);
 						$('#'+isi_tab.toLowerCase()).removeClass('loading').html(r);
 						//$('#'+isi_tab.toLowerCase()).html(r);
@@ -735,3 +762,37 @@ function kumpulAction(type, p1, p2, p3){
 		break;
 	}
 }		
+
+function clear_form(id){
+	$('#'+id).find("input[type=text], textarea,select").val("");
+	$('.angka').numberbox('setValue',0);
+}
+
+var divcontainerz;
+function windowLoading(html,judul,width,height){
+    divcontainerz = "win"+Math.floor(Math.random()*9999);
+    $("<div id="+divcontainerz+"></div>").appendTo("body");
+    divcontainerz = "#"+divcontainerz;
+    $(divcontainerz).html(html);
+    $(divcontainerz).css('padding','5px');
+    $(divcontainerz).window({
+       title:judul,
+       width:width,
+       height:height,
+       autoOpen:false,
+       modal:true,
+       maximizable:false,
+       resizable:false,
+       minimizable:false,
+       closable:false,
+       collapsible:false,  
+    });
+    $(divcontainerz).window('open');        
+}
+function winLoadingClose(){
+    $(divcontainerz).window('close');
+    //$(divcontainer).html('');
+}
+function loadingna(){
+	windowLoading("<img src='"+host+"__assets/images/loading.gif' style='position: fixed;top: 50%;left: 50%;margin-top: -10px;margin-left: -25px;'/>","Please Wait",200,100);
+}

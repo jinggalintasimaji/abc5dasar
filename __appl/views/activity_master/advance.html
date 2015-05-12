@@ -1,13 +1,17 @@
-<form method='post' url="{$host}home/crud_na/" id="form_{$main}" enctype="multipart/form-data">
-	<div style="padding:10px;">
-		<div style="float:left;width:45%;margin-right:5px;">
+<form method='post' url="{$host}home/simpansavedata/tbl_acm" id="form_{$main}" enctype="multipart/form-data">
+		<input type="hidden" name="editstatus" id="editstatus" value='{$sts}'>
+		<input type="hidden" name="activity_code" id="activity_code" value='{$act_code|default:''}'>
+		<input type="hidden" name="descript" id="descript" value='{$desc|default:''}'>
+		<input type="hidden" name="level" id="level" value='{$level|default:''}'>
+	<div style="float:left;width:100%">
+		<div style="float:left;width:49%;margin-right:5px;">
 			<fieldset>
 				<table width='100%' style='margin-bottom:0px;'>
 					<tr>
 						<td width='34%'>Cycle Time</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:50%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.cycle_time|default:0}" name="cycle_time" id="cycle_time" style='width:50%;padding:2px;' class="angka easyui-validatebox">
 							&nbsp; Days
 						</td>
 					</tr>
@@ -15,7 +19,7 @@
 			</fieldset>
 			<fieldset>
 				<center><b><font color='#800040'>Notes</font></b></center>
-				<textarea style='padding:2px;' name="" id="" cols="54" rows="6"></textarea>
+				<textarea style='padding:2px;' name="note" id="note" cols="54" rows="6">{$data.note|default:''}</textarea>
 			</fieldset>
 		</div>
 		<div style="float:left;width:50%">
@@ -25,21 +29,21 @@
 						<td width='34%'>Best Practice ($)</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.calcvalpct|default:0}" name="calcvalpct" id="calcvalpct" style='width:90%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>User Field 2</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.val_cost_r|default:0}" name="val_cost_r" id="val_cost_r" style='width:90%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>User Field 3</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.val_cost_t|default:0}" name="val_cost_t" id="val_cost_t" style='width:90%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 				</table>
@@ -62,7 +66,9 @@
 			</fieldset>
 		</div>
 		
-		<fieldset style='width:93.5%'>
+		</div>
+		<div style="float:left;width:100%">
+		<fieldset style='width:98%'>
 			<div style="float:left;width:30%;margin-right:5px;">
 				<b>Set</b> <br/>
 				<input type='radio' name='s' value='1'> 1 <br/>
@@ -101,7 +107,40 @@
 				</div >
 			</div>
 		</fieldset>
-			
 		</div>
-	</div>
+	
+	{include file='template/button.html' id='simpan_adv' text='Save Data' icon='save' click=''}
+	{include file='template/button.html' id='clear_adv' text='Clear Data' icon='cancel' click=''}
 </form>
+<script>
+	
+	$('.angka').numberbox({
+		min:0,
+		precision:2
+	});	
+	
+	$('#simpan_adv').bind('click',function(){
+		if($('#par_1').val()!='' && $('#par_2').val()!='' && $('#par_3').val()!=''){
+		loadingna();
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+		}
+		else{
+			$.messager.alert('ABC System',"Activity, Description and Level Not Blank",'error');
+		}
+	});
+	
+	$('#clear_adv').bind('click',function(){
+		clear_form('form_{$main}');
+	});
+</script>

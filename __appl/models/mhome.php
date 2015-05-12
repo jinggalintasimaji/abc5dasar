@@ -6,7 +6,7 @@ class mhome extends CI_Model{
 		$this->auth = unserialize(base64_decode($this->session->userdata($this->config->item('user_data'))));
 	}
 	
-	function getdata($type="", $p1="", $p2=""){
+	function getdata($type="", $p1="", $p2="",$p3="",$p4=""){
 		$where = " WHERE 1=1 ";
 		switch($type){
 			case "data_login":
@@ -46,10 +46,19 @@ class mhome extends CI_Model{
 				
 			break;
 			case "tbl_acm":
+				if($p4=="edit_grid"){
+					$where .=" AND A.id='".$p1."'";
+				}
+				if($p1!="" and $p2!="" && $p3!='' ){
+					$where .=" AND A.activity_code='".$p1."' AND A.descript='".$p2."' AND A.level='".$p3."'";
+				}
 				$sql="SELECT A.*,B.activity,C.cost_driver,B.nonvalcost
 						FROM tbl_acm A
 						LEFT JOIN tbl_bpd B ON A.tbl_bpd_id=B.id
-						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id";
+						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id".$where;
+				if($p4=='edit' || $p4=="edit_grid"){
+					return $this->result_query($sql,'row_array');
+				}
 			break;
 			case "tbl_prm":
 				$sql="SELECT A.*
@@ -80,6 +89,7 @@ class mhome extends CI_Model{
 				";
 			break;
 			
+			
 			//End Data Reference
 		}
 		return $this->result_query($sql,'json');
@@ -91,6 +101,18 @@ class mhome extends CI_Model{
 				$sql = "
 					SELECT id, costcenter as txt
 					FROM tbl_loc
+				";
+			break;
+			case "tbl_rdm":
+				$sql = "
+					SELECT id, resource as txt
+					FROM tbl_rdm
+				";
+			break;
+			case "tbl_cdm":
+				$sql = "
+					SELECT id, cost_driver as txt
+					FROM tbl_cdm
 				";
 			break;
 		}
@@ -135,8 +157,12 @@ class mhome extends CI_Model{
 	function simpansavedata($table,$data,$sts_crud){ //$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
 		$this->db->trans_begin();
 		switch ($table){
-			case "tbl_emp":
-				
+			case "tbl_acm":
+				if($sts_crud=='edit'){
+					$exist=$this->db->get_where('tbl_acm',array('activity_code'=>$data['activity_code'],'level'=>$data['level'],'descript'=>$data['descript']))->result_array();
+					if(count($exist)>0){$sts_crud='edit';$array_where=array('activity_code'=>$data['activity_code'],'level'=>$data['level'],'descript'=>$data['descript']);}
+					else{$sts_crud='add';}
+				}
 			break;
 		}
 		
@@ -145,11 +171,12 @@ class mhome extends CI_Model{
 				$this->db->insert($table,$data);
 			break;
 			case "edit":
-				$this->db->where($field_id,$id);
+				//$this->db->where($field_id,$id);
+				$this->db->where($array_where);
 				$this->db->update($table,$data);
 			break;
 			case "delete":
-				$this->db->where($field_id,$id);
+				$this->db->where('id',$this->input->post('id'));
 				$this->db->delete($table,$data);
 			break;
 		}

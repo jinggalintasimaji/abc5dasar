@@ -217,7 +217,7 @@ class lib {
 		}
 		
 		
-		$optTemp = '<option value=""> -- Choose -- </option>';
+		$optTemp = '<option value="0"> -- Choose -- </option>';
 		switch($type){
 			case "import_reference":
 				$data = array(
