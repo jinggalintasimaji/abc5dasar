@@ -85,21 +85,6 @@ class home extends MY_Controller {
 					$this->smarty->display($mod.'/'.$p2.'.html');
 				break;
 				default:
-					
-					switch($p2){
-						case "import_data":
-							$this->smarty->assign('combo_modul' ,$this->lib->fillcombo('import_reference', 'return'));
-						break;
-						case "form_ref_employee":
-							$this->smarty->assign('tbl_loc_id' ,$this->lib->fillcombo('tbl_loc', 'return'));
-						break;
-						case "form_ref_expense":
-							$this->smarty->assign('tbl_loc_id' ,$this->lib->fillcombo('tbl_loc', 'return'));
-						break;
-						
-						
-					}
-				
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);
 					$this->smarty->assign('sub_mod',$p3);
@@ -127,10 +112,6 @@ class home extends MY_Controller {
 		unset($post['editstatus']);
 		//print_r($post);exit;
 		echo $this->mhome->simpansavedata($type, $post, $editstatus);
-	}
-	
-	function download($type=""){
-		echo "Template UnderConstruction";
 	}
 	
 }

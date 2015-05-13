@@ -68,29 +68,6 @@ class mhome extends CI_Model{
 				$sql="SELECT A.*
 						FROM tbl_cdm A ";
 			break;
-			
-			//Data Reference
-			case "tbl_emp":
-				$sql = "
-					SELECT A.*
-					FROM tbl_emp A
-				";
-			break;
-			case "tbl_exp":
-				$sql = "
-					SELECT A.*
-					FROM tbl_exp A
-				";
-			break;
-			case "tbl_loc":
-				$sql = "
-					SELECT A.*
-					FROM tbl_loc A
-				";
-			break;
-			
-			
-			//End Data Reference
 		}
 		return $this->result_query($sql,'json');
 	}
