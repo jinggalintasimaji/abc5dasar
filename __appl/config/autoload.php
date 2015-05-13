@@ -5,7 +5,7 @@ $autoload['libraries'] = array('database','smarty','session', 'user_agent', 'lib
 $autoload['helper'] = array('url');
 $autoload['config'] = array();
 $autoload['language'] = array();
-$autoload['model'] = array('mhome');
+$autoload['model'] = array('mhome','mhomex');
 
 
 /* End of file autoload.php */

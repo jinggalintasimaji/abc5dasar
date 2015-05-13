@@ -1,11 +1,13 @@
-<form method='post' url="{$host}home/simpansavedata/tbl_exp" id="form_{$main}" enctype="multipart/form-data">			
-
+<form method='post' url="{$host}homex/simpansavedata/tbl_exp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+	
 	<div style="float:left;width:50%;margin-right:5px;">
 		<fieldset>
 			<legend>Expenses Detail</legend>
 			<table width='100%' style='margin-bottom:20px;'>
 				<tr>
-					<td width='30%'>Emp. Allocation</td>
+					<td width='30%'>Allocation Costcenter</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
 						<select name='tbl_loc_id' id='tbl_loc_id' class="easyui-validatebox" style='padding:2px; width:200px;'>
@@ -17,21 +19,21 @@
 					<td width='30%'>Expense Level</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='exp_level' id='exp_level' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.exp_level|default:''}" name='exp_level' id='exp_level' class="angka easyui-validatebox" style='padding:2px; width:50px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Account</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='account' id='account' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.account|default:''}" name='account' id='account' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Descript</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='descript' id='descript' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.descript|default:''}" name='descript' id='descript' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 			</table>
@@ -46,35 +48,35 @@
 					<td width='30%'>Amount</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='amount' id='amount' style='padding:2px; width:200px;'>
+						<input type='text' class='angka' value="{$data.amount|default:''}" name='amount' id='amount' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Budget 1</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='budget_1' id='budget_1' style='padding:2px; width:200px;'>
+						<input type='text' class='angka' value="{$data.budget_1|default:''}" name='budget_1' id='budget_1' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Budget 2</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='budget_2' id='budget_2' style='padding:2px; width:200px;'>
+						<input type='text' class='angka' value="{$data.budget_2|default:''}" name='budget_2' id='budget_2' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Budget Type</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='budgettype' id='budgettype' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.budgettype|default:''}" name='budgettype' id='budgettype' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Budget Change</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='budgetchg' id='budgetchg' style='padding:2px; width:200px;'>
+						<input type='text' class='angka' value="{$data.budgetchg|default:''}" name='budgetchg' id='budgetchg' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				
@@ -83,3 +85,28 @@
 	</div>
 	
 </form>
+
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:0
+	});	
+	
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_ref_expense').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
+	
+</script>

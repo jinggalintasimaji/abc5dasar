@@ -1,4 +1,6 @@
-<form method='post' url="{$host}home/simpansavedata/tbl_emp" id="form_{$main}" enctype="multipart/form-data">			
+<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
 	
 	<div style="float:left;width:50%;margin-right:5px;">
 		<fieldset>
@@ -8,18 +10,18 @@
 					<td width='30%'>First Name</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='first' id='first' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.first|default:''}" name='first' id='first' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Last Name</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='last' id='last' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.last|default:''}" name='last' id='last' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
-					<td width='30%'>Emp. Allocation</td>
+					<td width='30%'>Allocation Costcenter</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
 						<select name='tbl_loc_id' id='tbl_loc_id' class="easyui-validatebox" style='padding:2px; width:200px;'>
@@ -31,14 +33,14 @@
 					<td width='30%'>Class</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='class' id='class' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.class|default:''}" name='class' maxlength="5" id='class' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Position</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='position' id='position' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.position|default:''}" name='position' maxlength="25" id='position' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 			</table>
@@ -53,63 +55,63 @@
 					<td width='30%'>Wages</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='wages' id='wages' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.wages|default:''}" name='wages' id='wages' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>OT Premium</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='ot_premium' id='ot_premium' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.ot_premium|default:''}" name='ot_premium' id='ot_premium' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Benefit</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='benefits' id='benefits' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.benefits|default:''}" name='benefits' id='benefits' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Total</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='total' id='total' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.total|default:''}" name='total' id='total' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Budget 1</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='budget_1' id='budget_1' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.budget_1|default:''}" name='budget_1' id='budget_1' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Budget 2</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='budget_2' id='budget_2' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.budget_2|default:''}" name='budget_2' id='budget_2' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Head Count</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='head_count' id='head_count' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.head_count|default:''}" name='head_count' id='head_count' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>FTE Count</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='fte_count' id='fte_count' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.fte_count|default:''}" name='fte_count' id='fte_count' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Cost NBR</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='cost_nbr' id='cost_nbr' style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.cost_nbr|default:''}" name='cost_nbr' id='cost_nbr' class='angka' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 			</table>
@@ -120,5 +122,25 @@
 
 <script>
 	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:0
+	});	
+	
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_ref_employee').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
 	
 </script>

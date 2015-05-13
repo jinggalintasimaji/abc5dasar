@@ -1,5 +1,7 @@
-<form method='post' url="{$host}home/simpansavedata/tbl_loc" id="form_{$main}" enctype="multipart/form-data">			
-	
+<form method='post' url="{$host}homex/simpansavedata/tbl_loc" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+
 	<div style="width:100%;margin-right:5px;">
 		<fieldset>
 			<legend>Allocation Detail</legend>
@@ -8,21 +10,21 @@
 					<td width='30%'>Location</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='exp_level' id='exp_level' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.location|default:''}" name='location' id='location' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Location Name</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='exp_level' id='exp_level' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.loc_name|default:''}" name='loc_name' id='loc_name' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 				<tr>
 					<td width='30%'>Cost Center</td>
 					<td width='1%'>:</td>
 					<td width='65%'>
-						<input type='text' name='exp_level' id='exp_level' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						<input type='text' value="{$data.costcenter|default:''}" name='costcenter' id='costcenter' class="easyui-validatebox" style='padding:2px; width:200px;'>
 					</td>
 				</tr>
 			</table>
@@ -30,3 +32,24 @@
 	</div>
 
 </form>
+
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_ref_allocation').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
+	
+</script>

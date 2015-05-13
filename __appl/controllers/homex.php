@@ -25,15 +25,29 @@ class homex extends MY_Controller {
 		if($this->auth){
 			switch($mod){
 				default:
+					$editstatus = $this->input->post('editstatus');
+					if($editstatus){
+						$this->smarty->assign('editstatus' ,$editstatus);
+						$id = $this->input->post('id');
+						
+						if($editstatus == 'edit'){
+							$tabel = $this->input->post('tabel');
+							$data = $this->mhomex->getdata($tabel, 'row_array', $id);
+							$this->smarty->assign('data', $data );
+						}
+						
+					}
+					
 					switch($p2){
 						case "import_data":
 							$this->smarty->assign('combo_modul' ,$this->lib->fillcombo('import_reference', 'return'));
 						break;
 						case "form_ref_employee":
-							$this->smarty->assign('tbl_loc_id' ,$this->lib->fillcombo('tbl_loc', 'return'));
-						break;
 						case "form_ref_expense":
-							$this->smarty->assign('tbl_loc_id' ,$this->lib->fillcombo('tbl_loc', 'return'));
+							$this->smarty->assign('tbl_loc_id' ,$this->lib->fillcombo('tbl_loc', 'return', ($editstatus == 'edit' ? $data['tbl_loc_id'] : "" ) ));
+						break;
+						default:
+							$this->smarty->assign('acak', md5(date('H:i:s')) );
 						break;
 					}
 					
@@ -50,8 +64,8 @@ class homex extends MY_Controller {
 		}
 	}
 	
-	function getdata($p1,$p2=""){
-		echo $this->mhome->getdata($p1,$p2);
+	function getdata($type, $p1s=""){
+		echo $this->mhomex->getdata($type, 'json');
 	}
 	
 	function simpansavedata($type=""){
@@ -59,7 +73,7 @@ class homex extends MY_Controller {
         foreach($_POST as $k=>$v) $post[$k] = $this->db->escape_str($this->input->post($k));
 		$editstatus = $post['editstatus'];
 		unset($post['editstatus']);
-		echo $this->mhome->simpansavedata($type, $post, $editstatus);
+		echo $this->mhomex->simpansavedata($type, $post, $editstatus);
 	}
 	
 	function download($type=""){
