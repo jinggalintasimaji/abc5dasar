@@ -108,55 +108,8 @@ class lib {
 		$html = "";
 		$subject = "";
 		switch($type){
-			case "email_registrasi":
-				$html = "
-					Informasi akun anda dalam Sistem Informasi Sertifikasi dan Penilaian Kementerian Dalam Negeri <br />
-					Username : ".$p1." <br/>
-					Password : ".$p2." <br/>
-					Silahkan login akun anda ke dalam sistem kami, dan dimohon untuk menjaga kerahasiaan data akun anda ini. <br/>
-					Terima Kasih.
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					<br />
-					Hormat Kami, ".date("d-m-Y")." 
-					<br />
-					<br />
-					<br />
-					<br />
-					Portal Lembaga Sertifikasi & Penilaian Kementerian Dalam Negeri
-				";
-				$subject = "Registrasi Sistem Informasi Sertifikasi dan Penilaian Kementerian Dalam Negeri";
-			break;
-			case "email_voucher":
-				$html = "
-					<table width='100%'>
-						<tr>
-							<td style='background-color:#124162;font-size:18px;color:#fff;'>
-								Lembaga Sertifikasi Profesi Pemerintahan Daerah - Kementerian Dalam Negeri
-							</td>
-						</tr>
-						<tr>
-							<td style='background-color:#ECECEC;font-size:16px;color:#fff;'>
-								Voucher APBN Sertifikasi
-							</td>
-						</tr>
-						<tr>
-							<td style='background-color:#ECECEC;font-size:16px;color:#fff;'>
-								Kode Voucher : <b>".$p1."</b> <br/>
-								Tanggal Terbit : <b>".$p2."</b> <br/>
-							</td>
-						</tr>
-						<tr>
-							<td align='center' style='background-color:#124162;font-size:12px;color:#fff;'>
-								Sistem Informasi Penilaian Kompetensi & Sertifikasi Pemerintahan Dalam Negeri
-							</td>
-						</tr>
-					</table>
-				";
-				$subject = "Distribusi Voucher APBN Sertifikasi Profesi Pemerintahan Daerah - Kementerian Dalam Negeri";
+			case "email_test":
+				
 			break;
 		}
 		
