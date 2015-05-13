@@ -26,6 +26,7 @@ class homex extends MY_Controller {
 			switch($mod){
 				default:
 					$editstatus = $this->input->post('editstatus');
+					
 					if($editstatus){
 						$this->smarty->assign('editstatus' ,$editstatus);
 						$id = $this->input->post('id');
@@ -35,8 +36,9 @@ class homex extends MY_Controller {
 							$data = $this->mhomex->getdata($tabel, 'row_array', $id);
 							$this->smarty->assign('data', $data );
 						}
-						
+						$this->smarty->assign('acak', md5(date('H:i:s')) );
 					}
+					
 					
 					switch($p2){
 						case "import_data":
@@ -45,9 +47,6 @@ class homex extends MY_Controller {
 						case "form_ref_employee":
 						case "form_ref_expense":
 							$this->smarty->assign('tbl_loc_id' ,$this->lib->fillcombo('tbl_loc', 'return', ($editstatus == 'edit' ? $data['tbl_loc_id'] : "" ) ));
-						break;
-						default:
-							$this->smarty->assign('acak', md5(date('H:i:s')) );
 						break;
 					}
 					
