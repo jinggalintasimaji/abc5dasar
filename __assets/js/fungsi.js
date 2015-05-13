@@ -659,11 +659,13 @@ function submit_form(frm,func){
             }
     });
 }
-function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
+function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_panel, height_tab){
+	console.log(height_tab);
+	
 	var id_sub_mod=sub_mod.split("_");
 	$(div_panel).panel({
 		width:getClientWidth()-268,
-		height:getClientHeight()-100,
+		height:(typeof(height_panel) == "undefined" ? getClientHeight()-100 : height_panel),
 		title:judul_panel,
 		tools:[{
 				iconCls:'icon-cancel',
@@ -677,7 +679,8 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
 	
 	$(div).tabs({
 		title:'AA',
-		height: getClientHeight()-190,
+		//height: getClientHeight()-190,
+		height: (typeof(height_tab) == "undefined" ? getClientHeight()-190 : height_tab),
 		width: getClientWidth()-280,
 		plain: false,
 		selected:0
@@ -699,6 +702,7 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
 				$('#'+isi_tab.toLowerCase()).html('').addClass('loading');
 				switch(mod){
 					case "activity_master":
+						urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 						par['par_1']=$('#par_1').val();
 						par['par_2']=$('#par_2').val();
 						par['par_3']=$('#par_3').val();
@@ -706,13 +710,16 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num){
 							//alert('LOAD GOYZ');
 						//}
 					break;
+					case "reference":
+						urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
+					break
 				}
 				console.log(par);
-					$.post(host+'home/modul/'+mod+'/'+isi_tab.toLowerCase(),par,function(r){
+					$.post(urlnya,par,function(r){
 						//$('#'+isi_tab).html(isi_tab+' -> '+title);
 						$('#'+isi_tab.toLowerCase()).removeClass('loading').html(r);
 						//$('#'+isi_tab.toLowerCase()).html(r);
-				});
+					});
 				//console.log(title);
 			}
 		});
