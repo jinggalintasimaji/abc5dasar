@@ -68,6 +68,13 @@ class mhome extends CI_Model{
 				$sql="SELECT A.*
 						FROM tbl_cdm A ";
 			break;
+			case "tbl_emp":
+				$sql = "
+					SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
+					FROM tbl_emp A
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id
+				";
+			break;
 		}
 		return $this->result_query($sql,'json');
 	}

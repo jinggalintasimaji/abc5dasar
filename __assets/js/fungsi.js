@@ -154,12 +154,12 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		break;
 		case "mst_employees":
 			judulnya = "";
-			urlnya = "";
+			urlnya = "tbl_emp";
 			fitnya = false;
 			kolom[modnya] = [	
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
-				{field:'first',title:'Employee Name',width:250, halign:'center',align:'left'},
-				{field:'cost_nbr',title:'Cost Center',width:100, halign:'center',align:'left'},
+				{field:'name_na',title:'Employee Name',width:240, halign:'center',align:'left'},
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
 			]
 		break;
 		case "tbl_employees":
