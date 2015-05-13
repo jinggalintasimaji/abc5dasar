@@ -67,6 +67,7 @@ function windowFormPanel(html,judul,width,height){
 	    onBeforeClose:function(){	   
 			$(divcontainer).window("close",true);
 			//$(divcontainer).window("destroy",true);
+			$(divcontainer).window('refresh');
 			return true;
 	    }		
     });
@@ -74,7 +75,7 @@ function windowFormPanel(html,judul,width,height){
 }
 function windowFormClosePanel(){
     $(divcontainer).window('close');
-    //$(divcontainer).html("");
+	$(divcontainer).window('refresh');
 }
 
 var container;
@@ -133,6 +134,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var frozen ={};
 	var judulnya;
 	var urlnya;
+	var urlglobal;
 	var fitnya;
 	
 	switch(modnya){
@@ -481,38 +483,40 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		case "ref_employee":
 			judulnya = "";
 			urlnya = "tbl_emp";
+			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			kolom[modnya] = [	
-				{field:'prod_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Emp. Name',width:250, halign:'center',align:'left'},
-				{field:'level',title:'SSN',width:100, halign:'center',align:'center'},
-				{field:'revenue',title:'Wages',width:100, halign:'center',align:'left'},
-				{field:'abc_cost',title:'OT. Premium',width:100, halign:'center',align:'center'},
-				{field:'profitable',title:'Benefits',width:100, halign:'center',align:'right'},
-				{field:'qtyproduce',title:'Total',width:100, halign:'center',align:'right'},
-				{field:'qtyproduce',title:'Class',width:100, halign:'center',align:'right'},
-				{field:'unit_cost',title:'Position',width:100, halign:'center',align:'right'},
+				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
+				{field:'first',title:'First Name',width:150, halign:'center',align:'left'},
+				{field:'last',title:'Last Name',width:150, halign:'center',align:'left'},
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'wages',title:'Wages',width:100, halign:'center',align:'left'},
+				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center'},
+				{field:'benefits',title:'Benefits',width:100, halign:'center',align:'right'},
+				{field:'total',title:'Total',width:100, halign:'center',align:'right'},
+				{field:'class',title:'Class',width:100, halign:'center',align:'right'},
+				{field:'position',title:'Position',width:100, halign:'center',align:'right'},
 			]
 		break;
 		case "ref_expense":
 			judulnya = "";
 			urlnya = "tbl_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			kolom[modnya] = [	
-				{field:'prod_id',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Account',width:250, halign:'center',align:'left'},
-				{field:'level',title:'Descript',width:100, halign:'center',align:'center'},
-				{field:'revenue',title:'Amount',width:100, halign:'center',align:'left'},
-				{field:'abc_cost',title:'Budget 1',width:100, halign:'center',align:'center'},
-				{field:'profitable',title:'Budget 2',width:100, halign:'center',align:'right'},
-				{field:'qtyproduce',title:'Exp. Level',width:100, halign:'center',align:'right'},
-				{field:'qtyproduce',title:'Class',width:100, halign:'center',align:'right'},
-				{field:'unit_cost',title:'Position',width:100, halign:'center',align:'right'},
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'account',title:'Account',width:250, halign:'center',align:'left'},
+				{field:'descript',title:'Descript',width:100, halign:'center',align:'center'},
+				{field:'amount',title:'Amount',width:100, halign:'center',align:'left'},
+				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
+				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
+				{field:'exp_level',title:'Exp. Level',width:100, halign:'center',align:'right'},
 			]
 		break;
 		case "ref_allocation":
 			judulnya = "";
 			urlnya = "tbl_loc";
+			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			kolom[modnya] = [	
 				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
@@ -533,7 +537,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         striped:true,
         pagination:true,
         remoteSort: false,
-        url: (urlnya!="" ? host+"home/getdata/"+urlnya : ""),		
+        url: (urlglobal == "" ? host+"home/getdata/"+urlnya : urlglobal),		
 		nowrap: true,
         singleSelect:true,
 		columns:[
@@ -544,7 +548,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 }
 
 
-function genform(type, modulnya, submodulnya, stswindow,tabel){
+function genform(type, modulnya, submodulnya, stswindow, tabel){
+	var urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya
 	switch(submodulnya){
 		case "201":
 			var lebar = getClientWidth()-990;
@@ -552,31 +557,36 @@ function genform(type, modulnya, submodulnya, stswindow,tabel){
 			var judulwindow = 'Form Data Provinsi';
 			var table="cl_provinsi";
 		break;
+		
 		case "ref_employee":
 			var lebar = getClientWidth()-500;
 			var tinggi = getClientHeight()-200;
 			var judulwindow = 'Form Data Employee';
 			var table="tbl_emp";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "ref_expense":
 			var lebar = getClientWidth()-500;
 			var tinggi = getClientHeight()-300;
 			var judulwindow = 'Form Data Expense';
 			var table="tbl_exp";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "ref_allocation":
 			var lebar = getClientWidth()-800;
 			var tinggi = getClientHeight()-400;
 			var judulwindow = 'Form Data Allocation';
 			var table="tbl_loc";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
+		
 	}
 	
 	switch(type){
 		case "add":
 			$('#grid_nya_'+submodulnya).hide();
 			$('#detil_nya_'+submodulnya).show();
-			$.post(host+'home/modul/'+modulnya+'/form_'+submodulnya, {'editstatus':'add'}, function(resp){
+			$.post(urlpost, {'editstatus':'add'}, function(resp){
 				if(stswindow == 'windowform'){
 					windowForm(resp, judulwindow, lebar, tinggi);
 				}else if(stswindow == 'windowpanel'){
@@ -594,7 +604,7 @@ function genform(type, modulnya, submodulnya, stswindow,tabel){
 				if(type=='edit'){
 					$('#grid_nya_'+submodulnya).hide();
 					$('#detil_nya_'+submodulnya).show();
-					$.post(host+'home/modul/'+modulnya+'/form_'+submodulnya, {'editstatus':'edit',id:row.id}, function(resp){
+					$.post(urlpost, {'editstatus':'edit',id:row.id, 'tabel':table}, function(resp){
 						if(stswindow == 'windowform'){
 							windowForm(resp, judulwindow, lebar, tinggi);
 						}else if(stswindow == 'windowpanel'){
@@ -660,8 +670,6 @@ function submit_form(frm,func){
     });
 }
 function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_panel, height_tab){
-	console.log(height_tab);
-	
 	var id_sub_mod=sub_mod.split("_");
 	$(div_panel).panel({
 		width:getClientWidth()-268,
