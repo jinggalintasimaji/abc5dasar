@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-05-13 00:56:53
+Date: 2015-05-14 15:29:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -114,7 +114,6 @@ DROP TABLE IF EXISTS `tbl_acm`;
 CREATE TABLE `tbl_acm` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `activity_code` varchar(10) DEFAULT NULL,
-  `tbl_bpd_id` bigint(20) DEFAULT NULL,
   `descript` varchar(50) DEFAULT NULL,
   `tbl_cdm_id` bigint(20) DEFAULT NULL,
   `quantity` float DEFAULT NULL,
@@ -192,10 +191,10 @@ CREATE TABLE `tbl_acm` (
 -- ----------------------------
 -- Records of tbl_acm
 -- ----------------------------
-INSERT INTO `tbl_acm` VALUES ('3', '02', null, 'XXX', '1', '4', '2', 'xz', 'sdf', 'sxc', '', '', '', '', '', '', null, null, null, null, null, '5', '656', null, null, null, '3', null, '1', '3', '342', null, null, null, '345', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '66', null, '345', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('4', '03', null, 'xxx', '1', '3234', '5435', 'dd', 'dd', 'ff', 'gg', 'vv', 'cc', 'cc', 'c', '', null, null, null, null, null, '23423', '234', null, null, null, '76', null, '2', '6456', '23444', null, null, null, '23', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '65', null, '767', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('5', '03', null, 'xx', '1', '1', '1', 'FFFFFFFF', 'xx', 'cc', 'vv', 'yy', 'xxxx', '', '', '', null, null, null, null, null, '1', '1', null, null, null, '1', null, '2', '1', '35', '5', '66', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '30', '1', '1', null, '33', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, 'TESSS');
-INSERT INTO `tbl_acm` VALUES ('7', '05', null, 'tes', '1', '345', '121', 'XYZ', '', '', '', '', '', '', '', '', null, null, null, null, null, '232', '545', null, null, null, '5454', null, '1', '434', '1500', '0', '0', '500', '234', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '150', '1', '3343', null, '3433', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, 'Ahayyy');
+INSERT INTO `tbl_acm` VALUES ('3', '02', 'XXX', '1', '4', '2', 'xz', 'sdf', 'sxc', 'dd', 'fffffffffffffffffffff', '', '', '', '', null, null, null, null, null, '5', '656', null, null, null, '3', null, '1', '3', '342', '4', '56', '43', '345', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '22', '1', '66', null, '345', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('4', '03', 'xxx', '1', '3234', '5435', 'dd', 'dd', 'ff', 'gg', 'vv', 'cc', 'cc', 'c', '', null, null, null, null, null, '23423', '234', null, null, null, '76', null, '2', '6456', '23444', null, null, null, '23', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '65', null, '767', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('5', '03', 'xx', '1', '1', '1', 'FFFFFFFF', 'xx', 'cc', 'vv', 'yy', 'xxxx', '', '', '', null, null, null, null, null, '1', '1', null, null, null, '1', null, '2', '1', '35', '5', '66', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '30', '1', '1', null, '33', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, 'TESSS');
+INSERT INTO `tbl_acm` VALUES ('7', '05', 'tes', '1', '345', '121', 'XYZ', '', '', '', '', '', '', '', '', null, null, null, null, null, '232', '545', null, null, null, '5454', null, '1', '434', '1500', '0', '0', '500', '234', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '150', '1', '3343', null, '3433', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, 'Ahayyy');
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -204,7 +203,7 @@ DROP TABLE IF EXISTS `tbl_bpd`;
 CREATE TABLE `tbl_bpd` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tbl_bpm_id` bigint(20) DEFAULT NULL,
-  `activity` varchar(10) DEFAULT NULL,
+  `tbl_acm_id` bigint(20) DEFAULT NULL,
   `sequence` float DEFAULT NULL,
   `step_name` varchar(100) DEFAULT NULL,
   `percent` float DEFAULT NULL,
@@ -241,12 +240,12 @@ CREATE TABLE `tbl_bpd` (
   `rootcost` float DEFAULT NULL,
   `rootpct` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_bpd
 -- ----------------------------
-INSERT INTO `tbl_bpd` VALUES ('1', '1', 'Act. Test', null, 'Test', null, null, '100000', '100', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_bpd` VALUES ('2', '1', '3', '1', 'xxxxx', '10', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_bpm`
@@ -272,10 +271,10 @@ CREATE TABLE `tbl_bpm` (
   `bpm_uda_2` float DEFAULT NULL,
   `bpm_uda_3` float DEFAULT NULL,
   `bpm_uda_4` float DEFAULT NULL,
-  `udf_bpm_1` float DEFAULT NULL,
-  `udf_bpm_2` float DEFAULT NULL,
-  `udn_bpd_1` float DEFAULT NULL,
-  `udn_bpd_2` float DEFAULT NULL,
+  `udf_bpm_1` varchar(200) DEFAULT NULL,
+  `udf_bpm_2` varchar(200) DEFAULT NULL,
+  `udn_bpd_1` varchar(200) DEFAULT NULL,
+  `udn_bpd_2` varchar(200) DEFAULT NULL,
   `cycle_time` float DEFAULT NULL,
   `resource` varchar(10) DEFAULT NULL,
   `rd_tot_qty` float DEFAULT NULL,
@@ -286,11 +285,13 @@ CREATE TABLE `tbl_bpm` (
   `rootpct` float DEFAULT NULL,
   `note` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_bpm
 -- ----------------------------
+INSERT INTO `tbl_bpm` VALUES ('2', '002', null, 'Tes 2', '2.00', null, null, '10', '100', null, null, null, null, null, null, null, null, null, null, 'xxx', 'Tus', 'Tas', 'Tis', '10', null, null, null, null, '20', null, '100', null);
+INSERT INTO `tbl_bpm` VALUES ('3', '001', null, 'TESTING', '0.00', null, null, '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, '0', null, '0', null);
 
 -- ----------------------------
 -- Table structure for `tbl_cdm`
@@ -332,12 +333,18 @@ CREATE TABLE `tbl_efx` (
   `coeffisient` float DEFAULT NULL,
   `budgettime` float DEFAULT NULL,
   `budgetchg` float DEFAULT NULL,
+  `input_rate` float DEFAULT NULL,
+  `output_rate` float DEFAULT NULL,
+  `costcenter_desc` varchar(200) DEFAULT NULL,
+  `budget_type` varchar(100) DEFAULT NULL,
+  `cost_type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_efx
 -- ----------------------------
+INSERT INTO `tbl_efx` VALUES ('1', '1', null, '10', '100', null, null, null, null, null, null, null, 'xx1', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_emp`
@@ -366,11 +373,42 @@ CREATE TABLE `tbl_emp` (
   `bugettype` varchar(10) DEFAULT NULL,
   `cost_nbr` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_emp
 -- ----------------------------
+INSERT INTO `tbl_emp` VALUES ('1', '1', '01', null, 'Goyz', 'Cuyz', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1000');
+INSERT INTO `tbl_emp` VALUES ('3', '1', '0002', null, 'Ana', 'Nano', null, '100', '3130', '32000', '34000', 'XX', 'XXX', '5400', '43040', '5400', '430', null, null, null, '34203');
+INSERT INTO `tbl_emp` VALUES ('4', '2', '0004', null, 'Enyong', 'Maneh', null, '900', '90239', '4300', '540000', 'VV', 'Head', '54900', '54900', '430', '5400', null, null, null, '540000');
+
+-- ----------------------------
+-- Table structure for `tbl_emp_act`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_emp_act`;
+CREATE TABLE `tbl_emp_act` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tbl_emp_id` bigint(20) DEFAULT NULL,
+  `tbl_acm_id` bigint(20) DEFAULT NULL,
+  `costcenter_desc` varchar(200) DEFAULT NULL,
+  `quantity` float DEFAULT NULL,
+  `percent` float DEFAULT NULL,
+  `cost_type` varchar(100) DEFAULT NULL,
+  `budget_type` varchar(100) DEFAULT NULL,
+  `input_rate` float DEFAULT NULL,
+  `output_rate` float DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `create_by` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_emp_act
+-- ----------------------------
+INSERT INTO `tbl_emp_act` VALUES ('4', '1', '3', 'tesss', '8', '100', 'Fixed', 'Fixed', '0', '0', '2015-05-14 08:32:18', 'Goyz');
+INSERT INTO `tbl_emp_act` VALUES ('5', '3', '3', 'XXX', null, null, null, null, null, null, '2015-05-14 09:57:35', 'Goyz');
+INSERT INTO `tbl_emp_act` VALUES ('6', '4', '3', 'GG', null, null, null, null, null, null, '2015-05-14 09:57:40', 'Goyz');
+INSERT INTO `tbl_emp_act` VALUES ('7', '1', '4', 'tesss', '8', '100', 'Fixed', 'Fixed', '0', '0', '2015-05-14 08:32:18', 'Goyz');
 
 -- ----------------------------
 -- Table structure for `tbl_exp`
@@ -390,11 +428,12 @@ CREATE TABLE `tbl_exp` (
   `budgettype` varchar(10) DEFAULT NULL,
   `budgetchg` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_exp
 -- ----------------------------
+INSERT INTO `tbl_exp` VALUES ('1', '1', '100-129', 'TESSSS', null, null, null, '1', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_loc`
@@ -411,9 +450,9 @@ CREATE TABLE `tbl_loc` (
 -- ----------------------------
 -- Records of tbl_loc
 -- ----------------------------
-INSERT INTO `tbl_loc` VALUES ('1', null, '1-10', null);
-INSERT INTO `tbl_loc` VALUES ('2', null, '1-20', null);
-INSERT INTO `tbl_loc` VALUES ('3', null, '1-30', null);
+INSERT INTO `tbl_loc` VALUES ('1', 'xx', '1-10', null);
+INSERT INTO `tbl_loc` VALUES ('2', 'xx', '1-20', null);
+INSERT INTO `tbl_loc` VALUES ('3', 'xx', '1-30', null);
 
 -- ----------------------------
 -- Table structure for `tbl_menu`
