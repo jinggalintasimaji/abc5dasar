@@ -615,6 +615,62 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		
+		//Setting
+		case "701":
+			judulnya = "User Management";
+			urlnya = "tbl_user";
+			fitnya = true;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			kolom[modnya] = [	
+				{field:'nama_user',title:'Username',width:150, halign:'center',align:'left'},
+				{field:'nama_lengkap',title:'Full Name',width:200, halign:'center',align:'left'},
+				{field:'email',title:'Email',width:150, halign:'center',align:'left'},
+				{field:'jenis_kelamin',title:'Gender',width:150, halign:'center',align:'left',
+					formatter: function(value,row,index){
+						if (row.jenis_kelamin == 'L'){
+							return "Laki-Laki";
+						} else {
+							return "Perempuan";
+						}
+					}
+				},
+				{field:'tlp',title:'Telp.',width:100, halign:'center',align:'left'},
+				{field:'status',title:'Status',width:150, halign:'center',align:'center',
+					formatter: function(value,row,index){
+						if (row.status == 1){
+							return "<font color='green'>User Active</font>";
+						} else {
+							return "<font color='red'>User Inactive</font>";
+						}
+					}
+				},
+			]
+		break
+		case "702":
+			judulnya = "User Group";
+			urlnya = "cl_user_group";
+			fitnya = true;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			kolom[modnya] = [	
+				{field:'group_user',title:'Group Name',width:200, halign:'center',align:'left'},
+				{field:'status',title:'Status',width:150, halign:'center',align:'center',
+					formatter: function(value,row,index){
+						if (row.status == 1){
+							return "<font color='green'>Group Active</font>";
+						} else {
+							return "<font color='red'>Group Inactive</font>";
+						}
+					}
+				},
+				{field:'id',title:'User Role',width:150,halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						return '<button href="javascript:void(0)" onClick="kumpulAction(\'userrole\',\''+rowData.id+'\',\'Y\')" class="easyui-linkbutton" data-options="iconCls:\'icon-save\'">Role</button>';
+					}
+				},				
+			]
+		break
+		//End Setting
+		
 		//Data Reference --
 		case "ref_employee":
 			judulnya = "";
@@ -685,7 +741,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 
 
 function genform(type, modulnya, submodulnya, stswindow, tabel){
-	var urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya
+	var urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya;
+	var urldelete = host+'home/simpansavedata/'+tabel;
 	switch(submodulnya){
 		case "201":
 			var lebar = getClientWidth()-990;
@@ -694,6 +751,26 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="cl_provinsi";
 		break;
 		
+		//Setting
+		case "701":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-270;
+			var judulwindow = 'Form User Management';
+			var table="tbl_user";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			urldelete = host+'homex/simpansavedata/'+tabel;
+		break;
+		case "702":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-400;
+			var judulwindow = 'Form User Group';
+			var table="cl_user_group";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			urldelete = host+'homex/simpansavedata/'+tabel;
+		break;
+		//End Setting
+		
+		//Data Reference
 		case "ref_employee":
 			var lebar = getClientWidth()-500;
 			var tinggi = getClientHeight()-200;
@@ -715,13 +792,16 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="tbl_loc";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
+		//Data Reference
 		
 	}
 	
 	switch(type){
 		case "add":
-			$('#grid_nya_'+submodulnya).hide();
-			$('#detil_nya_'+submodulnya).show();
+			if(stswindow == undefined){
+				$('#grid_nya_'+submodulnya).hide();
+				$('#detil_nya_'+submodulnya).show();
+			}
 			$.post(urlpost, {'editstatus':'add'}, function(resp){
 				if(stswindow == 'windowform'){
 					windowForm(resp, judulwindow, lebar, tinggi);
@@ -738,8 +818,10 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var row = $("#grid_"+submodulnya).datagrid('getSelected');
 			if(row){
 				if(type=='edit'){
-					$('#grid_nya_'+submodulnya).hide();
-					$('#detil_nya_'+submodulnya).show();
+					if(stswindow == undefined){
+						$('#grid_nya_'+submodulnya).hide();
+						$('#detil_nya_'+submodulnya).show();
+					}
 					$.post(urlpost, {'editstatus':'edit',id:row.id, 'tabel':table}, function(resp){
 						if(stswindow == 'windowform'){
 							windowForm(resp, judulwindow, lebar, tinggi);
@@ -754,7 +836,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 				else{
 					if(confirm("Do You Want To Delete This Data ?")){
 						loadingna();
-						$.post(host+'home/simpansavedata/'+tabel, {id:row.id,'editstatus':'delete'}, function(r){
+						$.post(urldelete, {id:row.id,'editstatus':'delete'}, function(r){
 							if(r==1){
 								winLoadingClose();
 								$.messager.alert('ABC System',"Row Data Telah TerHapus",'info');
@@ -912,6 +994,13 @@ function kumpulAction(type, p1, p2, p3){
 				var htmlnya = "<a style='text-decoration:none;' href='"+host+"home/download/"+param+"' target='_blank' >Template "+textnya+"</a>";
 				$('#template').html(htmlnya);
 			}
+		break;
+		case "userrole":
+			$.post(host+'homex/modul/setting/form_user_role', {'id':p1, 'editstatus':'add'}, function(resp){
+				var lebar = getClientWidth()-500;
+				var tinggi = getClientHeight()-200;
+				windowForm(resp, "User Group Role Privilleges", lebar, tinggi);
+			});
 		break;
 	}
 }		
