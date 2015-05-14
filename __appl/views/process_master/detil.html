@@ -1,20 +1,23 @@
-<form method='post' url="{$host}home/crud_na/" id="form_{$main}" enctype="multipart/form-data">
-	<div style="padding:10px;">
-		<fieldset style='width:88.5%'>
+<form method='post' url="{$host}home/simpansavedata/tbl_bpm" id="form_{$main}" enctype="multipart/form-data">
+	<input type="hidden" name="editstatus" id="editstatus" value='{$sts}'>
+	<input type="hidden" name="process" id="process" value='{$process|default:''}'>
+	<input type="hidden" name="descript" id="descript" value='{$desc|default:''}'>
+	<div style="overflow:auto;" id="isi_form">
+		<fieldset style='width:98%'>
 			<div style="float:left;width:30%;margin-left:0px;">
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
 						<td width='34%'>FTE</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:30%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.fte|default:'0'}" name="fte" id="fte" style='width:30%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>Process Level</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:20%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.level|default:'0'}" name="level" id="level" style='width:20%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 				</table>
@@ -25,14 +28,14 @@
 						<td width='34%'>Value Added %</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:30%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.value_add|default:'0'}" name="value_add" id="value_add" style='width:30%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>Cycle Time</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:30%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.cycle_time|default:'0'}" name="cycle_time" id="cycle_time" style='width:30%;padding:2px;' class="angka easyui-validatebox">
 							Days
 						</td>
 					</tr>
@@ -48,48 +51,50 @@
 			</div>
 		</fieldset>
 		
-		<div style="float:left;width:45%; margin-right:5px;">
+		<div style="float:left;width:50%; margin-right:5px;">
 			<fieldset>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
 						<td width='34%'>Attribute 1</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<select name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox"></select>
+							<input type="text" value="{$data.udf_bpm_1|default:''}" name="udf_bpm_1" id="udf_bpm_1" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<!--select name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox"></select-->
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>Attribute 2</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<select name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox"></select>
+							<input type="text" value="{$data.udf_bpm_2|default:''}" name="udf_bpm_2" id="udf_bpm_2" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<!--select name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox"></select-->
 						</td>
 					</tr>
 				</table>
 			</fieldset>
 		</div>
-		<div style="float:left;width:45%;">
+		<div style="float:left;width:49%;">
 			<fieldset>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
 						<td width='34%'>User Defined 1</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.udn_bpd_1|default:''}" name="udn_bpd_1" id="udn_bpd_1" style='width:90%;padding:2px;' class="easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>User Defined 2</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.udn_bpd_2|default:''}" name="udn_bpd_2" id="udn_bpd_2" style='width:90%;padding:2px;' class="easyui-validatebox">
 						</td>
 					</tr>
 				</table>
 			</fieldset>
 		</div>
 		
-		<div style="float:left;width:45%;margin-right:5px;">		
+		<div style="float:left;width:50%;margin-right:5px;">		
 			<fieldset>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
@@ -133,21 +138,21 @@
 				</table>
 			</fieldset>
 		</div>
-		<div style="float:left;width:45%;">		
+		<div style="float:left;width:49%;">		
 			<fieldset>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
 						<td width='34%'>Excess Capacity $</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.rootpct|default:'0'}" name="rootpct" id="rootpct" style='width:90%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td width='34%'>Non-Value Added $</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox">
+							<input type="text" value="{$data.proexclude|default:'0'}" name="proexclude" id="proexclude" style='width:90%;padding:2px;' class="angka easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
@@ -175,4 +180,35 @@
 			</fieldset>
 		</div>
 	</div>
+	{include file='template/button.html' id='simpan_detil_bpm' text='Save Data' icon='save' click=''}
+	{include file='template/button.html' id='clear_detil_bpm' text='Clear Data' icon='cancel' click=''}
 </form>
+
+<script>
+	$('#isi_form').css('height',getClientHeight()-265);
+	$('.angka').numberbox({
+		min:0,
+		precision:2
+	});	
+	
+	$('#simpan_detil_bpm').bind('click',function(){
+		if($('#par_1').val()!='' && $('#par_2').val()!=''){
+		loadingna();
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose()
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+		}
+		else{
+			$.messager.alert('ABC System',"Process And Description Not Blank",'error');
+		}
+	});
+</script>

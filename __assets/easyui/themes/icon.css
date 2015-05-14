@@ -167,3 +167,9 @@
 .dashboard{
 	background:url('icons/application_view_tile.png') no-repeat center center;
 }
+.arrow_undo{
+	background:url('icons/arrow_undo.png') no-repeat center center;
+}
+.arrow_redo{
+	background:url('icons/arrow_redo.png') no-repeat center center;
+}

@@ -4,16 +4,16 @@
 <div style='float:left;width:45%'>
 	<br/>
 	<br/>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="" onClick="">
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_efx" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon icon-undo"></span>
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_undo"></span>
 		</span>
 	</a> 
 	<br/>
 	<br/>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="" onClick="">
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_efx" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon icon-redo"></span>
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_redo"></span>
 		</span>
 	</a>
 </div>
@@ -24,6 +24,16 @@
 
 
 <script>
-	genGrid('mst_expenses','master_expenses', 500, 200);
-	genGrid('tbl_expenses','tabel_expenses', 500, 600);
+	genGrid('mst_expenses','master_expenses', 500, 160);
+	genGridEditable('tbl_expenses','tabel_expenses', 500, 600,'tbl_efx');
+	
+	
+	$('#tranfer_efx').bind('click',function(r){
+		transfer_data('tbl_exp','tbl_efx','master_expenses','tabel_expenses');
+		//console.log()
+	});
+	$('#remove_efx').bind('click',function(r){
+		transfer_data('tbl_efx','tbl_exp','tabel_expenses','tabel_expenses');
+		//console.log()
+	});
 </script>

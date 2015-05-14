@@ -52,10 +52,23 @@ class mhome extends CI_Model{
 				if($p1!="" and $p2!="" && $p3!='' ){
 					$where .=" AND A.activity_code='".$p1."' AND A.descript='".$p2."' AND A.level='".$p3."'";
 				}
-				$sql="SELECT A.*,B.activity,C.cost_driver,B.nonvalcost
+				$sql="SELECT A.*,C.cost_driver
 						FROM tbl_acm A
-						LEFT JOIN tbl_bpd B ON A.tbl_bpd_id=B.id
+						
 						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id".$where;
+				if($p4=='edit' || $p4=="edit_grid"){
+					return $this->result_query($sql,'row_array');
+				}
+			break;
+			case "tbl_bpm":
+				if($p4=="edit_grid"){
+					$where .=" AND A.id='".$p1."'";
+				}
+				if($p1!="" and $p2!="" ){
+					$where .=" AND A.process='".$p1."' AND A.descript='".$p2."'";
+				}
+				$sql="SELECT A.*
+						FROM tbl_bpm A ".$where;
 				if($p4=='edit' || $p4=="edit_grid"){
 					return $this->result_query($sql,'row_array');
 				}
@@ -63,6 +76,12 @@ class mhome extends CI_Model{
 			case "tbl_prm":
 				$sql="SELECT A.*
 						FROM tbl_prm A ";
+			break;
+			case "tbl_emp_act":
+				$sql="SELECT A.*,B.employee_id,CONCAT(B.first,B.last)as name_na,B.cost_nbr
+						FROM tbl_emp_act A 
+						LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id ";
 			break;
 			case "tbl_cdm":
 				$sql="SELECT A.*
@@ -73,6 +92,41 @@ class mhome extends CI_Model{
 					SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
 					FROM tbl_emp A
 					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id
+				";
+			break;
+			
+			case "tbl_bpd":
+				$sql="SELECT A.*,B.activity_code,B.descript as activity_desc,B.val_cost as activity_cost
+						FROM tbl_bpd A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id";
+			break;
+			case "tbl_exp":
+				$sql = "
+					SELECT A.*,B.costcenter
+					FROM tbl_exp A 
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id";
+			break;
+			case "tbl_efx":
+				$sql = "
+					SELECT A.*,B.account,B.descript,B.amount
+					FROM tbl_efx A 
+					LEFT JOIN tbl_exp B ON A.tbl_exp_id=B.id
+				";
+			break;
+			case "tbl_process_emp":
+				$sql="SELECT C.*,concat(C.first,C.last)as name_na,A.costcenter_desc,B.val_cost 
+						FROM tbl_emp_act A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						LEFT JOIN tbl_emp C ON A.tbl_emp_id=C.id
+						LEFT JOIN tbl_bpd D ON D.tbl_acm_id=B.id
+						LEFT JOIN tbl_bpm E ON D.tbl_bpm_id=E.id
+						WHERE D.tbl_bpm_id IS NOT NULL";
+			break;
+			case "tbl_process_efx":
+				$sql = "
+					SELECT A.*,B.account,B.descript,B.amount,B.exp_level,B.budget_1
+					FROM tbl_efx A 
+					LEFT JOIN tbl_exp B ON A.tbl_exp_id=B.id
 				";
 			break;
 		}
@@ -152,6 +206,51 @@ class mhome extends CI_Model{
 					$exist=$this->db->get_where('tbl_acm',array('activity_code'=>$data['activity_code'],'level'=>$data['level'],'descript'=>$data['descript']))->result_array();
 					if(count($exist)>0){$sts_crud='edit';$array_where=array('activity_code'=>$data['activity_code'],'level'=>$data['level'],'descript'=>$data['descript']);}
 					else{$sts_crud='add';}
+				}
+			break;
+			case "tbl_bpm":
+				if($sts_crud=='edit'){
+					$exist=$this->db->get_where('tbl_bpm',array('process'=>$data['process'],'descript'=>$data['descript']))->result_array();
+					if(count($exist)>0){$sts_crud='edit';$array_where=array('process'=>$data['process'],'descript'=>$data['descript']);}
+					else{$sts_crud='add';}
+				}
+			break;
+			case "tbl_emp_act":
+				if($sts_crud=='edit'){
+					unset($data['id']);unset($data['employee_id']);
+					unset($data['name_na']);
+					unset($data['cost_nbr']);
+					$data['create_date']=date('Y-m-d H:i:s');
+					$data['create_by']='Goyz';
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
+			case "tbl_efx":
+				if($sts_crud=='edit'){
+					unset($data['id']);
+					unset($data['account']);
+					unset($data['amount']);
+					unset($data['descript']);
+					//$data['create_date']=date('Y-m-d H:i:s');
+					//$data['create_by']='Goyz';
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
+			case "tbl_bpd":
+				if($sts_crud=='edit'){
+					unset($data['id']);
+					unset($data['activity_code']);
+					unset($data['activity_desc']);
+					unset($data['activity_cost']);
+					//$data['create_date']=date('Y-m-d H:i:s');
+					//$data['create_by']='Goyz';
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
+			default:
+				if($sts_crud=='edit'){
+					unset($data['id']);
+					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
 		}

@@ -4,16 +4,16 @@
 <div style='float:left;width:45%'>
 	<br/>
 	<br/>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="" onClick="">
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_bpd" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon icon-undo"></span>
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_undo"></span>
 		</span>
 	</a> 
 	<br/>
 	<br/>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="" onClick="">
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_bpd" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon icon-redo"></span>
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_redo"></span>
 		</span>
 	</a>
 </div>
@@ -24,6 +24,15 @@
 
 
 <script>
-	genGrid('mst_build','master_build', 500, 200);
-	genGrid('tbl_build','tabel_build', 500, 600);
+	genGrid('mst_build','master_build', 500, 160);
+	genGridEditable('tbl_build','tabel_build', 500, 600,'tbl_bpd');
+	
+	$('#tranfer_bpd').bind('click',function(r){
+		transfer_data('tbl_acm','tbl_bpd','master_build','tabel_build');
+		
+	});
+	$('#remove_bpd').bind('click',function(r){
+		transfer_data('tbl_bpd','tbl_acm','tabel_build','tabel_build');
+		//console.log()
+	});
 </script>

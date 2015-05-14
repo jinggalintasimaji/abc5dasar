@@ -43,7 +43,6 @@ class home extends MY_Controller {
 					switch($p2){
 						case "detil":
 						case "advance":
-							
 								$sts='add';
 								$act_code=$this->input->post('par_1');
 								$desc=$this->input->post('par_2');
@@ -84,6 +83,42 @@ class home extends MY_Controller {
 					$this->smarty->assign('sub_mod',$p3);
 					$this->smarty->display($mod.'/'.$p2.'.html');
 				break;
+				case "process_master":
+					$sts_na=$this->input->post('editstatus');
+					if($sts_na=='edit'){
+						$ex=$this->mhome->getdata('tbl_bpm',$this->input->post('id'),'','','edit_grid');
+						//print_r($ex);
+						
+						$this->smarty->assign('process',(isset($ex['process']) ? $ex['process'] : ''));
+						$this->smarty->assign('desc',(isset($ex['descript']) ? $ex['descript'] : ''));
+					}
+					switch($p2){
+						case "detil":
+								$sts='add';
+								$process=$this->input->post('par_1');
+								$desc=$this->input->post('par_2');
+								$this->smarty->assign('process',$process);
+								$this->smarty->assign('desc',$desc);
+								if($process!="" and $desc!=""){
+									$ex=$this->mhome->getdata('tbl_bpm',$process,$desc,'','edit');
+									if(isset($ex['id']) && $ex['id']!=''){
+										$sts='edit';
+										$this->smarty->assign('data',$ex);
+									}
+								}
+								$this->smarty->assign('sts' ,$sts);
+						break;
+						
+					}
+				
+					$this->smarty->assign('mod',$mod);
+					$this->smarty->assign('main',$p2);
+					$this->smarty->assign('sub_mod',$p3);
+					$this->smarty->display($mod.'/'.$p2.'.html');
+				break;
+				
+				
+				
 				default:
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);
@@ -105,11 +140,18 @@ class home extends MY_Controller {
 		echo $this->mhome->getdata($p1,$p2);
 	}
 	
-	function simpansavedata($type=""){
+	function simpansavedata($type="",$sts=""){
 		$post = array();
-        foreach($_POST as $k=>$v) $post[$k] = $this->db->escape_str($this->input->post($k));
-		$editstatus = $post['editstatus'];
-		unset($post['editstatus']);
+        foreach($_POST as $k=>$v){
+			if($this->input->post($k)!=""){
+				$post[$k] = $this->db->escape_str($this->input->post($k));
+			}
+			
+		}
+		
+		if(isset($post['editstatus'])){$editstatus = $post['editstatus'];unset($post['editstatus']);}
+		else $editstatus = $sts;
+		
 		//print_r($post);exit;
 		echo $this->mhome->simpansavedata($type, $post, $editstatus);
 	}

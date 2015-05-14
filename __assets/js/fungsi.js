@@ -121,7 +121,190 @@ function getClientWidth(){
 
 	return theWidth;
 }
-
+function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
+	var data_dumi=[{"id":'fixed',"text":"fixed"}];
+	if(lebarnya == undefined){
+		lebarnya = getClientWidth-250;
+	}
+	if(tingginya == undefined){
+		tingginya = getClientHeight-300
+	}
+	
+	var kolom ={};
+	var frozen ={};
+	var judulnya;
+	var urlnya;
+	var url_crud=host+"home/simpansavedata/"+crud_table;
+	var fitnya;
+	switch (modnya){
+		case "tbl_employees":
+			judulnya = "";
+			urlnya = "tbl_emp_act";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'costcenter_desc',title:'Cost Center',width:100, halign:'center',align:'left',
+					editor:{type:'validatebox',options:{}}
+				},
+				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
+				{field:'name_na',title:'Employee Name',width:180, halign:'center',align:'left'},
+				{field:'cost_nbr',title:'Cost',width:100, halign:'center',align:'right'},
+				{field:'percent',title:'%',width:50, halign:'center',align:'right',
+					
+					editor:{type:'numberbox',options:{precision:1,value:0,min:0,max:100}}
+				},
+				{field:'quantity',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{ value:0 }}
+				},
+				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'right',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                          // method:'get',
+                          // url:'products.json',
+                          // required:true
+                       }
+                    }
+				},
+				{field:'budget_type',title:'Budget',width:100, halign:'center',align:'right',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                          // method:'get',
+                          // url:'products.json',
+                          // required:true
+                       }
+                    }
+				},
+				{field:'input_rate',title:'Input Rate',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'output_rate',title:'Output Rate',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+			]
+		break;	
+		case "tbl_expenses":
+			judulnya = "";
+			urlnya = "tbl_efx";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'costcenter_desc',title:'Cost Center',width:100, halign:'center',align:'left',
+					editor:{type:'validatebox',options:{}}
+				},
+				{field:'account',title:'Account',width:80, halign:'center',align:'center'},
+				{field:'descript',title:'Expenses Desc.',width:80, halign:'center',align:'left'},
+				{field:'amount',title:'Cost',width:100, halign:'center',align:'right'
+					//editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'percent',title:'%',width:80, halign:'center',align:'left',
+					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
+				},
+				{field:'rd_qty',title:'Driver Qty',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                       }
+                    }
+				},
+				{field:'budget_type',title:'Budget',width:100, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                       }
+                    }
+				},
+				{field:'input_rate',title:'Input Rate',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'output_rate',title:'Output Rate',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'coeffisient',title:'Cooffecient',width:100, halign:'center',align:'left',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+			]
+		break;	
+		case "tbl_build":
+			judulnya = "";
+			urlnya = "tbl_bpd";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'activity_code',title:'Activity',width:100, halign:'center',align:'center'},
+				{field:'step_name',title:'Sub-Process',width:100, halign:'center',align:'left',
+					editor:{type:'validatebox',options:{}}
+				},
+				{field:'activity_desc',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'activity_cost',title:'Cost',width:100, halign:'center',align:'right'},
+				{field:'percent',title:'%',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
+				},
+				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'sequence',title:'Sequence',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+			]
+		break;
+	}
+	
+	$("#"+divnya).edatagrid({
+		title:judulnya,
+        height:tingginya,
+        width:lebarnya,
+		rownumbers:true,
+		iconCls:'database',
+        fit:fitnya,
+        striped:true,
+        pagination:true,
+        remoteSort: false,
+        url: host+"home/getdata/"+urlnya,
+		saveUrl: url_crud+'/add',
+        updateUrl: url_crud+'/edit',
+        destroyUrl: url_crud+'/delete',
+		nowrap: true,
+        singleSelect:true,
+		columns:[
+            kolom[modnya]
+        ],
+		toolbar: [{
+				id:'btnadd',
+				text:'Save',
+				iconCls:'icon-save',
+				handler:function(){
+					$("#"+divnya).edatagrid('saveRow');
+				}
+			},'-'
+		],
+	});
+}
 function genGrid(modnya, divnya, lebarnya, tingginya){
 	if(lebarnya == undefined){
 		lebarnya = getClientWidth-250;
@@ -134,7 +317,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var frozen ={};
 	var judulnya;
 	var urlnya;
-	var urlglobal;
+	var urlglobal="";
 	var fitnya;
 	
 	switch(modnya){
@@ -164,52 +347,19 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
 			]
 		break;
-		case "tbl_employees":
-			judulnya = "";
-			urlnya = "";
-			fitnya = true;
-			kolom[modnya] = [	
-				{field:'cost_nbr',title:'Cost Center',width:100, halign:'center',align:'left'},
-				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
-				{field:'first',title:'Employee Name',width:200, halign:'center',align:'left'},
-				{field:'first',title:'Cost',width:100, halign:'center',align:'left'},
-				{field:'first',title:'%',width:80, halign:'center',align:'left'},
-				{field:'first',title:'Quantity',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Cost Type',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Budget',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Input Rate',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Output Rate',width:100, halign:'center',align:'left'},
-			]
-		break;	
+		
 		case "mst_expenses":
 			judulnya = "";
-			urlnya = "";
+			urlnya = "tbl_exp";
 			fitnya = false;
 			kolom[modnya] = [	
-				{field:'employee_id',title:'Account',width:80, halign:'center',align:'center'},
-				{field:'first',title:'Cost Center',width:100, halign:'center',align:'left'},
-				{field:'cost_nbr',title:'Description',width:150, halign:'center',align:'left'},
-				{field:'cost_nbr',title:'Level',width:80, halign:'center',align:'left'},
+				{field:'account',title:'Account',width:80, halign:'center',align:'center'},
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:150, halign:'center',align:'left'},
+				{field:'exp_level',title:'Level',width:80, halign:'center',align:'left'},
 			]
 		break;
-		case "tbl_expenses":
-			judulnya = "";
-			urlnya = "";
-			fitnya = true;
-			kolom[modnya] = [	
-				{field:'cost_nbr',title:'Cost Center',width:100, halign:'center',align:'left'},
-				{field:'employee_id',title:'Account',width:80, halign:'center',align:'center'},
-				{field:'cost_nbr',title:'Expenses Desc.',width:200, halign:'center',align:'left'},
-				{field:'first',title:'Cost',width:100, halign:'center',align:'left'},
-				{field:'first',title:'%',width:80, halign:'center',align:'left'},
-				{field:'first',title:'Quantity',width:80, halign:'center',align:'left'},
-				{field:'first',title:'Cost Type',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Budget',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Input Rate',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Output Rate',width:100, halign:'center',align:'left'},
-				{field:'first',title:'Cooffecient',width:100, halign:'center',align:'left'},
-			]
-		break;	
+		
 		case "tbl_processes":
 			judulnya = "";
 			urlnya = "";
@@ -243,76 +393,62 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		break;	
 		case "301":
 			judulnya = "Process Master";
-			urlnya = "tbl_acm";
+			urlnya = "tbl_bpm";
 			fitnya = true;
 			kolom[modnya] = [	
-				{field:'level',title:'Process ID',width:100, halign:'center',align:'center'},
+				{field:'process',title:'Process ID',width:100, halign:'center',align:'center'},
 				{field:'descript',title:'Description',width:150, halign:'center',align:'left'},
-				{field:'activity',title:'Level',width:80, halign:'center',align:'left'},
+				{field:'level',title:'Level',width:80, halign:'center',align:'left'},
 				{field:'value_add',title:'Value %',width:100, halign:'right',align:'right'},
-				{field:'fte',title:'Total Cost',width:100, halign:'right',align:'right'},
-				{field:'head_count',title:'FTE',width:80, halign:'right',align:'right'},
+				{field:'rootcost',title:'Total Cost',width:100, halign:'right',align:'right'},
+				{field:'fte',title:'FTE',width:80, halign:'right',align:'right'},
 				{field:'cost_driver',title:'Excess Capacity $',width:200, halign:'right',align:'right'},
-				{field:'quantity',title:'Non-Value Added',width:150, halign:'right',align:'right'},
-				{field:'nonvalcost',title:'Budgeted Amount',width:150, halign:'right',align:'right'},
-				{field:'nonvalcost',title:'UDF 1',width:100, halign:'right',align:'right'},
-				{field:'nonvalcost',title:'UDF 2',width:100, halign:'right',align:'right'},
+				{field:'rootpct',title:'Non-Value Added',width:150, halign:'right',align:'right'},
+				{field:'budget_amt',title:'Budgeted Amount',width:150, halign:'right',align:'right'},
+				{field:'udf_bpm_1',title:'UDF 1',width:100, halign:'right',align:'right'},
+				{field:'udf_bpm_2',title:'UDF 2',width:100, halign:'right',align:'right'},
 			];
 		break;
 		case "tbl_employees_process":
 			judulnya = "";
-			urlnya = "";
+			urlnya = "tbl_process_emp";
 			fitnya = true;
 			kolom[modnya] = [	
-				{field:'level',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Emp. ID',width:100, halign:'center',align:'left'},
-				{field:'activity',title:'Employee Name',width:200, halign:'center',align:'left'},
-				{field:'value_add',title:'Head Count',width:100, halign:'right',align:'right'},
-				{field:'fte',title:'FTE',width:100, halign:'right',align:'right'},
-				{field:'head_count',title:'Total Cost',width:100, halign:'right',align:'right'},
-				{field:'cost_driver',title:'Position',width:200, halign:'right',align:'right'},
-				{field:'quantity',title:'Reg Waves',width:150, halign:'right',align:'right'},
-				{field:'nonvalcost',title:'Fringe Benefits',width:150, halign:'right',align:'right'},
-				{field:'nonvalcost',title:'Allocation',width:150, halign:'right',align:'right'},
+				{field:'costcenter_desc',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'left'},
+				{field:'name_na',title:'Employee Name',width:200, halign:'center',align:'left'},
+				{field:'head_count',title:'Head Count',width:100, halign:'right',align:'right'},
+				{field:'fte_count',title:'FTE',width:100, halign:'right',align:'right'},
+				{field:'total',title:'Total Cost',width:100, halign:'right',align:'right'},
+				{field:'position',title:'Position',width:200, halign:'right',align:'right'},
+				{field:'wages',title:'Reg Waves',width:150, halign:'right',align:'right'},
+				{field:'benefits',title:'Fringe Benefits',width:150, halign:'right',align:'right'},
+				{field:'val_cost',title:'Allocation',width:150, halign:'right',align:'right'},
 			]
 		break;
 		case "tbl_expenses_process":
 			judulnya = "";
-			urlnya = "";
+			urlnya = "tbl_process_efx";
 			fitnya = true;
 			kolom[modnya] = [	
-				{field:'level',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Account',width:100, halign:'center',align:'left'},
-				{field:'activity',title:'Description',width:250, halign:'center',align:'left'},
-				{field:'value_add',title:'Head Count',width:100, halign:'right',align:'right'},
-				{field:'head_count',title:'Cost',width:100, halign:'right',align:'right'},
-				{field:'cost_driver',title:'Level',width:100, halign:'right',align:'right'},
-				{field:'quantity',title:'Budget 1',width:150, halign:'right',align:'right'},
+				{field:'costcenter_desc',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'account',title:'Account',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'cost_nbr',title:'Cost',width:100, halign:'right',align:'right'},
+				{field:'exp_level',title:'Level',width:100, halign:'right',align:'right'},
+				{field:'budget_1',title:'Budget 1',width:150, halign:'right',align:'right'},
 			]
 		break;
 		case "mst_build":
 			judulnya = "";
-			urlnya = "";
+			urlnya = "tbl_acm";
 			fitnya = false;
 			kolom[modnya] = [	
-				{field:'cost_nbr',title:'Activity',width:100, halign:'center',align:'left'},
-				{field:'cost_nbr',title:'Performance Measures',width:300, halign:'center',align:'left'},
+				{field:'activity_code',title:'Activity',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:300, halign:'center',align:'left'},
 			]
 		break;
-		case "tbl_build":
-			judulnya = "";
-			urlnya = "";
-			fitnya = true;
-			kolom[modnya] = [	
-				{field:'level',title:'Activity',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Sub-Process',width:100, halign:'center',align:'left'},
-				{field:'activity',title:'Description',width:250, halign:'center',align:'left'},
-				{field:'value_add',title:'Cost',width:100, halign:'center',align:'right'},
-				{field:'head_count',title:'%',width:100, halign:'center',align:'right'},
-				{field:'cost_driver',title:'Quantity',width:100, halign:'center',align:'right'},
-				{field:'quantity',title:'Sequence',width:100, halign:'center',align:'right'},
-			]
-		break;
+		
 		case "401":
 			judulnya = "";
 			urlnya = "tbl_prm";
@@ -708,19 +844,21 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 				var isi_tab=title.replace(/ /g,"_");
 				var par={};
 				$('#'+isi_tab.toLowerCase()).html('').addClass('loading');
+				urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 				switch(mod){
 					case "activity_master":
-						urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 						par['par_1']=$('#par_1').val();
 						par['par_2']=$('#par_2').val();
 						par['par_3']=$('#par_3').val();
-						//if($('#par_1').val()!='' && $('#par_2').val()!='' && $('#par_3').val()!=''){
-							//alert('LOAD GOYZ');
-						//}
+					break;
+					case "process_master":
+						par['par_1']=$('#par_1').val();
+						par['par_2']=$('#par_2').val();
 					break;
 					case "reference":
 						urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
-					break
+					break;
+					//default:urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 				}
 				console.log(par);
 					$.post(urlnya,par,function(r){
@@ -810,4 +948,59 @@ function winLoadingClose(){
 }
 function loadingna(){
 	windowLoading("<img src='"+host+"__assets/images/loading.gif' style='position: fixed;top: 50%;left: 50%;margin-top: -10px;margin-left: -25px;'/>","Please Wait",200,100);
+}
+
+function transfer_data(from,to,grid_id_from,grid_id_to){
+	var row=$('#'+grid_id_from).datagrid('getSelected');
+	var post={};
+		
+		if(row){
+			//console.log(row_emp.id);
+			loadingna();
+			switch(to){
+				case "tbl_emp_act":
+					post['editstatus']='add';
+					post['tbl_emp_id']=row.id;
+				break;
+				case "tbl_emp":
+					to="tbl_emp_act";
+					post['editstatus']='delete';
+					post['id']=row.id;
+				break;
+				case "tbl_efx":
+					post['editstatus']='add';
+					post['tbl_exp_id']=row.id;
+				break;
+				case "tbl_exp":
+					to="tbl_efx";
+					post['editstatus']='delete';
+					post['id']=row.id;
+				break;
+				case "tbl_acm":
+					to="tbl_bpd";
+					post['editstatus']='delete';
+					post['id']=row.id;
+				break;
+				case "tbl_bpd":
+					post['editstatus']='add';
+					post['tbl_acm_id']=row.id;
+				break;
+			}
+			
+			$.post(host+'home/simpansavedata/'+to,post,function(r){
+				if(r==1){
+					winLoadingClose();
+					$('#'+grid_id_to).edatagrid('reload');
+				}
+				else{
+					winLoadingClose();
+					$.messager.alert('ABC System',"Transfer Data Failed",'error');
+					console.log(r);
+				}
+			});
+		}
+		else{
+			$.messager.alert('ABC System',"Please Select List",'error');
+		}
+	
 }
