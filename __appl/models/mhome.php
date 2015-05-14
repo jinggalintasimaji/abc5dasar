@@ -99,6 +99,12 @@ class mhome extends CI_Model{
 					FROM tbl_cdm
 				";
 			break;
+			case "cl_user_group":
+				$sql = "
+					SELECT id, group_user as txt
+					FROM cl_user_group
+				";
+			break;
 		}
 		return $this->db->query($sql)->result_array();
 	}

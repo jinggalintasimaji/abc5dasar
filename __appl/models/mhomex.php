@@ -44,6 +44,24 @@ class mhomex extends CI_Model{
 				";
 			break;
 			//End Data Reference
+			
+			//Modul Setting
+			case "tbl_user":
+				$sql = "
+					SELECT A.*, B.group_user
+					FROM tbl_user A
+					LEFT JOIN cl_user_group B ON B.id = A.cl_user_group_id
+					$where
+				";
+			break;
+			case "cl_user_group":
+				$sql = "
+					SELECT A.*
+					FROM cl_user_group A
+					$where
+				";
+			break;
+			//EndModul Setting
 		}
 		
 		if($balikan == 'json'){
