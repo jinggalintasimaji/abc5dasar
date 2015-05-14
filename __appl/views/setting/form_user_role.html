@@ -1,0 +1,103 @@
+<div id='divatas' style='overflow-y:auto;'>
+	<form method='post' url="" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+		<table cellspacing="1" cellpadding="0" border="0" style="width:100%; border: 1px solid #4C4747;">
+			<tr style='background:#7DB3CB; color:#fff; font-weight:bold;'>
+				<td align='center' width='30%'>Modul</td>
+				<td align='center'>Create</td>
+				<td align='center'>Read</td>
+				<td align='center'>Update</td>
+				<td align='center'>Delete</td>
+			</tr>
+			
+			{foreach from=$role item=rows}
+				{if $rows.buat eq 1}
+					{assign var=stsbuat value='checked'}
+				{elseif $rows.buat eq 0}
+					{assign var=stsbuat value=''}
+				{/if}
+				{if $rows.baca eq 1}
+					{assign var=stsbaca value='checked'}
+				{elseif $rows.baca eq 0}
+					{assign var=stsbaca value=''}
+				{/if}
+				{if $rows.ubah eq 1}
+					{assign var=stsubah value='checked'}
+				{elseif $rows.ubah eq 0}
+					{assign var=stsubah value=''}
+				{/if}
+				{if $rows.hapus eq 1}
+					{assign var=stshapus value='checked'}
+				{elseif $rows.hapus eq 0}
+					{assign var=stshapus value=''}
+				{/if}
+				
+				<tr style='background:#F2F2F2; color:#333333; font-weight:bold;'>
+					<td style='padding-left:5px;'>{$rows.nama_menu}</td>
+					<td align='center'><input type="checkbox" class='cek' name="checkbuat[]"  data="C_{$rows.id}" {$stsbuat}></td>
+					<td align='center'><input type="checkbox" class='cek' name="checkbaca[]"  data="R_{$rows.id}" {$stsbaca} ></td>
+					<td align='center'><input type="checkbox" class='cek' name="checkubah[]"  data="U_{$rows.id}" {$stsubah} ></td>
+					<td align='center'><input type="checkbox" class='cek' name="checkhapus[]" data="D_{$rows.id}" {$stshapus} ></td>
+				</tr>
+				{foreach from=$rows.child_menu item=riws}
+					{if $riws.buat eq 1}
+						{assign var=stsbuatChild value='checked'}
+					{elseif $riws.buat eq 0}
+						{assign var=stsbuatChild value=''}
+					{/if}
+					{if $riws.baca eq 1}
+						{assign var=stsbacaChild value='checked'}
+					{elseif $riws.baca eq 0}
+						{assign var=stsbacaChild value=''}
+					{/if}
+					{if $riws.ubah eq 1}
+						{assign var=stsubahChild value='checked'}
+					{elseif $riws.ubah eq 0}
+						{assign var=stsubahChild value=''}
+					{/if}
+					{if $riws.hapus eq 1}
+						{assign var=stshapusChild value='checked'}
+					{elseif $riws.hapus eq 0}
+						{assign var=stshapusChild value=''}
+					{/if}
+				
+					<tr style='background:#F2F2F2; color:#333333;'>
+						<td style='padding-left:15px;'>- {$riws.nama_menu_child}</td>
+						<td align='center'><input type="checkbox" class='cek' name="checkbuat[]" data="C_{$riws.id_child}" {$stsbuatChild}></td>
+						<td align='center'><input type="checkbox" class='cek' name="checkbaca[]" data="R_{$riws.id_child}"{$stsbacaChild} ></td>
+						<td align='center'><input type="checkbox" class='cek' name="checkubah[]" data="U_{$riws.id_child}"{$stsubahChild} ></td>
+						<td align='center'><input type="checkbox" class='cek' name="checkhapus[]" data="D_{$riws.id_child}" {$stshapusChild} ></td>
+					</tr>
+				{/foreach}
+			{/foreach}
+				
+		</table>
+	</form>
+</div>
+<div>
+	{include file='template/button.html' id="simpan_{$acak}" text='Save' icon='save' click=''}
+	{include file='template/button.html' id="'batal_'{$acak}" text='Cancel' icon='cancel' click='closeWindow();'}
+</div>
+
+<script>
+	$('#divatas').css({ 'height':getClientHeight()-280 });
+	$('#simpan_{$acak}').on('click',function(e){
+		loadingna();
+		var pecah={};
+		$('.cek:checkbox:checked').each(function(i) { 
+			pecah[i]=$(this).attr("data");
+		});
+		$.post(host+'homex/simpansavedata/user_role_group',{ data:pecah, 'id':'{$id_group|default:''}', 'editstatus':'add_role' } ,function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			closeWindow();
+			$('#grid_702').datagrid('reload');
+		});
+		
+		winLoadingClose();
+		return false;
+	});
+</script>

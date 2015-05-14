@@ -179,6 +179,18 @@ class lib {
 					'2' => array('id'=>'tbl_loc','txt'=>'Data Allocation'),
 				);
 			break;
+			case "jenis_kelamin":
+				$data = array(
+					'0' => array('id'=>'L','txt'=>'Laki-Laki'),
+					'1' => array('id'=>'P','txt'=>'Perempuan'),
+				);
+			break;
+			case "status":
+				$data = array(
+					'0' => array('id'=>'1','txt'=>'Active'),
+					'1' => array('id'=>'0','txt'=>'Inactive'),
+				);
+			break;
 			default:
 				$data = $ci->mhome->get_combo($type, $p1, $p2);
 			break;
