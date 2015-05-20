@@ -164,7 +164,7 @@ class mhome extends CI_Model{
 	}
 	
 	
-	function result_query($sql,$type=""){
+	function result_query($sql,$type="",$table=""){
 		switch($type){
 			case "json":
 				$page = (integer) (($this->input->post('page')) ? $this->input->post('page') : "1");
@@ -175,9 +175,13 @@ class mhome extends CI_Model{
 				if ($page > $total_pages) $page=$total_pages; 
 				$start = $limit*$page - $limit; // do not put $limit*($page - 1)
 				if($start<0) $start=0;
-				  
+				 
+				if($table == 'tbl_loc'){
+					$sql .= " ORDER BY A.costcenter ASC ";
+				}
+				
 				$sql = $sql . " LIMIT $start,$limit";
-			
+							
 				$data=$this->db->query($sql)->result_array();  
 						
 				if($data){

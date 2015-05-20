@@ -136,7 +136,51 @@ class homex extends MY_Controller {
 	}
 	
 	function download($type=""){
-		echo "Template UnderConstruction";
+		$this->load->helper('download');
+		$data = file_get_contents("__repository/template_import/".$type.".xls");
+		switch($type){
+			case "tbl_emp":
+			case "tbl_exp":
+				$this->load->library("PHPExcel");
+				$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+				$objPHPExcel = $objReader->load("__repository/template_import/".$type.".xlsx");
+				$dataexcell = $objPHPExcel->setActiveSheetIndex(1);
+				$dataloc = $this->db->get('tbl_loc')->result_array();
+				
+				$i = 1;
+				foreach($dataloc as $k=>$v){
+					$dataexcell->setCellValue('A'.$i, $v['costcenter'])  ;
+					$i++;
+				}
+				
+				/*
+				$objValidation = $dataexcell->getCell('A1')->getDataValidation();
+				$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_LIST );
+				$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_INFORMATION );
+				$objValidation->setAllowBlank(false);
+				$objValidation->setShowInputMessage(true);
+				$objValidation->setShowErrorMessage(true);
+				$objValidation->setShowDropDown(true);
+				$objValidation->setErrorTitle('Input error');
+				$objValidation->setError('Value is not in list.');
+				$objValidation->setPromptTitle('Pick from list');
+				$objValidation->setPrompt('Please pick a value from the drop-down list.');
+				$objValidation->setFormula1('"=lookup!$A:$A"');  // Make sure to put the list items between " and "  !!!
+				*/
+				
+				ob_end_clean(); 
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');  
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); 
+				header('Content-Disposition: attachment;filename="'.$type.'.xlsx"'); 
+				header('Cache-Control: max-age=0'); 
+				$objWriter->save('php://output');  
+				exit;
+			break;
+			default:
+				$name = $type.".xls";
+			break;
+		}
+		force_download($name, $data);
 	}
 	
 	

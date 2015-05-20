@@ -1,4 +1,6 @@
-<form method='post' url="{$host}home/crud_na/import_data" id="form_{$main}" enctype="multipart/form-data">
+<form method='post' url="{$host}homex/simpansavedata/import_data" id="form_{$main}" enctype="multipart/form-data">
+	<input type='hidden' name='editstatus' value='import_data' />
+	<input type='hidden' name='id' value='' />
 	<div style="padding:10px;">
 		<div style="float:left;width:100%;margin-right:5px;">
 			<fieldset>
@@ -8,7 +10,7 @@
 						<td width='20%'>Modul Reference</td>
 						<td width='1%'>:</td>
 						<td width='75%'>
-							<select name="modul_reference" id="modul_reference" onChange="kumpulAction('changemodul');" style='width:30%;padding:1px;border:0.5px #D3D3D3 solid' class="easyui-validatebox">
+							<select name="modul_reference" id="modul_reference" onChange="kumpulAction('changemodul');" class='easyui-validatebox' style='width:30%;padding:1px;border:0.5px #D3D3D3 solid' class="easyui-validatebox">
 								{$combo_modul}
 							</select>
 							&nbsp;&nbsp;
@@ -30,7 +32,7 @@
 						</td>
 					</tr>
 				</table>
-				<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="" onClick="">
+				<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="btsimpan" onClick="">
 					<span class="l-btn-left l-btn-icon-left">
 						<span class="l-btn-text">Save</span><span class="l-btn-icon icon-save"></span>
 					</span>
@@ -41,5 +43,22 @@
 </form>
 
 <script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
 	
+	$('#btsimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			$('#modul_reference').val('');
+			$('#file_import').val('');
+			$('#template').html('');
+		});
+		winLoadingClose();
+		return false;
+	});
 </script>

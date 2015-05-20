@@ -93,7 +93,7 @@ class mhomex extends CI_Model{
 		}
 		
 		if($balikan == 'json'){
-			return $ci->mhome->result_query($sql,'json');
+			return $ci->mhome->result_query($sql,'json',$type);
 		}elseif($balikan == 'row_array'){
 			return $this->db->query($sql)->row_array();
 		}elseif($balikan == 'result_array'){
@@ -175,6 +175,118 @@ class mhomex extends CI_Model{
 				}
 				
 			break;
+			case "import_data":
+				$this->load->library("PHPExcel");
+				$type_import = $data['modul_reference'];
+				if(!empty($_FILES['file_import']['name'])){
+					$ext = explode('.',$_FILES['file_import']['name']);
+					$exttemp = sizeof($ext) - 1;
+					$extension = $ext[$exttemp];
+					
+					$upload_path = "./__repository/tmp_upload/";
+					$filename =  $this->lib->uploadnong($upload_path, 'file_import', $type_import); //$file.'.'.$extension;
+					
+					$folder_aplod = $upload_path.$filename;
+					//set php excel settings
+					$cacheMethod   = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
+					$cacheSettings = array('memoryCacheSize' => '1600MB');
+					PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings);
+					if($extension=='xls'){
+						$lib="Excel5";
+					}else{
+						$lib="Excel2007";
+					}
+					$objReader =  PHPExcel_IOFactory::createReader($lib);//excel2007
+					ini_set('max_execution_time', 123456);
+					//end set
+					
+					$objPHPExcel = $objReader->load($folder_aplod); 
+					$objReader->setReadDataOnly(true);
+					$nama_sheet=$objPHPExcel->getSheetNames();
+					$worksheet = $objPHPExcel->getSheet(0);
+					$array_batch_insert = array();
+					$array_batch_update = array();
+					switch($type_import){
+						case "tbl_loc":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$cek_data = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("B".$i)->getCalculatedValue()) )->row_array();
+																
+								if(empty($cek_data)){
+									$array_insert = array(
+										"location"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+										"costcenter"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+										"loc_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									);
+									array_push($array_batch_insert, $array_insert);
+								}else{
+									$array_update = array(
+										"location"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+										"costcenter"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+										"loc_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									);
+									array_push($array_batch_update, $array_update);
+								}
+							}									
+							if($array_batch_update){
+								$this->db->update_batch('tbl_loc', $array_batch_update, 'costcenter');
+							}
+						break;
+						case "tbl_emp":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue()) )->row_array();
+								$array_insert = array(
+									"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+									"employee_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+									"ssn"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									"first"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+									"last"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+									"mi"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+									"wages"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+									"ot_premium"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+									"benefits"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+									"total"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+									"class"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+									"position"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+									"budget_1"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+									"budget_2"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
+									"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+									"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
+									//"tbl_rdm_id"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
+									"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+									"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
+									"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
+								);
+								array_push($array_batch_insert, $array_insert);							
+							}									
+						break;
+						case "tbl_exp":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue()) )->row_array();
+								$array_insert = array(
+									"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+									"account"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+									"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									"amount"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+									"budget_1"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+									"budget_2"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+									"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+									//"tbl_rdm_id"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+									"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+									"budgettype"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+									"budgetchg"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+								);
+								array_push($array_batch_insert, $array_insert);	
+							}	
+						break;
+					}
+					
+					if($array_batch_insert){
+						$this->db->insert_batch($type_import, $array_batch_insert);
+					}
+					
+				}
+			break;
+			
 		}
 		
 		switch ($sts_crud){
