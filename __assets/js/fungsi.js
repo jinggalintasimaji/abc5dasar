@@ -319,6 +319,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var urlnya;
 	var urlglobal="";
 	var fitnya;
+	var pagesizeboy = 10;
 	
 	switch(modnya){
 		case "201":
@@ -677,6 +678,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_emp";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
+			pagesizeboy = 50;
 			kolom[modnya] = [	
 				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
 				{field:'first',title:'First Name',width:150, halign:'center',align:'left'},
@@ -695,10 +697,11 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_exp";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
+			pagesizeboy = 50;
 			kolom[modnya] = [	
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'account',title:'Account',width:250, halign:'center',align:'left'},
-				{field:'descript',title:'Descript',width:100, halign:'center',align:'center'},
+				{field:'account',title:'Account',width:150, halign:'center',align:'left'},
+				{field:'descript',title:'Descript',width:250, halign:'center',align:'left'},
 				{field:'amount',title:'Amount',width:100, halign:'center',align:'left'},
 				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
 				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
@@ -710,10 +713,11 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_loc";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
+			pagesizeboy = 50;
 			kolom[modnya] = [	
 				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
 				{field:'costcenter',title:'Cost Center',width:150, halign:'center',align:'left'},
-				{field:'loc_name',title:'Location Name',width:100, halign:'center',align:'center'},
+				{field:'loc_name',title:'Location Name',width:300, halign:'center',align:'left'},
 			]
 		break;
 		// End Data Reference
@@ -732,6 +736,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         url: (urlglobal == "" ? host+"home/getdata/"+urlnya : urlglobal),		
 		nowrap: true,
         singleSelect:true,
+		pageSize:pagesizeboy,
+		pageList:[10,20,30,40,50,75,100,200],
 		columns:[
             kolom[modnya]
         ],
@@ -991,7 +997,7 @@ function kumpulAction(type, p1, p2, p3){
 				$('#template').html("");
 			}else{
 				var textnya = $('#modul_reference option:selected').text();
-				var htmlnya = "<a style='text-decoration:none;' href='"+host+"home/download/"+param+"' target='_blank' >Template "+textnya+"</a>";
+				var htmlnya = "<a style='text-decoration:none;' href='"+host+"homex/download/"+param+"' target='_blank' >Template "+textnya+"</a>";
 				$('#template').html(htmlnya);
 			}
 		break;
