@@ -17,6 +17,23 @@ class mhome extends CI_Model{
 				";
 				return $this->result_query($sql,'row_array');
 			break;
+			case "tbl_model":
+				$sql = "
+					SELECT A.*,
+					CASE 
+						WHEN A.id='".($this->modeling ? $this->modeling['id'] : 0 )."' THEN 1 
+						ELSE 0
+					END AS flag
+					FROM tbl_model A				
+				";
+				if($p2!=""){
+					$where .=" AND A.id=".$p2;
+					$sql = $sql.$where;
+					return $this->result_query($sql,'row_array');
+				}
+				
+			break;
+			
 			case "menu":
 				$sql="SELECT a.tbl_menu_id,b.nama_menu 
 						FROM tbl_prev_group a
@@ -44,6 +61,45 @@ class mhome extends CI_Model{
 				
 				return $menu;	
 				
+			break;
+			case "tbl_acm_wizard":
+				$where .=" AND pid IS NULL AND tbl_model_id=".$this->modeling['id'];
+				$sql="SELECT A.*,C.cost_driver
+						FROM tbl_acm A
+						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id ".$where;
+			break;
+			case "tbl_acm_tree":
+				$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+				$result = array();
+				//echo $this->input->post('id');exit;
+				if(isset($_POST['id'])){
+					
+					
+					
+					$where .=" AND tbl_model_id = ".$this->modeling['id'];
+					$where .=" AND pid = ".$id;
+					$sql="SELECT * FROM tbl_acm ".$where;
+					$rs = $this->db->query($sql)->result_array();
+					foreach($rs as $v){
+						$node = array();
+						$node['id'] = $v['id'];
+						$node['text'] = $v['descript'];
+						$node['state'] = $this->has_child($v['id']) ? 'closed' : 'open';
+						array_push($result,$node);
+					}
+					
+				}
+				else{
+					$node = array();
+					$node['id'] = 0;
+					$node['text'] = $this->modeling['nama_model'];
+					$node['state'] = 'closed';
+					array_push($result,$node);
+				}
+				
+				
+				
+				return json_encode($result);
 			break;
 			case "tbl_acm":
 				if($p4=="edit_grid"){
@@ -204,6 +260,7 @@ class mhome extends CI_Model{
 	
 	function simpansavedata($table,$data,$sts_crud){ //$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
 		$this->db->trans_begin();
+		if(isset($data['id']))unset($data['id']);
 		switch ($table){
 			case "tbl_acm":
 				if($sts_crud=='edit'){
@@ -221,7 +278,8 @@ class mhome extends CI_Model{
 			break;
 			case "tbl_emp_act":
 				if($sts_crud=='edit'){
-					unset($data['id']);unset($data['employee_id']);
+					//unset($data['id']);
+					unset($data['employee_id']);
 					unset($data['name_na']);
 					unset($data['cost_nbr']);
 					$data['create_date']=date('Y-m-d H:i:s');
@@ -229,9 +287,24 @@ class mhome extends CI_Model{
 					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
+			case "tbl_model":
+				$data['create_date']=date('Y-m-d H:i:s');
+				$data['create_by']='Goyz';
+				if($sts_crud=='edit'){
+					//unset($data['id']);
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
+			case "tbl_acm_wizard":
+				$table='tbl_acm';
+				if($sts_crud=='edit'){
+					//unset($data['id']);
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
 			case "tbl_efx":
 				if($sts_crud=='edit'){
-					unset($data['id']);
+					
 					unset($data['account']);
 					unset($data['amount']);
 					unset($data['descript']);
@@ -242,7 +315,7 @@ class mhome extends CI_Model{
 			break;
 			case "tbl_bpd":
 				if($sts_crud=='edit'){
-					unset($data['id']);
+					//unset($data['id']);
 					unset($data['activity_code']);
 					unset($data['activity_desc']);
 					unset($data['activity_cost']);
@@ -253,7 +326,7 @@ class mhome extends CI_Model{
 			break;
 			default:
 				if($sts_crud=='edit'){
-					unset($data['id']);
+					//unset($data['id']);
 					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
@@ -270,10 +343,10 @@ class mhome extends CI_Model{
 			break;
 			case "delete":
 				$this->db->where('id',$this->input->post('id'));
-				$this->db->delete($table,$data);
+				$this->db->delete($table);
 			break;
 		}
-		
+		//echo $this->db->last_query();exit;
 		if($this->db->trans_status() == false){
 			$this->db->trans_rollback();
 			return 0;
@@ -282,5 +355,59 @@ class mhome extends CI_Model{
 		}
 		
 	}		
+	function has_child($id){
+		$rs = $this->db->get_where("tbl_acm",array('pid'=>$id))->result_array();
+		
+		return count($rs) > 0 ? true : false;
+	}
+	
+	function config_act($id_grid,$id_tree){
+		$this->db->trans_begin();
+		foreach($id_grid as $v){
+			$mst=$this->db->get_where('tbl_acm',array('id'=>$v))->row();//IDENTIFIKASI GRID;
+			$sts=0;
+			//if($id_tree!=0){//MAIN ROOT
+				$ex=$this->db->get_where('tbl_acm',array('pid'=>$id_tree))->result_array();//CEK EXIST CHILD
+				if(count($ex)>0){
+					//$sql="SELECT * FROM tbl_acm "
+					foreach($ex as $x){
+						if($x['activity_code']==$mst->activity_code){
+							$sts=1;
+						}
+					}
+					
+					if($sts==0){
+						$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+							SELECT $id_tree,tbl_model_id,descript,activity_code
+							FROM tbl_acm WHERE id=".$v;
+						$this->db->query($sql);
+					}
+					
+					
+				}
+				else{
+					$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+							SELECT $id_tree,tbl_model_id,descript,activity_code
+							FROM tbl_acm WHERE id=".$v;
+					$this->db->query($sql);
+				}
+			/*}else{
+				//$this->db->where(array('id'=>$v));
+				//$this->db->update('tbl_acm',array('pid'=>$id_tree));
+				$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+							SELECT $id_tree,tbl_model_id,descript,activity_code
+							FROM tbl_acm WHERE id=".$v;
+				$this->db->query($sql);
+			}*/
+		}
+		
+		
+		if($this->db->trans_status() == false){
+			$this->db->trans_rollback();
+			return 0;
+		} else{
+			return $this->db->trans_commit();
+		}
+	}
 		
 }

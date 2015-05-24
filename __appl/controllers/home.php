@@ -23,16 +23,33 @@ class home extends MY_Controller {
 	}
 	
 	function modul($mod,$p2="",$p3="",$p4=""){
+		//print_r($this->modeling);exit;
+		//echo $this->modeling['id'];exit;
 		
 		if($this->auth){
+			$sts_na=$this->input->post('editstatus');
+			$this->smarty->assign('sts_na' ,$sts_na);
 			switch($mod){
 				case "awal":
 					$menu=$this->get_menu();
 					$this->smarty->assign('menu',$menu);
-					$this->smarty->display('index.html');
+					return $this->smarty->display('index.html');
+				break;
+				case "model":
+					
+				
+					switch($p2){
+						case "form_100":
+							if($sts_na=='edit'){
+								$ex=$this->mhome->getdata('tbl_model','edit_grid',$this->input->post('id'));
+								//print_r($ex);
+								$this->smarty->assign('data',$ex);
+							}
+						break;
+					}
 				break;
 				case "activity_master":
-					$sts_na=$this->input->post('editstatus');
+					//$sts_na=$this->input->post('editstatus');
 					if($sts_na=='edit'){
 						$ex=$this->mhome->getdata('tbl_acm',$this->input->post('id'),'','','edit_grid');
 						//print_r($ex);
@@ -78,13 +95,9 @@ class home extends MY_Controller {
 						
 					}
 				
-					$this->smarty->assign('mod',$mod);
-					$this->smarty->assign('main',$p2);
-					$this->smarty->assign('sub_mod',$p3);
-					$this->smarty->display($mod.'/'.$p2.'.html');
 				break;
 				case "process_master":
-					$sts_na=$this->input->post('editstatus');
+					
 					if($sts_na=='edit'){
 						$ex=$this->mhome->getdata('tbl_bpm',$this->input->post('id'),'','','edit_grid');
 						//print_r($ex);
@@ -111,21 +124,12 @@ class home extends MY_Controller {
 						
 					}
 				
-					$this->smarty->assign('mod',$mod);
-					$this->smarty->assign('main',$p2);
-					$this->smarty->assign('sub_mod',$p3);
-					$this->smarty->display($mod.'/'.$p2.'.html');
-				break;
-				
-				
-				
-				default:
-					$this->smarty->assign('mod',$mod);
-					$this->smarty->assign('main',$p2);
-					$this->smarty->assign('sub_mod',$p3);
-					$this->smarty->display($mod.'/'.$p2.'.html');
 				break;
 			}
+			$this->smarty->assign('mod',$mod);
+			$this->smarty->assign('main',$p2);
+			$this->smarty->assign('sub_mod',$p3);
+			$this->smarty->display($mod.'/'.$p2.'.html');
 		}
 		else{
 			$this->index();
@@ -154,6 +158,28 @@ class home extends MY_Controller {
 		
 		//print_r($post);exit;
 		echo $this->mhome->simpansavedata($type, $post, $editstatus);
+	}
+	function set_model(){
+		$id_model=$this->input->post('id');
+		$sts=$this->input->post('status');
+		if($sts=='Y'){
+			$data=$this->mhome->getdata('tbl_model','session',$id_model);
+			$this->session->set_userdata($this->config->item('modeling'), base64_encode(serialize($data)));	
+		}
+		else{
+			$data=array('id'=>0,'nama_model'=>'NO MODEL ACTIVATE');
+			$this->session->unset_userdata($this->config->item('modeling'), 'limit');
+		}
+		echo json_encode($data);
+	}
+	
+	function config_act(){
+		$id_grid=$this->input->post('id_grid');
+		$id_tree=$this->input->post('id_tree');
+		//print_r($id_grid);exit;
+		//echo count($id_grid);
+		echo $this->mhome->config_act($id_grid,$id_tree);
+		
 	}
 	
 }

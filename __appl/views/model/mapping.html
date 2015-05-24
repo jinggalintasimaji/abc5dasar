@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="in-id" xmlns="http://www.w3.org/1999/xhtml" lang="in-id">
+<head>
+</head>
+<body>
+	<div id="step_1" style="padding:10px;margin-right:255px;">
+			<fieldset >
+				<legend>STEP-1 (Defined Activity)</legend>
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='add'>
+				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
+				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
+				<table width='100%' style='margin-bottom:20px;'>
+							<tr>
+								<td width='34%'>Activity Code</td>
+								<td width='1%'>:</td>
+								<td width='75%'>
+									<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox">
+								</td>
+							</tr>
+							<tr>
+								<td width='34%' valign="top">Description</td>
+								<td width='1%' valign="top">:</td>
+								<td width='75%'>
+									<textarea style='padding:2px;width:50%' name="descript" id="descript" rows="6">{$data.descript|default:''}</textarea>
+								</td>
+							</tr>
+						</table>
+						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next2" onClick="" style="float:right;">
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">..NEXT STEP...</span><span class="l-btn-icon icon-redo"></span>
+							</span>
+						</a> 
+				</form>
+			</fieldset>
+			<fieldset>
+			<legend>LIST ACTIVITY</legend>
+				<div id="grid_nya_{$main}">
+					<div id='grid_{$main}'></div>
+				</div>
+			</fieldset>
+		
+	</div>
+	<div id="step_2" style="display:none;">
+		
+	</div>
+	<div id="step_3" style="display:none;">
+		
+	</div>
+</body>
+</html>
+<script>
+	var model='{$model.id}';
+	$('#grid_nya_{$main}').css('height',(getClientHeight()-420));
+	genGrid('list_act','grid_{$main}');
+	
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('#clear_act').bind('click',function(){
+		clear_form('form_{$main}');
+		$('#editstatus').val('add');
+	});
+	
+	$('#simpan_act').bind('click',function(){
+		if(model==0){
+			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
+		}
+			else{
+			if ($('#form_{$main}').form('validate')){
+				loadingna();
+				submit_form('form_{$main}',function(r){
+					if(r==1){
+						winLoadingClose();
+						$.messager.alert('ABC System',"Data Was Saved",'info');
+						closeWindow();
+						$('#grid_{$main}').datagrid('reload');
+						$('#clear_act').trigger('click');
+					}
+					else{
+						winLoadingClose()
+						$.messager.alert('ABC System',"Data NOT SAVED",'error');
+						console.log(r);
+					}
+				});
+			}
+			else{
+				$.messager.alert('ABC System',"Fill In The Blank",'error');
+			}
+		}
+	});
+	$('#next2').bind('click',function(){
+		if(model==0){
+			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
+		}
+		else{
+			$('#step_2').show();
+			$('#step_1').hide();
+			$.post(host+'home/modul/model/config_act',function(r){
+				$('#step_2').html(r);
+			});
+		}
+	});
+</script>

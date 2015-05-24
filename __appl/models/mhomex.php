@@ -248,7 +248,7 @@ class mhomex extends CI_Model{
 									"class"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
 									"position"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
 									"budget_1"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-									"budget_2"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
+									"budget_2"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue() ),
 									"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
 									"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
 									//"tbl_rdm_id"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
@@ -268,7 +268,8 @@ class mhomex extends CI_Model{
 									"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
 									"amount"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
 									"budget_1"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"budget_2"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+									"budget_2"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue() ),
+									//"budget_2"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
 									"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
 									//"tbl_rdm_id"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
 									"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
@@ -282,6 +283,7 @@ class mhomex extends CI_Model{
 					
 					if($array_batch_insert){
 						$this->db->insert_batch($type_import, $array_batch_insert);
+						//echo $this->db->last_query();exit;
 					}
 					
 				}

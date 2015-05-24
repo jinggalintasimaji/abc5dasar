@@ -1,0 +1,53 @@
+<form method='post' url="{$host}home/simpansavedata/tbl_model" id="form_{$main}" enctype="multipart/form-data">
+<input type="hidden" name="editstatus" id="editstatus" value='{$sts_na}'>
+<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
+<div style="padding:10px;">
+	<fieldset>
+		<table width='100%' style='margin-bottom:20px;'>
+			<tr>
+				<td width='34%'>Model Name</td>
+				<td width='1%'>:</td>
+				<td width='75%'>
+					<input type="text" value="{$data.nama_model|default:''}" name="nama_model" id="nama_model" style='width:90%;padding:2px;' class="easyui-validatebox">
+				</td>
+			</tr>
+			<tr>
+				<td width='34%' valign="top">Description</td>
+				<td width='1%' valign="top">:</td>
+				<td width='75%'>
+					<textarea style='padding:2px;width:90%' name="deskripsi" id="deskripsi" rows="6">{$data.deskripsi|default:''}</textarea>
+				</td>
+			</tr>
+		</table>
+		{include file='template/button.html' id='simpan_model' text='Save Data' icon='save' click=''}
+		{include file='template/button.html' id='close_model' text='Close' icon='cancel' click=''}
+	</fieldset>
+</div>
+</form>
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('#close_model').bind('click',function(){
+		closeWindow();
+	});
+	$('#simpan_model').bind('click',function(){
+		if ($('#form_{$main}').form('validate')){
+			loadingna();
+			submit_form('form_{$main}',function(r){
+				if(r==1){
+					winLoadingClose();
+					$.messager.alert('ABC System',"Data Was Saved",'info');
+					closeWindow();
+					$('#grid_100').datagrid('reload');
+				}
+				else{
+					winLoadingClose()
+					$.messager.alert('ABC System',"Data NOT SAVED",'error');
+					console.log(r);
+				}
+			});
+		}
+		else{
+			$.messager.alert('ABC System',"Fill In The Blank",'error');
+		}
+	});
+</script>

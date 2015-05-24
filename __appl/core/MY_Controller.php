@@ -13,10 +13,12 @@ class MY_Controller extends CI_Controller {
 		header("Pragma: no-cache");
 		
 		$this->auth = unserialize(base64_decode($this->session->userdata($this->config->item('user_data'))));
+		$this->modeling = unserialize(base64_decode($this->session->userdata($this->config->item('modeling'))));
 		$this->host	= $this->config->item('base_url');
 		$host = $this->host;
 		$this->smarty->assign('host',$this->host);
 		$this->smarty->assign('auth', $this->auth);
+		$this->smarty->assign('model', $this->modeling);
 	}
 }
 

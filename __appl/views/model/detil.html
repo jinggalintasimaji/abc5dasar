@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="in-id" lang="in-id">
+<head>
+</head>
+<body>
+
+	<form method='post' url="{$host}home/simpansavedata/tbl_acm" id="form_{$main}" enctype="multipart/form-data">
+		<input type="hidden" name="editstatus" id="editstatus" value='{$sts}'>
+		<input type="hidden" name="activity_code" id="activity_code" value='{$act_code|default:''}'>
+		<input type="hidden" name="descript" id="descript" value='{$desc|default:''}'>
+		<input type="hidden" name="level" id="level" value='{$level|default:''}'>
+		<div style="overflow:auto;" id="isi_form">
+			<div style="float:left;width:49%;margin-right:5px;">
+			<fieldset>
+				<table width='100%' style='margin-bottom:20px;'>
+					
+					<tr>
+						<td width='34%'>Activity Center</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_1|default:''}" name="udf_attr_1" id="udf_attr_1" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_2|default:''}" name="udf_attr_2" id="udf_attr_2" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_3|default:''}" name="udf_attr_3" id="udf_attr_3" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_4|default:''}" name="udf_attr_4" id="udf_attr_4" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_5|default:''}" name="udf_attr_5" id="udf_attr_5" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_6|default:''}" name="udf_attr_6" id="udf_attr_6" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_7|default:''}" name="udf_attr_7" id="udf_attr_7" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_8|default:''}" name="udf_attr_8" id="udf_attr_8" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'></td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type="text" value="{$data.udf_attr_9|default:''}" name="udf_attr_9" id="udf_attr_9" style='width:90%;padding:2px;' class="easyui-validatebox">
+						</td>
+					</tr>
+					
+					
+					<tr>
+						<td width='34%'>&nbsp;</td>
+						<td width='1%'></td>
+						<td width='75%'>
+							
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'>&nbsp;</td>
+						<td width='1%'></td>
+						<td width='75%'>
+							
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'>&nbsp;</td>
+						<td width='1%'></td>
+						<td width='75%'>
+							
+						</td>
+					</tr>
+					<tr>
+						<td width='34%'>&nbsp;</td>
+						<td width='1%'></td>
+						<td width='75%'>
+							
+						</td>
+					</tr>
+					
+				</table>
+				
+				<fieldset>
+					<table width='100%' style='margin-bottom:20px;'>
+						<tr>
+							<td width='34%'>Total Cost</td>
+							<td width='1%'>:</td>
+							<td width='75%'>
+								<input type="text" value="{$data.val_cost|default:0}" name="val_cost" id="val_cost" style='width:90%;padding:2px;' class="angka easyui-validatebox" data-options="min:0,precision:2">
+							</td>
+						</tr>
+						<tr>
+							<td width='34%'>Scenario Change</td>
+							<td width='1%'>:</td>
+							<td width='75%'>
+								<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="easyui-validatebox" placeholder="belum tau mapping nya">
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</fieldset>
+			
+			
+			
+			</div>
+			
+			<div style="float:left;width:50%">
+			<fieldset>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td >Value Add</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.value_add|default:0}" name="value_add" id="value_add" style='width:90%;padding:2px;' class="angka easyui-validatebox">
+						</td>
+						<td >Head Count</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.head_count|default:0}" name="head_count" id="head_count" style='width:90%;padding:2px;' class="angka easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td >Budget Type</td>
+						<td width='1%'>:</td>
+						<td >
+							<select name="budgettype" id="budgettype" style='width:95%;padding:2px;' class="easyui-validatebox">
+								<option value="fixed">fixed</option>
+							</select>
+						</td>
+						<td >FTE</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.fte|default:0}" name="fte" id="fte" style='width:90%;padding:2px;' class="angka easyui-validatebox">
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			
+			<fieldset>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td colspan="6" align="center" >Activity Driver</td>
+					</tr>
+					<tr>
+						<td >Driver</td>
+						<td width='1%'>:</td>
+						<td colspan="4">
+							<select name="tbl_cdm_id" id="tbl_cdm_id" style='width:97%;padding:2px;' class="easyui-validatebox">{$tbl_cdm_id|default:''}</select>
+						</td>
+						
+					</tr>
+					<tr>
+						<td >Quantity</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.quantity|default:0}" name="quantity" id="quantity" style='padding:2px;' class="angka easyui-validatebox">
+						</td>
+						<td >Rate</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.rate_1|default:0}" name="rate_1" id="rate_1" style='padding:2px;' class="angka easyui-validatebox">
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			
+			<fieldset>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td colspan="6" align="center" >Capacity</td>
+					</tr>
+					<tr>
+						<td >Capacity</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.capacity|default:0}" name="capacity" id="capacity" style='width:90%;padding:2px;' class="angka easyui-validatebox">
+						</td>
+						<td >Rate</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.rate_2|default:0}" name="rate_2" id="rate_2" style='width:90%;padding:2px;' class="angka easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td >%Uttilized</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="angka easyui-validatebox" placeholder="belum tau mapping nya">
+						</td>
+						<td >Excess $</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="" name="" id="" style='width:90%;padding:2px;' class="angka easyui-validatebox" placeholder="belum tau mapping nya">
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			
+			<fieldset>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td colspan="6" align="center" >Resource Driver</td>
+					</tr>
+					<tr>
+						<td >Driver</td>
+						<td width='1%'>:</td>
+						<td colspan="4">
+							<select name="tbl_rdm_id" id="tbl_rdm_id" style='width:97%;padding:2px;' class="easyui-validatebox">{$tbl_rdm_id|default:''}</select>
+						</td>
+						
+					</tr>
+					<tr>
+						<td >Quantity</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.rd_tot_qty|default:0}" name="rd_tot_qty" id="rd_tot_qty" style='padding:2px;' class="angka easyui-validatebox">
+						</td>
+						<td >Rate</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.budget_rate|default:0}" name="budget_rate" id="budget_rate" style='padding:2px;' class="angka easyui-validatebox">
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			
+			</div>
+			
+			
+			
+		</div>
+		{include file='template/button.html' id='simpan_detil_acm' text='Save Data' icon='save' click=''}
+		{include file='template/button.html' id='clear_detil_acm' text='Clear Data' icon='cancel' click=''}
+	</form>
+</body>
+</html>
+<script>
+	$('#isi_form').css('height',getClientHeight()-265);
+	
+	$('.angka').numberbox({
+		min:0,
+		precision:2
+	});	
+	
+	$('#simpan_detil_acm').bind('click',function(){
+		if($('#par_1').val()!='' && $('#par_2').val()!='' && $('#par_3').val()!=''){
+		loadingna();
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose()
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+		}
+		else{
+			$.messager.alert('ABC System',"Activity, Description and Level Not Blank",'error');
+		}
+	});
+	
+	$('#clear_detil_acm').bind('click',function(){
+		clear_form('form_{$main}');
+	});
+</script>

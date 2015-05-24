@@ -46,6 +46,7 @@ class Login extends MY_Controller {
 	
 	function logout(){
 		$this->session->unset_userdata($this->config->item('user_data'), 'limit');
+		$this->session->unset_userdata($this->config->item('modeling'), 'limit');
 		$this->session->sess_destroy();
 		header("Location: " . $this->host);
 	}

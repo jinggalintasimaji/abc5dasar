@@ -338,6 +338,44 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'nonvalcost',title:'Non Value',width:100, halign:'right',align:'right'}
 			];
 		break;
+		case "list_act":
+			judulnya = "Activity Master";
+			urlnya = "tbl_acm_wizard";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'activity_code',title:'Activity',width:150, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:450, halign:'center',align:'left'}
+			];
+		break;
+		case "list_act_2":
+			judulnya = "Activity Master";
+			urlnya = "tbl_acm_wizard";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'activity_code',title:'Activity',width:120, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:150, halign:'center',align:'left'}
+			];
+		break;
+		case "100":
+			judulnya = "Model Activity";
+			urlnya = "tbl_model";
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'nama_model',title:'Model Name',width:250, halign:'center',align:'left'},
+				{field:'deskripsi',title:'Description',width:300, halign:'center',align:'left'},
+				{field:'create_date',title:'Create Date',width:140, halign:'center',align:'center'},
+				{field:'flag',title:'Set Active',width:150, halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						if(value==0){
+							return '<a class="no" href="javascript:void(0)" onClick="aktif_non(\''+rowData.id+'\',\'Y\')" style="">Set Aktif</a>';
+						}
+						else{
+							return '<a class="yes" href="javascript:void(0)" onClick="aktif_non(\''+rowData.id+'\',\'N\')" style="">Set Non Aktif</a>';
+						}
+					}
+				},
+			];
+		break;
 		case "mst_employees":
 			judulnya = "";
 			urlnya = "tbl_emp";
@@ -741,6 +779,25 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		columns:[
             kolom[modnya]
         ],
+		onLoadSuccess:function(d){
+			//gridVRList.datagrid('selectRow', 0);
+			$('.yes').linkbutton({  
+					iconCls: 'icon-cancel'  
+			});
+			$('.no').linkbutton({  
+					iconCls: 'icon-ok'  
+			});
+			
+			
+		},
+		onClickRow:function(rowIndex,rowData){
+          if(modnya=='list_act'){
+			  $('#id').val(rowData.id);
+			  $('#activity_code').val(rowData.activity_code);
+			  $('#descript').val(rowData.descript);
+			  $('#editstatus').val('edit');
+		  }
+        },
 		toolbar: '#tb_'+modnya,
 	});
 }
@@ -798,6 +855,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="tbl_loc";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
+		case "100":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-380;
+			var judulwindow = 'Form Data Model';
+			var table="tbl_model";
+			urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya;
+		break;
 		//Data Reference
 		
 	}
@@ -845,20 +909,20 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 						$.post(urldelete, {id:row.id,'editstatus':'delete'}, function(r){
 							if(r==1){
 								winLoadingClose();
-								$.messager.alert('ABC System',"Row Data Telah TerHapus",'info');
+								$.messager.alert('ABC System',"Row Data Was Deleted",'info');
 								$('#grid_'+submodulnya).datagrid('reload');
 							}
 							else{
 								winLoadingClose();
 								console.log(r)
-								$.messager.alert('ABC System',"Row Data Gagal DiHapus",'error');
+								$.messager.alert('ABC System',"Failed",'error');
 							}
 						});	
 					}
 				}
 			}
 			else{
-				$.messager.alert('ABC System',"Pilih Row Data Dalam Grid",'error');
+				$.messager.alert('ABC System',"Select Row In Grid",'error');
 			}
 		break;
 	}
@@ -1098,4 +1162,19 @@ function transfer_data(from,to,grid_id_from,grid_id_to){
 			$.messager.alert('ABC System',"Please Select List",'error');
 		}
 	
+}
+function aktif_non(id,sts){
+	loadingna();
+		$.post(host+'home/set_model',{id:id,status:sts},function(r){
+			var resp=JSON.parse(r);
+			//if(r==1){
+					$("#grid_100").datagrid('reload');
+					//console.log(resp.id);
+					$('#model_na').html(resp.nama_model.toUpperCase());
+					winLoadingClose();
+			//}
+			//else{
+				//alert(r);winLoadingClose();	
+			//}
+		});
 }

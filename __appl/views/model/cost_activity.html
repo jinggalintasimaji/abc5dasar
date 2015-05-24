@@ -1,0 +1,27 @@
+<div id="panel_{$main}" style="padding:5px;">
+	<div id="tab_{$main}"></div><br>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next4" onClick="" style="float:right;">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">..FINISH STEP...</span><span class="l-btn-icon icon-redo"></span>
+		</span>
+	</a> &nbsp;&nbsp;&nbsp;
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="back3" onClick="" style="float:right;">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">..BACK STEP...</span><span class="l-btn-icon icon-undo"></span>
+		</span>
+	</a> 
+</div>
+
+<script>
+	var tab_array=["Detil","Employees","Expenses"];
+	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul');
+	
+	$('#back3').bind('click',function(){
+		$('#step_3').hide();
+		$('#step_2').show();
+	});
+	$('#next4').bind('click',function(){
+		$('#step_3').hide();
+		$('#step_1').show();
+	});
+</script>

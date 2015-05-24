@@ -1,0 +1,38 @@
+<div style='float:left;width:50%;margin-right:5px;margin-bottom:10px;'>
+	<div id='master_employee'></div>
+</div>
+<div style='float:left;width:45%'>
+	<br/>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_emp" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_undo"></span>
+		</span>
+	</a> 
+	<br/>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_emp" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_redo"></span>
+		</span>
+	</a>
+</div>
+
+<div style='float:left;width:100%;height:133%;'>
+	<div id='tabel_employees'></div>
+</div>
+
+
+<script>
+	genGrid('mst_employees','master_employee', 500, 160);
+	genGridEditable('tbl_employees','tabel_employees', 500, 600,'tbl_emp_act');
+	
+	$('#tranfer_emp').bind('click',function(r){
+		transfer_data('tbl_emp','tbl_emp_act','master_employee','tabel_employees');
+		//console.log()
+	});
+	$('#remove_emp').bind('click',function(r){
+		transfer_data('tbl_emp_act','tbl_emp','tabel_employees','tabel_employees');
+		//console.log()
+	});
+</script>
