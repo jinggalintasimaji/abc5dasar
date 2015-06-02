@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-05-24 13:47:49
+Date: 2015-06-02 18:43:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -190,15 +190,15 @@ CREATE TABLE `tbl_acm` (
   `tahun` int(11) DEFAULT NULL,
   `activity_code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm
 -- ----------------------------
-INSERT INTO `tbl_acm` VALUES ('34', null, '1', null, 'TESTINGGG', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-001');
-INSERT INTO `tbl_acm` VALUES ('35', null, '1', null, 'TES 2', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-002');
-INSERT INTO `tbl_acm` VALUES ('36', '0', '1', null, 'TESTINGGG', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-001');
-INSERT INTO `tbl_acm` VALUES ('37', '0', '1', null, 'TES 2', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-002');
+INSERT INTO `tbl_acm` VALUES ('1', '0', '1', '1', 'Tes 1', '0', '0', 'TESSSSSS', null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, null, '0', null, null, '0', '0', null, null, null, '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '0', null, '0', null, null, null, null, null, null, 'fixed', null, null, null, null, null, null, null, null, null, null, null, 'X-001');
+INSERT INTO `tbl_acm` VALUES ('2', '0', '1', null, 'Tes 2', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-002');
+INSERT INTO `tbl_acm` VALUES ('3', '0', '1', null, 'Tes 3', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-003');
+INSERT INTO `tbl_acm` VALUES ('5', '1', '1', null, 'Tes 4', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'X-004');
 
 -- ----------------------------
 -- Table structure for `tbl_are`
@@ -216,14 +216,27 @@ CREATE TABLE `tbl_are` (
   `cost` float DEFAULT NULL,
   `rd_qty` float DEFAULT NULL,
   `tbl_rdm_id` bigint(20) DEFAULT NULL,
-  `budget_type` int(11) DEFAULT NULL,
+  `budget_type` varchar(100) DEFAULT NULL,
+  `cost_type` varchar(100) DEFAULT NULL,
   `coefficient` int(11) DEFAULT NULL,
+  `bulan` int(11) DEFAULT NULL,
+  `tahun` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `create_by` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_are
 -- ----------------------------
+INSERT INTO `tbl_are` VALUES ('4', null, '1', '1', null, null, '20', null, null, '0', null, 'Fixed', 'Fixed', null, '6', '2015', '2015-06-02 08:32:56', 'Goyz');
+INSERT INTO `tbl_are` VALUES ('5', null, '1', '2', null, null, '20', null, null, null, null, null, null, null, '6', '2015', '2015-06-02 08:32:58', 'Goyz');
+INSERT INTO `tbl_are` VALUES ('6', null, '1', '20', null, null, '30', null, null, null, null, null, null, null, '6', '2015', '2015-06-02 08:33:02', 'Goyz');
+INSERT INTO `tbl_are` VALUES ('14', null, '1', '9', null, null, '10', null, null, '0', null, 'Fixed', 'Fixed', null, '6', '2015', null, null);
+INSERT INTO `tbl_are` VALUES ('15', null, '1', '8', null, null, '0', null, null, '100', null, 'Fixed', 'Fixed', null, '6', '2015', null, null);
+INSERT INTO `tbl_are` VALUES ('16', null, '5', '9', null, null, '10', null, null, '0', null, 'Fixed', 'Fixed', null, '6', '2015', null, null);
+INSERT INTO `tbl_are` VALUES ('17', null, '5', '8', null, null, '0', null, null, '100', null, 'Fixed', 'Fixed', null, '6', '2015', null, null);
+INSERT INTO `tbl_are` VALUES ('18', null, '5', '1', null, null, '20', null, null, '0', null, 'Fixed', 'Fixed', null, '6', '2015', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -320,6 +333,7 @@ CREATE TABLE `tbl_bpm` (
 -- Records of tbl_bpm
 -- ----------------------------
 INSERT INTO `tbl_bpm` VALUES ('2', '002', null, 'Tes 2', '2.00', null, null, '10', '100', null, null, null, null, null, null, null, null, null, null, 'xxx', 'Tus', 'Tas', 'Tis', '10', null, null, null, null, '20', null, '100', null);
+INSERT INTO `tbl_bpm` VALUES ('3', '002', null, 'Tes 2gg', '2.00', null, null, '10', '100', null, null, null, null, null, null, null, null, null, null, 'xxx', 'Tus', 'Tas', 'Tis', '10', null, null, null, null, '20', null, '100', null);
 
 -- ----------------------------
 -- Table structure for `tbl_cdm`
@@ -372,7 +386,7 @@ CREATE TABLE `tbl_efx` (
 -- ----------------------------
 -- Records of tbl_efx
 -- ----------------------------
-INSERT INTO `tbl_efx` VALUES ('1', '1', null, '10', '100', null, null, null, null, null, null, null, 'xx1', null, null);
+INSERT INTO `tbl_efx` VALUES ('1', '1', null, '10', '100', null, null, null, null, null, null, null, 'xx1', 'Fixed', 'Fixed');
 
 -- ----------------------------
 -- Table structure for `tbl_emp`
@@ -1607,7 +1621,7 @@ CREATE TABLE `tbl_emp_act` (
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_emp_act
@@ -1616,6 +1630,7 @@ INSERT INTO `tbl_emp_act` VALUES ('4', '1', '3', 'tesss', '8', '100', 'Fixed', '
 INSERT INTO `tbl_emp_act` VALUES ('5', '3', '3', 'XXX', null, null, null, null, null, null, '2015-05-14 09:57:35', 'Goyz');
 INSERT INTO `tbl_emp_act` VALUES ('6', '4', '3', 'GG', null, null, null, null, null, null, '2015-05-14 09:57:40', 'Goyz');
 INSERT INTO `tbl_emp_act` VALUES ('7', '1', '4', 'tesss', '8', '100', 'Fixed', 'Fixed', '0', '0', '2015-05-14 08:32:18', 'Goyz');
+INSERT INTO `tbl_emp_act` VALUES ('8', '1', null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_exp`
@@ -2789,8 +2804,8 @@ INSERT INTO `tbl_menu` VALUES ('501', '2', 'c', 'Data Item Master', 'home/modul/
 INSERT INTO `tbl_menu` VALUES ('601', '6', 'C', 'Activity', 'home/modul/report/main/601', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('602', '6', 'C', 'Activity Attributes', 'home/modul/report/main/602', 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('603', '6', 'C', 'Activity Driver', 'home/modul/report/main/603', 'icon-group', '1', null);
-INSERT INTO `tbl_menu` VALUES ('701', '7', 'C', 'User Management', 'home/modul/setting/200', 'icon-group', '1', 'tbl_user');
-INSERT INTO `tbl_menu` VALUES ('702', '7', 'C', 'User Group', 'home/modul/setting/201', 'icon-group', '1', 'cl_user_group');
+INSERT INTO `tbl_menu` VALUES ('701', '7', 'C', 'User Management', 'homex/modul/setting/701', 'icon-group', '1', 'tbl_user');
+INSERT INTO `tbl_menu` VALUES ('702', '7', 'C', 'User Group', 'homex/modul/setting/702', 'icon-group', '1', 'cl_user_group');
 INSERT INTO `tbl_menu` VALUES ('801', '8', 'C', 'Data Reference', 'home/modul/reference/main/801', 'icon-group', '1', null);
 
 -- ----------------------------
@@ -2804,12 +2819,12 @@ CREATE TABLE `tbl_model` (
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_model
 -- ----------------------------
-INSERT INTO `tbl_model` VALUES ('1', 'Model Tester', 'Testing Ajalah', '2015-05-22 09:13:48', 'Goyz');
+INSERT INTO `tbl_model` VALUES ('1', 'Model Tester', 'Testing Ajx', '2015-05-29 09:55:43', 'Goyz');
 INSERT INTO `tbl_model` VALUES ('2', 'Model Tester 2', 'Testing Kedua Coy xxx', '2015-05-22 06:20:21', 'Goyz');
 
 -- ----------------------------

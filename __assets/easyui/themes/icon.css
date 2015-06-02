@@ -134,6 +134,9 @@
 .fuel{
 	background:url('icons/fuel.png') no-repeat center center;
 }
+.icon-download{
+	background:url('icons/download.png') no-repeat center center;
+}
 .provinsi{
 	background:url('icons/zone.png') no-repeat center center;
 }

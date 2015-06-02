@@ -36,8 +36,6 @@ class home extends MY_Controller {
 					return $this->smarty->display('index.html');
 				break;
 				case "model":
-					
-				
 					switch($p2){
 						case "form_100":
 							if($sts_na=='edit'){
@@ -45,6 +43,45 @@ class home extends MY_Controller {
 								//print_r($ex);
 								$this->smarty->assign('data',$ex);
 							}
+						break;
+						case "cost_activity":
+							$id_act=$this->input->post('id_act');
+							$ex=$this->db->get_where('tbl_acm',array('id'=>$id_act,'tbl_model_id'=>$this->modeling['id']))->row();
+							$this->smarty->assign('data',$ex);
+						break;
+						case "detil":
+						case "advance":
+								$sts='edit';
+								$id_act=$this->input->post('par_1');
+								//$desc=$this->input->post('par_2');
+								//$level=$this->input->post('par_3');
+								
+								//$this->smarty->assign('level',$level);
+								//$this->smarty->assign('act_code',$act_code);
+								//$this->smarty->assign('desc',$desc);
+								//if($act_code!="" and $desc!="" && $level!='' ){
+									$ex=$this->db->get_where('tbl_acm',array('id'=>$id_act,'tbl_model_id'=>$this->modeling['id']))->row();
+									//if(isset($ex['id']) && $ex['id']!=''){
+										$this->smarty->assign('data',$ex);
+										$this->smarty->assign('id_act',$id_act);
+									//}
+								//}
+								
+								
+								$this->smarty->assign('sts' ,$sts);
+								if($sts=='edit'){
+									if(isset($ex->tbl_rdm_id)){
+										$this->smarty->assign('tbl_rdm_id' ,$this->lib->fillcombo('tbl_rdm', 'return',$ex->tbl_rdm_id));
+									}else{$this->smarty->assign('tbl_rdm_id' ,$this->lib->fillcombo('tbl_rdm', 'return'));}
+									if(isset($ex->tbl_rdm_id)){
+										$this->smarty->assign('tbl_cdm_id' ,$this->lib->fillcombo('tbl_cdm', 'return',$ex->tbl_rdm_id));
+									}else{$this->smarty->assign('tbl_cdm_id' ,$this->lib->fillcombo('tbl_cdm', 'return'));}
+								}
+								else{
+									$this->smarty->assign('tbl_rdm_id' ,$this->lib->fillcombo('tbl_rdm', 'return'));
+									$this->smarty->assign('tbl_cdm_id' ,$this->lib->fillcombo('tbl_cdm', 'return'));
+								}
+							
 						break;
 					}
 				break;
@@ -180,6 +217,17 @@ class home extends MY_Controller {
 		//echo count($id_grid);
 		echo $this->mhome->config_act($id_grid,$id_tree);
 		
+	}
+	function import_data($p1,$p2,$obj='',$nama_file=''){
+		echo $this->mhome->crud_file($p1,$p2,$obj,$nama_file);
+		
+	}
+	function download_na($p1){
+		//echo 1;
+		$this->load->helper('download');
+		$data = file_get_contents("__repository/template_import/".$p1.".xlsx");
+		//echo $data;
+		force_download('Template.xlsx', $data);
 	}
 	
 }

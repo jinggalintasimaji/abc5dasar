@@ -134,6 +134,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 	var frozen ={};
 	var judulnya;
 	var urlnya;
+	var param={};
 	var url_crud=host+"home/simpansavedata/"+crud_table;
 	var fitnya;
 	switch (modnya){
@@ -194,7 +195,67 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 					editor:{type:'numberbox',options:{value:0}}
 				},
 			]
-		break;	
+		break;
+		case "tbl_are_emp":
+			judulnya = "";
+			urlnya = "tbl_are/"+$('#id_activity').val();
+			fitnya = true;
+			param['bulan']=$('#bulan_emp').val();
+			param['tahun']=$('#tahun_emp').val();
+			kolom[modnya] = [	
+				{field:'cost_desc',title:'Cost Center',width:100, halign:'center',align:'left',
+					editor:{type:'validatebox',options:{}}
+				},
+				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
+				{field:'name_na',title:'Employee Name',width:180, halign:'center',align:'left'},
+				{field:'wages',title:'Cost',width:100, halign:'center',align:'right'},
+				{field:'percent',title:'%',width:50, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{precision:1,value:0,min:0,max:100}}
+				},
+				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{ value:0 }}
+				},
+				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'right',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                          // method:'get',
+                          // url:'products.json',
+                          // required:true
+                       }
+                    }
+				},
+				{field:'budget_type',title:'Budget',width:100, halign:'center',align:'right',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                          // method:'get',
+                          // url:'products.json',
+                          // required:true
+                       }
+                    }
+				},
+				/*{field:'input_rate',title:'Input Rate',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'output_rate',title:'Output Rate',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},*/
+				{field:'total_cost',title:'Total Cost',width:80, halign:'center',align:'right'}
+			]
+		break;			
 		case "tbl_expenses":
 			judulnya = "";
 			urlnya = "tbl_efx";
@@ -291,6 +352,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
         destroyUrl: url_crud+'/delete',
 		nowrap: true,
         singleSelect:true,
+		queryParams:param,
 		columns:[
             kolom[modnya]
         ],
@@ -299,7 +361,16 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 				text:'Save',
 				iconCls:'icon-save',
 				handler:function(){
+					var sts;
 					$("#"+divnya).edatagrid('saveRow');
+					$("#"+divnya).edatagrid('reload');
+					/*if(sts==1){
+						$("#"+divnya).edatagrid('reload');
+					}
+					else{
+						console.log(sts);
+						$.messager.alert('ABC System',"Failed Saved",'error');
+					}*/
 				}
 			},'-'
 		],
@@ -1003,6 +1074,9 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 						par['par_2']=$('#par_2').val();
 						par['par_3']=$('#par_3').val();
 					break;
+					case "model":
+						par['par_1']=$('#id_activity').val();
+					break;
 					case "process_master":
 						par['par_1']=$('#par_1').val();
 						par['par_2']=$('#par_2').val();
@@ -1121,8 +1195,20 @@ function transfer_data(from,to,grid_id_from,grid_id_to){
 					post['editstatus']='add';
 					post['tbl_emp_id']=row.id;
 				break;
+				case "tbl_are":
+					post['editstatus']='add';
+					post['tbl_emp_id']=row.id;
+					post['tbl_acm_id']=$('#id_activity').val();
+					post['bulan']=$('#bulan_emp').val();
+					post['tahun']=$('#tahun_emp').val();
+				break;
 				case "tbl_emp":
 					to="tbl_emp_act";
+					post['editstatus']='delete';
+					post['id']=row.id;
+				break;
+				case "tbl_are_emp":
+					to="tbl_are";
 					post['editstatus']='delete';
 					post['id']=row.id;
 				break;

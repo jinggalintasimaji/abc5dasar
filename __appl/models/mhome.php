@@ -63,7 +63,10 @@ class mhome extends CI_Model{
 				
 			break;
 			case "tbl_acm_wizard":
-				$where .=" AND pid IS NULL AND tbl_model_id=".$this->modeling['id'];
+				$where .=" AND tbl_model_id=".$this->modeling['id'];
+				if($p1=='config'){
+					$where .=" AND pid IS NULL";
+				}
 				$sql="SELECT A.*,C.cost_driver
 						FROM tbl_acm A
 						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id ".$where;
@@ -138,6 +141,24 @@ class mhome extends CI_Model{
 						FROM tbl_emp_act A 
 						LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
 						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id ";
+			break;
+			case "tbl_are":
+
+				if($p1!=""){
+					$where .=" AND A.tbl_acm_id=".$p1;
+				}
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				
+				$sql="SELECT A.*,B.employee_id,CONCAT(B.first,B.last)as name_na,B.wages,D.costcenter as cost_desc,
+						CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN (B.wages/A.rd_qty) 
+						ELSE (B.wages * A.percent)/100 
+						END AS total_cost
+						FROM tbl_are A 
+						LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+						LEFT JOIN tbl_loc D ON B.tbl_loc_id=D.id ".$where;
 			break;
 			case "tbl_cdm":
 				$sql="SELECT A.*
@@ -269,6 +290,13 @@ class mhome extends CI_Model{
 					else{$sts_crud='add';}
 				}
 			break;
+			case "tbl_acm_costing":
+				$table='tbl_acm';
+				if($sts_crud=='edit'){
+					unset($data['id_act_na']);
+					$array_where=array('id'=>$this->input->post('id_act_na'));
+				}
+			break;
 			case "tbl_bpm":
 				if($sts_crud=='edit'){
 					$exist=$this->db->get_where('tbl_bpm',array('process'=>$data['process'],'descript'=>$data['descript']))->result_array();
@@ -282,6 +310,19 @@ class mhome extends CI_Model{
 					unset($data['employee_id']);
 					unset($data['name_na']);
 					unset($data['cost_nbr']);
+					$data['create_date']=date('Y-m-d H:i:s');
+					$data['create_by']='Goyz';
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
+			case "tbl_are":
+				if($sts_crud=='edit'){
+					//unset($data['id']);
+					unset($data['employee_id']);
+					unset($data['name_na']);
+					unset($data['wages']);
+					unset($data['cost_desc']);
+					unset($data['total_cost']);
 					$data['create_date']=date('Y-m-d H:i:s');
 					$data['create_by']='Goyz';
 					$array_where=array('id'=>$this->input->post('id'));
@@ -364,10 +405,10 @@ class mhome extends CI_Model{
 	function config_act($id_grid,$id_tree){
 		$this->db->trans_begin();
 		foreach($id_grid as $v){
-			$mst=$this->db->get_where('tbl_acm',array('id'=>$v))->row();//IDENTIFIKASI GRID;
+			$mst=$this->db->get_where('tbl_acm',array('id'=>$v,'tbl_model_id'=>$this->modeling['id']))->row();//IDENTIFIKASI GRID;
 			$sts=0;
 			//if($id_tree!=0){//MAIN ROOT
-				$ex=$this->db->get_where('tbl_acm',array('pid'=>$id_tree))->result_array();//CEK EXIST CHILD
+				$ex=$this->db->get_where('tbl_acm',array('pid'=>$id_tree,'tbl_model_id'=>$this->modeling['id']))->result_array();//CEK EXIST CHILD
 				if(count($ex)>0){
 					//$sql="SELECT * FROM tbl_acm "
 					foreach($ex as $x){
@@ -377,19 +418,25 @@ class mhome extends CI_Model{
 					}
 					
 					if($sts==0){
-						$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+						/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
 							SELECT $id_tree,tbl_model_id,descript,activity_code
 							FROM tbl_acm WHERE id=".$v;
 						$this->db->query($sql);
+						*/
+						$this->db->where(array('id'=>$v));
+						$this->db->update('tbl_acm',array('pid'=>$id_tree));
 					}
 					
 					
 				}
 				else{
-					$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+					/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
 							SELECT $id_tree,tbl_model_id,descript,activity_code
 							FROM tbl_acm WHERE id=".$v;
 					$this->db->query($sql);
+					*/
+					$this->db->where(array('id'=>$v));
+					$this->db->update('tbl_acm',array('pid'=>$id_tree));
 				}
 			/*}else{
 				//$this->db->where(array('id'=>$v));
@@ -408,6 +455,91 @@ class mhome extends CI_Model{
 		} else{
 			return $this->db->trans_commit();
 		}
+	}
+	
+	function crud_file($p1,$p2,$obj='',$nama_file=''){
+		if($p1=='upload'){
+		$this->db->trans_begin();
+		
+		$this->load->library("PHPExcel");
+		$this->load->library('lib');
+		$path="__repository/tmp_upload/";
+		
+		//$obj="file_are";
+		//$nama_file="temp_are";
+		$file_name=$this->lib->uploadnong($path,$obj,$nama_file);
+		$folder_aplod = $path.$file_name;
+		
+		$ext = explode('.',$_FILES[$obj]['name']);
+		$exttemp = sizeof($ext) - 1;
+		$extension = $ext[$exttemp];
+		
+		//set php excel settings
+		$cacheMethod   = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
+		$cacheSettings = array('memoryCacheSize' => '1600MB');
+		PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings);
+		if($extension=='xls'){
+			$lib="Excel5";
+		}else{
+			$lib="Excel2007";
+		}
+		$objReader =  PHPExcel_IOFactory::createReader($lib);//excel2007
+		ini_set('max_execution_time', 123456);
+		//end set
+		
+		$objPHPExcel = $objReader->load($folder_aplod); 
+		$objReader->setReadDataOnly(true);
+		$nama_sheet=$objPHPExcel->getSheetNames();
+		$worksheet = $objPHPExcel->getSheet(0);
+		
+		$bulan=$this->input->post('bulan_empMonth');
+		$tahun=$this->input->post('tahun_empYear');
+		$act_id=$this->input->post('act_id');
+		
+		switch($p2){
+			case "are_emp":
+				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
+					
+					$get_emp_id=$this->db->get_where('tbl_emp',array('employee_id'=>$worksheet->getCell("D".$i)->getCalculatedValue()))->row_array();
+					if(!empty($get_emp_id)){
+						$array_na = array(
+								"tbl_acm_id"=>$act_id,
+								"tbl_emp_id"=>$get_emp_id['id'],
+								"percent"=>($worksheet->getCell("G".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("G".$i)->getCalculatedValue()),
+								"rd_qty"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue()),
+								"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+								"budget_type"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+								"bulan"=>$bulan,
+								"tahun"=>$tahun,
+						);
+						$cek_data = $this->db->get_where('tbl_are', array('bulan'=>$bulan,'tahun'=>$tahun,'tbl_acm_id'=>$act_id,'tbl_emp_id'=>$get_emp_id['id']))->row_array();						
+						if(empty($cek_data)){
+							$this->db->insert('tbl_are',$array_na);
+						}else{
+							$this->db->where('id',$cek_data['id']);
+							$this->db->update('tbl_are',$array_na);
+						}
+					}
+					
+				}									
+			break;
+		}
+		
+		if($this->db->trans_status() == false){
+			$this->db->trans_rollback();
+			return 0;
+		} else{
+			return $this->db->trans_commit();
+		}
+		
+		}
+		
+		else{
+			$this->load->helper('download');
+			$data = file_get_contents("__repository/template_import/".$p2.".xlsx");
+			force_download('Template', $data);
+		}
+		
 	}
 		
 }

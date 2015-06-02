@@ -1,4 +1,11 @@
 <div id="panel_{$main}" style="padding:5px;">
+	<fieldset>
+			<div style="margin-left:10%">
+			<label>Activity</label> : <span style='width:10%;padding:2px;margin-right:10%;' >{$data->activity_code|default:''}</span><input type="hidden" value="{$data->id|default:''}" name="id_activity" id="id_activity" style='width:10%;padding:2px;' class="easyui-validatebox">&nbsp;&nbsp;
+			<label>Description</label> : <span style='width:30%;padding:2px;margin-right:10%;' >{$data->descript|default:''}</span>&nbsp;&nbsp;
+			<label>Level</label> : <span style='width:2%;padding:2px;' >{$data->level|default:''}</span>
+			</div>
+	</fieldset>
 	<div id="tab_{$main}"></div><br>
 	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next4" onClick="" style="float:right;">
 		<span class="l-btn-left l-btn-icon-left">
@@ -14,7 +21,7 @@
 
 <script>
 	var tab_array=["Detil","Employees","Expenses"];
-	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul');
+	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul','',getClientHeight()-100,getClientHeight()-250);
 	
 	$('#back3').bind('click',function(){
 		$('#step_3').hide();

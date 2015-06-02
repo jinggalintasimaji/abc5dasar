@@ -75,7 +75,7 @@ $('#panel_tree').panel({
         striped:true,
         pagination:true,
         remoteSort: false,
-        url: host+"home/getdata/tbl_acm_wizard",		
+        url: host+"home/getdata/tbl_acm_wizard/config",		
 		nowrap: true,
         singleSelect:false,
 		//pageSize:10,
@@ -113,6 +113,7 @@ $('#panel_tree').panel({
 					if(r==1){
 						//console.log(r);
 						tree_act.tree('reload');
+						grid_act.datagrid('reload');
 					}
 					else{
 						console.log(r);
@@ -140,7 +141,7 @@ $('#panel_tree').panel({
 		if(select_tree){
 			$('#step_2').hide();
 			$('#step_3').show();
-			$.post(host+'home/modul/model/cost_activity/act_wizard',function(r){
+			$.post(host+'home/modul/model/cost_activity/act_wizard',{ id_act:select_tree.id },function(r){
 				$('#step_3').html(r);
 			});
 		}
