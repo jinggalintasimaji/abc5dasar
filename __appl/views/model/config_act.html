@@ -139,6 +139,8 @@ $('#panel_tree').panel({
 	$('#next3').bind('click',function(){
 		select_tree=tree_act.tree('getSelected');
 		if(select_tree){
+			
+		
 			$('#step_2').hide();
 			$('#step_3').show();
 			$.post(host+'home/modul/model/cost_activity/act_wizard',{ id_act:select_tree.id },function(r){

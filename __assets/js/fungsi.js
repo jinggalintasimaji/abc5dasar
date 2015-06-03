@@ -198,7 +198,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 		break;
 		case "tbl_are_emp":
 			judulnya = "";
-			urlnya = "tbl_are/"+$('#id_activity').val();
+			urlnya = "tbl_are/"+$('#id_activity').val()+"/emp";
 			fitnya = true;
 			param['bulan']=$('#bulan_emp').val();
 			param['tahun']=$('#tahun_emp').val();
@@ -255,7 +255,66 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 				},*/
 				{field:'total_cost',title:'Total Cost',width:80, halign:'center',align:'right'}
 			]
-		break;			
+		break;		
+		case "tbl_are_exp":
+			judulnya = "";
+			urlnya = "tbl_are/"+$('#id_activity').val()+"/exp";
+			fitnya = true;
+			param['bulan']=$('#bulan_exp').val();
+			param['tahun']=$('#tahun_exp').val();
+			kolom[modnya] = [	
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left',
+					editor:{type:'validatebox',options:{}}
+				},
+				{field:'account',title:'Account',width:80, halign:'center',align:'center'},
+				{field:'descript',title:'Expenses Desc.',width:150, halign:'center',align:'left'},
+				{field:'amount',title:'Cost',width:100, halign:'center',align:'right'
+					//editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'percent',title:'%',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
+				},
+				{field:'rd_qty',title:'Driver Qty',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                       }
+                    }
+				},
+				{field:'budget_type',title:'Budget',width:100, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                       }
+                    }
+				},
+				/*{field:'input_rate',title:'Input Rate',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'output_rate',title:'Output Rate',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},*/
+				{field:'coefficient',title:'Cooffecient',width:100, halign:'center',align:'left',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'total_cost',title:'Total Cost',width:80, halign:'center',align:'right'}
+			]
+		break;	
 		case "tbl_expenses":
 			judulnya = "";
 			urlnya = "tbl_efx";
@@ -350,7 +409,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 		saveUrl: url_crud+'/add',
         updateUrl: url_crud+'/edit',
         destroyUrl: url_crud+'/delete',
-		nowrap: true,
+		nowrap: false,
         singleSelect:true,
 		queryParams:param,
 		columns:[
@@ -1202,16 +1261,28 @@ function transfer_data(from,to,grid_id_from,grid_id_to){
 					post['bulan']=$('#bulan_emp').val();
 					post['tahun']=$('#tahun_emp').val();
 				break;
+				case "tbl_are_exp":
+					post['editstatus']='add';
+					post['tbl_exp_id']=row.id;
+					post['tbl_acm_id']=$('#id_activity').val();
+					post['bulan']=$('#bulan_exp').val();
+					post['tahun']=$('#tahun_exp').val();
+				break;
+				
+				
 				case "tbl_emp":
 					to="tbl_emp_act";
 					post['editstatus']='delete';
 					post['id']=row.id;
 				break;
+				
 				case "tbl_are_emp":
 					to="tbl_are";
 					post['editstatus']='delete';
 					post['id']=row.id;
 				break;
+				
+				
 				case "tbl_efx":
 					post['editstatus']='add';
 					post['tbl_exp_id']=row.id;

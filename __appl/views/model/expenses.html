@@ -1,7 +1,7 @@
 <div style='float:left;width:50%;margin-right:5px;margin-bottom:10px;'>
 	<div id='master_expenses'></div>
 </div>
-<div style='float:left;width:45%'>
+<div style='float:left;width:6%'>
 	<br/>
 	<br/>
 	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_efx" onClick="">
@@ -17,23 +17,63 @@
 		</span>
 	</a>
 </div>
-
-<div style='float:left;width:100%;height:133%;'>
+<div style='float:left;width:41%'>
+	<fieldset>
+	<form method='post' url="{$host}home/import_data/upload/are_exp/file_are_exp/temp_are_exp" id="form_{$main}" enctype="multipart/form-data">
+	<input type="hidden" name="act_id_exp" id="act_id_exp" value="">
+	<label>Month</label>: {html_select_date prefix='bulan_exp' start_year='+5' end_year='+5' display_days=false display_years=false all_extra='id="bulan_exp" style="width:50%;padding:2px;"'}<br>
+	<label>Year</label>: {html_select_date prefix='tahun_exp' start_year='+0' end_year='+5' display_days=false display_months=false all_extra='id="tahun_exp" style="width:50%;padding:2px;"'}<br>
+	<label>Upload Expense</label>: <input type="file" name="file_are_exp" id="file_are_exp"><br><br>
+	</form>
+	{include file='template/button.html' id='upload_are_exp' text='Upload' icon='save' click='' style="float:right;"}
+	{include file='template/button.html' id='download_are_exp' text='Download Template' icon='download' href='home/download_na/temp_are_exp' target="_blank" style="float:right;"}
+	</fieldset>
+</div>
+<div style='float:left;width:100%;height:103%;'>
 	<div id='tabel_expenses'></div>
 </div>
 
 
 <script>
 	genGrid('mst_expenses','master_expenses', 500, 160);
-	genGridEditable('tbl_expenses','tabel_expenses', 500, 600,'tbl_efx');
-	
+	genGridEditable('tbl_are_exp','tabel_expenses', 500, 600,'tbl_are_exp');
+	$('#act_id_exp').val($('#id_activity').val());
 	
 	$('#tranfer_efx').bind('click',function(r){
-		transfer_data('tbl_exp','tbl_efx','master_expenses','tabel_expenses');
+		transfer_data('tbl_exp','tbl_are_exp','master_expenses','tabel_expenses');
 		//console.log()
 	});
 	$('#remove_efx').bind('click',function(r){
-		transfer_data('tbl_efx','tbl_exp','tabel_expenses','tabel_expenses');
+		transfer_data('tbl_efx','tbl_are_emp','tabel_expenses','tabel_expenses');
 		//console.log()
+	});
+	$('#bulan_exp').on('change',function(){
+		$("#tabel_expenses").edatagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_exp').val() });
+	});
+	$('#tahun_exp').on('change',function(){
+		$('#bulan_exp').trigger('change');
+	});
+	$('#upload_are_exp').bind('click',function(){
+		
+		if($('#file_are_exp').val()!=''){
+			loadingna();
+			submit_form('form_{$main}',function(r){
+				if(r==1){
+					winLoadingClose();
+					$.messager.alert('ABC System', "Data Was Saved", 'info');
+					$("#tabel_expenses").edatagrid('reload');
+				}else{
+					winLoadingClose();
+					$.messager.alert('ABC System', "Data Not Saved", 'error');
+					console.log(r);
+				}
+			});
+			
+			//return false;
+		}
+		else{
+			winLoadingClose();
+			$.messager.alert('ABC System', "Please Select Your File Upload", 'error');
+		}
 	});
 </script>

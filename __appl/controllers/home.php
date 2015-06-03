@@ -46,8 +46,10 @@ class home extends MY_Controller {
 						break;
 						case "cost_activity":
 							$id_act=$this->input->post('id_act');
+							$child=$this->db->get_where('tbl_acm',array('pid'=>$id_act,'tbl_model_id'=>$this->modeling['id']))->result_array();
 							$ex=$this->db->get_where('tbl_acm',array('id'=>$id_act,'tbl_model_id'=>$this->modeling['id']))->row();
 							$this->smarty->assign('data',$ex);
+							$this->smarty->assign('child',count($child));
 						break;
 						case "detil":
 						case "advance":
@@ -177,8 +179,8 @@ class home extends MY_Controller {
 		return $menu=$this->mhome->getdata('menu');
 	}
 	
-	function getdata($p1,$p2=""){
-		echo $this->mhome->getdata($p1,$p2);
+	function getdata($p1,$p2="",$p3=""){
+		echo $this->mhome->getdata($p1,$p2,$p3);
 	}
 	
 	function simpansavedata($type="",$sts=""){

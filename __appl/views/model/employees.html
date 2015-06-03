@@ -58,14 +58,16 @@
 			loadingna();
 			submit_form('form_{$main}',function(r){
 				if(r==1){
+					winLoadingClose();
 					$.messager.alert('ABC System', "Data Was Saved", 'info');
 					$("#tabel_employees").edatagrid('reload');
 				}else{
+					winLoadingClose();
 					$.messager.alert('ABC System', "Data Not Saved", 'error');
 					console.log(r);
 				}
 			});
-			winLoadingClose();
+			
 			return false;
 		}
 		else{

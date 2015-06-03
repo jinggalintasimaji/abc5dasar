@@ -21,6 +21,9 @@
 
 <script>
 	var tab_array=["Detil","Employees","Expenses"];
+	{if $child neq 0}
+		tab_array.push('Activity');
+	{/if}
 	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul','',getClientHeight()-100,getClientHeight()-250);
 	
 	$('#back3').bind('click',function(){
