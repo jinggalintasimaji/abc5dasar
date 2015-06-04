@@ -78,12 +78,12 @@ $('#panel_tree').panel({
         url: host+"home/getdata/tbl_acm_wizard/config",		
 		nowrap: true,
         singleSelect:false,
-		//pageSize:10,
-		//pageList:[10,20,30,40,50,75,100,200],
+		pageSize:50,
+		pageList:[50,100,150,200],
 		columns:[
            [	
 				{ field:'activity_code',title:'Activity',width:120, halign:'center',align:'left' },
-				{ field:'descript',title:'Description',width:150, halign:'center',align:'left' }
+				{ field:'descript',title:'Description',width:300, halign:'center',align:'left' }
 			]
         ],
 	});
@@ -95,9 +95,10 @@ $('#panel_tree').panel({
 		}
 	});
 	var selec_grid,select_tree,id_tree
-	var id_grid=[];
+	
 	$('#transfer_act').bind('click',function(){
 		//console.log(grid_act.datagrid('getSelections'));
+		var id_grid=[];
 		selec_grid=grid_act.datagrid('getSelections');
 		select_tree=tree_act.tree('getSelected');
 		if(selec_grid.length > 0){

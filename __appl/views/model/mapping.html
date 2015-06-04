@@ -5,7 +5,9 @@
 <body>
 	<div id="step_1" style="padding:10px;margin-right:255px;">
 			<fieldset >
+				
 				<legend>STEP-1 (Defined Activity)</legend>
+				<div style="float:left;width:50%">
 				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
 				<input type="hidden" name="editstatus" id="editstatus" value='add'>
 				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
@@ -15,14 +17,14 @@
 								<td width='34%'>Activity Code</td>
 								<td width='1%'>:</td>
 								<td width='75%'>
-									<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox">
+									<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
 								</td>
 							</tr>
 							<tr>
 								<td width='34%' valign="top">Description</td>
 								<td width='1%' valign="top">:</td>
 								<td width='75%'>
-									<textarea style='padding:2px;width:50%' name="descript" id="descript" rows="6">{$data.descript|default:''}</textarea>
+									<textarea style='padding:2px;width:80%' name="descript" id="descript" rows="6">{$data.descript|default:''}</textarea>
 								</td>
 							</tr>
 						</table>
@@ -34,6 +36,20 @@
 							</span>
 						</a> 
 				</form>
+				</div>
+				<div style='float:left;width:41%'>
+					<fieldset>
+					<form method='post' url="{$host}home/import_data/upload/acm/file_acm/temp_acm" id="form2_{$main}" enctype="multipart/form-data">
+					<label>Upload Activity</label>: <input type="file" name="file_acm" id="file_acm"><br><br>
+					</form>
+					{include file='template/button.html' id='upload_acm' text='Upload' icon='save' click='' style="float:right;"}
+					{include file='template/button.html' id='download_acm' text='Download Template' icon='download' href='home/download_na/temp_acm' target="_blank" style="float:right;"}
+					</fieldset>
+					
+				</div>
+				
+				
+				
 			</fieldset>
 			<fieldset>
 			<legend>LIST ACTIVITY</legend>
@@ -99,6 +115,31 @@
 			$.post(host+'home/modul/model/config_act',function(r){
 				$('#step_2').html(r);
 			});
+		}
+	});
+	
+	$('#upload_acm').bind('click',function(){
+		
+		if($('#file_acm').val()!=''){
+			loadingna();
+			submit_form('form2_{$main}',function(r){
+				if(r==1){
+					winLoadingClose();
+					$.messager.alert('ABC System', "Data Was Saved", 'info');
+					$("#grid_{$main}").datagrid('reload');
+					
+				}else{
+					winLoadingClose();
+					$.messager.alert('ABC System', "Data Not Saved", 'error');
+					console.log(r);
+				}
+			});
+			
+			//return false;
+		}
+		else{
+			winLoadingClose();
+			$.messager.alert('ABC System', "Please Select Your File Upload", 'error');
 		}
 	});
 </script>

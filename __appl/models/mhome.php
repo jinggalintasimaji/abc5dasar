@@ -119,6 +119,57 @@ class mhome extends CI_Model{
 					return $this->result_query($sql,'row_array');
 				}
 			break;
+			case "tbl_acm_act":
+				$sql="SELECT A.* FROM tbl_acm A WHERE pid=".$this->input->post('pid')." AND tbl_model_id=".$this->modeling['id'];
+			break;
+			case "tbl_act_to_act":
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				
+				$where .="  AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				
+				$sql="SELECT A.*,B.activity_code,B.descript,
+						C.GRAND_TOTAL+D.GRAND_TOTAL AS TOTAL_COST_ACT,
+						CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN ((C.GRAND_TOTAL+D.GRAND_TOTAL)/A.rd_qty) 
+						ELSE ((C.GRAND_TOTAL+D.GRAND_TOTAL) * A.percent)/100 
+						END AS total_cost
+						FROM tbl_act_to_act A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id
+						LEFT JOIN(
+								SELECT A.tbl_acm_id,SUM(A.total_cost)AS GRAND_TOTAL FROM(
+									SELECT A.tbl_acm_id,CONCAT(B.first,B.last)as name_na,B.wages,A.percent,A.rd_qty,
+									CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN (B.wages/A.rd_qty) 
+									ELSE (B.wages * A.percent)/100 
+									END AS total_cost
+									FROM tbl_are A 
+									LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+									LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+									LEFT JOIN tbl_loc D ON B.tbl_loc_id=D.id 
+									".$where." AND A.tbl_emp_id IS NOT NULL
+									
+								) AS A GROUP BY A.tbl_acm_id
+						) AS C ON A.tbl_acm_child_id=C.tbl_acm_id
+						LEFT JOIN(
+								SELECT A.tbl_acm_id,SUM(A.total_cost)AS GRAND_TOTAL FROM(
+									SELECT A.tbl_acm_id,B.amount,A.percent,A.rd_qty,
+									CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN (B.amount/A.rd_qty) 
+									ELSE (B.amount * A.percent)/100 
+									END AS total_cost
+									FROM tbl_are A 
+									LEFT JOIN tbl_exp B ON A.tbl_exp_id=B.id
+									LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+									LEFT JOIN tbl_loc D ON B.tbl_loc_id=D.id 
+									".$where." AND A.tbl_exp_id IS NOT NULL 
+								) AS A GROUP BY A.tbl_acm_id
+						) AS D ON A.tbl_acm_child_id=D.tbl_acm_id 
+						WHERE A.tbl_acm_id=".$p1. " AND A.bulan=".$bulan." AND A.tahun=".$tahun;	
+						
+				/*$sql="SELECT A.*,B.activity_code,B.descript 
+						FROM tbl_act_to_act A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id
+					WHERE tbl_acm_id=".$p1." AND B.tbl_model_id=".$this->modeling['id'].$where;*/
+					
+			break;
 			case "tbl_bpm":
 				if($p4=="edit_grid"){
 					$where .=" AND A.id='".$p1."'";
@@ -346,6 +397,19 @@ class mhome extends CI_Model{
 					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
+			case "tbl_act_to_act":
+				if($sts_crud=='edit'){
+					//unset($data['id']);
+					unset($data['activity_code']);
+					unset($data['descript']);
+					unset($data['TOTAL_COST_ACT']);
+					
+					unset($data['total_cost']);
+					$data['create_date']=date('Y-m-d H:i:s');
+					$data['create_by']='Goyz';
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+			break;
 			case "tbl_are_exp":
 				$table="tbl_are";
 				if($sts_crud=='edit'){
@@ -497,7 +561,7 @@ class mhome extends CI_Model{
 		$this->load->library("PHPExcel");
 		$this->load->library('lib');
 		$path="__repository/tmp_upload/";
-		
+		//echo $nama_file;exit;
 		//$obj="file_are";
 		//$nama_file="temp_are";
 		$file_name=$this->lib->uploadnong($path,$obj,$nama_file);
@@ -591,6 +655,69 @@ class mhome extends CI_Model{
 					
 					
 				}									
+			break;
+			case "act":
+				$bulan=$this->input->post('bulan_actMonth');
+				$tahun=$this->input->post('tahun_actYear');
+				$act_id=$this->input->post('act_id_act');
+				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
+					$get_acm=$this->db->get_where('tbl_acm',array('activity_code'=>$worksheet->getCell("C".$i)->getCalculatedValue(),'tbl_model_id'=>$this->modeling['id']))->row_array();
+					if(empty($get_acm)){
+						$data=array('tbl_model_id'=>$this->modeling['id'],
+									'pid'=>$act_id,
+									'activity_code'=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									'descript'=>$worksheet->getCell("D".$i)->getCalculatedValue()
+						);
+						$this->db->insert('tbl_acm',$data);
+						$id_child=$this->db->insert_id();
+					}
+					else{
+						$id_child=$get_acm['id'];
+						if(!isset($get_acm['pid']) || $get_acm['pid']==''){
+							$sql="update tbl_acm set pid=".$act_id." WHERE id=".$get_acm['id'];
+							$this->db->query($sql);
+						}
+					}
+					
+					
+					$array_na = array(
+								"tbl_acm_id"=>$act_id,
+								"tbl_acm_child_id"=>$id_child,
+								"percent"=>($worksheet->getCell("E".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("E".$i)->getCalculatedValue()),
+								"rd_qty"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue()),
+								"cost_type"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+								"budget_type"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+								"bulan"=>$bulan,
+								"tahun"=>$tahun,
+						);
+					
+					$cek_data = $this->db->get_where('tbl_act_to_act', array('bulan'=>$bulan,'tahun'=>$tahun,'tbl_acm_id'=>$act_id,'tbl_acm_child_id'=>$id_child))->row_array();						
+						if(empty($cek_data)){
+							$this->db->insert('tbl_act_to_act',$array_na);
+						}else{
+							$this->db->where('id',$cek_data['id']);
+							$this->db->update('tbl_act_to_act',$array_na);
+						}
+					
+				}									
+			break;
+			
+			case "acm":
+				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
+					$array_na = array(
+								"activity_code"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+								"descript"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+								"tbl_model_id"=>$this->modeling['id']
+						);
+					
+					$cek_data = $this->db->get_where('tbl_acm', array('activity_code'=>$worksheet->getCell("C".$i)->getCalculatedValue(),'tbl_model_id'=>$this->modeling['id']))->row_array();						
+					if(empty($cek_data)){
+						$this->db->insert('tbl_acm',$array_na);
+					}else{
+						//$this->db->where('id',$cek_data['id']);
+						//$this->db->update('tbl_acm',$array_na);
+					}	
+				}
 			break;
 		}
 		

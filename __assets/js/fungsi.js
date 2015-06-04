@@ -314,6 +314,54 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 				},
 				{field:'total_cost',title:'Total Cost',width:80, halign:'center',align:'right'}
 			]
+		break;
+		case "tbl_act":
+			judulnya = "";
+			urlnya = "tbl_act_to_act/"+$('#id_activity').val();
+			fitnya = true;
+			param['bulan']=$('#bulan_act').val();
+			param['tahun']=$('#tahun_act').val();
+			kolom[modnya] = [	
+				{field:'activity_code',title:'Activity Code',width:100, halign:'center',align:'left'},
+				{field:'descript',title:'Activity Desc.',width:150, halign:'center',align:'left'},
+				{field:'TOTAL_COST_ACT',title:'Cost Activity',width:150, halign:'center',align:'right'
+					//editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'percent',title:'%',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
+				},
+				{field:'rd_qty',title:'Driver Qty',width:80, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                       }
+                    }
+				},
+				{field:'budget_type',title:'Budget',width:100, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [{
+								id: 'Fixed',
+								value: 'Fixed'
+							}]
+                       }
+                    }
+				},
+				
+				{field:'total_cost',title:'Total Cost',width:150, halign:'center',align:'right'}
+			]
 		break;	
 		case "tbl_expenses":
 			judulnya = "";
@@ -371,6 +419,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 				},
 			]
 		break;	
+		
 		case "tbl_build":
 			judulnya = "";
 			urlnya = "tbl_bpd";
@@ -446,6 +495,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var kolom ={};
 	var frozen ={};
 	var judulnya;
+	var param={};
 	var urlnya;
 	var urlglobal="";
 	var fitnya;
@@ -514,6 +564,16 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
 				{field:'name_na',title:'Employee Name',width:240, halign:'center',align:'left'},
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
+			]
+		break;
+		case "mst_act":
+			judulnya = "";
+			urlnya = "tbl_acm_act";
+			param['pid']=$('#id_activity').val();
+			fitnya = false;
+			kolom[modnya] = [	
+				{field:'activity_code',title:'Activity Code',width:120, halign:'center',align:'center'},
+				{field:'descript',title:'Activity Desc.',width:240, halign:'center',align:'left'}
 			]
 		break;
 		
@@ -906,6 +966,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         singleSelect:true,
 		pageSize:pagesizeboy,
 		pageList:[10,20,30,40,50,75,100,200],
+		queryParams:param,
 		columns:[
             kolom[modnya]
         ],
@@ -1268,14 +1329,24 @@ function transfer_data(from,to,grid_id_from,grid_id_to){
 					post['bulan']=$('#bulan_exp').val();
 					post['tahun']=$('#tahun_exp').val();
 				break;
+				case "tbl_act_to_act":
+					post['editstatus']='add';
+					post['tbl_acm_child_id']=row.id;
+					post['tbl_acm_id']=$('#id_activity').val();
+					post['bulan']=$('#bulan_emp').val();
+					post['tahun']=$('#tahun_emp').val();
+				break;
 				
-				
+				case "tbl_act_to_act2":
+					to="tbl_act_to_act";
+					post['editstatus']='delete';
+					post['id']=row.id;
+				break;
 				case "tbl_emp":
 					to="tbl_emp_act";
 					post['editstatus']='delete';
 					post['id']=row.id;
 				break;
-				
 				case "tbl_are_emp":
 					to="tbl_are";
 					post['editstatus']='delete';
