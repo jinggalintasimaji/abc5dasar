@@ -54,6 +54,17 @@
 			<fieldset>
 			<legend>LIST ACTIVITY</legend>
 				<div id="grid_nya_{$main}">
+					<div id="tb_list_act">
+					<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+						Find Activity : <input type="text" value="" placeholder="Keyword To Find Activity" name="key_{$main}" id="key_{$main}" style='width:40%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						
+						<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="find_{$main}" onClick="" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Find</span><span class="l-btn-icon icon-search"></span>
+							</span>
+						</a>
+					</div>
+				</div>
 					<div id='grid_{$main}'></div>
 				</div>
 			</fieldset>
@@ -70,14 +81,16 @@
 <script>
 	var model='{$model.id}';
 	$('#grid_nya_{$main}').css('height',(getClientHeight()-420));
-	genGrid('list_act','grid_{$main}');
+	genGrid('list_act','grid_{$main}','','');
 	
 	$(".easyui-validatebox").validatebox({ required:true }); 
 	$('#clear_act').bind('click',function(){
 		clear_form('form_{$main}');
 		$('#editstatus').val('add');
 	});
-	
+	$('#find_{$main}').bind('click',function(){
+		$('#grid_{$main}').datagrid('reload',{ key:$('#key_{$main}').val() });
+	});
 	$('#simpan_act').bind('click',function(){
 		if(model==0){
 			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
@@ -110,6 +123,7 @@
 			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
 		}
 		else{
+			$('#step_2').html('');
 			$('#step_2').show();
 			$('#step_1').hide();
 			$.post(host+'home/modul/model/config_act',function(r){
@@ -119,27 +133,31 @@
 	});
 	
 	$('#upload_acm').bind('click',function(){
-		
-		if($('#file_acm').val()!=''){
-			loadingna();
-			submit_form('form2_{$main}',function(r){
-				if(r==1){
-					winLoadingClose();
-					$.messager.alert('ABC System', "Data Was Saved", 'info');
-					$("#grid_{$main}").datagrid('reload');
-					
-				}else{
-					winLoadingClose();
-					$.messager.alert('ABC System', "Data Not Saved", 'error');
-					console.log(r);
-				}
-			});
-			
-			//return false;
+		if(model==0){
+			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
 		}
 		else{
-			winLoadingClose();
-			$.messager.alert('ABC System', "Please Select Your File Upload", 'error');
+			if($('#file_acm').val()!=''){
+				loadingna();
+				submit_form('form2_{$main}',function(r){
+					if(r==1){
+						winLoadingClose();
+						$.messager.alert('ABC System', "Data Was Saved", 'info');
+						$("#grid_{$main}").datagrid('reload');
+						
+					}else{
+						winLoadingClose();
+						$.messager.alert('ABC System', "Data Not Saved", 'error');
+						console.log(r);
+					}
+				});
+				
+				//return false;
+			}
+			else{
+				winLoadingClose();
+				$.messager.alert('ABC System', "Please Select Your File Upload", 'error');
+			}
 		}
 	});
 </script>

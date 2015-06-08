@@ -212,12 +212,10 @@ class home extends MY_Controller {
 		echo json_encode($data);
 	}
 	
-	function config_act(){
+	function config_act($p1=""){
 		$id_grid=$this->input->post('id_grid');
 		$id_tree=$this->input->post('id_tree');
-		//print_r($id_grid);exit;
-		//echo count($id_grid);
-		echo $this->mhome->config_act($id_grid,$id_tree);
+		echo $this->mhome->config_act($id_grid,$id_tree,$p1);
 		
 	}
 	function import_data($p1,$p2,$obj='',$nama_file=''){

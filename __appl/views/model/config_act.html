@@ -3,6 +3,17 @@
 <fieldset >
 	<legend>LIST ACTIVITY</legend>
 	<div id="grid_nya_{$main}">
+		<div id="{$main}toolBar">
+			<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+				Find Activity : <input type="text" value="" placeholder="Keyword To Find Activity" name="key_{$main}" id="key_{$main}" style='width:40%;padding:2px;' maxlength="10" class="easyui-validatebox">
+				
+				<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="find_{$main}" onClick="" >
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Find</span><span class="l-btn-icon icon-search"></span>
+					</span>
+				</a>
+			</div>
+		</div>
 		<div id='grid_{$main}'></div>
 	</div>
 </fieldset>
@@ -79,6 +90,7 @@ $('#panel_tree').panel({
 		nowrap: true,
         singleSelect:false,
 		pageSize:50,
+		toolbar:'#{$main}toolBar',
 		pageList:[50,100,150,200],
 		columns:[
            [	
@@ -133,6 +145,29 @@ $('#panel_tree').panel({
 		}
 		
 	});
+	$('#find_{$main}').bind('click',function(){
+		grid_act.datagrid('reload',{ key:$('#key_{$main}').val() });
+	});
+	$('#remove_tree').bind('click',function(){
+		select_tree=tree_act.tree('getSelected');
+		if(select_tree){
+			id_tree=select_tree.id;
+			$.post(host+'home/config_act/remove',{ id_tree:id_tree },function(r){
+					if(r==1){
+						//console.log(r);
+						tree_act.tree('reload');
+						grid_act.datagrid('reload');
+					}
+					else{
+						console.log(r);
+						$.messager.alert('ABC System',"Failed Remove",'error');
+					}
+				});
+		}
+		else{
+				$.messager.alert('ABC System',"Select Tree To Remove In Hierarky",'error');
+		}
+	});
 	$('#back2').bind('click',function(){
 		$('#step_2').hide();
 		$('#step_1').show();
@@ -140,13 +175,17 @@ $('#panel_tree').panel({
 	$('#next3').bind('click',function(){
 		select_tree=tree_act.tree('getSelected');
 		if(select_tree){
-			
-		
-			$('#step_2').hide();
-			$('#step_3').show();
-			$.post(host+'home/modul/model/cost_activity/act_wizard',{ id_act:select_tree.id },function(r){
-				$('#step_3').html(r);
-			});
+			if(select_tree.id!=0){
+				$('#step_2').hide();
+				$('#step_3').html('');
+				$('#step_3').show();
+				$.post(host+'home/modul/model/cost_activity/act_wizard',{ id_act:select_tree.id },function(r){
+					$('#step_3').html(r);
+				});
+			}
+			else{
+				$.messager.alert('ABC System'," This Model Cannot Defined Cost Activity ",'error');
+			}
 		}
 		else{
 			$.messager.alert('ABC System',"Please Select Tree Into View Cost Activity ",'error');

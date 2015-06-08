@@ -961,6 +961,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         striped:true,
         pagination:true,
         remoteSort: false,
+		
         url: (urlglobal == "" ? host+"home/getdata/"+urlnya : urlglobal),		
 		nowrap: true,
         singleSelect:true,
@@ -1333,8 +1334,8 @@ function transfer_data(from,to,grid_id_from,grid_id_to){
 					post['editstatus']='add';
 					post['tbl_acm_child_id']=row.id;
 					post['tbl_acm_id']=$('#id_activity').val();
-					post['bulan']=$('#bulan_emp').val();
-					post['tahun']=$('#tahun_emp').val();
+					post['bulan']=$('#bulan_act').val();
+					post['tahun']=$('#tahun_act').val();
 				break;
 				
 				case "tbl_act_to_act2":

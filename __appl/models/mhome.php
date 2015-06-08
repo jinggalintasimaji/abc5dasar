@@ -63,6 +63,8 @@ class mhome extends CI_Model{
 				
 			break;
 			case "tbl_acm_wizard":
+				$key=$this->input->post('key');
+				if($key)$where .=" AND A.descript like '%".$key."%' ";
 				$where .=" AND tbl_model_id=".$this->modeling['id'];
 				if($p1=='config'){
 					$where .=" AND pid IS NULL";
@@ -168,7 +170,7 @@ class mhome extends CI_Model{
 						FROM tbl_act_to_act A 
 						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id
 					WHERE tbl_acm_id=".$p1." AND B.tbl_model_id=".$this->modeling['id'].$where;*/
-					
+				//echo $sql;	
 			break;
 			case "tbl_bpm":
 				if($p4=="edit_grid"){
@@ -499,50 +501,56 @@ class mhome extends CI_Model{
 		return count($rs) > 0 ? true : false;
 	}
 	
-	function config_act($id_grid,$id_tree){
+	function config_act($id_grid,$id_tree,$sts=""){
 		$this->db->trans_begin();
-		foreach($id_grid as $v){
-			$mst=$this->db->get_where('tbl_acm',array('id'=>$v,'tbl_model_id'=>$this->modeling['id']))->row();//IDENTIFIKASI GRID;
-			$sts=0;
-			//if($id_tree!=0){//MAIN ROOT
-				$ex=$this->db->get_where('tbl_acm',array('pid'=>$id_tree,'tbl_model_id'=>$this->modeling['id']))->result_array();//CEK EXIST CHILD
-				if(count($ex)>0){
-					//$sql="SELECT * FROM tbl_acm "
-					foreach($ex as $x){
-						if($x['activity_code']==$mst->activity_code){
-							$sts=1;
+		if($sts!=""){
+			$sql="update tbl_acm set pid=NULL WHERE id=".$id_tree;
+			$this->db->query($sql);
+		}
+		else{
+			foreach($id_grid as $v){
+				$mst=$this->db->get_where('tbl_acm',array('id'=>$v,'tbl_model_id'=>$this->modeling['id']))->row();//IDENTIFIKASI GRID;
+				$sts=0;
+				//if($id_tree!=0){//MAIN ROOT
+					$ex=$this->db->get_where('tbl_acm',array('pid'=>$id_tree,'tbl_model_id'=>$this->modeling['id']))->result_array();//CEK EXIST CHILD
+					if(count($ex)>0){
+						//$sql="SELECT * FROM tbl_acm "
+						foreach($ex as $x){
+							if($x['activity_code']==$mst->activity_code){
+								$sts=1;
+							}
 						}
+						
+						if($sts==0){
+							/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+								SELECT $id_tree,tbl_model_id,descript,activity_code
+								FROM tbl_acm WHERE id=".$v;
+							$this->db->query($sql);
+							*/
+							$this->db->where(array('id'=>$v));
+							$this->db->update('tbl_acm',array('pid'=>$id_tree));
+						}
+						
+						
 					}
-					
-					if($sts==0){
+					else{
 						/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
-							SELECT $id_tree,tbl_model_id,descript,activity_code
-							FROM tbl_acm WHERE id=".$v;
+								SELECT $id_tree,tbl_model_id,descript,activity_code
+								FROM tbl_acm WHERE id=".$v;
 						$this->db->query($sql);
 						*/
 						$this->db->where(array('id'=>$v));
 						$this->db->update('tbl_acm',array('pid'=>$id_tree));
 					}
-					
-					
-				}
-				else{
-					/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
-							SELECT $id_tree,tbl_model_id,descript,activity_code
-							FROM tbl_acm WHERE id=".$v;
+				/*}else{
+					//$this->db->where(array('id'=>$v));
+					//$this->db->update('tbl_acm',array('pid'=>$id_tree));
+					$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+								SELECT $id_tree,tbl_model_id,descript,activity_code
+								FROM tbl_acm WHERE id=".$v;
 					$this->db->query($sql);
-					*/
-					$this->db->where(array('id'=>$v));
-					$this->db->update('tbl_acm',array('pid'=>$id_tree));
-				}
-			/*}else{
-				//$this->db->where(array('id'=>$v));
-				//$this->db->update('tbl_acm',array('pid'=>$id_tree));
-				$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
-							SELECT $id_tree,tbl_model_id,descript,activity_code
-							FROM tbl_acm WHERE id=".$v;
-				$this->db->query($sql);
-			}*/
+				}*/
+			}
 		}
 		
 		
