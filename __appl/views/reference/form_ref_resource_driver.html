@@ -1,0 +1,164 @@
+<form method='post' url="{$host}homex/simpansavedata/tbl_rdm" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+
+	<div style="width:100%;margin-right:5px;">
+		<fieldset>
+			<legend>Resource Driver</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Resource</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.resource|default:''}" name='resource' id='resource' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Description</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.descript|default:''}" name='descript' id='descript' style='padding:2px; width:250px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Quantity</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.rdm_qty|default:''}" name='rdm_qty' id='rdm_qty' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type UPE</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.budtypeupe|default:''}" name='budtypeupe' id='budtypeupe' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR UPE</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.costnbrupe|default:''}" name='costnbrupe' class='angka' id='costnbrupe' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient UPE</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coeffupe|default:''}" name='coeffupe' id='coeffupe' class='angka' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type UPX</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.budtypeupx|default:''}" name='budtypeupx' id='budtypeupx' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR UPX</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.costnbrupx|default:''}" name='costnbrupx' class='angka' id='costnbrupx' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient UPX</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coeffupx|default:''}" name='coeffupx' class='angka' id='coeffupx' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type UPA</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.bydtypeupa|default:''}" name='bydtypeupa' id='bydtypeupa' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR UPA</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.costnbrupa|default:''}" name='costnbrupa' class='angka' id='costnbrupa' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient UPA</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coeffupa|default:''}" name='coeffupa' class='angka' id='coeffupa' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Actor Pro.</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.actorpro|default:''}" name='actorpro' class='angka' id='actorpro' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Batch</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.batch|default:''}" name='batch' id='batch' class='angka' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Constant</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.constant|default:''}" name='constant' class='angka' id='constant' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coefficient|default:''}" name='coefficient' class='angka' id='coefficient' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Month</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.bulan|default:''}" name='bulan' id='bulan' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Years</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.tahun|default:''}" name='tahun' id='tahun' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				
+			</table>
+		</fieldset>
+	</div>
+</form>
+
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:0
+	});	
+
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_ref_resource_driver').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
+	
+</script>

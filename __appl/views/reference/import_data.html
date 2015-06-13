@@ -32,11 +32,15 @@
 						</td>
 					</tr>
 				</table>
+				{if $model}
 				<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="btsimpan" onClick="">
 					<span class="l-btn-left l-btn-icon-left">
 						<span class="l-btn-text">Save</span><span class="l-btn-icon icon-save"></span>
 					</span>
-				</a> 
+				</a>
+				{else}				
+					No Models Activate
+				{/if}				
 			</fieldset>
 		</div>
 	</div>

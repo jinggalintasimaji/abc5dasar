@@ -174,9 +174,11 @@ class lib {
 		switch($type){
 			case "import_reference":
 				$data = array(
-					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
+					'0' => array('id'=>'tbl_loc','txt'=>'Data Location'),
 					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
-					'2' => array('id'=>'tbl_loc','txt'=>'Data Allocation'),
+					'2' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
+					'3' => array('id'=>'tbl_rdm','txt'=>'Data Resource Driver'),
+					'4' => array('id'=>'tbl_cdm','txt'=>'Data Cost Driver'),
 				);
 			break;
 			case "jenis_kelamin":

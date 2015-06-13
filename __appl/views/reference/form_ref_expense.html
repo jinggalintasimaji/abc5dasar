@@ -79,6 +79,21 @@
 						<input type='text' class='angka' value="{$data.budgetchg|default:''}" name='budgetchg' id='budgetchg' style='padding:2px; width:200px;'>
 					</td>
 				</tr>
+				<tr>
+					<td width='30%'>Month</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.bulan|default:''}" name='bulan' id='bulan' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Years</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.tahun|default:''}" name='tahun' id='tahun' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				
 				
 			</table>
 		</fieldset>

@@ -1,0 +1,129 @@
+<form method='post' url="{$host}homex/simpansavedata/tbl_cdm" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+
+	<div style="width:100%;margin-right:5px;">
+		<fieldset>
+			<legend>Resource Driver</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Cost Driver</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.cost_driver|default:''}" name='cost_driver' id='cost_driver' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Description</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.descript|default:''}" name='descript' id='descript' style='padding:2px; width:250px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Roundit</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.roundit|default:''}" name='roundit' id='roundit' class="easyui-validatebox" style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>SUDN Cost Driver</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.sudn_cd|default:''}" name='sudn_cd' class='angka' id='sudn_cd' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>MUDN Cost Driver</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.mudn_cd|default:''}" name='mudn_cd' class='angka' id='mudn_cd' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>MUDN UOM</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.mudn_uom|default:''}" name='mudn_uom' class='angka' id='mudn_uom' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Sweight</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.sweight|default:''}" name='sweight' class='angka' id='sweight' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Mweight</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.mweight|default:''}" name='mweight' class='angka' id='mweight' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.budgettype|default:''}" name='budgettype' class='angka' id='budgettype' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Constant</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.constant|default:''}" name='constant' class='angka' id='constant' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coefficient|default:''}" name='coefficient' class='angka' id='coefficient' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Month</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.bulan|default:''}" name='bulan' id='bulan' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Years</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.tahun|default:''}" name='tahun' id='tahun' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+			
+			</table>
+		</fieldset>
+	</div>
+</form>
+
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:0
+	});	
+
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_ref_costdriver').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
+	
+</script>
