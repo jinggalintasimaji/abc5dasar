@@ -7,6 +7,13 @@
 			<legend>Employee Detail</legend>
 			<table width='100%' style='margin-bottom:20px;'>
 				<tr>
+					<td width='30%'>Employee ID</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.employee_id|default:''}" name='employee_id' id='employee_id' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
 					<td width='30%'>First Name</td>
 					<td width='1%'>:</td>
 					<td width='65%'>

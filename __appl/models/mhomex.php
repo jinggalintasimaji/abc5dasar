@@ -156,19 +156,9 @@ class mhomex extends CI_Model{
 			case "tbl_emp":
 			case "tbl_exp":
 			case "tbl_loc":
+			case "tbl_rdm":
+			case "tbl_cdm":
 				if($sts_crud == 'add'){
-					/*
-					$sqlmax = "SELECT max(id) as idnya FROM tbl_emp";
-					$querymax = $this->db->query($sqlmax)->row_array();
-					if($querymax['idnya'] != null){
-						$emp_id = ($querymax['idnya'] + 1);
-						$emp_id = sprintf('%04d', $emp_id);
-					}else{
-						$emp_id = "0001";
-					}
-					$data['employee_id'] = $emp_id;
-					*/
-					
 					$data['tbl_model_id'] = (isset($this->modeling['id']) ? $this->modeling['id'] : 0);
 				}
 			break;
