@@ -901,6 +901,20 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		//End Setting
 		
 		//Data Reference --
+		case "ref_location":
+			judulnya = "";
+			urlnya = "tbl_loc";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
+				{field:'costcenter',title:'Cost Center',width:150, halign:'center',align:'left'},
+				{field:'loc_name',title:'Location Name',width:300, halign:'center',align:'left'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+			]
+		break;		
 		case "ref_employee":
 			judulnya = "";
 			urlnya = "tbl_emp";
@@ -917,7 +931,9 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'benefits',title:'Benefits',width:100, halign:'center',align:'right'},
 				{field:'total',title:'Total',width:100, halign:'center',align:'right'},
 				{field:'class',title:'Class',width:100, halign:'center',align:'right'},
-				{field:'position',title:'Position',width:100, halign:'center',align:'right'},
+				{field:'position',title:'Position',width:250, halign:'center',align:'left'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},
 			]
 		break;
 		case "ref_expense":
@@ -934,20 +950,61 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
 				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
 				{field:'exp_level',title:'Exp. Level',width:100, halign:'center',align:'right'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
 		break;
-		case "ref_allocation":
+		case "ref_resource_driver":
 			judulnya = "";
-			urlnya = "tbl_loc";
+			urlnya = "tbl_rdm";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
-				{field:'costcenter',title:'Cost Center',width:150, halign:'center',align:'left'},
-				{field:'loc_name',title:'Location Name',width:300, halign:'center',align:'left'},
+				{field:'resource',title:'Resource',width:200, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Budget Type UPE',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Cost NBR UPE',width:100, halign:'center',align:'right'},				
+				{field:'coeffupe',title:'Coefficient UPE',width:100, halign:'center',align:'right'},				
+				{field:'budtypeupx',title:'Budget Type UPX',width:100, halign:'center',align:'right'},				
+				{field:'costnbrupx',title:'Cost NBR UPX',width:100, halign:'center',align:'right'},				
+				{field:'coeffupx',title:'Coefficient UPX',width:100, halign:'center',align:'right'},				
+				{field:'bydtypeupa',title:'Budget Type UPA',width:100, halign:'center',align:'right'},				
+				{field:'costnbrupa',title:'Cost NBR UPA',width:100, halign:'center',align:'right'},				
+				{field:'coeffupa',title:'Coefficient UPA',width:100, halign:'center',align:'right'},				
+				{field:'actorpro',title:'Actor Pro.',width:100, halign:'center',align:'right'},				
+				{field:'batch',title:'Batch',width:100, halign:'center',align:'right'},				
+				{field:'note',title:'Note',width:250, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
 		break;
+		case "ref_cost_driver":
+			judulnya = "";
+			urlnya = "tbl_cdm";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'roundit',title:'Roundit',width:100, halign:'center',align:'right'},
+				{field:'sudn_cd',title:'SUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_cd',title:'MUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_uom',title:'MUDN UOM',width:100, halign:'center',align:'right'},				
+				{field:'sweight',title:'Sweight',width:100, halign:'center',align:'right'},				
+				{field:'mweight',title:'Mweight',width:100, halign:'center',align:'right'},				
+				{field:'budgettype',title:'Budget Type',width:100, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+			]
+		break;
+		
 		// End Data Reference
 	}
 	
@@ -1026,6 +1083,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		//End Setting
 		
 		//Data Reference
+		case "ref_location":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-360;
+			var judulwindow = 'Form Data Location';
+			var table="tbl_loc";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;		
 		case "ref_employee":
 			var lebar = getClientWidth()-500;
 			var tinggi = getClientHeight()-200;
@@ -1040,11 +1104,18 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="tbl_exp";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
-		case "ref_allocation":
+		case "ref_resource_driver":
 			var lebar = getClientWidth()-800;
-			var tinggi = getClientHeight()-400;
-			var judulwindow = 'Form Data Allocation';
-			var table="tbl_loc";
+			var tinggi = getClientHeight()-50;
+			var judulwindow = 'Form Data Resource Driver';
+			var table="tbl_rdm";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "ref_cost_driver":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-170;
+			var judulwindow = 'Form Data Cost Driver';
+			var table="tbl_cdm";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "100":
