@@ -121,7 +121,7 @@ function getClientWidth(){
 
 	return theWidth;
 }
-function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
+function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagkode){
 	var data_dumi=[{"id":'fixed',"text":"fixed"}];
 	if(lebarnya == undefined){
 		lebarnya = getClientWidth-250;
@@ -134,8 +134,13 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 	var frozen ={};
 	var judulnya;
 	var urlnya;
+	var urlglobal="";
 	var param={};
-	var url_crud=host+"home/simpansavedata/"+crud_table;
+	if(flagkode == 'ada'){
+		var url_crud=host+"homex/simpansavedata/"+crud_table;
+	}else{
+		var url_crud=host+"home/simpansavedata/"+crud_table;
+	}
 	var fitnya;
 	switch (modnya){
 		case "tbl_employees":
@@ -442,6 +447,26 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
 				},
 			]
 		break;
+		
+		//Modul Data Production
+		case "tbl_prd":
+			judulnya = "";
+			urlnya = "tbl_prd";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Driver',width:100, halign:'center',align:'center'},
+				{field:'prod_id',title:'Production ID.',width:250, halign:'center',align:'left'},
+				{field:'activity_cost',title:'Cost',width:100, halign:'center',align:'right'},
+				{field:'percent',title:'%',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
+				},
+				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+			]
+		break;
+		//End Data Production 
 	}
 	
 	$("#"+divnya).edatagrid({
@@ -454,7 +479,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya,crud_table){
         striped:true,
         pagination:true,
         remoteSort: false,
-        url: host+"home/getdata/"+urlnya,
+        //url: host+"home/getdata/"+urlnya,
+		url: (urlglobal == "" ? host+"home/getdata/"+urlnya : urlglobal),		
 		saveUrl: url_crud+'/add',
         updateUrl: url_crud+'/edit',
         destroyUrl: url_crud+'/delete',
@@ -844,6 +870,51 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		
+		//Tambahan data production
+		case "mst_prm":
+			judulnya = "";
+			urlnya = "tbl_prm";
+			fitnya = false;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			param['bulan']=$('#bulan_period').val();
+			param['tahun']=$('#tahun_period').val();
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Item',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Item Name',width:250, halign:'center',align:'left'},
+				{field:'level',title:'Unit',width:100, halign:'center',align:'center'},
+				{field:'revenue',title:'MakeBy',width:100, halign:'center',align:'left'},
+				{field:'abc_cost',title:'Class',width:100, halign:'center',align:'center'},
+				{field:'profitable',title:'Lost Factor',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'ABC Cost',width:100, halign:'center',align:'right'},
+				{field:'qtyproduce',title:'ABC Cost(r)',width:100, halign:'center',align:'right'},
+				{field:'unit_cost',title:'Material Cost(r)',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "mst_cdm":
+			judulnya = "";
+			urlnya = "tbl_cdm";
+			fitnya = false;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			param['bulan']=$('#bulan_period').val();
+			param['tahun']=$('#tahun_period').val();
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'roundit',title:'Roundit',width:100, halign:'center',align:'right'},
+				{field:'sudn_cd',title:'SUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_cd',title:'MUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_uom',title:'MUDN UOM',width:100, halign:'center',align:'right'},				
+				{field:'sweight',title:'Sweight',width:100, halign:'center',align:'right'},				
+				{field:'mweight',title:'Mweight',width:100, halign:'center',align:'right'},				
+				{field:'budgettype',title:'Budget Type',width:100, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},	
+			]
+		break;
+		//end data production 
+		
 		//Setting
 		case "701":
 			judulnya = "User Management";
@@ -1004,6 +1075,28 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
 		break;
+		case "ref_product_master":
+			judulnya = "";
+			urlnya = "tbl_prm";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Item',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Item Name',width:250, halign:'center',align:'left'},
+				{field:'level',title:'Unit',width:100, halign:'center',align:'center'},
+				{field:'qtyproduce',title:'Qty. Prod.',width:100, halign:'center',align:'right'},
+				{field:'revenue',title:'Revenue',width:100, halign:'center',align:'left'},
+				{field:'unit_cost',title:'Unit Cost',width:100, halign:'center',align:'right'},
+				{field:'abc_cost',title:'ABC Cost',width:100, halign:'center',align:'center'},
+				{field:'ovh_cost',title:'Overhead Cost',width:100, halign:'center',align:'center'},
+				{field:'profitable',title:'Lost Factor',width:100, halign:'center',align:'right'},
+				{field:'abc_lower',title:'ABC Lower',width:100, halign:'center',align:'center'},
+				{field:'ovh_lower',title:'Overhead Lower',width:100, halign:'center',align:'center'},
+				{field:'abc_cost_r',title:'ABC Cost(r)',width:100, halign:'center',align:'center'},
+				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:100, halign:'center',align:'center'},
+			]
+		break;
 		
 		// End Data Reference
 	}
@@ -1115,6 +1208,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var lebar = getClientWidth()-800;
 			var tinggi = getClientHeight()-170;
 			var judulwindow = 'Form Data Cost Driver';
+			var table="tbl_cdm";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "ref_product_master":
+			var lebar = getClientWidth()-900;
+			var tinggi = getClientHeight()-120;
+			var judulwindow = 'Form Data Product Master';
 			var table="tbl_cdm";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
