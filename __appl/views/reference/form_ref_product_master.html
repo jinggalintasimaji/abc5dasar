@@ -1,0 +1,141 @@
+<form method='post' url="{$host}homex/simpansavedata/tbl_prm" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+	
+	<div style="width:100%;margin-right:5px;">
+		<fieldset>
+			<legend>Product Master</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Product ID</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.prod_id|default:''}" name='prod_id' id='prod_id' class="easyui-validatebox" style='padding:2px; width:100px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Level</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.level|default:''}" name='level' id='level' class="easyui-validatebox" style='padding:2px; width:100px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Description</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.level|default:''}" name='level' id='level' class="easyui-validatebox" style='padding:2px; width:100px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Qty. Produce</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.qtyproduce|default:''}" name='qtyproduce' class='angka' id='qtyproduce' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Unit Cost</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.unit_cost|default:''}" name='unit_cost' class='angka' id='unit_cost' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>ABC Cost</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.abc_cost|default:''}" name='abc_cost' class='angka' id='abc_cost' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Overhead Cost</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.ovh_cost|default:''}" name='ovh_cost' class='angka' id='ovh_cost' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Revenue</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.revenue|default:''}" name='revenue' class='angka' id='revenue' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Profitable</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.profitable|default:''}" name='profitable' class='angka' id='profitable' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>ABC Lower</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.abc_lower|default:''}" name='abc_lower' class='angka' id='abc_lower' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Overhead Lower</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.ovh_lower|default:''}" name='ovh_lower' class='angka' id='ovh_lower' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>ABC Cost(r)</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.abc_cost_r|default:''}" name='abc_cost_r' class='angka' id='abc_cost_r' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Overhead Cost(r)</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.ovh_cost_r|default:''}" name='ovh_cost_r' class='angka' id='ovh_cost_r' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Month</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.bulan|default:''}" name='bulan' id='bulan' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Years</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.tahun|default:''}" name='tahun' id='tahun' class="easyui-validatebox angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	
+</form>
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:0
+	});	
+
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_ref_costdriver').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
+</script>

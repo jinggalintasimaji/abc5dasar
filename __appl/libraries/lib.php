@@ -179,6 +179,7 @@ class lib {
 					'2' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
 					'3' => array('id'=>'tbl_rdm','txt'=>'Data Resource Driver'),
 					'4' => array('id'=>'tbl_cdm','txt'=>'Data Cost Driver'),
+					'5' => array('id'=>'tbl_prm','txt'=>'Data Product Master'),
 				);
 			break;
 			case "jenis_kelamin":

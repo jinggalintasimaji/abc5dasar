@@ -1,0 +1,10 @@
+<div id="panel_{$main}" style="padding:5px;">
+	<div id="tab_{$main}"></div>
+</div>
+
+<script>
+	var tab_array=[
+					"Data Production", "Import Data"
+				  ];
+	genTab( '#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Production', '{$sub_mod}', getClientHeight()-100, getClientHeight()-140 );
+</script>

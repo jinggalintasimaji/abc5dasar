@@ -134,6 +134,31 @@ class mhomex extends CI_Model{
 				";
 			break;
 			//EndModul Setting
+			
+			//Modul Data Production & Reference Product Master
+			case "tbl_prm":
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= "
+						AND  bulan = '".$bulan."' AND tahun = '".$tahun."'
+					";
+				}
+				
+				$sql = "
+					SELECT A.*
+					FROM tbl_prm A
+					$where
+				";
+			break;
+			case "tbl_prd":
+				$sql = "
+					SELECT A.*
+					FROM tbl_prd A
+				";
+			break;
+			//End Data Production
 		}
 		
 		if($balikan == 'json'){
@@ -158,6 +183,7 @@ class mhomex extends CI_Model{
 			case "tbl_loc":
 			case "tbl_rdm":
 			case "tbl_cdm":
+			case "tbl_prm":
 				if($sts_crud == 'add'){
 					$data['tbl_model_id'] = (isset($this->modeling['id']) ? $this->modeling['id'] : 0);
 				}
@@ -379,11 +405,33 @@ class mhomex extends CI_Model{
 								array_push($array_batch_insert, $array_insert);	
 							}	
 						break;
+						case "tbl_prm":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$array_insert = array(
+									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+									"prod_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+									"level"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+									"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									"qtyproduce"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+									"unit_cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+									"abc_cost"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+									"ovh_cost"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+									"revenue"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+									"profitable"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+									"abc_lower"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+									"ovh_lower"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+									"abc_cost_r"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+									"ovh_cost_r"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+									"bulan"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
+									"tahun"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+								);
+								array_push($array_batch_insert, $array_insert);	
+							}	
+						break;
 					}
 					
 					if($array_batch_insert){
 						$this->db->insert_batch($type_import, $array_batch_insert);
-						//echo $this->db->last_query();exit;
 					}
 					
 				}

@@ -1,0 +1,12 @@
+<div style='float:left;width:100%'>
+	<fieldset>
+		<form method='post' url="{$host}home/import_data/upload/are_emp/file_are/temp_are" id="form_{$main}" enctype="multipart/form-data">
+			<input type="hidden" name="act_id" id="act_id" value="">
+			<label>Month</label>: {html_select_date prefix='bulan_emp' start_year='+5' end_year='+5' display_days=false display_years=false all_extra='id="bulan_emp" style="width:10%;padding:2px;"'}<br>
+			<label>Year</label>: {html_select_date prefix='tahun_emp' start_year='+0' end_year='+5' display_days=false display_months=false all_extra='id="tahun_emp" style="width:10%;padding:2px;"'}<br>
+			<label>Upload</label>: <input type="file" name="file_are" id="file_are"><br><br>
+		</form>
+		{include file='template/button.html' id='upload_are_emp' text='Upload' icon='save' click='' style="float:right;"}
+		{include file='template/button.html' id='download_are_emp' text='Download Template' icon='download' href='home/download_na/temp_are_emp' target="_blank" style="float:right;"}
+	</fieldset>
+</div>
