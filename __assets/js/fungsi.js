@@ -136,10 +136,10 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 	var urlnya;
 	var urlglobal="";
 	var param={};
-	if(flagkode == 'ada'){
-		var url_crud=host+"homex/simpansavedata/"+crud_table;
+	if(flagkode == 'jenonk'){
+		var url_crud = host+"homex/simpansavedata/"+crud_table;
 	}else{
-		var url_crud=host+"home/simpansavedata/"+crud_table;
+		var url_crud = host+"home/simpansavedata/"+crud_table;
 	}
 	var fitnya;
 	switch (modnya){
@@ -454,14 +454,20 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			urlnya = "tbl_prd";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
+			param['bulan']=$('#bulan_period').val();
+			param['tahun']=$('#tahun_period').val();
 			kolom[modnya] = [	
-				{field:'cost_driver',title:'Cost Driver',width:100, halign:'center',align:'center'},
-				{field:'prod_id',title:'Production ID.',width:250, halign:'center',align:'left'},
-				{field:'activity_cost',title:'Cost',width:100, halign:'center',align:'right'},
-				{field:'percent',title:'%',width:100, halign:'center',align:'right',
+				{field:'tbl_prm_id',title:'prm id',width:150, halign:'center',align:'center',hidden:true},
+				{field:'tbl_cdm_id',title:'cdm id',width:150, halign:'center',align:'center',hidden:true},
+				{field:'cost_driver',title:'Cost Driver',width:150, halign:'center',align:'center'},
+				{field:'prod_id',title:'Production ID.',width:150, halign:'center',align:'left'},
+				{field:'quantity',title:'Qty.',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
 				},
-				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+				{field:'weight',title:'Weight',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0}}
+				},
+				{field:'unweight',title:'Unweight',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0}}
 				},
 			]
@@ -879,26 +885,30 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			param['bulan']=$('#bulan_period').val();
 			param['tahun']=$('#tahun_period').val();
 			kolom[modnya] = [	
-				{field:'prod_id',title:'Item',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Item Name',width:250, halign:'center',align:'left'},
-				{field:'level',title:'Unit',width:100, halign:'center',align:'center'},
-				{field:'revenue',title:'MakeBy',width:100, halign:'center',align:'left'},
-				{field:'abc_cost',title:'Class',width:100, halign:'center',align:'center'},
+				{field:'prod_id',title:'Prod. ID',width:100, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'level',title:'Level',width:100, halign:'center',align:'center'},
+				{field:'qtyproduce',title:'Qty. Prod.',width:100, halign:'center',align:'right'},
+				{field:'revenue',title:'Revenue',width:100, halign:'center',align:'left'},
+				{field:'unit_cost',title:'Unit Cost',width:100, halign:'center',align:'right'},
+				{field:'abc_cost',title:'ABC Cost',width:100, halign:'center',align:'center'},
+				{field:'ovh_cost',title:'Overhead Cost',width:100, halign:'center',align:'center'},
 				{field:'profitable',title:'Lost Factor',width:100, halign:'center',align:'right'},
-				{field:'qtyproduce',title:'ABC Cost',width:100, halign:'center',align:'right'},
-				{field:'qtyproduce',title:'ABC Cost(r)',width:100, halign:'center',align:'right'},
-				{field:'unit_cost',title:'Material Cost(r)',width:100, halign:'center',align:'right'},
+				{field:'abc_lower',title:'ABC Lower',width:100, halign:'center',align:'center'},
+				{field:'ovh_lower',title:'Overhead Lower',width:100, halign:'center',align:'center'},
+				{field:'abc_cost_r',title:'ABC Cost(r)',width:100, halign:'center',align:'center'},
+				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:100, halign:'center',align:'center'},
 			]
 		break;
 		case "mst_cdm":
 			judulnya = "";
-			urlnya = "tbl_cdm";
+			urlnya = "tbl_cdms";
 			fitnya = false;
 			urlglobal = host+'homex/getdata/'+urlnya;
 			param['bulan']=$('#bulan_period').val();
 			param['tahun']=$('#tahun_period').val();
 			kolom[modnya] = [	
-				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'center'},
+				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
 				{field:'roundit',title:'Roundit',width:100, halign:'center',align:'right'},
 				{field:'sudn_cd',title:'SUDN Cost Driver',width:150, halign:'center',align:'right'},				
@@ -1475,8 +1485,21 @@ function loadingna(){
 	windowLoading("<img src='"+host+"__assets/images/loading.gif' style='position: fixed;top: 50%;left: 50%;margin-top: -10px;margin-left: -25px;'/>","Please Wait",200,100);
 }
 
-function transfer_data(from,to,grid_id_from,grid_id_to){
-	var row=$('#'+grid_id_from).datagrid('getSelected');
+function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag_oke){
+	if(flag_oke == 'jenonk'){
+		var row=$('#'+grid_id_from).datagrid('getSelected');
+		var row2=$('#'+grid_id_to).datagrid('getSelected');
+		
+		if(to == 'tbl_prd'){
+			if(row2){
+			}else{
+				$.messager.alert('ABC System',"Please Select List",'error');
+				return false;
+			}
+		}
+	}else{
+		var row=$('#'+grid_id_from).datagrid('getSelected');
+	}
 	var post={};
 		
 		if(row){
@@ -1544,12 +1567,34 @@ function transfer_data(from,to,grid_id_from,grid_id_to){
 					post['editstatus']='add';
 					post['tbl_acm_id']=row.id;
 				break;
+				
+				//Modul Data Production
+				case "tbl_prd":
+					post['editstatus']='add';
+					post['id']="";
+					post['tbl_cdm_id']=row.id;
+					post['tbl_prm_id']=row2.id;
+					post['bulan']=$('#bulan_period').val();
+					post['tahun']=$('#tahun_period').val();
+				break;
+				//End Modul
 			}
 			
-			$.post(host+'home/simpansavedata/'+to,post,function(r){
+			
+			if(flag_oke == 'jenonk'){
+				var urlnyacrot = host+'homex/simpansavedata/'+to;
+			}else{
+				var urlnyacrot = host+'home/simpansavedata/'+to;
+			}	
+			
+			$.post(urlnyacrot, post, function(r){
 				if(r==1){
 					winLoadingClose();
-					$('#'+grid_id_to).edatagrid('reload');
+					if(flag_oke == 'jenonk'){
+						$('#'+grid_id_destination).edatagrid('reload');
+					}else{
+						$('#'+grid_id_to).edatagrid('reload');
+					}
 				}
 				else{
 					winLoadingClose();
