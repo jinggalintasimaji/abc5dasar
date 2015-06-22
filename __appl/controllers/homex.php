@@ -127,11 +127,15 @@ class homex extends MY_Controller {
 		echo $this->mhomex->getdata($type, 'json');
 	}
 	
-	function simpansavedata($type=""){
+	function simpansavedata($type="", $p1=""){
 		$post = array();
         foreach($_POST as $k=>$v) $post[$k] = $this->db->escape_str($this->input->post($k));
-		$editstatus = $post['editstatus'];
-		unset($post['editstatus']);
+		if(isset($post['editstatus'])){
+			$editstatus = $post['editstatus'];
+			unset($post['editstatus']);
+		}else{
+			$editstatus = $p1;
+		}
 		echo $this->mhomex->simpansavedata($type, $post, $editstatus);
 	}
 	

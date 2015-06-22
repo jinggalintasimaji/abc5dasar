@@ -34,5 +34,24 @@
 <script>
 	genGrid('mst_prm','master_prm', 500, 160);
 	genGrid('mst_cdm','master_cdm', 500, 160);
-	genGridEditable('tbl_prd','tabel_prd', 500, 600,'tbl_are');
+	genGridEditable('tbl_prd','tabel_prd', 500, 600,'tbl_prd','jenonk');
+	
+	$('#tranfer_dt').bind('click',function(r){
+		if(model_id){
+			transfer_data('tbl_prd','tbl_prd','master_prm','master_cdm', 'tabel_prd', 'jenonk');
+		}else{
+			$.messager.alert('ABC System',"No Model Activate",'error');
+		}
+	});
+	
+	$('#bulan_period').on('change',function(){
+		$("#tabel_prd").edatagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+		$("#master_prm").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+		$("#master_cdm").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+	});
+	$('#tahun_period').on('change',function(){
+		$('#bulan_period').trigger('change');
+	});
+
+
 </script>

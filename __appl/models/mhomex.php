@@ -80,7 +80,14 @@ class mhomex extends CI_Model{
 				}else{
 					$where .= " AND A.tbl_model_id = '0' ";
 				}
-			
+				
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= " AND A.bulan = '".$bulan."' AND A.tahun = '".$tahun."' ";
+				}
+				
 				$sql = "
 					SELECT A.*
 					FROM tbl_cdm A
@@ -137,12 +144,18 @@ class mhomex extends CI_Model{
 			
 			//Modul Data Production & Reference Product Master
 			case "tbl_prm":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
 				$bulan = $this->input->post('bulan');
 				$tahun = $this->input->post('tahun');
 				
 				if($bulan && $tahun){
 					$where .= "
-						AND  bulan = '".$bulan."' AND tahun = '".$tahun."'
+						AND  A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."'
 					";
 				}
 				
@@ -152,10 +165,48 @@ class mhomex extends CI_Model{
 					$where
 				";
 			break;
-			case "tbl_prd":
+			case "tbl_cdms":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= " AND A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."' ";
+				}
+				
 				$sql = "
 					SELECT A.*
+					FROM tbl_cdm A
+					$where
+				";
+			break;			
+			case "tbl_prd":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= "
+						AND  A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."'
+					";
+				}
+				
+				$sql = "
+					SELECT A.*, B.cost_driver, C.prod_id
 					FROM tbl_prd A
+					LEFT JOIN tbl_cdm B ON B.id = A.tbl_cdm_id
+					LEFT JOIN tbl_prm C ON C.id = A.tbl_prm_id
+					$where
 				";
 			break;
 			//End Data Production
@@ -170,7 +221,7 @@ class mhomex extends CI_Model{
 		}
 	}
 	
-	function simpansavedata($table,$data,$sts_crud){ //$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
+	function simpansavedata($table,$data,$sts_crud){ //savedata
 		$this->db->trans_begin();
 		
 		$id = $data['id'];
@@ -184,8 +235,14 @@ class mhomex extends CI_Model{
 			case "tbl_rdm":
 			case "tbl_cdm":
 			case "tbl_prm":
+			case "tbl_prd":
 				if($sts_crud == 'add'){
 					$data['tbl_model_id'] = (isset($this->modeling['id']) ? $this->modeling['id'] : 0);
+				}
+				
+				if($table == 'tbl_prd'){
+					unset($data['cost_driver']);
+					unset($data['prod_id']);
 				}
 			break;
 			case "tbl_user":
@@ -436,7 +493,6 @@ class mhomex extends CI_Model{
 					
 				}
 			break;
-			
 		}
 		
 		switch ($sts_crud){
