@@ -66,9 +66,10 @@ class mhome extends CI_Model{
 				$key=$this->input->post('key');
 				if($key)$where .=" AND A.descript like '%".$key."%' ";
 				$where .=" AND tbl_model_id=".$this->modeling['id'];
-				if($p1=='config'){
+				$where .=" AND pid IS NULL";
+				/*if($p1=='config'){
 					$where .=" AND pid IS NULL";
-				}
+				}*/
 				$sql="SELECT A.*,C.cost_driver
 						FROM tbl_acm A
 						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id ".$where;
@@ -129,8 +130,15 @@ class mhome extends CI_Model{
 				$tahun=(int)$this->input->post('tahun');
 				
 				$where .="  AND A.bulan=".$bulan." AND A.tahun=".$tahun;
-				
-				$sql="SELECT A.*,B.activity_code,B.descript,
+				$sql="SELECT A.*, B.activity_code,B.descript,F.total_cost as total_cost_act,A.total_cost,E.rdm_qty
+						FROM tbl_are A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id 
+						LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id 
+						LEFT JOIN tbl_acm_total_cost F ON F.tbl_acm_id=B.id 
+						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id		
+						".$where."  AND A.tbl_acm_id=".$p1." 
+						AND tbl_acm_child_id IS NOT NULL";
+				/*$sql="SELECT A.*,B.activity_code,B.descript,
 						C.GRAND_TOTAL+D.GRAND_TOTAL AS TOTAL_COST_ACT,
 						CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN ((C.GRAND_TOTAL+D.GRAND_TOTAL)/A.rd_qty) 
 						ELSE ((C.GRAND_TOTAL+D.GRAND_TOTAL) * A.percent)/100 
@@ -165,7 +173,7 @@ class mhome extends CI_Model{
 								) AS A GROUP BY A.tbl_acm_id
 						) AS D ON A.tbl_acm_child_id=D.tbl_acm_id 
 						WHERE A.tbl_acm_id=".$p1. " AND A.bulan=".$bulan." AND A.tahun=".$tahun;	
-						
+				*/		
 				/*$sql="SELECT A.*,B.activity_code,B.descript 
 						FROM tbl_act_to_act A 
 						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id
@@ -204,18 +212,16 @@ class mhome extends CI_Model{
 				
 				if($p2=='emp'){
 						$where .=" AND tbl_emp_id IS NOT NULL ";
-						$select .=" B.employee_id,CONCAT(B.first,B.last)as name_na,B.wages,
-									CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN (B.wages/A.rd_qty) 
-									ELSE (B.wages * A.percent)/100 
-									END AS total_cost ";
+						$select .=" B.employee_id,CONCAT(B.first,B.last)as name_na,B.wages,E.rdm_qty,
+									A.total_cost ";
 						$join .="LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id ";
+						$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
 				}
 				if($p2=='exp'){
 					$where .=" AND tbl_exp_id IS NOT NULL ";
-					$select .="B.account,B.descript,B.amount,CASE WHEN A.rd_qty IS NOT NULL AND A.rd_qty <> 0 THEN (B.amount/A.rd_qty) 
-						ELSE (B.amount * A.percent)/100 
-						END AS total_cost";
-					$join .="LEFT JOIN tbl_exp B ON A.tbl_exp_id=B.id";
+					$select .="B.account,B.descript,B.amount,A.total_cost,E.rdm_qty";
+					$join .="LEFT JOIN tbl_exp B ON A.tbl_exp_id=B.id ";
+					$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
 				}
 				
 				$bulan=(int)$this->input->post('bulan');
@@ -235,11 +241,13 @@ class mhome extends CI_Model{
 						FROM tbl_cdm A ";
 			break;
 			case "tbl_emp":
-				$sql = "
-					SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
+				
+				$sql = "SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
 					FROM tbl_emp A
-					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id
-				";
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where;
 			break;
 			
 			case "tbl_bpd":
@@ -248,10 +256,14 @@ class mhome extends CI_Model{
 						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id";
 			break;
 			case "tbl_exp":
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
+				
 				$sql = "
 					SELECT A.*,B.costcenter
 					FROM tbl_exp A 
-					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id";
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where;;
 			break;
 			case "tbl_efx":
 				$sql = "
@@ -278,6 +290,12 @@ class mhome extends CI_Model{
 			break;
 		}
 		return $this->result_query($sql,'json');
+	}
+	function hitung_total_cost_act($id_act){
+		$sql="SELECT SUM(total_cost)as total_cost 
+				FROM tbl_are 
+				WHERE tbl_acm_id=".$id_act;
+		return $this->db->query($sql)->row('total_cost');
 	}
 	
 	function get_combo($p1,$p2="",$p3=""){
@@ -389,26 +407,78 @@ class mhome extends CI_Model{
 				if($sts_crud=='edit'){
 					//unset($data['id']);
 					
+					$ex=$this->db->get_where('tbl_are',array('id'=>$this->input->post('id')))->row_array();
+					//print_r($_POST);exit;
+					if($_POST['percent']!=$ex['percent']){$isi='P';}
+					if($_POST['cost']!=$ex['cost']){$isi='C';}
+					if($_POST['rd_qty']!=$ex['rd_qty']){$isi='R';}
+					
+					//echo $isi;exit;
+					unset($data['total_cost']);
+					if($isi=='C'){
+						$data['total_cost']=$data['cost'];
+						unset($data['percent']);
+						$data['percent']=($data['cost']/$data['wages'])*100;
+					}
+					if($isi=='P'){
+						$data['total_cost']=($data['wages'] * $data['percent'])/100;
+						unset($data['cost']);
+						$data['cost']=$data['total_cost'];
+					}
+					if($isi=='R'){						
+						$data['total_cost']=($data['wages']/$data['rdm_qty']) * $data['rd_qty'];
+						unset($data['percent']);
+						$data['cost']=$data['total_cost'];
+						$data['percent']=($data['cost']/$data['wages'])*100;
+					}
+					unset($data['rdm_qty']);
 					unset($data['employee_id']);
 					unset($data['name_na']);
 					unset($data['wages']);
 					unset($data['cost_desc']);
-					unset($data['total_cost']);
+					//unset($data['total_cost']);
+					
 					$data['create_date']=date('Y-m-d H:i:s');
 					$data['create_by']='Goyz';
 					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
 			case "tbl_act_to_act":
+				$table='tbl_are';
 				if($sts_crud=='edit'){
 					//unset($data['id']);
+					
+					$ex=$this->db->get_where('tbl_are',array('id'=>$this->input->post('id')))->row_array();
+					//print_r($_POST);exit;
+					if($_POST['percent']!=$ex['percent']){$isi='P';}
+					if($_POST['cost']!=$ex['cost']){$isi='C';}
+					if($_POST['rd_qty']!=$ex['rd_qty']){$isi='R';}
+					
+					//echo $isi;exit;
+					unset($data['total_cost']);
+					if($isi=='C'){
+						$data['total_cost']=$data['cost'];
+						unset($data['percent']);
+						$data['percent']=($data['cost']/$data['total_cost_act'])*100;
+					}
+					if($isi=='P'){
+						$data['total_cost']=($data['total_cost_act'] * $data['percent'])/100;
+						unset($data['cost']);
+						$data['cost']=$data['total_cost'];
+					}
+					if($isi=='R'){						
+						$data['total_cost']=($data['total_cost_act']/$data['rdm_qty']) * $data['rd_qty'];
+						unset($data['percent']);
+						$data['cost']=$data['total_cost'];
+						$data['percent']=($data['cost']/$data['total_cost_act'])*100;
+					}
+					
+					
 					unset($data['activity_code']);
 					unset($data['descript']);
-					unset($data['TOTAL_COST_ACT']);
-					
-					unset($data['total_cost']);
+					unset($data['total_cost_act']);
 					$data['create_date']=date('Y-m-d H:i:s');
-					$data['create_by']='Goyz';
+					$data['create_by']=$this->auth['nama_user'];;
 					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
@@ -416,14 +486,38 @@ class mhome extends CI_Model{
 				$table="tbl_are";
 				if($sts_crud=='edit'){
 					//unset($data['id']);
+					$ex=$this->db->get_where('tbl_are',array('id'=>$this->input->post('id')))->row_array();
+					//print_r($_POST);exit;
+					if($_POST['percent']!=$ex['percent']){$isi='P';}
+					if($_POST['cost']!=$ex['cost']){$isi='C';}
+					if($_POST['rd_qty']!=$ex['rd_qty']){$isi='R';}
+					unset($data['total_cost']);
+					if($isi=='C'){
+						$data['total_cost']=$data['cost'];
+						unset($data['percent']);
+						$data['percent']=($data['cost']/$data['amount'])*100;
+					}
+					if($isi=='P'){
+						$data['total_cost']=($data['amount'] * $data['percent'])/100;
+						unset($data['cost']);
+						$data['cost']=$data['total_cost'];
+					}
+					if($isi=='R'){				
+						$data['total_cost']=($data['amount']/$data['rdm_qty']) * $data['rd_qty'];
+						unset($data['percent']);
+						$data['cost']=$data['total_cost'];
+						$data['percent']=($data['cost']/$data['amount'])*100;
+					}
+					
 					
 					unset($data['account']);
 					unset($data['descript']);
 					unset($data['amount']);
 					unset($data['cost_desc']);
-					unset($data['total_cost']);
+					
+					
 					$data['create_date']=date('Y-m-d H:i:s');
-					$data['create_by']='Goyz';
+					$data['create_by']=$this->auth['nama_user'];
 					$array_where=array('id'=>$this->input->post('id'));
 				}
 			break;
@@ -480,6 +574,22 @@ class mhome extends CI_Model{
 				//$this->db->where($field_id,$id);
 				$this->db->where($array_where);
 				$this->db->update($table,$data);
+				if($table=='tbl_are'){
+					$total_cost_act=$this->hitung_total_cost_act($this->input->post('tbl_acm_id'));
+					$ex=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$this->input->post('tbl_acm_id')))->row();
+					$data_total=array('tbl_acm_id'=>$this->input->post('tbl_acm_id'),
+									  'bulan'=>$data['bulan'],
+									  'tahun'=>$data['tahun'],
+									  'total_cost'=>$total_cost_act
+					);
+					if(isset($ex->id)){
+						$this->db->where('id',$ex->id);
+						$this->db->update('tbl_acm_total_cost',$data_total);
+					}else{
+						$this->db->insert('tbl_acm_total_cost',$data_total);
+					}
+					
+				}
 			break;
 			case "delete":
 				$this->db->where('id',$this->input->post('id'));
@@ -503,8 +613,10 @@ class mhome extends CI_Model{
 	
 	function config_act($id_grid,$id_tree,$sts=""){
 		$this->db->trans_begin();
-		if($sts!=""){
-			$sql="update tbl_acm set pid=NULL WHERE id=".$id_tree;
+		if($sts!=""){//remove
+			
+			//$sql="update tbl_acm set pid=NULL WHERE id=".$id_tree;
+			$sql="delete from tbl_acm WHERE id=".$id_tree;
 			$this->db->query($sql);
 		}
 		else{
@@ -522,25 +634,25 @@ class mhome extends CI_Model{
 						}
 						
 						if($sts==0){
-							/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+							$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
 								SELECT $id_tree,tbl_model_id,descript,activity_code
 								FROM tbl_acm WHERE id=".$v;
 							$this->db->query($sql);
-							*/
-							$this->db->where(array('id'=>$v));
-							$this->db->update('tbl_acm',array('pid'=>$id_tree));
+							
+							//$this->db->where(array('id'=>$v));
+							//$this->db->update('tbl_acm',array('pid'=>$id_tree));
 						}
 						
 						
 					}
 					else{
-						/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+						$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
 								SELECT $id_tree,tbl_model_id,descript,activity_code
 								FROM tbl_acm WHERE id=".$v;
 						$this->db->query($sql);
-						*/
-						$this->db->where(array('id'=>$v));
-						$this->db->update('tbl_acm',array('pid'=>$id_tree));
+						
+						//$this->db->where(array('id'=>$v));
+						//$this->db->update('tbl_acm',array('pid'=>$id_tree));
 					}
 				/*}else{
 					//$this->db->where(array('id'=>$v));
@@ -606,18 +718,39 @@ class mhome extends CI_Model{
 				$tahun=$this->input->post('tahun_empYear');
 				$act_id=$this->input->post('act_id');
 				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
-					
-					$get_emp_id=$this->db->get_where('tbl_emp',array('employee_id'=>$worksheet->getCell("D".$i)->getCalculatedValue()))->row_array();
+					$sql="SELECT A.*,B.rdm_qty FROM tbl_emp A 
+					LEFT JOIN tbl_rdm B ON A.tbl_rdm_id=B.id 
+					WHERE A.employee_id='".$worksheet->getCell("D".$i)->getCalculatedValue()."'";
+					$get_emp_id=$this->db->query($sql)->row_array();
 					if(!empty($get_emp_id)){
+						if($worksheet->getCell("G".$i)->getCalculatedValue()!=''){
+							$total_cost=$worksheet->getCell("G".$i)->getCalculatedValue();
+							$persen=($total_cost/$get_emp_id['wages'])*100;
+							$cost=$worksheet->getCell("G".$i)->getCalculatedValue();
+						}
+						if($worksheet->getCell("H".$i)->getCalculatedValue()!=''){
+							$total_cost=($get_emp_id['wages'] * $worksheet->getCell("H".$i)->getCalculatedValue())/100;
+							$persen=$worksheet->getCell("H".$i)->getCalculatedValue();
+							$cost=$total_cost;
+						}
+						if($worksheet->getCell("I".$i)->getCalculatedValue()!=''){
+							$total_cost=($get_emp_id['wages']/$get_emp_id['rdm_qty']) * $worksheet->getCell("I".$i)->getCalculatedValue();
+							$cost=$total_cost;
+							$persen=($cost/$get_emp_id['wages'])*100;
+						}
 						$array_na = array(
 								"tbl_acm_id"=>$act_id,
 								"tbl_emp_id"=>$get_emp_id['id'],
-								"percent"=>($worksheet->getCell("G".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("G".$i)->getCalculatedValue()),
-								"rd_qty"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue()),
-								"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-								"budget_type"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+								
+								"cost"=>$cost,
+								"percent"=>$persen,
+								"rd_qty"=>($worksheet->getCell("I".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("I".$i)->getCalculatedValue()),
+								
+								"cost_type"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+								"budget_type"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
 								"bulan"=>$bulan,
 								"tahun"=>$tahun,
+								"total_cost"=>$total_cost
 						);
 						$cek_data = $this->db->get_where('tbl_are', array('bulan'=>$bulan,'tahun'=>$tahun,'tbl_acm_id'=>$act_id,'tbl_emp_id'=>$get_emp_id['id']))->row_array();						
 						if(empty($cek_data)){
@@ -628,28 +761,70 @@ class mhome extends CI_Model{
 						}
 					}
 					
-				}									
+				}			
+				$total_cost_act=$this->hitung_total_cost_act($act_id);
+				$ex=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id))->row();
+				$data_total=array('tbl_acm_id'=>$act_id,
+								  'bulan'=>$bulan,
+								  'tahun'=>$tahun,
+								  'total_cost'=>$total_cost_act
+				);
+				if(isset($ex->id)){
+					$this->db->where('id',$ex->id);
+					$this->db->update('tbl_acm_total_cost',$data_total);
+				}else{
+					$this->db->insert('tbl_acm_total_cost',$data_total);
+				}
+
+					
 			break;
 			case "are_exp":
 				$act_id=$this->input->post('act_id_exp');
 				$bulan=$this->input->post('bulan_expMonth');
 				$tahun=$this->input->post('tahun_expYear');
+				$grand_total=0;
 				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
 					$get_loc=$this->db->get_where('tbl_loc',array('location'=>$worksheet->getCell("C".$i)->getCalculatedValue(),'costcenter'=>$worksheet->getCell("D".$i)->getCalculatedValue()))->row_array();
+					//echo $this->db->last_query();exit;
 					if(!empty($get_loc)){
-						$get_exp_id=$this->db->get_where('tbl_exp',array('account'=>$worksheet->getCell("F".$i)->getCalculatedValue(),'tbl_loc_id'=>$get_loc['id']))->row_array();
+						$sql="SELECT A.*,B.rdm_qty FROM tbl_exp A 
+								LEFT JOIN tbl_rdm B ON A.tbl_rdm_id=B.id 
+								WHERE A.account='".$worksheet->getCell("F".$i)->getCalculatedValue()."' 
+								AND A.tbl_loc_id='".$get_loc['id']."'";
+						$get_exp_id=$this->db->query($sql)->row_array();
 						if(!empty($get_exp_id)){
+							if($worksheet->getCell("I".$i)->getCalculatedValue()!=''){
+								$total_cost=$worksheet->getCell("I".$i)->getCalculatedValue();
+								$persen=($total_cost/$get_exp_id['amount'])*100;
+								$cost=$worksheet->getCell("I".$i)->getCalculatedValue();
+							}
+							if($worksheet->getCell("J".$i)->getCalculatedValue()!=''){
+								$total_cost=($get_exp_id['amount'] * $worksheet->getCell("J".$i)->getCalculatedValue())/100;
+								$persen=$worksheet->getCell("J".$i)->getCalculatedValue();
+								$cost=$total_cost;
+							}
+							if($worksheet->getCell("K".$i)->getCalculatedValue()!=''){
+								$total_cost=($get_exp_id['amount']/$get_exp_id['rdm_qty']) * $worksheet->getCell("K".$i)->getCalculatedValue();
+								$cost=$total_cost;
+								$persen=($cost/$get_exp_id['amount'])*100;
+							}
+							//$grand_total =$grand_total+$total_cost;
+							
 							$array_na = array(
 									"tbl_acm_id"=>$act_id,
 									"tbl_exp_id"=>$get_exp_id['id'],
-									"percent"=>($worksheet->getCell("I".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("I".$i)->getCalculatedValue()),
-									"rd_qty"=>($worksheet->getCell("J".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("J".$i)->getCalculatedValue()),
-									"cost_type"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+									
+									"cost"=>$cost,
+									"percent"=>$persen,
+									"rd_qty"=>($worksheet->getCell("K".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("K".$i)->getCalculatedValue()),
+									
+									"cost_type"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
 									"costcenter"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"budget_type"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-									"coefficient"=>($worksheet->getCell("M".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("M".$i)->getCalculatedValue()),
+									"budget_type"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+									"coefficient"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue()),
 									"bulan"=>$bulan,
 									"tahun"=>$tahun,
+									"total_cost"=>$total_cost
 							);
 							$cek_data = $this->db->get_where('tbl_are', array('bulan'=>$bulan,'tahun'=>$tahun,'tbl_acm_id'=>$act_id,'tbl_exp_id'=>$get_exp_id['id']))->row_array();						
 							if(empty($cek_data)){
@@ -662,7 +837,20 @@ class mhome extends CI_Model{
 					}
 					
 					
-				}									
+				}
+				$total_cost_act=$this->hitung_total_cost_act($act_id);
+				$ex=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id))->row();
+				$data_total=array('tbl_acm_id'=>$act_id,
+								  'bulan'=>$bulan,
+								  'tahun'=>$tahun,
+								  'total_cost'=>$total_cost_act
+				);
+				if(isset($ex->id)){
+					$this->db->where('id',$ex->id);
+					$this->db->update('tbl_acm_total_cost',$data_total);
+				}else{
+					$this->db->insert('tbl_acm_total_cost',$data_total);
+				}
 			break;
 			case "act":
 				$bulan=$this->input->post('bulan_actMonth');

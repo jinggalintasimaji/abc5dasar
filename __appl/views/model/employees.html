@@ -48,6 +48,7 @@
 	});
 	$('#bulan_emp').on('change',function(){
 		$("#tabel_employees").edatagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_emp').val() });
+		$("#master_employee").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_emp').val() });
 	});
 	$('#tahun_emp').on('change',function(){
 		$('#bulan_emp').trigger('change');

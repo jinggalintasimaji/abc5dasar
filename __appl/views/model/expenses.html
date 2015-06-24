@@ -49,6 +49,7 @@
 	});
 	$('#bulan_exp').on('change',function(){
 		$("#tabel_expenses").edatagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_exp').val() });
+		$("#master_expenses").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_exp').val() });
 	});
 	$('#tahun_exp').on('change',function(){
 		$('#bulan_exp').trigger('change');

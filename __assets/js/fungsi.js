@@ -213,14 +213,31 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				},
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
 				{field:'name_na',title:'Employee Name',width:180, halign:'center',align:'left'},
-				{field:'wages',title:'Cost',width:100, halign:'center',align:'right'},
-				{field:'percent',title:'%',width:50, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{precision:1,value:0,min:0,max:100}}
+				{field:'wages',title:'Salary',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
 				},
+				{field:'rdm_qty',title:'Res.Driv.',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
+				},
+				{field:'cost',title:'Cost',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+					editor:{type:'numberbox',options:{precision:1,value:0,min:0}}
+					
+				},
+				{field:'percent',title:'%',width:50, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{precision:2,value:0,min:0,max:100}}
+				},
+				
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{ value:0 }}
 				},
-				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'right',
+				/*{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'right',
 					editor:{
                        type:'combobox',
                        options:{
@@ -251,14 +268,18 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
                           // required:true
                        }
                     }
-				},
+				},*/
 				/*{field:'input_rate',title:'Input Rate',width:80, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0}}
 				},
 				{field:'output_rate',title:'Output Rate',width:80, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0}}
 				},*/
-				{field:'total_cost',title:'Total Cost',width:80, halign:'center',align:'right'}
+				{field:'total_cost',title:'Total Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				}
 			]
 		break;		
 		case "tbl_are_exp":
@@ -273,16 +294,37 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				},
 				{field:'account',title:'Account',width:80, halign:'center',align:'center'},
 				{field:'descript',title:'Expenses Desc.',width:150, halign:'center',align:'left'},
-				{field:'amount',title:'Cost',width:100, halign:'center',align:'right'
+				{field:'amount',title:'Expanses',width:100, halign:'center',align:'right',
 					//editor:{type:'numberbox',options:{value:0}}
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'rdm_qty',title:'Res.Driv.',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
+				},
+				{field:'cost',title:'Cost',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+					editor:{type:'numberbox',options:{precision:1,value:0,min:0}}
+					
 				},
 				{field:'percent',title:'%',width:80, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
 					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
 				},
 				{field:'rd_qty',title:'Driver Qty',width:80, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
 					editor:{type:'numberbox',options:{value:0}}
 				},
-				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
+				/*{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
 					editor:{
                        type:'combobox',
                        options:{
@@ -307,17 +349,21 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 							}]
                        }
                     }
-				},
+				},*/
 				/*{field:'input_rate',title:'Input Rate',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0}}
 				},
 				{field:'output_rate',title:'Output Rate',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0}}
 				},*/
-				{field:'coefficient',title:'Cooffecient',width:100, halign:'center',align:'left',
+				/*{field:'coefficient',title:'Cooffecient',width:100, halign:'center',align:'left',
 					editor:{type:'numberbox',options:{value:0}}
-				},
-				{field:'total_cost',title:'Total Cost',width:80, halign:'center',align:'right'}
+				},*/
+				{field:'total_cost',title:'Total Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
+				}
 			]
 		break;
 		case "tbl_act":
@@ -329,16 +375,38 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity Code',width:100, halign:'center',align:'left'},
 				{field:'descript',title:'Activity Desc.',width:150, halign:'center',align:'left'},
-				{field:'TOTAL_COST_ACT',title:'Cost Activity',width:150, halign:'center',align:'right'
+				{field:'total_cost_act',title:'Cost Activity',width:100, halign:'center',align:'right',
 					//editor:{type:'numberbox',options:{value:0}}
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
 				},
+				{field:'rdm_qty',title:'Res.Driv.',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
+				},
+				{field:'cost',title:'Cost',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+					editor:{type:'numberbox',options:{precision:1,value:0,min:0}}
+					
+				},
+				
 				{field:'percent',title:'%',width:80, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
 					editor:{type:'numberbox',options:{value:0,min:0,max:100}}
 				},
 				{field:'rd_qty',title:'Driver Qty',width:80, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
 					editor:{type:'numberbox',options:{value:0}}
 				},
-				{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
+				/*{field:'cost_type',title:'Cost Type',width:100, halign:'center',align:'left',
 					editor:{
                        type:'combobox',
                        options:{
@@ -363,9 +431,13 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 							}]
                        }
                     }
-				},
+				},*/
 				
-				{field:'total_cost',title:'Total Cost',width:150, halign:'center',align:'right'}
+				{field:'total_cost',title:'Total Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				}
 			]
 		break;	
 		case "tbl_expenses":
@@ -502,8 +574,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				iconCls:'icon-save',
 				handler:function(){
 					var sts;
-					$("#"+divnya).edatagrid('saveRow');
-					$("#"+divnya).edatagrid('reload');
+					if($("#"+divnya).edatagrid('saveRow'))$("#"+divnya).edatagrid('reload');
+					
 					/*if(sts==1){
 						$("#"+divnya).edatagrid('reload');
 					}
@@ -591,6 +663,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		case "mst_employees":
 			judulnya = "";
 			urlnya = "tbl_emp";
+			param['bulan']=$('#bulan_emp').val();
+			param['tahun']=$('#tahun_emp').val();
 			fitnya = false;
 			kolom[modnya] = [	
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
@@ -612,6 +686,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		case "mst_expenses":
 			judulnya = "";
 			urlnya = "tbl_exp";
+			param['bulan']=$('#bulan_exp').val();
+			param['tahun']=$('#tahun_exp').val();
 			fitnya = false;
 			kolom[modnya] = [	
 				{field:'account',title:'Account',width:80, halign:'center',align:'center'},
@@ -1622,4 +1698,21 @@ function aktif_non(id,sts){
 				//alert(r);winLoadingClose();	
 			//}
 		});
+}
+function NumberFormat(value) {
+	
+    var jml= new String(value);
+    if(jml=="null" || jml=="NaN") jml ="0";
+    jml1 = jml.split("."); 
+    jml2 = jml1[0];
+    amount = jml2.split("").reverse();
+
+    var output = "";
+    for ( var i = 0; i <= amount.length-1; i++ ){
+        output = amount[i] + output;
+        if ((i+1) % 3 == 0 && (amount.length-1) !== i)output = ',' + output;
+    }
+    if(jml1[1]===undefined) jml1[1] ="00";
+   // if(isNaN(output))  output = "0";
+    return output + "." + jml1[1];
 }
