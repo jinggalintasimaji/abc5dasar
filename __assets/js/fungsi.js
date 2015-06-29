@@ -522,7 +522,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		
 		//Modul Data Production
 		case "tbl_prd":
-			judulnya = "";
+			judulnya = "Data Production";
 			urlnya = "tbl_prd";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
@@ -954,9 +954,9 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		
 		//Tambahan data production
 		case "mst_prm":
-			judulnya = "";
+			judulnya = "List Product Master";
 			urlnya = "tbl_prm";
-			fitnya = false;
+			fitnya = true;
 			urlglobal = host+'homex/getdata/'+urlnya;
 			param['bulan']=$('#bulan_period').val();
 			param['tahun']=$('#tahun_period').val();
@@ -977,12 +977,12 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		case "mst_cdm":
-			judulnya = "";
+			judulnya = "Cost Driver";
 			urlnya = "tbl_cdms";
-			fitnya = false;
+			fitnya = true;
 			urlglobal = host+'homex/getdata/'+urlnya;
-			param['bulan']=$('#bulan_period').val();
-			param['tahun']=$('#tahun_period').val();
+			param['bulan']=bulan_pilihan;
+			param['tahun']=tahun_pilihan;
 			kolom[modnya] = [	
 				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
@@ -1089,6 +1089,9 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'total',title:'Total',width:100, halign:'center',align:'right'},
 				{field:'class',title:'Class',width:100, halign:'center',align:'right'},
 				{field:'position',title:'Position',width:250, halign:'center',align:'left'},
+				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
+				{field:'cost_nbr',title:'Cost NBR',width:150, halign:'center',align:'right'},
 				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
 				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},
 			]
@@ -1107,6 +1110,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
 				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
 				{field:'exp_level',title:'Exp. Level',width:100, halign:'center',align:'right'},
+				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
 				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
 				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
@@ -1118,7 +1123,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'resource',title:'Resource',width:200, halign:'center',align:'center'},
+				{field:'resource',title:'Resource',width:200, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
 				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
 				{field:'budtypeupe',title:'Budget Type UPE',width:150, halign:'center',align:'right'},				
@@ -1183,7 +1188,6 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:100, halign:'center',align:'center'},
 			]
 		break;
-		
 		// End Data Reference
 	}
 	
@@ -1311,6 +1315,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="tbl_model";
 			urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya;
 		break;
+		case "map_rdm":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-145;
+			var judulwindow = 'Form Mapping Resource Driver';
+			var table="tbl_rdm";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
 		//Data Reference
 		
 	}
@@ -1371,6 +1382,39 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 				}
 			}
 			else{
+				$.messager.alert('ABC System',"Select Row In Grid",'error');
+			}
+		break;
+		case "map_rdm_form":
+			var row = $("#grid_"+tabel).datagrid('getSelected');
+			var posting={};
+
+			if(row){
+				posting['editstatus'] = "map_rdm";
+				posting['bulan'] = row.bulan;
+				posting['tahun'] = row.tahun;
+				posting['resource'] = row.resource;
+				posting['tbl_rdm_id'] = row.tbl_rdm_id;
+				posting['rd_tot_qty'] = row.rd_tot_qty;
+				posting['id'] = row.id;
+
+				if(tabel == 'ref_employee'){
+					posting['tabel'] = "tbl_emp";
+					posting['employee_name'] = row.last;
+					posting['employee_id'] = row.employee_id;
+					posting['gaji'] = row.total;
+					posting['cost_nbr'] = row.cost_nbr;
+				}else if(tabel == 'ref_expense'){
+					posting['tabel'] = "tbl_exp";
+					posting['account'] = row.account;
+					posting['descript'] = row.descript;
+
+				}
+				
+				$.post(urlpost, posting, function(resp){
+					windowFormPanel(resp, judulwindow, lebar, tinggi);
+				});
+			}else{
 				$.messager.alert('ABC System',"Select Row In Grid",'error');
 			}
 		break;
@@ -1524,6 +1568,29 @@ function kumpulAction(type, p1, p2, p3){
 				windowForm(resp, "User Group Role Privilleges", lebar, tinggi);
 			});
 		break;
+		case "form_data_production":
+			
+			var row = $("#master_prm").datagrid('getSelected');
+			if(row){
+				$('#'+p1).html('');
+				$.post(host+'homex/modul/production/form_data_production', { 'bulan':p2 , 'tahun':p3 ,'deskripsi':row.descript, 'prod_id':row.prod_id, 'tbl_prm_id':row.id },function(resp){
+					$('#'+p1).html(resp);
+				});
+			}else{
+				$.messager.alert('ABC System',"Select Row In Grid",'error');
+			}
+		break;
+		case 'removeproduction':
+			var row = $("#tabel_prd").edatagrid('getSelected');
+			if(row){
+				$.post(host+'homex/simpansavedata/tbl_prd/', { 'editstatus':'delete', 'id':row.id },function(resp){
+					$("#tabel_prd").edatagrid('reload');
+					$("#master_cdm").datagrid('reload');
+				});
+			}else{
+				$.messager.alert('ABC System',"Select Row In Grid Data Production",'error');
+			}
+		break;
 	}
 }		
 
@@ -1562,20 +1629,7 @@ function loadingna(){
 }
 
 function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag_oke){
-	if(flag_oke == 'jenonk'){
-		var row=$('#'+grid_id_from).datagrid('getSelected');
-		var row2=$('#'+grid_id_to).datagrid('getSelected');
-		
-		if(to == 'tbl_prd'){
-			if(row2){
-			}else{
-				$.messager.alert('ABC System',"Please Select List",'error');
-				return false;
-			}
-		}
-	}else{
-		var row=$('#'+grid_id_from).datagrid('getSelected');
-	}
+	var row=$('#'+grid_id_from).datagrid('getSelected');
 	var post={};
 		
 		if(row){
@@ -1649,9 +1703,9 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 					post['editstatus']='add';
 					post['id']="";
 					post['tbl_cdm_id']=row.id;
-					post['tbl_prm_id']=row2.id;
-					post['bulan']=$('#bulan_period').val();
-					post['tahun']=$('#tahun_period').val();
+					post['tbl_prm_id']=tbl_prm_id;
+					post['bulan']= bulan_pilihan;
+					post['tahun']= tahun_pilihan;
 				break;
 				//End Modul
 			}
@@ -1667,6 +1721,7 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 				if(r==1){
 					winLoadingClose();
 					if(flag_oke == 'jenonk'){
+						$('#master_cdm').datagrid('reload');
 						$('#'+grid_id_destination).edatagrid('reload');
 					}else{
 						$('#'+grid_id_to).edatagrid('reload');

@@ -176,3 +176,9 @@
 .arrow_redo{
 	background:url('icons/arrow_redo.png') no-repeat center center;
 }
+.arrow_up{
+	background:url('icons/arrow_up.png') no-repeat center center;
+}
+.arrow_down{
+	background:url('icons/arrow_down.png') no-repeat center center;
+}
