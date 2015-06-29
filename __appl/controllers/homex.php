@@ -110,12 +110,64 @@ class homex extends MY_Controller {
 							$this->smarty->assign('role', $array);
 							$this->smarty->assign('id_group', $id_role);
 						break;
+						case "form_data_production":
+							$bulan = $this->input->post('bulan');
+							$tahun = $this->input->post('tahun');
+							$deskripsi = $this->input->post('deskripsi');
+							$prod_id = $this->input->post('prod_id');
+							$tbl_prm_id = $this->input->post('tbl_prm_id');
+							
+							$this->smarty->assign('bulan', $bulan);
+							$this->smarty->assign('tahun', $tahun);
+							$this->smarty->assign('deskripsi', $deskripsi);
+							$this->smarty->assign('prod_id', $prod_id);
+							$this->smarty->assign('tbl_prm_id', $tbl_prm_id);
+						break;
+						case "form_map_rdm":
+							$tabel = $this->input->post('tabel');
+							$bulan = $this->input->post('bulan');
+							$tahun = $this->input->post('tahun');
+							$resource = $this->input->post('resource');
+							$tbl_rdm_id = $this->input->post('tbl_rdm_id');
+							$rd_tot_qty = $this->input->post('rd_tot_qty');
+							$id = $this->input->post('id');
+							
+							if($tabel == 'tbl_emp'){
+								$gaji = $this->input->post('gaji');
+								$cost_nbr = $this->input->post('cost_nbr');
+								$employee_name = $this->input->post('employee_name');
+								$employee_id = $this->input->post('employee_id');
+								
+								$this->smarty->assign('gaji', $gaji);
+								$this->smarty->assign('cost_nbr', $cost_nbr);
+								$this->smarty->assign('employee_name', $employee_name);
+								$this->smarty->assign('employee_id', $employee_id);
+							}elseif($tabel == 'tbl_exp'){
+								$account = $this->input->post('account');
+								$descript = $this->input->post('descript');
+								
+								$this->smarty->assign('account', $account);
+								$this->smarty->assign('descript', $descript);								
+							}
+							
+							$this->smarty->assign('tabel', $tabel);
+							$this->smarty->assign('bulan', $bulan);
+							$this->smarty->assign('tahun', $tahun);
+							$this->smarty->assign('resource', $resource);
+							$this->smarty->assign('tbl_rdm_id', $tbl_rdm_id);
+							$this->smarty->assign('rd_tot_qty', $rd_tot_qty);
+							$this->smarty->assign('id', $id);
+						break;
 					}
 					
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);
 					$this->smarty->assign('sub_mod',$p3);
-					$this->smarty->display($mod.'/'.$p2.'.html');
+					if($p2 == 'form_data_production'){
+						$this->smarty->display('model/'.$p2.'.html');
+					}else{
+						$this->smarty->display($mod.'/'.$p2.'.html');
+					}
 				break;
 			}
 		}else{
