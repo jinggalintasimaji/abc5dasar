@@ -1,3 +1,4 @@
+{*
 <div id="panel_{$main}" style="padding:5px;">
 	<div id="tab_{$main}"></div>
 </div>
@@ -7,4 +8,46 @@
 					"Data Production", "Import Data"
 				  ];
 	genTab( '#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Production', '{$sub_mod}', getClientHeight()-100, getClientHeight()-140 );
+</script>
+*}
+
+<div id="grid_nya_{$main}" style="width:81.3%">
+	<div id='master_prm'></div>
+	<div id='tb_mst_prm' style='padding:5px;height:50px;'>
+		<span style='margin-bottom:5px !important;display:block;'>
+			<label style='width:50px;'>Month</label>: {html_select_date prefix='bulan_period' start_year='+5' end_year='+5' display_days=false display_years=false all_extra='id="bulan_period" style="width:10%;padding:2px;"'}
+			&nbsp;&nbsp;&nbsp;
+			<label style='width:50px;'>Year</label>: {html_select_date prefix='tahun_period' start_year='+0' end_year='+5' display_days=false display_months=false all_extra='id="tahun_period" style="width:10%;padding:2px;"'}
+		</span>
+		
+		
+		<label style='width:50px;'>Find</label>: <input type="text" value="" placeholder="Keyword Description Of Product Master" name="key_mst_prm" id="key_mst_prm" style='width:25.8%;padding:2px;' class="easyui-validatebox">
+		<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="find_mst_prm" onClick="" >
+			<span class="l-btn-left l-btn-icon-left">
+				<span class="l-btn-text">Find</span><span class="l-btn-icon icon-search"></span>
+			</span>
+		</a>
+		&nbsp;&nbsp;
+		<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="set_mst_prm" onClick="kumpulAction('form_data_production', 'grid_nya_{$main}', $('#bulan_period').val(), $('#tahun_period').val());" >
+			<span class="l-btn-left l-btn-icon-left">
+				<span class="l-btn-text">Set Data</span><span class="l-btn-icon data_proses"></span>
+			</span>
+		</a>
+	</div>
+</div>
+
+<script>
+	$('#grid_nya_{$main}').css('height',(getClientHeight()-100));
+	genGrid('mst_prm','master_prm');
+	
+	$('#bulan_period').on('change',function(){
+		$("#master_prm").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+	});
+	$('#tahun_period').on('change',function(){
+		$('#bulan_period').trigger('change');
+	});
+
+	$('#find_mst_prm').bind('click',function(r){
+		$("#master_prm").datagrid('reload',{ 'txtsearch':$('#key_mst_prm').val(), 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+	});
 </script>

@@ -22,6 +22,13 @@
 				<span class="l-btn-text">Hapus</span><span class="l-btn-icon icon-remove">&nbsp;</span>
 			</span>
 		</a>	
+		{if $model}
+		<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="genform('map_rdm_form', '{$mod}', 'map_rdm', 'windowpanel', 'ref_{$main}');">
+			<span class="l-btn-left l-btn-icon-left">
+				<span class="l-btn-text">Map To RDM</span><span class="l-btn-icon icon-ok">&nbsp;</span>
+			</span>
+		</a>
+		{/if}
 	</div>
 </div>
 

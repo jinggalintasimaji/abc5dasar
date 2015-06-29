@@ -1,0 +1,134 @@
+{*
+<div style='width:100%;'>
+	<fieldset>
+		<label style='width:50px;'>Month</label>: {html_select_date prefix='bulan_period' start_year='+5' end_year='+5' display_days=false display_years=false all_extra='id="bulan_period" style="width:10%;padding:2px;"'}
+		&nbsp;&nbsp;&nbsp;
+		<label style='width:50px;'>Year</label>: {html_select_date prefix='tahun_period' start_year='+0' end_year='+5' display_days=false display_months=false all_extra='id="tahun_period" style="width:10%;padding:2px;"'}
+	</fieldset>
+</div>
+<div style='float:left;width:46.1%;margin-right:5px;margin-bottom:5px;height:160px;'>
+	<div id='master_prm'></div>
+</div>
+<div style='float:left;width:5%;margin-left:15px;'>
+	<br/>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_dt" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_undo"></span>
+		</span>
+	</a> 
+	<br/>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_dt" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_redo"></span>
+		</span>
+	</a>
+</div>
+<div style='float:left;width:47%;height:160px;'>
+	<div id='master_cdm'></div>
+</div>
+<div style='float:left;width:100%;height:131.5%;'>
+	<div id='tabel_prd'></div>
+</div>
+
+<script>
+	genGrid('mst_prm','master_prm', 500, 160);
+	genGrid('mst_cdm','master_cdm', 500, 160);
+	genGridEditable('tbl_prd','tabel_prd', 500, 600,'tbl_prd','jenonk');
+	
+	$('#tranfer_dt').bind('click',function(r){
+		if(model_id){
+			transfer_data('tbl_prd','tbl_prd','master_prm','master_cdm', 'tabel_prd', 'jenonk');
+		}else{
+			$.messager.alert('ABC System',"No Model Activate",'error');
+		}
+	});
+	
+	$('#bulan_period').on('change',function(){
+		$("#tabel_prd").edatagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+		$("#master_prm").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+		$("#master_cdm").datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_period').val() });
+	});
+	$('#tahun_period').on('change',function(){
+		$('#bulan_period').trigger('change');
+	});
+
+
+</script>
+*}
+
+
+<div style='width:100%;margin-bottom:5px;font-weight:bold;'>
+	<fieldset>
+		<div style='width:60%;float:left;'>
+			<label style='width:100px;'>Production ID</label> : {$prod_id}
+			<br/>
+			<label style='width:100px;'>Description</label> : {$deskripsi}
+		</div>
+		
+		<div style='width:40%;float:left;'>
+			<label style='width:60px;'>Month</label> : {$bulan}
+			</br>
+			<label style='width:60px;'>Year</label> : {$tahun}
+		</div>
+	</fieldset>
+</div>
+
+<div style='width:100%;height:35%;'>
+	<div id='master_cdm'></div>
+</div>
+
+<div style='width:100%;height:50px;text-align:center;margin-bottom:10px;'>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_dt" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Set</span><span class="l-btn-icon arrow_down"></span>
+		</span>
+	</a> 
+	&nbsp;&nbsp;
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_dt" onClick="kumpulAction('removeproduction');">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Unset</span><span class="l-btn-icon arrow_up"></span>
+		</span>
+	</a>
+	<br/>
+</div>
+
+<div style='width:100%;height:36%;'>
+	<div id='tabel_prd'></div>
+</div>
+<div style='width:100%;height:50px;text-align:right;margin-top:10px;'>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="save_all_data" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Save All Data</span><span class="l-btn-icon icon-save"></span>
+		</span>
+	</a> 
+	&nbsp;&nbsp;
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="save_all_data" onClick="loadUrl('', '{$host}homex/modul/model/production');">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Cancel</span><span class="l-btn-icon icon-cancel"></span>
+		</span>
+	</a> 
+</div>
+
+<script>
+	var bulan_pilihan = '{$bulan}';
+	var tahun_pilihan = '{$tahun}';
+	var tbl_prm_id = '{$tbl_prm_id}';
+	genGrid('mst_cdm','master_cdm', 500, 160);
+	genGridEditable('tbl_prd','tabel_prd', 500, 600,'tbl_prd','jenonk');
+	
+	$('#save_all_data').bind('click',function(r){
+		$.messager.alert('ABC System',"All Data Saved",'info');
+		loadUrl('', '{$host}homex/modul/model/production');
+	});
+	$('#tranfer_dt').bind('click',function(r){
+		if(model_id){
+			transfer_data('tbl_prd','tbl_prd','master_cdm','', 'tabel_prd', 'jenonk');
+		}else{
+			$.messager.alert('ABC System',"No Model Activate",'error');
+		}
+	});
+	
+</script>

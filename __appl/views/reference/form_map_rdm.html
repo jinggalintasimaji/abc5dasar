@@ -1,0 +1,144 @@
+<form method='post' url="{$host}homex/simpansavedata/map_rdm" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+	<input type='hidden' name='tabel' value="{$tabel}">
+	<input type='hidden' name='bulan' value="{$bulan}">
+	<input type='hidden' name='tahun' value="{$tahun}">
+	<fieldset>
+		<table width='100%' >
+			{if $tabel eq 'tbl_emp'}
+			<tr>
+				<td width='30%'>Employee Name</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					{$employee_name|default:'-'}
+				</td>
+			</tr>
+			<tr>
+				<td width='30%'>Employee ID</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					{$employee_id|default:'-'}
+				</td>
+			</tr>
+			{/if}
+			{if $tabel eq 'tbl_exp'}
+			<tr>
+				<td width='30%'>Account</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					{$account|default:'-'}
+				</td>
+			</tr>
+			<tr>
+				<td width='30%'>Description</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					{$descript|default:'-'}
+				</td>
+			</tr>
+			{/if}
+			
+		</table>
+	</fieldset>
+	
+	<fieldset>
+		<input type='text' id='txtsearch_{$acak}' style='padding:3px;width:200px;margin-bottom:5px' placeholder='search data resource' >
+		<div style='height:200%;'>
+			<div id='grid_rdm_{$acak}' ></div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<table width='100%' >
+			<tr>
+				<td width='30%'>Resource Driver</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					<span id='resource_{$acak}'>{$resource|default:'-'}</span>
+					<input type='hidden' name='tbl_rdm_id' id='rdm_id_{$acak}' value="{$tbl_rdm_id|default:''}">
+				</td>
+			</tr>
+			<tr>
+				<td width='30%'>Quantity</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					<input type='text' value="{$rd_tot_qty|default:''}" name='rd_tot_qty' id='rd_tot_qty' class='angka' style='padding:2px; width:200px;'>
+				</td>
+			</tr>
+			
+			{if $tabel eq 'tbl_emp'}
+			<tr>
+				<td width='30%'>Cost NBR</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					<input type='text' value="{$cost_nbr|default:''}" name='cost_nbr' id='cost_nbr' class='angka' style='padding:2px; width:200px;'>
+				</td>
+			</tr>
+			{/if}
+			
+		</table>
+	</fieldset>
+	
+</form>
+
+<script>
+	var bulan_period_rdm = '{$bulan}';
+	var tahun_period_rdm = '{$tahun}';
+	var tabel = '{$tabel}';
+	var param = {};
+	
+	param['bulan'] = bulan_period_rdm;
+	param['tahun'] = tahun_period_rdm;
+	$("#grid_rdm_{$acak}").datagrid( {
+		title:'',
+        height:'',
+        width:'',
+		rownumbers:true,
+		iconCls:'database',
+        fit:true,
+        striped:true,
+        pagination:true,
+        remoteSort: false,
+        url: host+'homex/getdata/tbl_rdm',	
+		nowrap: true,
+        singleSelect:true,
+		pageSize:50,
+		pageList:[10,20,30,40,50,75,100,200],
+		queryParams:param,
+		columns:[[	
+			{ field:'resource',title:'Resource',width:200, halign:'center',align:'left' },
+		]],
+		onClickRow:function(index, row){
+			$('#resource_{$acak}').html(row.resource);
+			$('#rdm_id_{$acak}').val(row.id);
+		},
+	});
+	
+	$('#btnSimpan').on('click',function(){
+		if( $('#rdm_id_{$acak}').val() == '' ){
+			$.messager.alert('ABC System', "Select Data Resource Driver First!", 'error');
+			return false;
+		}
+		
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Mapping Success", 'info');
+			}else{
+				$.messager.alert('ABC System', "Error System", 'error');
+			}
+			
+			windowFormClosePanel();
+			if(tabel == 'tbl_emp'){
+				$('#grid_ref_employee').datagrid('reload');
+			}else if(tabel == 'tbl_exp'){
+				$('#grid_ref_expense').datagrid('reload');
+			}
+		});
+		winLoadingClose();
+		return false;
+	});
+
+
+</script>
