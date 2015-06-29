@@ -28,9 +28,10 @@ class mhomex extends CI_Model{
 				}
 				
 				$sql = "
-					SELECT A.*, B.costcenter
+					SELECT A.*, B.costcenter, C.resource
 					FROM tbl_emp A
 					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
+					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
 					$where
 				";
 			break;
@@ -42,9 +43,10 @@ class mhomex extends CI_Model{
 				}
 			
 				$sql = "
-					SELECT A.*, B.costcenter
+					SELECT A.*, B.costcenter, C.resource
 					FROM tbl_exp A
 					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
+					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
 					$where
 				";
 			break;
@@ -66,6 +68,13 @@ class mhomex extends CI_Model{
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
 				}else{
 					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= " AND A.bulan = '".$bulan."' AND A.tahun = '".$tahun."' ";
 				}
 			
 				$sql = "
@@ -152,10 +161,17 @@ class mhomex extends CI_Model{
 				
 				$bulan = $this->input->post('bulan');
 				$tahun = $this->input->post('tahun');
+				$txtsearch = $this->input->post('txtsearch');
 				
 				if($bulan && $tahun){
 					$where .= "
 						AND  A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."'
+					";
+				}
+				
+				if($txtsearch){
+					$where .= "
+						AND A.descript like '%".$txtsearch."%'
 					";
 				}
 				
@@ -179,11 +195,32 @@ class mhomex extends CI_Model{
 					$where .= " AND A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."' ";
 				}
 				
+				$sqlprd = "
+					SELECT A.id, A.tbl_cdm_id 
+					FROM tbl_prd A
+					$where
+				";
+				$queryprd = $this->db->query($sqlprd)->result_array();
+				$arraycdm = array();
+				//$idx = 0;
+				foreach($queryprd as $k=>$v){
+					$arraycdm[$k] = $v['tbl_cdm_id'];
+					//$idx++;
+				}
+				if($arraycdm){
+					$join_array = join("','",$arraycdm);
+					$where .= "
+						AND A.id NOT IN ('".$join_array."') 
+					";
+				}
+				
 				$sql = "
 					SELECT A.*
 					FROM tbl_cdm A
 					$where
 				";
+				
+				//echo $sql;exit;
 			break;			
 			case "tbl_prd":
 				if($this->modeling){
@@ -505,6 +542,20 @@ class mhomex extends CI_Model{
 			case "delete":
 				$this->db->where('id', $this->input->post('id'));
 				$this->db->delete($table,$data);
+			break;
+			case "map_rdm":
+				$tabel = $data['tabel'];
+				$array_update = array(
+					'tbl_rdm_id' => $data['tbl_rdm_id'],
+					'rd_tot_qty' => $data['rd_tot_qty'],
+				);
+				
+				if($tabel == 'tbl_emp'){
+					$array_update['cost_nbr'] = $data['cost_nbr'];
+				}elseif($tabel == 'tbl_exp'){
+					
+				}
+				$this->db->update($tabel, $array_update, array('id'=>$id) );
 			break;
 		}
 		
