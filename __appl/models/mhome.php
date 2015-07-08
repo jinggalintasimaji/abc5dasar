@@ -65,7 +65,7 @@ class mhome extends CI_Model{
 			case "tbl_acm_wizard":
 				$key=$this->input->post('key');
 				if($key)$where .=" AND A.descript like '%".$key."%' ";
-				$where .=" AND tbl_model_id=".$this->modeling['id'];
+				$where .=" AND A.tbl_model_id=".$this->modeling['id'];
 				$where .=" AND pid IS NULL";
 				/*if($p1=='config'){
 					$where .=" AND pid IS NULL";
