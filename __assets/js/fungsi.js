@@ -213,7 +213,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				},
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
 				{field:'name_na',title:'Employee Name',width:180, halign:'center',align:'left'},
-				{field:'wages',title:'Salary',width:100, halign:'center',align:'right',
+				{field:'total',title:'Salary',width:100, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
 						return NumberFormat(value);
 					},
@@ -1321,6 +1321,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var judulwindow = 'Form Mapping Resource Driver';
 			var table="tbl_rdm";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "map_rdm_acm":
+			var lebar = getClientWidth()-800;
+			var tinggi = getClientHeight()-145;
+			var judulwindow = 'Form Mapping Resource Driver';
+			var table="tbl_rdm";
+			urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		//Data Reference
 		

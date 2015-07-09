@@ -212,7 +212,7 @@ class mhome extends CI_Model{
 				
 				if($p2=='emp'){
 						$where .=" AND tbl_emp_id IS NOT NULL ";
-						$select .=" B.employee_id,CONCAT(B.first,B.last)as name_na,B.wages,E.rdm_qty,
+						$select .=" B.employee_id,CONCAT(B.first,B.last)as name_na,B.total,E.rdm_qty,
 									A.total_cost ";
 						$join .="LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id ";
 						$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
@@ -418,23 +418,23 @@ class mhome extends CI_Model{
 					if($isi=='C'){
 						$data['total_cost']=$data['cost'];
 						unset($data['percent']);
-						$data['percent']=($data['cost']/$data['wages'])*100;
+						$data['percent']=($data['cost']/$data['total'])*100;
 					}
 					if($isi=='P'){
-						$data['total_cost']=($data['wages'] * $data['percent'])/100;
+						$data['total_cost']=($data['total'] * $data['percent'])/100;
 						unset($data['cost']);
 						$data['cost']=$data['total_cost'];
 					}
 					if($isi=='R'){						
-						$data['total_cost']=($data['wages']/$data['rdm_qty']) * $data['rd_qty'];
+						$data['total_cost']=($data['total']/$data['rdm_qty']) * $data['rd_qty'];
 						unset($data['percent']);
 						$data['cost']=$data['total_cost'];
-						$data['percent']=($data['cost']/$data['wages'])*100;
+						$data['percent']=($data['cost']/$data['total'])*100;
 					}
 					unset($data['rdm_qty']);
 					unset($data['employee_id']);
 					unset($data['name_na']);
-					unset($data['wages']);
+					unset($data['total']);
 					unset($data['cost_desc']);
 					//unset($data['total_cost']);
 					
@@ -933,5 +933,57 @@ class mhome extends CI_Model{
 		}
 		
 	}
+	function get_report($p1){
+		$bulan=$this->input->post('bulan');
+		$tahun=$this->input->post('tahun');
+		switch($p1){
+			case "sum_costing":
+				
+				$sql_cost_exp="SELECT SUM(total_cost)as total 
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE B.tbl_model_id=".$this->modeling['id']." 
+						AND A.tbl_exp_id IS NOT NULL
+						AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				$sql_cost_emp="SELECT SUM(total_cost)as total 
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE B.tbl_model_id=".$this->modeling['id']."
+						AND A.tbl_emp_id IS NOT NULL
+						AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				$sql_emp="SELECT sum(total)as total FROM tbl_emp 
+						WHERE bulan=".$bulan." AND tahun=".$tahun." AND tbl_model_id=".$this->modeling['id'];
+				$sql_exp="SELECT sum(amount)as total FROM tbl_exp 
+						WHERE bulan=".$bulan." AND tahun=".$tahun." AND tbl_model_id=".$this->modeling['id'];
+				$data=array();
+				$data["tot_emp"]=number_format($this->db->query($sql_emp)->row('total'),2);
+				$data["tot_exp"]=number_format($this->db->query($sql_exp)->row('total'),2);
+				$data["tot_cost_emp"]=number_format($this->db->query($sql_cost_emp)->row('total'),2);
+				$data["tot_cost_exp"]=number_format($this->db->query($sql_cost_exp)->row('total'),2);
+				return json_encode($data);
+				
+				//$this->modeling['id'];
+				
+			break;
+			case "sum_fte":
+				$sql="SELECT A.id,A.employee_id,CONCAT(A.first,A.last)as name_na,B.fte_na,(A.total*B.fte_na)/100 as fte_cost
+						FROM tbl_emp A
+						LEFT JOIN(
+							SELECT A.tbl_emp_id,sum(A.percent)as fte_na 
+							FROM tbl_are A
+							LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+							WHERE A.bulan=".$bulan." 
+							AND A.tahun=".$tahun." 
+							AND B.tbl_model_id=".$this->modeling['id']."
+							AND tbl_emp_id IS NOT NULL
+							GROUP BY A.tbl_emp_id
+						)AS B ON B.tbl_emp_id=A.id
+						WHERE A.bulan=".$bulan." 
+						AND A.tahun=".$tahun." 
+						AND A.tbl_model_id=".$this->modeling['id'];
+				return $this->result_query($sql);
+			break;
+		}
 		
+	}
 }

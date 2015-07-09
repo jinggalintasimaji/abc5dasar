@@ -229,5 +229,15 @@ class home extends MY_Controller {
 		//echo $data;
 		force_download('Template.xlsx', $data);
 	}
+	function get_report($p1){
+		if($p1=='sum_fte'){
+			$data=$this->mhome->get_report($p1);
+			$this->smarty->assign('data',$data);
+			$this->smarty->display('report/sum_fte.html');
+		}
+		else{
+			echo $this->mhome->get_report($p1);
+		}
+	}
 	
 }
