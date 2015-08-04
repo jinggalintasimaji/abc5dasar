@@ -437,7 +437,7 @@ class mhome extends CI_Model{
 					unset($data['total']);
 					unset($data['cost_desc']);
 					//unset($data['total_cost']);
-					
+					//print_r($data);exit;
 					$data['create_date']=date('Y-m-d H:i:s');
 					$data['create_by']='Goyz';
 					$array_where=array('id'=>$this->input->post('id'));
@@ -510,6 +510,7 @@ class mhome extends CI_Model{
 					}
 					
 					
+					unset($data['rdm_qty']);
 					unset($data['account']);
 					unset($data['descript']);
 					unset($data['amount']);

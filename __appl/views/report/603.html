@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="in-id" xmlns="http://www.w3.org/1999/xhtml" lang="in-id">
+<head>
+</head>
+<body>
+<div style='float:left;width:81%'>
+<fieldset>
+	<div style="margin-left:10%">
+	<label>Month</label>: {html_select_date prefix='bulan_na' start_year='+5' end_year='+5' display_days=false display_years=false all_extra='id="bulan_na" style="width:50%;padding:2px;"'}<br>
+	<label>Year</label>: {html_select_date prefix='tahun_na' start_year='+0' end_year='+5' display_days=false display_months=false all_extra='id="tahun_na" style="width:50%;padding:2px;"'}<br>	</div>
+</fieldset>
+</div>
+<div style='float:left;width:81%'>
+<fieldset>
+	<div id="data_nya"></div>
+</fieldset>
+</div>
+</body>
+</html>
+<script>
+	$('#bulan_na').bind('change',function(){
+	$('#data_nya').html('').addClass('loading');
+		$.post(host+"home/get_report/sum_exp",{ bulan:$(this).val(),tahun:$('#tahun_na').val() },function(resp){
+			$('#data_nya').removeClass('loading').html(resp);
+		});
+	});
+</script>
