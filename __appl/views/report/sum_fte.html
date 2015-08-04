@@ -3,6 +3,7 @@
 		<tr>
 			<th scope="col">Emp. ID</th>
 			<th scope="col">Name</th>
+			<th scope="col">Salary</th>
 			<th scope="col">Fte(%)</th>
 			<th scope="col">Fte Cost</th>
 		</tr>
@@ -12,6 +13,7 @@
 		<tr>
 			<td>{$i.employee_id}</td>
 			<td>{$i.name_na}</td>
+			<td>{$i.total|number_format:2:".":","}</td>
 			<td>{$i.fte_na|default:'-'}</td>
 			<td>{$i.fte_cost|number_format:2:".":","}</td>
 		</tr>

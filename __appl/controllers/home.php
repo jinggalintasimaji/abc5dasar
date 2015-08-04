@@ -230,10 +230,10 @@ class home extends MY_Controller {
 		force_download('Template.xlsx', $data);
 	}
 	function get_report($p1){
-		if($p1=='sum_fte'){
+		if($p1=='sum_fte' || $p1=='sum_exp'){
 			$data=$this->mhome->get_report($p1);
 			$this->smarty->assign('data',$data);
-			$this->smarty->display('report/sum_fte.html');
+			$this->smarty->display('report/'.$p1.'.html');
 		}
 		else{
 			echo $this->mhome->get_report($p1);

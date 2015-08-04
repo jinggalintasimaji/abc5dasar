@@ -966,7 +966,7 @@ class mhome extends CI_Model{
 				
 			break;
 			case "sum_fte":
-				$sql="SELECT A.id,A.employee_id,CONCAT(A.first,A.last)as name_na,B.fte_na,(A.total*B.fte_na)/100 as fte_cost
+				$sql="SELECT A.id,A.employee_id,A.total,CONCAT(A.first,A.last)as name_na,B.fte_na,(A.total*B.fte_na)/100 as fte_cost
 						FROM tbl_emp A
 						LEFT JOIN(
 							SELECT A.tbl_emp_id,sum(A.percent)as fte_na 
@@ -980,6 +980,24 @@ class mhome extends CI_Model{
 						)AS B ON B.tbl_emp_id=A.id
 						WHERE A.bulan=".$bulan." 
 						AND A.tahun=".$tahun." 
+						AND A.tbl_model_id=".$this->modeling['id'];
+				return $this->result_query($sql);
+			break;
+			case "sum_exp":
+				$sql="SELECT A.id,A.account,A.amount,A.descript as name_na,B.fte_na,(A.amount*B.fte_na)/100 as fte_cost
+						FROM tbl_exp A
+						LEFT JOIN(
+							SELECT A.tbl_exp_id,sum(A.percent)as fte_na 
+							FROM tbl_are A
+							LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+							WHERE A.bulan=".$bulan."
+							AND A.tahun=".$tahun." 
+							AND B.tbl_model_id=".$this->modeling['id']."
+							AND tbl_exp_id IS NOT NULL
+							GROUP BY A.tbl_exp_id
+						)AS B ON B.tbl_exp_id=A.id
+						WHERE A.bulan=".$bulan." 
+						AND A.tahun=".$tahun."
 						AND A.tbl_model_id=".$this->modeling['id'];
 				return $this->result_query($sql);
 			break;
