@@ -67,7 +67,7 @@ function windowFormPanel(html,judul,width,height){
 	    onBeforeClose:function(){	   
 			$(divcontainer).window("close",true);
 			//$(divcontainer).window("destroy",true);
-			$(divcontainer).window('refresh');
+			//$(divcontainer).window('refresh');
 			return true;
 	    }		
     });
@@ -75,7 +75,7 @@ function windowFormPanel(html,judul,width,height){
 }
 function windowFormClosePanel(){
     $(divcontainer).window('close');
-	$(divcontainer).window('refresh');
+	//$(divcontainer).window('refresh');
 }
 
 var container;
