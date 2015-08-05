@@ -628,7 +628,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity',width:150, halign:'center',align:'left'},
-				{field:'descript',title:'Description',width:450, halign:'center',align:'left'}
+				{field:'descript',title:'Description',width:450, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Rdm. Qty',width:150, halign:'center',align:'right'}
 			];
 		break;
 		case "list_act_2":
@@ -1327,8 +1328,9 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var tinggi = getClientHeight()-145;
 			var judulwindow = 'Form Mapping Resource Driver';
 			var table="tbl_rdm";
-			urlpost = host+'home/modul/'+modulnya+'/form_'+submodulnya;
+			urlpost = host+'home/modul/model/form_map_rdm';
 		break;
+		
 		//Data Reference
 		
 	}
@@ -1417,7 +1419,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 					posting['descript'] = row.descript;
 
 				}
-				
+				else if(tabel == 'mapping'){
+					posting['tabel'] = "tbl_act";
+					posting['id'] = row.id;
+					posting['activity_code'] = row.activity_code;
+					posting['descript'] = row.descript;
+
+				}
 				$.post(urlpost, posting, function(resp){
 					windowFormPanel(resp, judulwindow, lebar, tinggi);
 				});

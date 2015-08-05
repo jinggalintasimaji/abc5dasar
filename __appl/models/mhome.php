@@ -385,6 +385,26 @@ class mhome extends CI_Model{
 					$array_where=array('id'=>$this->input->post('id_act_na'));
 				}
 			break;
+			case "map_rdm":
+				//print_r($data);exit;
+				//$table='tbl_acm';
+				//echo $data['rd_tot_qty'];exit;
+				$sts=0;
+				$act=$this->db->get_where('tbl_acm',array('activity_code'=>$this->input->post('act_code'),'tbl_model_id'=>$this->modeling['id']))->result_array();
+				foreach($act as $v){
+					$sql="UPDATE tbl_acm set tbl_rdm_id=".$data['tbl_rdm_id'].", rd_tot_qty= ".$data['rd_tot_qty']." 
+						 WHERE id=".$v['id']." AND tbl_model_id=".$this->modeling['id'];
+					//echo $sql;exit;	 
+					$this->db->query($sql);
+				}
+				//return $sts;
+				if($this->db->trans_status() == false){
+					$this->db->trans_rollback();
+					return 0;
+				} else{
+					return $this->db->trans_commit();
+				}
+			break;
 			case "tbl_bpm":
 				if($sts_crud=='edit'){
 					$exist=$this->db->get_where('tbl_bpm',array('process'=>$data['process'],'descript'=>$data['descript']))->result_array();

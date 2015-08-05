@@ -29,6 +29,7 @@ class home extends MY_Controller {
 		if($this->auth){
 			$sts_na=$this->input->post('editstatus');
 			$this->smarty->assign('sts_na' ,$sts_na);
+			$this->smarty->assign('acak', md5(date('H:i:s')) );
 			switch($mod){
 				case "awal":
 					$menu=$this->get_menu();
@@ -43,6 +44,25 @@ class home extends MY_Controller {
 								//print_r($ex);
 								$this->smarty->assign('data',$ex);
 							}
+						break;
+						case "form_map_rdm":
+							//if($sts_na=='edit'){
+								$sql="SELECT A.tbl_rdm_id,A.rd_tot_qty,B.resource 
+									  FROM tbl_acm A 
+									  LEFT JOIN tbl_rdm B ON A.tbl_rdm_id=B.id
+									  WHERE A.id=".$this->input->post('id')." AND A.tbl_model_id=".$this->modeling['id'];
+								$ex=$this->db->query($sql)->row_array();
+								//print_r($ex);
+								$this->smarty->assign('data',$ex);
+							//}
+							$id_act=$this->input->post('id');
+							$act_code=$this->input->post('activity_code');
+							$desc=$this->input->post('descript');
+							$tabel=$this->input->post('tabel');
+							$this->smarty->assign('id_act',$id_act);
+							$this->smarty->assign('act_code',$act_code);
+							$this->smarty->assign('desc',$desc);
+							$this->smarty->assign('tabel',$tabel);
 						break;
 						case "cost_activity":
 							$id_act=$this->input->post('id_act');

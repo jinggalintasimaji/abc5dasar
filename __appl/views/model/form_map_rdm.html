@@ -1,0 +1,119 @@
+<form method='post' url="{$host}home/simpansavedata/map_rdm" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<!--input type='hidden' name='id' value="{$id|default:''}"-->
+	<input type='hidden' name='editstatus' value="{$editstatus|default:'edit'}">
+	<!--input type='hidden' name='tabel' value="{$tabel|default:''}"-->
+	<input type='hidden' name='id_act' value="{$id_act|default:''}">
+	<input type='hidden' name='act_code' value="{$act_code|default:''}">
+	<input type='hidden' name='bulan' value="{$bulan|default:''}">
+	<input type='hidden' name='tahun' value="{$tahun|default:''}">
+	<fieldset>
+		<table width='100%' >
+		
+			<tr>
+				<td width='30%'>Activity Code</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					{$act_code|default:'-'}
+				</td>
+			</tr>
+			<tr>
+				<td width='30%'>Description</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					{$desc|default:'-'}
+				</td>
+			</tr>
+			
+			
+		</table>
+	</fieldset>
+	
+	<fieldset>
+		<input type='text' id='txtsearch_{$acak}' style='padding:3px;width:200px;margin-bottom:5px' placeholder='search data resource' >
+		<div style='height:200%;'>
+			<div id='grid_rdm_{$acak}' ></div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<table width='100%' >
+			<tr>
+				<td width='30%'>Resource Driver</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					<span id='resource_{$acak}'>{$data.resource|default:'-'}</span>
+					<input type='hidden' name='tbl_rdm_id' id='rdm_id_{$main}' value="{$data.tbl_rdm_id|default:''}">
+				</td>
+			</tr>
+			<tr>
+				<td width='30%'>Quantity</td>
+				<td width='1%'>:</td>
+				<td width='65%'>
+					<input type='text' value="{$data.rd_tot_qty|default:''}" name='rd_tot_qty' id='rd_tot_qty' class='angka' style='padding:2px; width:200px;'>
+				</td>
+			</tr>
+			
+			
+			
+		</table>
+	</fieldset>
+	
+</form>
+
+<script>
+	
+	var tabel = '{$tabel}';
+	var param = {};
+	
+	
+	$("#grid_rdm_{$acak}").datagrid( {
+		title:'',
+        height:'',
+        width:'',
+		rownumbers:true,
+		iconCls:'database',
+        fit:true,
+        striped:true,
+        pagination:true,
+        remoteSort: false,
+        url: host+'homex/getdata/tbl_rdm',	
+		nowrap: true,
+        singleSelect:true,
+		pageSize:50,
+		pageList:[10,20,30,40,50,75,100,200],
+		queryParams:param,
+		columns:[[	
+			{ field:'resource',title:'Resource',width:200, halign:'center',align:'left' },
+		]],
+		onClickRow:function(index, row){
+			$('#resource_{$acak}').html(row.resource);
+			$('#rdm_id_{$main}').val(row.id);
+		},
+	});
+	
+	
+	$('#btnSimpan').on('click',function(){
+		if( $('#rdm_id_{$acak}').val() == '' ){
+			$.messager.alert('ABC System', "Select Data Resource Driver First!", 'error');
+			return false;
+		}
+		
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Mapping Success", 'info');
+			}else{
+				console.log(r);
+				$.messager.alert('ABC System', "Error System", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_mapping').datagrid('reload');
+			
+		});
+		winLoadingClose();
+		return false;
+	});
+
+
+</script>
