@@ -1,3 +1,4 @@
+{*
 {foreach from=$menu item=i}
 <div title="{$i.parent}" iconCls="" style="padding:5px;">
 	{foreach from=$i.child item=x}
@@ -9,3 +10,10 @@
 	<a href="#" plain="true" style='margin-top:2px;' class="easyui-linkbutton btn-main-menu" iconCls="icon-group_key" onClick="loadUrl(this, '{$host}home/getdisplay/setting/user_level/main/');" >User Level</a>
 	<a href="#" plain="true" style='margin-top:2px;' class="easyui-linkbutton btn-main-menu" iconCls="icon-group" onClick="loadUrl(this, '{$host}home/getdisplay/setting/user_manajemen/main/');" >User Manajemen</a>
 </div-->
+*}
+
+<div style="padding:13px;">
+	{foreach from=$menu item=x}
+		<a href="javascript:void(0);" plain="true" style='margin-top:2px;' class="easyui-linkbutton btn-main-menu" iconCls="{$x.icon_menu}" onClick="loadUrl(this, '{$host}{$x.url}');" >{$x.nama_menu}</a>
+	{/foreach}
+</div>

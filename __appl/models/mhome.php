@@ -35,6 +35,7 @@ class mhome extends CI_Model{
 			break;
 			
 			case "menu":
+				/*
 				$sql="SELECT a.tbl_menu_id,b.nama_menu 
 						FROM tbl_prev_group a
 						LEFT JOIN tbl_menu b ON a.tbl_menu_id = b.id 
@@ -58,8 +59,15 @@ class mhome extends CI_Model{
 						}
 					
 				}
+				*/
+				$sql = "
+					SELECT a.tbl_menu_id, b.nama_menu, b.url, b.icon_menu
+						FROM tbl_prev_group a
+						LEFT JOIN tbl_menu b ON a.tbl_menu_id = b.id 
+						WHERE a.cl_user_group_id=".$this->auth['cl_user_group_id']." AND b.status=1
+				";
 				
-				return $menu;	
+				return $this->db->query($sql)->result_array();	
 				
 			break;
 			case "tbl_acm_wizard":

@@ -32,7 +32,7 @@ class home extends MY_Controller {
 			$this->smarty->assign('acak', md5(date('H:i:s')) );
 			switch($mod){
 				case "awal":
-					$menu=$this->get_menu();
+					$menu = $this->mhome->getdata('menu');
 					$this->smarty->assign('menu',$menu);
 					return $this->smarty->display('index.html');
 				break;
@@ -195,9 +195,11 @@ class home extends MY_Controller {
 		}
 	}
 	
+	/*
 	function get_menu(){
 		return $menu=$this->mhome->getdata('menu');
 	}
+	*/
 	
 	function getdata($p1,$p2="",$p3=""){
 		echo $this->mhome->getdata($p1,$p2,$p3);

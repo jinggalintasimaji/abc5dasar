@@ -182,3 +182,32 @@
 .arrow_down{
 	background:url('icons/arrow_down.png') no-repeat center center;
 }
+
+
+.home_chart{
+	background:url('icons/home-chart.png') no-repeat center center;
+}
+
+.modelling{
+	background:url('icons/modelling.png') no-repeat center center;
+}
+
+.resource{
+	background:url('icons/resource.png') no-repeat center center;
+}
+
+.activity{
+	background:url('icons/activity.png') no-repeat center center;
+}
+
+.cost_object{
+	background:url('icons/cost_object.png') no-repeat center center;
+}
+
+.report{
+	background:url('icons/report.png') no-repeat center center;
+}
+
+
+
+
