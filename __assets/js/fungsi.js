@@ -1003,8 +1003,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		//end data production 
 		
 		//Setting
-		case "701":
-			judulnya = "User Management";
+		case "user_manajemen":
+			judulnya = "";
 			urlnya = "tbl_user";
 			fitnya = true;
 			urlglobal = host+'homex/getdata/'+urlnya;
@@ -1033,8 +1033,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				},
 			]
 		break
-		case "702":
-			judulnya = "User Group";
+		case "user_group":
+			judulnya = "";
 			urlnya = "cl_user_group";
 			fitnya = true;
 			urlglobal = host+'homex/getdata/'+urlnya;
@@ -1057,6 +1057,51 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break
 		//End Setting
+		
+		//Parameter
+		case "cost_center":
+			judulnya = "";
+			urlnya = "tbl_loc";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
+				{field:'costcenter',title:'Cost Center',width:150, halign:'center',align:'left'},
+				{field:'loc_name',title:'Location Name',width:300, halign:'center',align:'left'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+			]
+		break;		
+		case "resource_driver":
+			judulnya = "";
+			urlnya = "tbl_rdm";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Resource',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Budget Type UPE',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Cost NBR UPE',width:100, halign:'center',align:'right'},				
+				{field:'coeffupe',title:'Coefficient UPE',width:100, halign:'center',align:'right'},				
+				{field:'budtypeupx',title:'Budget Type UPX',width:100, halign:'center',align:'right'},				
+				{field:'costnbrupx',title:'Cost NBR UPX',width:100, halign:'center',align:'right'},				
+				{field:'coeffupx',title:'Coefficient UPX',width:100, halign:'center',align:'right'},				
+				{field:'bydtypeupa',title:'Budget Type UPA',width:100, halign:'center',align:'right'},				
+				{field:'costnbrupa',title:'Cost NBR UPA',width:100, halign:'center',align:'right'},				
+				{field:'coeffupa',title:'Coefficient UPA',width:100, halign:'center',align:'right'},				
+				{field:'actorpro',title:'Actor Pro.',width:100, halign:'center',align:'right'},				
+				{field:'batch',title:'Batch',width:100, halign:'center',align:'right'},				
+				{field:'note',title:'Note',width:250, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+			]
+		break;
+		//End Parameter
 		
 		//Data Reference --
 		case "ref_location":

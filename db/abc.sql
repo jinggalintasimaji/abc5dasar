@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2015-08-24 18:04:39
+Date: 2015-08-24 19:30:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1110,12 +1110,12 @@ CREATE TABLE `tbl_menu` (
 INSERT INTO `tbl_menu` VALUES ('0', null, null, null, null, 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('1', null, null, 'Home', null, 'home_chart', '1', null);
 INSERT INTO `tbl_menu` VALUES ('2', null, null, 'Modelling', 'home/modul/model/main/100', 'modelling', '1', null);
-INSERT INTO `tbl_menu` VALUES ('3', null, null, 'Resources', null, 'resource', '1', null);
+INSERT INTO `tbl_menu` VALUES ('3', null, null, 'Resources', 'home/modul/resources/main/', 'resource', '1', null);
 INSERT INTO `tbl_menu` VALUES ('4', null, null, 'Activities', null, 'activity', '1', null);
-INSERT INTO `tbl_menu` VALUES ('5', null, null, 'Cost Object', null, 'cost_object', '1', null);
+INSERT INTO `tbl_menu` VALUES ('5', null, null, 'Cost Object', 'home/modul/costobject/main/', 'cost_object', '1', null);
 INSERT INTO `tbl_menu` VALUES ('6', null, null, 'Report', null, 'report', '1', null);
-INSERT INTO `tbl_menu` VALUES ('7', null, null, 'Setting', null, 'data_proses', '1', null);
-INSERT INTO `tbl_menu` VALUES ('8', null, null, 'Parameter', null, 'database', '1', null);
+INSERT INTO `tbl_menu` VALUES ('7', null, null, 'Setting', 'home/modul/setting/main/', 'data_proses', '1', null);
+INSERT INTO `tbl_menu` VALUES ('8', null, null, 'Parameter', 'home/modul/parameter/main/', 'database', '1', null);
 
 -- ----------------------------
 -- Table structure for `tbl_menu_copy`
