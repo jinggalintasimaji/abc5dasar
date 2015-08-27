@@ -188,7 +188,13 @@ class home extends MY_Controller {
 			$this->smarty->assign('mod',$mod);
 			$this->smarty->assign('main',$p2);
 			$this->smarty->assign('sub_mod',$p3);
-			$this->smarty->display($mod.'/'.$p2.'.html');
+			$temp=$mod.'/'.$p2.'.html';
+			//echo $this->config->item('appl').APPPATH.'views/'.$temp;
+			if(!file_exists($this->config->item('appl').APPPATH.'views/'.$temp)){$this->smarty->display('konstruksi.html');}
+			else{$this->smarty->display($temp);}
+			
+			
+			//$this->smarty->display($mod.'/'.$p2.'.html');
 		}
 		else{
 			$this->index();

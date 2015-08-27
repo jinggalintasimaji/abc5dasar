@@ -1516,6 +1516,7 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 		width:getClientWidth()-268,
 		height:(typeof(height_panel) == "undefined" ? getClientHeight()-100 : height_panel),
 		title:judul_panel,
+		//fit:true,
 		tools:[{
 				iconCls:'icon-cancel',
 				handler:function(){
@@ -1532,6 +1533,7 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 		height: (typeof(height_tab) == "undefined" ? getClientHeight()-190 : height_tab),
 		width: getClientWidth()-280,
 		plain: false,
+		//fit:true,
 		selected:0
 	});
 	
@@ -1550,6 +1552,8 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 				var par={};
 				$('#'+isi_tab.toLowerCase()).html('').addClass('loading');
 				urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
+				$(div_panel).panel({title:title});
+				
 				switch(mod){
 					case "activity_master":
 						par['par_1']=$('#par_1').val();

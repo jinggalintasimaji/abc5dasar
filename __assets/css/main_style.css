@@ -143,7 +143,16 @@ display:inline-block;}
 #table-2 td:hover {
 	background-color: #fff;
 }
-
+.shadow {
+-webkit-box-shadow: 18px 10px 0px -4px rgba(0,0,0,0.2);
+-moz-box-shadow: 18px 10px 0px -4px rgba(0,0,0,0.2);
+box-shadow: 18px 10px 0px -4px rgba(0,0,0,0.2);        3px 3px 5px 6px #ccc;
+}
+.one-edge-shadow {
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	   -moz-box-shadow: 0 8px 6px -6px black;
+	        box-shadow: 0 8px 6px -6px black;
+}
 	
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
