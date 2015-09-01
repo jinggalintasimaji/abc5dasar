@@ -1,0 +1,91 @@
+<div id="" style="float:left;width:100%">
+			<fieldset >
+				<legend>Process Of Activity</legend>
+				
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='add'>
+				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
+				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td >Processing Time</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+						<td >Process</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td >Waiting Time</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+						<td ></td>
+						<td width='1%'></td>
+						<td >
+							
+						</td>
+					</tr>
+					<tr>
+						<td >Inspection Time</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+						<td >Root Couse</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
+							
+						</td>
+					</tr>
+					<tr>
+						<td >Moving Time</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+						<td >Quantity</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td >Value Added (CE)</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+						<td >Inefficiency Cost</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+					</tr>
+					<tr>
+						<td >NVA Cost</td>
+						<td width='1%'>:</td>
+						<td >
+							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						</td>
+						<td ></td>
+						<td width='1%'></td>
+						<td >
+							
+						</td>
+					</tr>
+				
+				</table>
+						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						
+				</form>
+				
+			</fieldset>
+			</div>

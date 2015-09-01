@@ -1,0 +1,81 @@
+<div id="" style="float:left;width:100%">
+			<fieldset >
+				<legend>Activity Attribute</legend>
+				
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td >
+							<fieldset>
+							<table cellpadding="2" cellspacing="1">
+								<tr>
+									<td width='40%'>Budget Type</td>
+									<td width='5%'>:</td>
+									<td ><input type="radio" name="budget_type">&nbsp;Fixed</td>
+									<td ><input type="radio" name="budget_type">&nbsp;Variable</td>
+									<td ><input type="radio" name="budget_type">&nbsp;Step</td>
+								</tr>
+							</table>
+							</fieldset>
+						</td>
+						<td width='1%'></td>
+						<td >
+							<fieldset>
+							<table cellpadding="2" cellspacing="1">
+								<tr>
+									<td width='50%'>Cost Type</td>
+									<td width='5%'>:</td>
+									<td><input type="radio" name="budget_type">&nbsp;Unit</td>
+									<td><input type="radio" name="budget_type">&nbsp;Batch</td>
+									<td><input type="radio" name="budget_type">&nbsp;Product</td>
+									<td><input type="radio" name="budget_type">&nbsp;Facility</td>
+								</tr>
+							</table>
+							</fieldset>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan="3">
+							<fieldset>
+							<table width="100%" cellpadding="2" cellspacing="1">
+								<tr>
+									<td >Segment</td>
+									<td width='1%'>:</td>
+									<td >
+										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+									</td>
+								</tr>
+								<tr>
+									<td >Center</td>
+									<td width='1%'>:</td>
+									<td >
+										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+									</td>
+								</tr>
+								<tr>
+									<td >Class</td>
+									<td width='1%'>:</td>
+									<td >
+										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+									</td>
+								</tr>
+								<tr>
+									<td >Improvement</td>
+									<td width='1%'>:</td>
+									<td >
+										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+									</td>
+								</tr>
+							</table>
+							</fieldset>
+						</td>
+					</tr>
+				</table>
+						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						
+				</form>
+				
+			</fieldset>
+			</div>

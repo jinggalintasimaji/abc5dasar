@@ -1,0 +1,27 @@
+<div id="" style="float:left;width:100%">
+			<fieldset >
+				<legend>Process Of Activity</legend>
+				
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='add'>
+				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
+				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td >Notes</td>
+						<td width='1%'>:</td>
+						<td >
+							<textarea style='padding:2px;width:80%' name="descript" id="descript" rows="6">{$data.descript|default:''}</textarea>
+						</td>
+						
+					</tr>
+					
+				
+				</table>
+						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						
+				</form>
+				
+			</fieldset>
+			</div>

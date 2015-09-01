@@ -604,6 +604,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var urlglobal="";
 	var fitnya;
 	var pagesizeboy = 10;
+	var footer=false;
 	
 	switch(modnya){
 		case "201":
@@ -626,10 +627,12 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			judulnya = "Activity Master";
 			urlnya = "tbl_acm_wizard";
 			fitnya = true;
+			footer=true;
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity',width:150, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:450, halign:'center',align:'left'},
-				{field:'rd_tot_qty',title:'Rdm. Qty',width:150, halign:'center',align:'right'}
+				{field:'rd_tot_qty',title:'Cost Driver',width:150, halign:'center',align:'right'},
+				{field:'total',title:'Cost',width:150, halign:'center',align:'right'}
 			];
 		break;
 		case "list_act_2":
@@ -1247,7 +1250,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         striped:true,
         pagination:true,
         remoteSort: false,
-		
+		showFooter:footer,
         url: (urlglobal == "" ? host+"home/getdata/"+urlnya : urlglobal),		
 		nowrap: true,
         singleSelect:true,
@@ -1510,10 +1513,10 @@ function submit_form(frm,func){
             }
     });
 }
-function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_panel, height_tab){
+function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_panel, height_tab,width_panel,width_tab){
 	var id_sub_mod=sub_mod.split("_");
 	$(div_panel).panel({
-		width:getClientWidth()-268,
+		width:(typeof(width_panel) == "undefined" ? getClientWidth()-268 : width_panel),
 		height:(typeof(height_panel) == "undefined" ? getClientHeight()-100 : height_panel),
 		title:judul_panel,
 		//fit:true,
@@ -1531,7 +1534,7 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 		title:'AA',
 		//height: getClientHeight()-190,
 		height: (typeof(height_tab) == "undefined" ? getClientHeight()-190 : height_tab),
-		width: getClientWidth()-280,
+		width: (typeof(width_tab) == "undefined" ? getClientWidth()-280 : width_tab),
 		plain: false,
 		//fit:true,
 		selected:0

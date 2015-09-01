@@ -8,6 +8,8 @@ class mhome extends CI_Model{
 	
 	function getdata($type="", $p1="", $p2="",$p3="",$p4=""){
 		$where = " WHERE 1=1 ";
+		$footer="";
+		$table="";
 		switch($type){
 			case "data_login":
 				$sql = "
@@ -81,6 +83,8 @@ class mhome extends CI_Model{
 				$sql="SELECT A.*,C.cost_driver
 						FROM tbl_acm A
 						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id ".$where;
+				$footer =array('rd_tot_qty'=>'Total Cost','total'=>9999.99);
+				//print_r($footer);exit;
 			break;
 			case "tbl_acm_tree":
 				$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
@@ -297,7 +301,7 @@ class mhome extends CI_Model{
 				";
 			break;
 		}
-		return $this->result_query($sql,'json');
+		return $this->result_query($sql,'json',$table,$footer);
 	}
 	function hitung_total_cost_act($id_act){
 		$sql="SELECT SUM(total_cost)as total_cost 
@@ -337,7 +341,8 @@ class mhome extends CI_Model{
 	}
 	
 	
-	function result_query($sql,$type="",$table=""){
+	function result_query($sql,$type="",$table="",$footer=""){
+		//print_r($footer);
 		switch($type){
 			case "json":
 				$page = (integer) (($this->input->post('page')) ? $this->input->post('page') : "1");
@@ -361,11 +366,18 @@ class mhome extends CI_Model{
 				   $responce = new stdClass();
 				   $responce->rows= $data;
 				   $responce->total =$count;
+					if($footer!=""){
+						$responce->footer =array($footer);
+					}
 				   return json_encode($responce);
+				   
 				}else{ 
 				   $responce = new stdClass();
 				   $responce->rows = 0;
 				   $responce->total = 0;
+				   if($footer!=""){
+						$responce->footer =array($footer);
+					}
 				   return json_encode($responce);
 				} 
 			break;

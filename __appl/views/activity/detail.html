@@ -1,0 +1,8 @@
+<div id="panel_{$main}" style="padding:5px;">
+	<div id="tab_{$main}"></div>
+</div>
+
+<script>
+	var tab_array=["Tree","Cost","Attribute","Process","Notes"];
+	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul','',getClientHeight()-183,getClientHeight()-225,getClientWidth()-293,getClientWidth()-305);
+</script>

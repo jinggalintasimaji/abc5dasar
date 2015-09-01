@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="in-id" xmlns="http://www.w3.org/1999/xhtml" lang="in-id">
+<head>
+</head>
+<body>
+	<div id="step_1" style="padding:10px;margin-right:10px;">
+		<div id="input" style="float:left;width:100%;display:none;">
+			<fieldset >
+				<legend>Input (Defined Activity)</legend>
+				
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='add'>
+				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
+				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
+				<table width='100%' style='margin-bottom:20px;'>
+							<tr>
+								<td width='34%'>Activity Code</td>
+								<td width='1%'>:</td>
+								<td width='75%'>
+									<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+								</td>
+							</tr>
+							<tr>
+								<td width='34%' valign="top">Description</td>
+								<td width='1%' valign="top">:</td>
+								<td width='75%'>
+									<textarea style='padding:2px;width:80%' name="descript" id="descript" rows="6">{$data.descript|default:''}</textarea>
+								</td>
+							</tr>
+						</table>
+						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next2" onClick="" style="float:right;">
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">..NEXT STEP...</span><span class="l-btn-icon icon-redo"></span>
+							</span>
+						</a> 
+				</form>
+				
+			</fieldset>
+			</div>
+			<div id="upload" style='float:left;width:100%;display:none;'>
+					<fieldset>
+					<legend>Upload (Defined Activity)</legend>
+					<form method='post' url="{$host}home/import_data/upload/acm/file_acm/temp_acm" id="form2_{$main}" enctype="multipart/form-data">
+					<label>Upload Activity</label>: <input type="file" name="file_acm" id="file_acm"><br><br>
+					</form>
+					{include file='template/button.html' id='upload_acm' text='Upload' icon='save' click='' style="float:right;"}
+					{include file='template/button.html' id='download_acm' text='Download Template' icon='download' href='home/download_na/temp_acm' target="_blank" style="float:right;"}
+					</fieldset>
+					
+			</div>
+			
+			<div id="data" style='float:left;width:100%'>
+			<fieldset>
+			<legend>LIST ACTIVITY</legend>
+				<div id="grid_nya_{$main}">
+					<div id="tb_list_act">
+					<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+						Find Activity : <input type="text" value="" placeholder="Keyword To Find Activity" name="key_{$main}" id="key_{$main}" style='width:40%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						
+						<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="find_{$main}" onClick="" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Find</span><span class="l-btn-icon icon-search"></span>
+							</span>
+						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="add_{$main}" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Add</span><span class="l-btn-icon icon-add">&nbsp;</span>
+							</span>
+						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="edit_{$main}" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Edit</span><span class="l-btn-icon icon-edit">&nbsp;</span>
+							</span>
+						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="del_{$main}" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Delete</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+							</span>
+						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="genform('map_rdm_form', 'acm', 'map_rdm_acm', 'windowpanel', '{$main}');">
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Map To RDM</span><span class="l-btn-icon icon-ok">&nbsp;</span>
+							</span>
+						</a>
+					</div>
+				</div>
+					<div id='grid_{$main}'></div>
+				</div>
+			</fieldset>
+			</div>
+	</div>
+	<div id="step_2" style="display:none;">
+		
+	</div>
+	<div id="step_3" style="display:none;">
+		
+	</div>
+</body>
+</html>
+<script>
+	var model='{$model.id}';
+	$('#grid_nya_{$main}').css('height',(getClientHeight()-250));
+	genGrid('list_act','grid_{$main}','','');
+	
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	
+	$('#clear_act').bind('click',function(){
+		clear_form('form_{$main}');
+		$('#editstatus').val('add');
+		$('#input').hide();
+		$('#upload').hide();
+		$('#data').show();
+	});
+	$('#find_{$main}').bind('click',function(){
+		$('#grid_{$main}').datagrid('reload',{ key:$('#key_{$main}').val() });
+	});
+	
+	$('#add_{$main}').bind('click',function(){
+		$('#input').show();
+		$('#upload').hide();
+		$('#data').hide();
+	});
+	$('#edit_{$main}').bind('click',function(){
+		var row = $('#grid_{$main}').datagrid('getSelected');
+			if(row){
+				$('#input').show();
+				$('#upload').hide();
+				$('#data').hide();
+			}
+			else{
+				$.messager.alert('ABC System',"Select Row In Grid",'error');
+			}
+		
+	});
+	$('#del_{$main}').bind('click',function(){
+		
+	});
+	
+	$('#simpan_act').bind('click',function(){
+		if(model==0){
+			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
+		}
+			else{
+			if ($('#form_{$main}').form('validate')){
+				loadingna();
+				submit_form('form_{$main}',function(r){
+					if(r==1){
+						winLoadingClose();
+						$.messager.alert('ABC System',"Data Was Saved",'info');
+						closeWindow();
+						$('#grid_{$main}').datagrid('reload');
+						$('#clear_act').trigger('click');
+					}
+					else{
+						winLoadingClose()
+						$.messager.alert('ABC System',"Data NOT SAVED",'error');
+						console.log(r);
+					}
+				});
+			}
+			else{
+				$.messager.alert('ABC System',"Fill In The Blank",'error');
+			}
+		}
+	});
+	$('#next2').bind('click',function(){
+		if(model==0){
+			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
+		}
+		else{
+			$('#step_2').html('');
+			$('#step_2').show();
+			$('#step_1').hide();
+			$.post(host+'home/modul/model/config_act',function(r){
+				$('#step_2').html(r);
+			});
+		}
+	});
+	
+	$('#upload_acm').bind('click',function(){
+		if(model==0){
+			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
+		}
+		else{
+			if($('#file_acm').val()!=''){
+				loadingna();
+				submit_form('form2_{$main}',function(r){
+					if(r==1){
+						winLoadingClose();
+						$.messager.alert('ABC System', "Data Was Saved", 'info');
+						$("#grid_{$main}").datagrid('reload');
+						
+					}else{
+						winLoadingClose();
+						$.messager.alert('ABC System', "Data Not Saved", 'error');
+						console.log(r);
+					}
+				});
+				
+				//return false;
+			}
+			else{
+				winLoadingClose();
+				$.messager.alert('ABC System', "Please Select Your File Upload", 'error');
+			}
+		}
+	});
+</script>
