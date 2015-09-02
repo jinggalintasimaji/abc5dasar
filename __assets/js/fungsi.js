@@ -1005,6 +1005,82 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		break;
 		//end data production 
 		
+		//Resources
+		case "employees":
+			judulnya = "";
+			urlnya = "tbl_emp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
+				{field:'first',title:'First Name',width:150, halign:'center',align:'left'},
+				{field:'last',title:'Last Name',width:150, halign:'center',align:'left'},
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'wages',title:'Wages',width:100, halign:'center',align:'left'},
+				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center'},
+				{field:'benefits',title:'Benefits',width:100, halign:'center',align:'right'},
+				{field:'total',title:'Total',width:100, halign:'center',align:'right'},
+				{field:'class',title:'Class',width:100, halign:'center',align:'right'},
+				{field:'position',title:'Position',width:250, halign:'center',align:'left'},
+				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
+				{field:'cost_nbr',title:'Cost NBR',width:150, halign:'center',align:'right'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},
+			]
+		break;
+		case "expenses":
+			judulnya = "";
+			urlnya = "tbl_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'account',title:'Account',width:150, halign:'center',align:'left'},
+				{field:'descript',title:'Descript',width:250, halign:'center',align:'left'},
+				{field:'amount',title:'Amount',width:100, halign:'center',align:'left'},
+				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
+				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
+				{field:'exp_level',title:'Exp. Level',width:100, halign:'center',align:'right'},
+				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+			]
+		break;		
+		case "assets":
+			judulnya = "";
+			urlnya = "tbl_rdm";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Resource',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Budget Type UPE',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Cost NBR UPE',width:100, halign:'center',align:'right'},				
+				{field:'coeffupe',title:'Coefficient UPE',width:100, halign:'center',align:'right'},				
+				{field:'budtypeupx',title:'Budget Type UPX',width:100, halign:'center',align:'right'},				
+				{field:'costnbrupx',title:'Cost NBR UPX',width:100, halign:'center',align:'right'},				
+				{field:'coeffupx',title:'Coefficient UPX',width:100, halign:'center',align:'right'},				
+				{field:'bydtypeupa',title:'Budget Type UPA',width:100, halign:'center',align:'right'},				
+				{field:'costnbrupa',title:'Cost NBR UPA',width:100, halign:'center',align:'right'},				
+				{field:'coeffupa',title:'Coefficient UPA',width:100, halign:'center',align:'right'},				
+				{field:'actorpro',title:'Actor Pro.',width:100, halign:'center',align:'right'},				
+				{field:'batch',title:'Batch',width:100, halign:'center',align:'right'},				
+				{field:'note',title:'Note',width:250, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+			]
+		break;
+	
+		//End Resources
+		
 		//Setting
 		case "user_manajemen":
 			judulnya = "";
@@ -1121,50 +1197,6 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
 		break;		
-		case "ref_employee":
-			judulnya = "";
-			urlnya = "tbl_emp";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
-				{field:'first',title:'First Name',width:150, halign:'center',align:'left'},
-				{field:'last',title:'Last Name',width:150, halign:'center',align:'left'},
-				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'wages',title:'Wages',width:100, halign:'center',align:'left'},
-				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center'},
-				{field:'benefits',title:'Benefits',width:100, halign:'center',align:'right'},
-				{field:'total',title:'Total',width:100, halign:'center',align:'right'},
-				{field:'class',title:'Class',width:100, halign:'center',align:'right'},
-				{field:'position',title:'Position',width:250, halign:'center',align:'left'},
-				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
-				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
-				{field:'cost_nbr',title:'Cost NBR',width:150, halign:'center',align:'right'},
-				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
-				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},
-			]
-		break;
-		case "ref_expense":
-			judulnya = "";
-			urlnya = "tbl_exp";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'account',title:'Account',width:150, halign:'center',align:'left'},
-				{field:'descript',title:'Descript',width:250, halign:'center',align:'left'},
-				{field:'amount',title:'Amount',width:100, halign:'center',align:'left'},
-				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
-				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
-				{field:'exp_level',title:'Exp. Level',width:100, halign:'center',align:'right'},
-				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
-				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
-				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
-				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
-			]
-		break;
 		case "ref_resource_driver":
 			judulnya = "";
 			urlnya = "tbl_rdm";
