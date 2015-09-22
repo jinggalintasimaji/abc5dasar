@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-	<div id="step_1" style="padding:10px;margin-right:10px;">
+	<div id="daftar_grid" style="padding:10px;margin-right:10px;">
 		<div id="input" style="float:left;width:100%;display:none;">
 			<fieldset >
 				<legend>Input (Defined Activity)</legend>
@@ -29,12 +29,8 @@
 							</tr>
 						</table>
 						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
-						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
-						<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next2" onClick="" style="float:right;">
-							<span class="l-btn-left l-btn-icon-left">
-								<span class="l-btn-text">..NEXT STEP...</span><span class="l-btn-icon icon-redo"></span>
-							</span>
-						</a> 
+						{include file='template/button.html' id='clear_act' text='Close' icon='cancel' click=''}
+						
 				</form>
 				
 			</fieldset>
@@ -91,11 +87,7 @@
 			</fieldset>
 			</div>
 	</div>
-	<div id="step_2" style="display:none;">
-		
-	</div>
-	<div id="step_3" style="display:none;">
-		
+	<div id="detil_grid" style="display:none;">
 	</div>
 </body>
 </html>

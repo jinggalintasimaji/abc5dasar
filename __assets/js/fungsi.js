@@ -19,7 +19,7 @@ $(document).ready(function(){
 	$('#accordionMenu').accordion({  
 		height: getClientHeight()-178
 	});
-	
+	var grid_nya;
 	
 
 });
@@ -602,7 +602,11 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var param={};
 	var urlnya;
 	var urlglobal="";
+	var url_detil="";
+	var post_detil={};
 	var fitnya;
+	var klik=false;
+	var doble_klik=false;
 	var pagesizeboy = 10;
 	var footer=false;
 	
@@ -628,6 +632,10 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_acm_wizard";
 			fitnya = true;
 			footer=true;
+			doble_klik=true;
+			klik=true;
+			url_detil=host+"home/modul/activity/main_detil";
+			
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity',width:150, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:450, halign:'center',align:'left'},
@@ -1272,7 +1280,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		// End Data Reference
 	}
 	
-	$("#"+divnya).datagrid({
+	 grid_nya=$("#"+divnya).datagrid({
 		title:judulnya,
         height:tingginya,
         width:lebarnya,
@@ -1304,13 +1312,31 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			
 		},
 		onClickRow:function(rowIndex,rowData){
-          if(modnya=='list_act'){
-			  $('#id').val(rowData.id);
-			  $('#activity_code').val(rowData.activity_code);
-			  $('#descript').val(rowData.descript);
-			  $('#editstatus').val('edit');
+		  if(klik==true){
+			  if(modnya=='list_act'){
+				  $('#id').val(rowData.id);
+				  $('#activity_code').val(rowData.activity_code);
+				  $('#descript').val(rowData.descript);
+				  $('#editstatus').val('edit');
+			  }
 		  }
         },
+		onDblClickRow:function(rowIndex,rowData){
+			if(doble_klik==true){
+				/*switch(modnya){
+					case "list_act":
+						
+					break;
+				}*/
+				post_detil['id']=rowData.id;
+				$('#daftar_grid').hide();
+				$('#detil_grid').show();
+				$('#detil_grid').addClass('loading').html('');
+				$.post(url_detil,post_detil,function(r){
+					$('#detil_grid').removeClass('loading').html(r);
+				});
+			}
+		},
 		toolbar: '#tb_'+modnya,
 	});
 }
@@ -1547,6 +1573,7 @@ function submit_form(frm,func){
 }
 function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_panel, height_tab,width_panel,width_tab){
 	var id_sub_mod=sub_mod.split("_");
+	if(typeof(div_panel)!= "undefined" || div_panel!=""){
 	$(div_panel).panel({
 		width:(typeof(width_panel) == "undefined" ? getClientWidth()-268 : width_panel),
 		height:(typeof(height_panel) == "undefined" ? getClientHeight()-100 : height_panel),
@@ -1561,7 +1588,7 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 				}
 		}]
 	}); 
-	
+	}
 	$(div).tabs({
 		title:'AA',
 		//height: getClientHeight()-190,
@@ -1695,7 +1722,7 @@ function kumpulAction(type, p1, p2, p3){
 
 function clear_form(id){
 	$('#'+id).find("input[type=text], textarea,select").val("");
-	$('.angka').numberbox('setValue',0);
+	//$('.angka').numberbox('setValue',0);
 }
 
 var divcontainerz;
