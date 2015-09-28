@@ -35,7 +35,25 @@ class homex extends MY_Controller {
 					}
 				break;
 				default:
-					$editstatus = $this->input->post('editstatus');				
+					$editstatus = $this->input->post('editstatus');		
+					if($editstatus){
+						$acak = md5(date('Y-m-d H:i:s'));
+						$this->smarty->assign('acak',$acak);
+						$this->smarty->assign('editstatus',$editstatus);
+					}
+					if($mod == 'cost_object'){
+						$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
+						$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+					}
+					
+					switch($p2){
+						case "employees": //resource
+						case "expenses": //resource
+						case "assets": //resource
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+						break;
+					}
 					
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);

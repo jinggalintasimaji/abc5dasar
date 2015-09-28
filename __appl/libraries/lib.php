@@ -194,6 +194,16 @@ class lib {
 					'1' => array('id'=>'0','txt'=>'Inactive'),
 				);
 			break;
+			case "bulan" :
+				$ci->load->helper('db_helper');
+				$data = arraydate('bulan');
+				$optTemp = '<option value="0"> -- Filter Month -- </option>';
+			break;
+			case "tahun" :
+				$ci->load->helper('db_helper');
+				$data = arraydate('tahun');
+				$optTemp = '<option value="0"> -- Filter Year -- </option>';
+			break;
 			default:
 				$data = $ci->mhome->get_combo($type, $p1, $p2);
 			break;
