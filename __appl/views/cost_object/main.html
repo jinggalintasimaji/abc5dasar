@@ -1,10 +1,21 @@
 <div id="panel_{$main}" style="padding:5px;">
-	<div id="tab_{$main}"></div>
+	{include file='template/grid.html' main={$mod} mod={$mod} button='true' filter_core='true' filter_tahun_bulan='true' tinggi_grid='100%'}
 </div>
 
 <script>
-	var tab_array=[
-					"List", "Customer", "Location"
-				  ];
-	genTab( '#tab_{$main}', '{$mod}', '{$main}', tab_array, '#panel_{$main}', 'Setting', '{$sub_mod}', getClientHeight()-100, getClientHeight()-140 );
+	$('#panel_{$main}').panel({
+		width: getClientWidth()-268,
+		height: getClientHeight()-100,
+		title: "Service List",
+		//fit:true,
+		tools:[{
+			iconCls:'icon-cancel',
+			handler:function(){
+				$('#grid_nya_'+id_sub_mod[1]).show();
+				$('#detil_nya_'+id_sub_mod[1]).hide();
+				$('#grid_'+id_sub_mod[1]).datagrid('reload');
+			}
+		}]
+	}); 
 </script>
+

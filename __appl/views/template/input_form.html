@@ -1,0 +1,24 @@
+{if $size eq 'kecil'}
+	{assign var="width" value='150px'}
+{elseif $size eq 'sedang'}
+	{assign var="width" value='250px'}
+{elseif $size eq 'besar'}
+	{assign var="width" value='500px'}
+{/if}
+
+{if $type eq 'select'}
+	{if $tampilan eq 'label'}
+		<label style='width:150px'>{$label}</label> :
+		<select name='{$name}' id='{$name}' style='padding:3px;width:{$width}'>
+			{$option}
+		</select>
+		
+	{/if}
+{elseif $type eq 'text'}
+	{if $tampilan eq 'label'}
+		<label style='width:150px'>{$label}</label> :
+		<input {$readonly|default:''} type='text' name='{$name}' id='{$name}' value='{$value}' style='padding:3px;width:{$width}'>
+	{/if}
+{/if}
+
+<br/>
