@@ -11,88 +11,102 @@
 						<td >Cost</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.cost|default:'-'}
 						</td>
 						<td >Activity Driver</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.act_driver|default:'-'}
 						</td>
 					</tr>
 					<tr>
 						<td >Fixed Cost</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.fixed_cost|default:'-'}
 						</td>
 						<td >Actual Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.rd_tot_qty|default:'-'}
 						</td>
 					</tr>
 					<tr>
 						<td >Variable Cost</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.variable_cost|default:'-'}
 						</td>
 						<td >Cost Rate</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
-							Utilsation &nbsp;<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.cost_rate|default:'-'}&nbsp;&nbsp;
+							Utilsation &nbsp;
+							{$data.utilisation|default:'-'}
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
 						</td>
 					</tr>
 					<tr>
 						<td >FTE</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.fte|default:'-'}
 						</td>
 						<td >Capacity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
+							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
 						<td >Head Count</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.head_count|default:'-'}
 						</td>
 						<td >Capacity Rate</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
+							{$data.cap_rate_1|default:'-'}
 						</td>
 					</tr>
 					<tr>
 						<td >Budget</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.budget_amt|default:''}" name="budget_amt" id="budget_amt" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
 						</td>
 						<td >Target Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
 						</td>
 					</tr>
 					<tr>
 						<td >Standart</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.standart|default:''}" name="standart" id="standart" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
 							
 							
 						</td>
 						<td >Target Rate</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"> &nbsp;&nbsp;
-							Performance &nbsp;<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"--> &nbsp;&nbsp;
+							{$data.target_rate|default:'-'}
+							Performance &nbsp;
+							{$data.performance|default:'-'}
+							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
 						</td>
 					</tr>
 					

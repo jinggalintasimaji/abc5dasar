@@ -184,6 +184,17 @@ class home extends MY_Controller {
 					}
 				
 				break;
+				case "activity":
+					$id_act=$this->input->post('id');
+					if($id_act){$this->smarty->assign('id_act' ,$id_act);}
+					switch($p2){
+						case "detail":
+							//echo $id_act;exit;
+							$data=$this->db->get_where('tbl_acm',array('id'=>$this->input->post('id_act')))->row_array();
+							$this->smarty->assign('data' ,$data);
+						break;
+					}
+				break;
 			}
 			$this->smarty->assign('mod',$mod);
 			$this->smarty->assign('main',$p2);

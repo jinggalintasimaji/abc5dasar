@@ -1625,6 +1625,9 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 					case "model":
 						par['par_1']=$('#id_activity').val();
 					break;
+					case "activity":
+						if(typeof(id_act) != "undefined")par['id_act']=id_act;
+					break;
 					case "process_master":
 						par['par_1']=$('#par_1').val();
 						par['par_2']=$('#par_2').val();
