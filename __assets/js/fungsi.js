@@ -1014,10 +1014,25 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		//end data production 
 		
 		//Resources
+		case "all":
+			judulnya = "";
+			urlnya = "tbl_all_resources";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'employee_id',title:'Category',width:100, halign:'center',align:'center'},
+				{field:'first',title:'ResID',width:150, halign:'center',align:'left'},
+				{field:'last',title:'Name',width:300, halign:'center',align:'left'},
+				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
+				{field:'wages',title:'Cost',width:100, halign:'center',align:'left'},
+			]
+		break;
 		case "employees":
 			judulnya = "";
 			urlnya = "tbl_emp";
 			urlglobal = host+'homex/getdata/'+urlnya;
+			url_detil = host+'homex/modul/';
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
@@ -1086,8 +1101,104 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
 		break;
-	
+		
+		case "assign_act_employee":
+			judulnya = "";
+			urlnya = "emp_to_act";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Activity Name',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
+			]
+		break;
+		case "expense_source_employee":
+			judulnya = "";
+			urlnya = "exp_to_source";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Expense Source', width:200, halign:'center',align:'left'},
+				{field:'resource',title:'Assign To', width:150, halign:'center',align:'left'},
+				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
+			]
+		break;
+		
+		case "to_act_expenses":
+			judulnya = "";
+			urlnya = "act_to_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Activity Name',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
+			]
+		break;
+		case "to_employee_expenses":
+			judulnya = "";
+			urlnya = "act_to_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Employee Name',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
+			]
+		break;
+		case "to_assets_expenses":
+			judulnya = "";
+			urlnya = "act_to_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'resource',title:'Assets Name',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
+				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
+				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
+				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
+			]
+		break;
 		//End Resources
+		
+		//Cost Object
+		case "cost_object":
+			judulnya = "";
+			urlnya = "tbl_cdms";
+			fitnya = true;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'roundit',title:'Roundit',width:100, halign:'center',align:'right'},
+				{field:'sudn_cd',title:'SUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_cd',title:'MUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_uom',title:'MUDN UOM',width:100, halign:'center',align:'right'},				
+				{field:'sweight',title:'Sweight',width:100, halign:'center',align:'right'},				
+				{field:'mweight',title:'Mweight',width:100, halign:'center',align:'right'},				
+				{field:'budgettype',title:'Budget Type',width:100, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},	
+			]
+		break;
+		//End Cost Object
 		
 		//Setting
 		case "user_manajemen":
@@ -1323,18 +1434,24 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
         },
 		onDblClickRow:function(rowIndex,rowData){
 			if(doble_klik==true){
-				/*switch(modnya){
+				switch(modnya){
 					case "list_act":
-						
+						post_detil['id']=rowData.id;
+						$('#daftar_grid').hide();
+						$('#detil_grid').show();
+						$('#detil_grid').addClass('loading').html('');
+						$.post(url_detil,post_detil,function(r){
+							$('#detil_grid').removeClass('loading').html(r);
+						});
 					break;
-				}*/
-				post_detil['id']=rowData.id;
-				$('#daftar_grid').hide();
-				$('#detil_grid').show();
-				$('#detil_grid').addClass('loading').html('');
-				$.post(url_detil,post_detil,function(r){
-					$('#detil_grid').removeClass('loading').html(r);
-				});
+					case "employees":
+						post_detil['id'] = rowData.id;
+						$('#grid_nya_'+modnya).addClass('loading').html('');
+						$.post(url_detil,post_detil,function(r){
+							$('#grid_nya_'+modnya).removeClass('loading').html(r);
+						});
+					break;
+				}
 			}
 		},
 		toolbar: '#tb_'+modnya,
@@ -1436,9 +1553,25 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="tbl_rdm";
 			urlpost = host+'home/modul/model/form_map_rdm';
 		break;
-		
 		//Data Reference
 		
+		// Resource
+		case "employees":
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "expenses":
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assets":
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		// End Resource
+		
+		// Cost Object
+		case "cost_object":
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		// End Cost Object
 	}
 	
 	switch(type){
@@ -1465,9 +1598,9 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 				if(type=='edit'){
 					if(stswindow == undefined){
 						$('#grid_nya_'+submodulnya).hide();
-						$('#detil_nya_'+submodulnya).show();
+						$('#detil_nya_'+submodulnya).show();						
 					}
-					$.post(urlpost, {'editstatus':'edit',id:row.id, 'tabel':table}, function(resp){
+					$.post(urlpost, { 'editstatus':'edit', id:row.id, 'tabel':table, 'submodul':submodulnya }, function(resp){
 						if(stswindow == 'windowform'){
 							windowForm(resp, judulwindow, lebar, tinggi);
 						}else if(stswindow == 'windowpanel'){
@@ -1632,7 +1765,10 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 						par['par_1']=$('#par_1').val();
 						par['par_2']=$('#par_2').val();
 					break;
-					case "reference":
+					case "resource":
+						urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
+					break;
+					case "cost_object":
 						urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 					break;
 					//default:urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
