@@ -1,4 +1,4 @@
-<div id="tabs_{$main}" style="width:500px;height:320px;">
+<div id="tabs_{$main}" style="width:500px;height:218px;">
     <div title="Detail" style="padding:10px;">
 		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
 			<input type='hidden' name='id' value="{$data.id|default:''}">
@@ -6,23 +6,23 @@
 			
 			<fieldset>
 			<legend>Expenses Detail</legend>
-				{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='employee_id' value={$data.employee_id|default:''} }
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} }
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='position' value={$data.position|default:''} }
+				{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+				{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' name='wages' value={$data.wages|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' name='benefit' value={$data.benefit|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' name='amount' value={$data.amount|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
 							<br/>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' }
 						</td>
 						<td width='50%'>
-							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
 							<br/>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' }
 						</td>
 					</tr>
 				</table>
@@ -30,11 +30,12 @@
 		</form>
     </div>
     <div title="To Activity" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
 		<br/>
-		{include file='template/grid.html' main='to_act_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid.html' main='to_act_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -54,11 +55,12 @@
 		</div>    
 	</div>
     <div title="To Employee" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
 		<br/>
-		{include file='template/grid.html' main='to_employee_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid.html' main='to_employee_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -78,11 +80,13 @@
 		</div>    
     </div>
     <div title="To Assets" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+		
 		<br/>
-		{include file='template/grid.html' main='to_assets_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid.html' main='to_assets_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -102,11 +106,13 @@
 		</div>    
     </div>
     <div title="Expense Source" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+		
 		<br/>
-		{include file='template/grid.html' main='exp_source_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid.html' main='exp_source_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -143,7 +149,7 @@
 
 <script>
 	$("#tabs_{$main}").tabs({
-		height: getClientHeight()-350,
+		height: getClientHeight()-200,
 		width: getClientWidth()-280,
 		plain: false,
 		fit:true

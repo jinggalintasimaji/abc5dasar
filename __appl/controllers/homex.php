@@ -47,12 +47,27 @@ class homex extends MY_Controller {
 					}
 					
 					switch($p2){
-						case "employees": //resource
-						case "expenses": //resource
-						case "assets": //resource
+						// Modul Resources
+						case "employees": 
+						case "expenses":
+						case "assets": 
 							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
 							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
 						break;
+						case "form_employees": 
+						case "form_expenses":
+						case "form_assets":
+							$tabel = $this->input->post('tabel');
+							if($editstatus == 'edit'){
+								$id = $this->input->post('id');
+								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
+								$this->smarty->assign('data', $data );
+							}
+							
+							$this->smarty->assign('option_costcenter', $this->lib->fillcombo('tbl_loc', 'return', ($editstatus == 'edit' ? $data['tbl_loc_id'] : "") ) );
+							$this->smarty->assign('option_resourcedriver', $this->lib->fillcombo('tbl_rdm', 'return', ($editstatus == 'edit' ? $data['tbl_rdm_id'] : "") ) );
+						break;
+						// End Modul Resources
 					}
 					
 					$this->smarty->assign('mod',$mod);
