@@ -1037,8 +1037,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			pagesizeboy = 50;
 			kolom[modnya] = [	
 				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
-				{field:'first',title:'First Name',width:150, halign:'center',align:'left'},
-				{field:'last',title:'Last Name',width:150, halign:'center',align:'left'},
+				{field:'last',title:'Last Name',width:250, halign:'center',align:'left'},
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
 				{field:'wages',title:'Wages',width:100, halign:'center',align:'left'},
 				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center'},
@@ -1557,9 +1556,11 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		
 		// Resource
 		case "employees":
+			table="tbl_emp";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "expenses":
+			table="tbl_exp";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "assets":
