@@ -19,7 +19,7 @@ class mhomex extends CI_Model{
 		}
 		
 		switch($type){
-			//Data Reference
+			//Modul Resource
 			case "tbl_emp":
 				if($this->modeling){
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
@@ -50,6 +50,16 @@ class mhomex extends CI_Model{
 					$where
 				";
 			break;
+			case "tbl_assets":
+				$sql = "
+					SELECT A.*, B.costcenter, C.resource
+					FROM tbl_assets A
+					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
+					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
+				";
+			break;
+			//End Modul Resource
+			
 			case "tbl_loc":
 				if($this->modeling){
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
@@ -104,8 +114,7 @@ class mhomex extends CI_Model{
 					FROM tbl_cdm A
 					$where
 				";
-			break;
-			//End Data Reference
+			break;			
 			
 			//Modul Setting
 			case "tbl_user":

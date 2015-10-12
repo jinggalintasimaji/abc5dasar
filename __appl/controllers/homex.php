@@ -66,6 +66,7 @@ class homex extends MY_Controller {
 							
 							$this->smarty->assign('option_costcenter', $this->lib->fillcombo('tbl_loc', 'return', ($editstatus == 'edit' ? $data['tbl_loc_id'] : "") ) );
 							$this->smarty->assign('option_resourcedriver', $this->lib->fillcombo('tbl_rdm', 'return', ($editstatus == 'edit' ? $data['tbl_rdm_id'] : "") ) );
+							$this->smarty->assign('submodul', $this->input->post('submodul') );
 						break;
 						// End Modul Resources
 					}

@@ -2,6 +2,7 @@
 
 $config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
 $config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
+//$config['base_url'] = "";
 $config['index_page'] = '';
 $config['uri_protocol']	= 'AUTO';
 $config['url_suffix'] = '';
