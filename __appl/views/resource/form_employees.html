@@ -1,7 +1,7 @@
 <div id="tabs_{$main}" style="width:500px;height:320px;">
     <div title="Detail" style="padding:10px;">
 		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
-			<input type='hidden' name='id' value="{$data.id|default:''}">
+			<input type='hidden' id='id_employee' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
 			
 			<fieldset>
@@ -39,7 +39,7 @@
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
 		<br/>
-		{include file='template/grid.html' main='assign_act_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_emp_act' main='assign_act_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -63,7 +63,7 @@
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
 		<br/>
-		{include file='template/grid.html' main='expense_source_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_efx' main='expense_source_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>

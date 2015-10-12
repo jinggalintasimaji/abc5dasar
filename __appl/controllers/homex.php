@@ -24,6 +24,7 @@ class homex extends MY_Controller {
 	function modul($mod, $p2="",$p3="",$p4=""){	
 		$this->load->library('encrypt');
 		if($this->auth){
+			$form_default = "def";
 			switch($mod){
 				case "check_username":
 					$username = $this->input->post('username');
@@ -68,13 +69,31 @@ class homex extends MY_Controller {
 							$this->smarty->assign('option_resourcedriver', $this->lib->fillcombo('tbl_rdm', 'return', ($editstatus == 'edit' ? $data['tbl_rdm_id'] : "") ) );
 							$this->smarty->assign('submodul', $this->input->post('submodul') );
 						break;
+						
+						case "form_assign_act_employee":
+						case "form_expense_source_employee";
+							$form_default = 'laen';
+							$form = 'form_assignment';
+							
+							$value1 = $this->input->post('id_tambahan');
+							$this->smarty->assign('value1', $value1);
+							if($p2 == 'form_assign_act_employee'){
+								$this->smarty->assign('jns_assignment', 'list_activity');
+							}elseif($p2 == 'form_expense_source_employee'){
+								$this->smarty->assign('jns_assignment', 'list_expense');
+							}
+						break;
 						// End Modul Resources
 					}
 					
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);
 					$this->smarty->assign('sub_mod',$p3);
-					$this->smarty->display($mod.'/'.$p2.'.html');
+					if($form_default == 'def'){
+						$this->smarty->display($mod.'/'.$p2.'.html');
+					}else{
+						$this->smarty->display($mod.'/'.$form.'.html');
+					}
 				break;
 			}
 		}else{
@@ -89,6 +108,13 @@ class homex extends MY_Controller {
 	function simpansavedata($type="", $p1=""){
 		$post = array();
         foreach($_POST as $k=>$v) $post[$k] = $this->db->escape_str($this->input->post($k));
+		
+		/*
+		echo "<pre>";
+		print_r($post);
+		exit;
+		*/
+		
 		if(isset($post['editstatus'])){
 			$editstatus = $post['editstatus'];
 			unset($post['editstatus']);

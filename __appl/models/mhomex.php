@@ -258,6 +258,63 @@ class mhomex extends CI_Model{
 				";
 			break;
 			//End Data Production
+			
+			
+			//Data Assignment
+			case "emp_to_act":
+			case "tbl_efx":
+				$id_employee = $this->input->post('id_employee');
+				if($id_employee){
+					$where .= "
+						AND  A.tbl_emp_id = '".$id_employee."' 
+					";
+				}
+				
+				if($type == 'emp_to_act'){
+					$select = " A.*, B.descript as activity_name ";
+					$from = "tbl_emp_act";
+					$join = "
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
+					";
+				}elseif($type == 'tbl_efx'){
+					$select = " A.*, B.descript as expense_name ";
+					$from = "tbl_efx";
+					$join = "
+						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
+					";
+				}
+				
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$join
+					$where
+				";
+			break;
+			case "list_activity":
+			case "list_expense":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+
+				if($type == 'list_activity'){
+					$select = " A.id, A.activity_code, A.descript ";
+					$from = "tbl_acm";
+				}elseif($type == 'list_expense'){
+					$select = " A.id, A.account, A.descript ";
+					$from = "tbl_exp";
+				}
+					
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$where 
+				";
+			break;
+			
+			//End Data Assignment
 		}
 		
 		if($balikan == 'json'){
@@ -637,6 +694,54 @@ class mhomex extends CI_Model{
 					}					
 				}
 			break;
+			
+			//Assignment
+			case "list_activity":
+				$table = "tbl_emp_act";
+				$count = count($data['datanya'])-1;
+				//echo $count;exit;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_emp_id" => $data['tbl_emp_id'],
+						"tbl_acm_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}					
+			break;
+			case "tbl_emp_act":
+				unset($data['activity_name']);
+			break;
+			case "list_expense":
+				$table = "tbl_efx";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_emp_id" => $data['tbl_emp_id'],
+						"tbl_exp_id" => $data['datanya'][$i]['id'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}					
+			break;
+			case "tbl_efx":
+				unset($data['expense_name']);
+				unset($data['editing']);
+			break;
+			
+			//End Assignment
 		}
 		
 		switch ($sts_crud){
