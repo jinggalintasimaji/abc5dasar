@@ -1037,7 +1037,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			pagesizeboy = 50;
 			kolom[modnya] = [	
 				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
-				{field:'last',title:'Last Name',width:250, halign:'center',align:'left'},
+				{field:'last',title:'Employee Name',width:250, halign:'center',align:'left'},
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
 				{field:'wages',title:'Wages',width:100, halign:'center',align:'left'},
 				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center'},
@@ -1074,30 +1074,15 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		break;		
 		case "assets":
 			judulnya = "";
-			urlnya = "tbl_rdm";
+			urlnya = "tbl_assets";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'resource',title:'Resource',width:200, halign:'center',align:'left'},
-				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
-				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
-				{field:'budtypeupe',title:'Budget Type UPE',width:150, halign:'center',align:'right'},				
-				{field:'costnbrupe',title:'Cost NBR UPE',width:100, halign:'center',align:'right'},				
-				{field:'coeffupe',title:'Coefficient UPE',width:100, halign:'center',align:'right'},				
-				{field:'budtypeupx',title:'Budget Type UPX',width:100, halign:'center',align:'right'},				
-				{field:'costnbrupx',title:'Cost NBR UPX',width:100, halign:'center',align:'right'},				
-				{field:'coeffupx',title:'Coefficient UPX',width:100, halign:'center',align:'right'},				
-				{field:'bydtypeupa',title:'Budget Type UPA',width:100, halign:'center',align:'right'},				
-				{field:'costnbrupa',title:'Cost NBR UPA',width:100, halign:'center',align:'right'},				
-				{field:'coeffupa',title:'Coefficient UPA',width:100, halign:'center',align:'right'},				
-				{field:'actorpro',title:'Actor Pro.',width:100, halign:'center',align:'right'},				
-				{field:'batch',title:'Batch',width:100, halign:'center',align:'right'},				
-				{field:'note',title:'Note',width:250, halign:'center',align:'right'},				
-				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
-				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
-				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
-				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
+				{field:'assets_id',title:'Asset ID',width:200, halign:'center',align:'left'},
+				{field:'assets_name',title:'Assets Name',width:250, halign:'center',align:'left'},
+				{field:'cost_center',title:'Cost Center',width:150, halign:'center',align:'right'},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right'},				
 			]
 		break;
 		
@@ -1579,7 +1564,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		case "add":
 			if(stswindow == undefined){
 				$('#grid_nya_'+submodulnya).hide();
-				$('#detil_nya_'+submodulnya).show();
+				$('#detil_nya_'+submodulnya).show().addClass("loading");
 			}
 			$.post(urlpost, {'editstatus':'add'}, function(resp){
 				if(stswindow == 'windowform'){
@@ -1588,7 +1573,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 					windowFormPanel(resp, judulwindow, lebar, tinggi);
 				}else{
 					$('#detil_nya_'+submodulnya).show();
-					$('#detil_nya_'+submodulnya).html(resp);
+					$('#detil_nya_'+submodulnya).html(resp).removeClass("loading");
 				}
 			});
 		break;
@@ -1599,7 +1584,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 				if(type=='edit'){
 					if(stswindow == undefined){
 						$('#grid_nya_'+submodulnya).hide();
-						$('#detil_nya_'+submodulnya).show();						
+						$('#detil_nya_'+submodulnya).show().addClass("loading");	
 					}
 					$.post(urlpost, { 'editstatus':'edit', id:row.id, 'tabel':table, 'submodul':submodulnya }, function(resp){
 						if(stswindow == 'windowform'){
@@ -1608,7 +1593,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 							windowFormPanel(resp, judulwindow, lebar, tinggi);
 						}else{
 							$('#detil_nya_'+submodulnya).show();
-							$('#detil_nya_'+submodulnya).html(resp);
+							$('#detil_nya_'+submodulnya).html(resp).removeClass("loading");
 						}
 					});
 				}
@@ -1784,7 +1769,6 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 			}
 		});
 		var tab = $(div).tabs('select',0);
-		
 		
 	}
 	
