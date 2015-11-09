@@ -576,16 +576,30 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			pagesizeboy = 50;
 			param['id_employee'] = $('#id_employee').val();
 			kolom[modnya] = [	
-				//{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
 				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
-				{field:'quantity',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}}
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right'},
+				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
 				},
-				{field:'proportion',title:'Proportion',width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}}
+				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
 				},				
-				{field:'amount',title:'Amount',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}}
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
 				},		
 				{field:'action',title:'Action',width:150,align:'center',
 					formatter:function(value,row,index){
@@ -603,25 +617,77 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		break;
 		case "expense_source_employee":
 			judulnya = "";
-			urlnya = "tbl_efx";
+			urlnya = "exp_to_emp";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
 			param['id_employee'] = $('#id_employee').val();
 			kolom[modnya] = [	
-				//{field:'resource',title:'Assign To', width:150, halign:'center',align:'left'},
 				//{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
 				
 				{field:'expense_name',title:'Expense Source', width:200, halign:'center',align:'left'},
-				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}}
+				{field:'cost_type',title:'Assign To', width:150, halign:'center',align:'left',
+					editor:{
+                       type:'combobox',
+                       options:{
+                           valueField:'id',
+                           textField:'value',
+						   data: [
+								{
+									id: 'S',
+									value: 'Salary'
+								},
+								{
+									id: 'B',
+									value: 'Benefits'
+								},
+								{
+									id: 'OV',
+									value: 'Overtime'
+								},
+								{
+									id: 'OT',
+									value: 'Others'
+								}
+							]
+                       }
+                    },
+					formatter:function(value,row,index){
+						if (row.cost_type == 'S'){
+							return "Salary";
+						} else if(row.cost_type == 'B') {
+							return "Benefit";
+						} else if(row.cost_type == 'OV') {
+							return "Overtime";
+						} else if(row.cost_type == 'OT') {
+							return "Other";
+						}
+					}
 				},
-				{field:'proportion',title:'Proportion',width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}}
+				{field:'rd_tot_qty',title:'Res. Driver Qty.', width:150, halign:'center',align:'left'},
+				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
 				},				
-				{field:'amount',title:'Amount',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}}
-				},				
+				{field:'cost',title:'Cost',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
 				{field:'action',title:'Action',width:150,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
@@ -634,6 +700,111 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 						}
 					}
 				}	
+			]
+		break;		
+		
+		case "assign_act_expense":
+			judulnya = "";
+			urlnya = "exp_to_act";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_expense'] = $('#id_expense').val();
+			kolom[modnya] = [	
+				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+						else return '-';
+					},
+				},
+				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
+				},				
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},		
+				{field:'action',title:'Action',width:150,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}				
+			]
+		break;		
+		case "assign_emp_expense":
+			judulnya = "";
+			urlnya = "emp_to_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_expense'] = $('#id_expense').val();
+			kolom[modnya] = [	
+				{field:'employee_name',title:'Employee Name',width:200, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+						else return '-';
+					},
+				},
+				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
+				},				
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},		
+				{field:'action',title:'Action',width:150,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}				
 			]
 		break;		
 		//end Modul Resource
@@ -660,18 +831,22 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
             kolom[modnya]
         ],
 		toolbar: tolbarnya,
-		onBeforeEdit:function(index,row){
+		onBeforeEdit:function(index,row,rowIndex){
             row.editing = true;
             updateActions(divnya,index);
         },
         onAfterEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
+			
+			if(modnya == 'expense_source_employee'){
+				
+			}
         },
         onCancelEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
-        }
+        },
 	});
 }
 
@@ -697,6 +872,7 @@ function deleterow(div,target){
 }
 function saverow(div,target){
      $('#'+div).datagrid('endEdit', getRowIndex(target));
+     $('#'+div).datagrid('reload');
 }
 function cancelrow(div,target){
      $('#'+div).datagrid('cancelEdit', getRowIndex(target));
@@ -1460,9 +1636,10 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		// End Data Reference
 		
 		//List Assignment - Resources
-		case "list_activity":
+		case "list_activity_employee":
+		case "list_activity_expense":
 			judulnya = "";
-			urlnya = "list_activity";
+			urlnya = "list_activity_employee";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
@@ -1471,11 +1648,12 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity Code',width:120, halign:'center',align:'left'},
 				{field:'descript',title:'Activity Desc',width:200, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty',width:150, halign:'center',align:'left'},
 			]
 		break;		
-		case "list_expense":
+		case "list_expense_employee":
 			judulnya = "";
-			urlnya = "list_expense";
+			urlnya = "list_expense_employee";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
@@ -1484,13 +1662,27 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'account',title:'Accoount',width:120, halign:'center',align:'left'},
 				{field:'descript',title:'Expense Desc',width:200, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty',width:150, halign:'center',align:'left'},
+			]
+		break;
+		case "list_employee_expense":
+			judulnya = "";
+			urlnya = "list_employee_expense";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			
+			kolom[modnya] = [	
+				{field:'employee_id',title:'Employee ID',width:120, halign:'center',align:'left'},
+				{field:'last',title:'Employee Name',width:200, halign:'center',align:'left'},
 			]
 		break;		
 		//END List Assignment - Resources
 		
 	}
 	
-	 grid_nya=$("#"+divnya).datagrid({
+	grid_nya=$("#"+divnya).datagrid({
 		title:judulnya,
         height:tingginya,
         width:lebarnya,
@@ -1661,7 +1853,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "assign_act_employee":
-			table = 'tbl_emp_act';
+			table = 'tbl_are';
 			id_tambahan = $('#id_employee').val();
 			stswindow = 'windowform';
 			lebar = getClientWidth()-800;
@@ -1681,6 +1873,27 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		
+		case "assign_act_expense":
+			table = 'tbl_are';
+			id_tambahan = $('#id_expense').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Activity';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assign_emp_expense":
+			table = 'tbl_efx';
+			id_tambahan = $('#id_expense').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Employee List';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+
 		
 		case "expenses":
 			table="tbl_exp";
@@ -1725,7 +1938,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 						$('#grid_nya_'+submodulnya).hide();
 						$('#detil_nya_'+submodulnya).show().addClass("loading");	
 					}
-					$.post(urlpost, { 'editstatus':'edit', id:row.id, 'tabel':table, 'submodul':submodulnya, 'id_tambahan':id_tambahan }, function(resp){
+					$.post(urlpost, { 'editstatus':'edit', id:row.id, 'tabel':table, 'submodul':submodulnya, 'bulan':row.bulan, 'tahun':row.tahun, 'id_tambahan':id_tambahan }, function(resp){
 						if(stswindow == 'windowform'){
 							windowForm(resp, judulwindow, lebar, tinggi);
 						}else if(stswindow == 'windowpanel'){
@@ -1984,14 +2197,20 @@ function kumpulAction(type, p1, p2, p3){
 		break;
 		
 		//Assignment Data : Resource
-		case "list_activity":
-		case "list_expense":		
+		case "list_activity_employee":
+		case "list_expense_employee":		
 			var row = $("#grid_"+type).edatagrid('getSelections');
 			if(row){
+				var assignment = $('#jenis_assignment').val();
 				post_detil['tbl_emp_id'] = $('#hdn_'+type).val();
 				post_detil['editstatus'] = 'kontel';
 				post_detil['datanya'] = row;
 				post_detil['id'] = 'kontel';
+				
+				if(assignment == 'list_activity_employee' || assignment == 'list_expense_employee'){
+					post_detil['bulan']	= $('#bulan_employee').val();
+					post_detil['tahun']	= $('#tahun_employee').val();
+				}
 				
 				$.post(host+'homex/simpansavedata/'+type, post_detil, function(r){
 					if(r == 1){
@@ -2001,10 +2220,45 @@ function kumpulAction(type, p1, p2, p3){
 					}
 					closeWindow();
 					
-					if(type == 'list_activity'){
+					if(type == 'list_activity_employee'){
 						$('#grid_assign_act_employee').datagrid('reload');
-					}else if(type == 'list_expense'){
+					}else if(type == 'list_expense_employee'){
 						$('#grid_expense_source_employee').datagrid('reload');
+					}
+				});
+				
+			}else{
+				$.messager.alert('ABC System',"Select Row In Grid Data",'error');
+			}
+		break;
+		
+		case 'list_activity_expense':
+		case 'list_employee_expense':
+			var row = $("#grid_"+type).edatagrid('getSelections');
+			if(row){
+				var assignment = $('#jenis_assignment').val();
+				post_detil['tbl_exp_id'] = $('#hdn_'+type).val();
+				post_detil['editstatus'] = 'kontel';
+				post_detil['datanya'] = row;
+				post_detil['id'] = 'kontel';
+				
+				if(assignment == 'list_activity_expense' || assignment == 'list_employee_expense'){
+					post_detil['bulan']	= $('#bulan_expense').val();
+					post_detil['tahun']	= $('#tahun_expense').val();
+				}
+				
+				$.post(host+'homex/simpansavedata/'+type, post_detil, function(r){
+					if(r == 1){
+						$.messager.alert('ABC System',"Data Saved",'info');
+					}else{
+						$.messager.alert('ABC System', "Failed Saved -"+r, 'error');
+					}
+					closeWindow();
+					
+					if(type == 'list_activity_expense'){
+						$('#grid_assign_act_expense').datagrid('reload');
+					}else if(type == 'list_employee_expense'){
+						$('#grid_assign_emp_expense').datagrid('reload');
 					}
 				});
 				
