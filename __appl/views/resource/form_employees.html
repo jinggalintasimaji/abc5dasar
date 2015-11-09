@@ -3,6 +3,8 @@
 		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
 			<input type='hidden' id='id_employee' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
+			<input type='hidden' id='bulan_employee' value="{$bulan}">
+			<input type='hidden' id='tahun_employee' value="{$tahun}">
 			
 			<fieldset>
 			<legend>Employee Detail</legend>
@@ -39,7 +41,7 @@
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
 		<br/>
-		{include file='template/grid_editable.html' crud_table='tbl_emp_act' main='assign_act_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -50,7 +52,7 @@
 						<table width='100%'>
 							<tr>
 								<td width='50%'><b>TOTAL COST</b></td>
-								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+								<td width='50%'><b>Rp. <span id='cost_activity_employee'>{$total_activity}</span></b></td>
 							</tr>
 						</table>
 					</td>
@@ -74,7 +76,7 @@
 						<table width='100%'>
 							<tr>
 								<td width='50%'><b>TOTAL COST</b></td>
-								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+								<td width='50%'><b>Rp. <span id='cost_expense_employee'>{$total_expense}</span></b></td>
 							</tr>
 						</table>
 					</td>

@@ -39,8 +39,14 @@ class homex extends MY_Controller {
 					$editstatus = $this->input->post('editstatus');		
 					if($editstatus){
 						$acak = md5(date('Y-m-d H:i:s'));
+						$bulan = $this->input->post('bulan');		
+						$tahun = $this->input->post('tahun');		
+						
 						$this->smarty->assign('acak',$acak);
 						$this->smarty->assign('editstatus',$editstatus);
+						
+						$this->smarty->assign('bulan',$bulan);
+						$this->smarty->assign('tahun',$tahun);
 					}
 					if($mod == 'cost_object'){
 						$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
@@ -63,6 +69,18 @@ class homex extends MY_Controller {
 								$id = $this->input->post('id');
 								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
 								$this->smarty->assign('data', $data );
+								
+								if($p2 == 'form_employees'){
+									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_emp_id', $id);
+									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_emp_id', $id);
+									
+									$this->smarty->assign('total_activity', $total_activity);
+									$this->smarty->assign('total_expense', $total_expense);
+								}elseif($p2 == 'form_expenses'){
+									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_exp_id', $id);
+									
+									$this->smarty->assign('total_activity', $total_activity);
+								}
 							}
 							
 							$this->smarty->assign('option_costcenter', $this->lib->fillcombo('tbl_loc', 'return', ($editstatus == 'edit' ? $data['tbl_loc_id'] : "") ) );
@@ -71,16 +89,22 @@ class homex extends MY_Controller {
 						break;
 						
 						case "form_assign_act_employee":
-						case "form_expense_source_employee";
+						case "form_expense_source_employee":
+						case "form_assign_act_expense":
+						case "form_assign_emp_expense":
 							$form_default = 'laen';
 							$form = 'form_assignment';
 							
 							$value1 = $this->input->post('id_tambahan');
 							$this->smarty->assign('value1', $value1);
 							if($p2 == 'form_assign_act_employee'){
-								$this->smarty->assign('jns_assignment', 'list_activity');
+								$this->smarty->assign('jns_assignment', 'list_activity_employee');
 							}elseif($p2 == 'form_expense_source_employee'){
-								$this->smarty->assign('jns_assignment', 'list_expense');
+								$this->smarty->assign('jns_assignment', 'list_expense_employee');
+							}elseif($p2 == 'form_assign_act_expense'){
+								$this->smarty->assign('jns_assignment', 'list_activity_expense');
+							}elseif($p2 == 'form_assign_emp_expense'){
+								$this->smarty->assign('jns_assignment', 'list_employee_expense');
 							}
 						break;
 						// End Modul Resources
@@ -103,6 +127,16 @@ class homex extends MY_Controller {
 	
 	function getdata($type, $p1s=""){
 		echo $this->mhomex->getdata($type, 'json');
+	}
+	
+	function getcost($balikan="", $p1="", $p2="", $p3="", $p4=""){
+		$data = $this->mhomex->getdata('total_cost', 'row_array', $p1, $p2, $p3, $p4);
+		
+		if($balikan == 'echo'){
+			echo number_format($data['total_cost'],2,",",".");;
+		}elseif($balikan == 'return'){
+			return number_format($data['total_cost'],2,",",".");;
+		}
 	}
 	
 	function simpansavedata($type="", $p1=""){

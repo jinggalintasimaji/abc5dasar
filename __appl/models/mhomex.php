@@ -259,10 +259,9 @@ class mhomex extends CI_Model{
 			break;
 			//End Data Production
 			
-			
 			//Data Assignment
 			case "emp_to_act":
-			case "tbl_efx":
+			case "exp_to_emp":
 				$id_employee = $this->input->post('id_employee');
 				if($id_employee){
 					$where .= "
@@ -271,13 +270,13 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'emp_to_act'){
-					$select = " A.*, B.descript as activity_name ";
-					$from = "tbl_emp_act";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name ";
+					$from = "tbl_are";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 					";
-				}elseif($type == 'tbl_efx'){
-					$select = " A.*, B.descript as expense_name ";
+				}elseif($type == 'exp_to_emp'){
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as expense_name ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
@@ -291,20 +290,24 @@ class mhomex extends CI_Model{
 					$where
 				";
 			break;
-			case "list_activity":
-			case "list_expense":
+			case "list_activity_employee":
+			case "list_expense_employee":
+			case "list_employee_expense":
 				if($this->modeling){
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
 				}else{
 					$where .= " AND A.tbl_model_id = '0' ";
 				}
 
-				if($type == 'list_activity'){
-					$select = " A.id, A.activity_code, A.descript ";
+				if($type == 'list_activity_employee'){
+					$select = " A.id, A.activity_code, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
 					$from = "tbl_acm";
-				}elseif($type == 'list_expense'){
-					$select = " A.id, A.account, A.descript ";
+				}elseif($type == 'list_expense_employee'){
+					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
 					$from = "tbl_exp";
+				}elseif($type == 'list_employee_expense'){
+					$select = " A.id, A.employee_id, A.last";
+					$from = "tbl_emp";
 				}
 					
 				$sql = "
@@ -314,7 +317,48 @@ class mhomex extends CI_Model{
 				";
 			break;
 			
+			case "exp_to_act":
+			case "emp_to_exp":
+				$id_expense = $this->input->post('id_expense');
+				if($id_expense){
+					$where .= "
+						AND  A.tbl_exp_id = '".$id_expense."' 
+					";
+				}
+				
+				if($type == 'exp_to_act'){
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name ";
+					$from = "tbl_are";
+					$join = "
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
+					";
+				}elseif($type == 'emp_to_exp'){
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.last as employee_name ";
+					$from = "tbl_efx";
+					$join = "
+						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id 
+					";
+				}
+				
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$join
+					$where
+				";
+			break;
 			//End Data Assignment
+			
+			//Get Total Cost
+			case "total_cost":
+				$sql = "
+					SELECT SUM(".$p1.") as total_cost 
+					FROM ".$p2."
+					WHERE ".$p3." = '".$p4."'
+				";
+			break;
+			//End Total Cost
+			
 		}
 		
 		if($balikan == 'json'){
@@ -696,8 +740,8 @@ class mhomex extends CI_Model{
 			break;
 			
 			//Assignment
-			case "list_activity":
-				$table = "tbl_emp_act";
+			case "list_activity_employee":
+				$table = "tbl_are";
 				$count = count($data['datanya'])-1;
 				//echo $count;exit;
 				
@@ -706,6 +750,7 @@ class mhomex extends CI_Model{
 					$array_insert = array(
 						"tbl_emp_id" => $data['tbl_emp_id'],
 						"tbl_acm_id" => $data['datanya'][$i]['id'],
+						"tbl_rdm_id" => $data['datanya'][$i]['tbl_rdm_id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -716,10 +761,25 @@ class mhomex extends CI_Model{
 					$this->db->insert_batch($table, $array_batch_insert);
 				}					
 			break;
-			case "tbl_emp_act":
+			case "tbl_are_assignment":
+				$table = "tbl_are";
+				$tot_qty = $data['rd_tot_qty'];
 				unset($data['activity_name']);
+				unset($data['rd_tot_qty']);
+				unset($data['editing']);
+				
+				if($tot_qty == null){
+					$amount = ( $data['percent'] / 100 ) * $data['rd_qty'];
+				}elseif($tot_qty == 0){
+					$amount = ( $data['percent'] / 100 ) * $data['rd_qty'];
+				}else{
+					$amount = $tot_qty * $data['rd_qty'];
+					$data['percent'] = 0;
+				}
+				
+				$data['cost'] = $amount;
 			break;
-			case "list_expense":
+			case "list_expense_employee":
 				$table = "tbl_efx";
 				$count = count($data['datanya'])-1;
 				
@@ -737,10 +797,46 @@ class mhomex extends CI_Model{
 				}					
 			break;
 			case "tbl_efx":
+				$tot_qty = $data['rd_tot_qty'];
 				unset($data['expense_name']);
+				unset($data['employee_name']);
 				unset($data['editing']);
+				unset($data['tbl_rdm_id']);
+				unset($data['rd_tot_qty']);
+				
+				if($tot_qty == null){
+					$amount = ( $data['percent'] / 100 ) * $data['rd_qty'];
+				}elseif($tot_qty == 0){
+					$amount = ( $data['percent'] / 100 ) * $data['rd_qty'];
+				}else{
+					$amount = $tot_qty * $data['rd_qty'];
+					$data['percent'] = 0;
+				}
+				
+				$data['cost'] = $amount;
 			break;
 			
+			case "list_activity_expense":
+				$table = "tbl_are";
+				$count = count($data['datanya'])-1;
+				//echo $count;exit;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_exp_id" => $data['tbl_exp_id'],
+						"tbl_acm_id" => $data['datanya'][$i]['id'],
+						"tbl_rdm_id" => $data['datanya'][$i]['tbl_rdm_id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
 			//End Assignment
 		}
 		

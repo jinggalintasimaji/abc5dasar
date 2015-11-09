@@ -1,8 +1,10 @@
 <div id="tabs_{$main}" style="width:500px;height:218px;">
     <div title="Detail" style="padding:10px;">
 		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
-			<input type='hidden' name='id' value="{$data.id|default:''}">
+			<input type='hidden' id='id_expense' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
+			<input type='hidden' id='bulan_expense' value="{$bulan}">
+			<input type='hidden' id='tahun_expense' value="{$tahun}">
 			
 			<fieldset>
 			<legend>Expenses Detail</legend>
@@ -35,7 +37,7 @@
 		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
 		<br/>
-		{include file='template/grid.html' main='to_act_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_expense' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -46,7 +48,7 @@
 						<table width='100%'>
 							<tr>
 								<td width='50%'><b>TOTAL COST</b></td>
-								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+								<td width='50%'><b>Rp. <span id='cost_activity_expense'>{$total_activity}</span></b></td>
 							</tr>
 						</table>
 					</td>
@@ -60,7 +62,7 @@
 		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
 		<br/>
-		{include file='template/grid.html' main='to_employee_expenses' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_efx' main='assign_emp_expense' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -71,7 +73,7 @@
 						<table width='100%'>
 							<tr>
 								<td width='50%'><b>TOTAL COST</b></td>
-								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+								<td width='50%'><b>Rp. <span id='cost_employee_expense'>{$total_activity}</span></b></td>
 							</tr>
 						</table>
 					</td>
