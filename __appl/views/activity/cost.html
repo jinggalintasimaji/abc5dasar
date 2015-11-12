@@ -12,7 +12,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.cost|default:'-'}
+							{$data.total_cost|number_format:2:'.':','}
 						</td>
 						<td >Activity Driver</td>
 						<td width='1%'>:</td>
@@ -46,7 +46,13 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.cost_rate|default:'-'}&nbsp;&nbsp;
+							
+							{if $data.total_cost|default:'' neq '' && $data.rd_tot_qty|default:'' neq ''}
+								{($data.total_cost / $data.rd_tot_qty)|number_format:2:'.':','}
+							{else}
+								-
+							{/if}
+							&nbsp;&nbsp;
 							Utilsation &nbsp;
 							{$data.utilisation|default:'-'}
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
@@ -62,7 +68,7 @@
 						<td >Capacity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
+							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox" onkeyup="$('#cap_rate').html({$data.total_cost}/$(this).val())">&nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
@@ -76,7 +82,8 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.cap_rate_1|default:'-'}
+							
+							<span id="cap_rate">{$data.cap_rate_1|number_format:2:'.':','}</span>
 						</td>
 					</tr>
 					<tr>
@@ -88,7 +95,7 @@
 						<td >Target Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox" onkeyup="$('#tar_rate').html({$data.total_cost}/$(this).val())">
 						</td>
 					</tr>
 					<tr>
@@ -103,7 +110,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"--> &nbsp;&nbsp;
-							{$data.target_rate|default:'-'}
+							<span id="tar_rate"></span>
 							Performance &nbsp;
 							{$data.performance|default:'-'}
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->

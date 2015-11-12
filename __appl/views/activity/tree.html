@@ -1,4 +1,4 @@
-<div id="list_act_na" style="padding:10px;margin-right:255px;">
+<div id="list_act_na" style="padding:10px;">
 <div id="x1" style="float:left;margin-right:10px;">
 <fieldset >
 	<legend>LIST ACTIVITY</legend>
@@ -44,7 +44,7 @@
 		<div id='tree_{$main}'></div>
 		</div>
 	</div>
-	<br>
+	<!--br>
 	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next3" onClick="" style="float:right;">
 		<span class="l-btn-left l-btn-icon-left">
 			<span class="l-btn-text">..NEXT STEP...</span><span class="l-btn-icon icon-redo"></span>
@@ -54,17 +54,18 @@
 		<span class="l-btn-left l-btn-icon-left">
 			<span class="l-btn-text">..BACK STEP...</span><span class="l-btn-icon icon-undo"></span>
 		</span>
-	</a> 
+	</a--> 
 </fieldset>
+</div>
 </div>
 <script>
 var tree_act,grid_act;
-$('#x1').css('height',(getClientHeight()-180));
-$('#x2').css('height',(getClientHeight()-180));
-$('#x1').css('width',(400));
-$('#x2').css('width',(400));
-$('#grid_nya_{$main}').css('height',(getClientHeight()-180));
-$('#tree_nya_{$main}').css('height',(getClientHeight()-225));
+$('#x1').css('height',(getClientHeight()-220));
+$('#x2').css('height',(getClientHeight()-220));
+$('#x1').css('width',(500));
+$('#x2').css('width',(450));
+$('#grid_nya_{$main}').css('height',(getClientHeight()-240));
+$('#tree_nya_{$main}').css('height',(getClientHeight()-240));
 //$('#grid_nya_{$main}').css('width',getClientWidth()-550);
 
 $('#panel_tree').panel({

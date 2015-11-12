@@ -289,6 +289,7 @@ class mhomex extends CI_Model{
 					$join
 					$where
 				";
+				
 			break;
 			case "list_activity_employee":
 			case "list_expense_employee":

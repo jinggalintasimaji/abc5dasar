@@ -11,6 +11,28 @@ class mhome extends CI_Model{
 		$footer="";
 		$table="";
 		switch($type){
+			case "detil_activity":
+				$id_cost_act=$this->getdata('get_id_activity',$p1);
+				$sql="SELECT * FROM tbl_acm_total_cost WHERE tbl_acm_id=".$id_cost_act." AND bulan=11 and tahun=2015";
+				//echo $sql;
+				$cost=$this->db->query($sql)->row_array();
+				//print_r($cost);exit;
+				//echo $cost['total_cost'];exit;
+				$data=$this->db->get_where('tbl_acm',array('id'=>$id_cost_act,'bulan'=>11,'tahun'=>2015))->row_array();
+				return array_merge($data, $cost);
+				
+				
+			break;
+			case "get_id_activity":
+				$sql="SELECT * FROM tbl_acm WHERE id=".$p1." AND tbl_model_id=".$this->modeling['id'];
+				$act_par=$this->db->query($sql)->row();
+				$sql="SELECT id FROM tbl_acm WHERE activity_code='".$act_par->activity_code."' 
+					  AND tbl_model_id=".$this->modeling['id']."
+					  AND descript='".$act_par->descript."' 
+					  AND pid IS NOT NULL";
+				//echo $sql;exit;
+				return $this->db->query($sql)->row('id');
+			break;
 			case "data_login":
 				$sql = "
 					SELECT *
