@@ -568,6 +568,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		//End Data Production 
 		
 		//modul Resource
+		//tabs employee
 		case "assign_act_employee":
 			judulnya = "";
 			urlnya = "emp_to_act";
@@ -577,11 +578,24 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			param['id_employee'] = $('#id_employee').val();
 			kolom[modnya] = [	
 				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
-				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value == null || value == 0){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					}
+				},
 				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
+						//if(value)return NumberFormat(value);
+						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+							return '-';
+						}else{
+							if(value)return value;
+						}
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
@@ -622,11 +636,16 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			pagesizeboy = 50;
 			param['id_employee'] = $('#id_employee').val();
-			kolom[modnya] = [	
-				//{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
-				
+			frozen[modnya] = [
 				{field:'expense_name',title:'Expense Source', width:200, halign:'center',align:'left'},
-				{field:'cost_type',title:'Assign To', width:150, halign:'center',align:'left',
+			];
+			kolom[modnya] = [		
+				{field:'amount',title:'Expense Amount', width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'cost_type',title:'Assign To', width:110, halign:'center',align:'left',
 					editor:{
                        type:'combobox',
                        options:{
@@ -664,14 +683,27 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 						}
 					}
 				},
-				{field:'rd_tot_qty',title:'Res. Driver Qty.', width:150, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.', width:120, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value == null || value == 0){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					}
+				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
+						//if(value)return NumberFormat(value);
+						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+							return '-';
+						}else{
+							if(value)return value;
+						}
 					},
 				},
-				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+				{field:'percent',title:'Proportion (%)',width:120, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
 						if(rowData.rd_tot_qty == null){
@@ -688,7 +720,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 						if(value)return NumberFormat(value);
 					},
 				},
-				{field:'action',title:'Action',width:150,align:'center',
+				{field:'action',title:'Action',width:130,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
 							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
@@ -703,6 +735,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			]
 		break;		
 		
+		//tabs expense
 		case "assign_act_expense":
 			judulnya = "";
 			urlnya = "exp_to_act";
@@ -714,14 +747,18 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
+						if(value)return value;
 						else return '-';
 					},
 				},
 				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
+						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+							return '-';
+						}else{
+							if(value)return value;
+						}
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
@@ -807,6 +844,70 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				}				
 			]
 		break;		
+		case "assign_assets_expense":
+			judulnya = "";
+			urlnya = "ass_to_exp";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_expense'] = $('#id_expense').val();
+			frozen[modnya] = [
+				{field:'assets_name',title:'Assets Name',width:200, halign:'center',align:'left'},
+				{field:'amount',title:'Assets Amount',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+						else return '-';
+					},
+				},
+			];
+			kolom[modnya] = [	
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return value;
+						else return '-';
+					},
+				},
+				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					},
+				},
+				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
+				},				
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},		
+				{field:'action',title:'Action',width:150,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}				
+			]
+		break;		
 		//end Modul Resource
 	}
 	
@@ -827,6 +928,9 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		nowrap: false,
         singleSelect:true,
 		queryParams:param,
+		frozenColumns:[
+            frozen[modnya]
+        ],
 		columns:[
             kolom[modnya]
         ],
@@ -838,10 +942,6 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
         onAfterEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
-			
-			if(modnya == 'expense_source_employee'){
-				
-			}
         },
         onCancelEdit:function(index,row){
             row.editing = false;
@@ -873,6 +973,39 @@ function deleterow(div,target){
 function saverow(div,target){
      $('#'+div).datagrid('endEdit', getRowIndex(target));
      $('#'+div).datagrid('reload');
+	 
+	var url = ""; 
+	var divtotcost = ""; 
+	var arraynya = [
+		'grid_assign_act_employee',
+		'grid_expense_source_employee',
+		'grid_assign_act_expense',
+		'grid_assign_assets_expense',
+	];
+	
+	if(div == 'grid_assign_act_employee'){
+		url = host+"homex/getcost/echo/cost/tbl_are/tbl_emp_id/"+$('#id_employee').val();
+		divtotcost = "cost_activity_employee";
+		
+	}else if(div == 'grid_expense_source_employee'){
+		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_emp_id/"+$('#id_employee').val();
+		divtotcost = "cost_expense_employee";
+	
+	}else if(div == 'grid_assign_act_expense'){
+		url = host+"homex/getcost/echo/cost/tbl_are/tbl_exp_id/"+$('#id_expense').val();
+		divtotcost = "cost_activity_expense";
+		
+	}else if(div == 'grid_assign_assets_expense'){
+		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_ass/";
+		divtotcost = "cost_assets_expense";
+		
+	}
+	
+	if( $.inArray(div, arraynya) > -1 ){
+		$.post(url, {}, function(respo){
+			$('#'+divtotcost).html(respo);
+		});
+	}
 }
 function cancelrow(div,target){
      $('#'+div).datagrid('cancelEdit', getRowIndex(target));
@@ -1677,6 +1810,20 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'employee_id',title:'Employee ID',width:120, halign:'center',align:'left'},
 				{field:'last',title:'Employee Name',width:200, halign:'center',align:'left'},
 			]
+		break;	
+		case "list_assets_expense":
+			judulnya = "";
+			urlnya = "list_assets_expense";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			
+			kolom[modnya] = [	
+				{field:'assets_id',title:'Asset ID',width:120, halign:'center',align:'left'},
+				{field:'assets_name',title:'Asset Name',width:200, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty',width:150, halign:'center',align:'left'},
+			]
 		break;		
 		//END List Assignment - Resources
 		
@@ -1890,6 +2037,16 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			lebar = getClientWidth()-800;
 			tinggi = getClientHeight()-250;
 			judulwindow = 'Employee List';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assign_assets_expense":
+			table = 'tbl_efx';
+			id_tambahan = $('#id_expense').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Assets List';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
@@ -2234,6 +2391,7 @@ function kumpulAction(type, p1, p2, p3){
 		
 		case 'list_activity_expense':
 		case 'list_employee_expense':
+		case 'list_assets_expense':
 			var row = $("#grid_"+type).edatagrid('getSelections');
 			if(row){
 				var assignment = $('#jenis_assignment').val();
@@ -2242,7 +2400,7 @@ function kumpulAction(type, p1, p2, p3){
 				post_detil['datanya'] = row;
 				post_detil['id'] = 'kontel';
 				
-				if(assignment == 'list_activity_expense' || assignment == 'list_employee_expense'){
+				if(assignment == 'list_activity_expense' || assignment == 'list_employee_expense' || assignment == 'list_assets_expense'){
 					post_detil['bulan']	= $('#bulan_expense').val();
 					post_detil['tahun']	= $('#tahun_expense').val();
 				}
@@ -2259,6 +2417,8 @@ function kumpulAction(type, p1, p2, p3){
 						$('#grid_assign_act_expense').datagrid('reload');
 					}else if(type == 'list_employee_expense'){
 						$('#grid_assign_emp_expense').datagrid('reload');
+					}else if(type == 'list_assets_expense'){
+						$('#grid_assign_assets_expense').datagrid('reload');
 					}
 				});
 				
