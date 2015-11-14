@@ -78,8 +78,12 @@ class homex extends MY_Controller {
 									$this->smarty->assign('total_expense', $total_expense);
 								}elseif($p2 == 'form_expenses'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_exp_id', $id);
+									$total_employee = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_emp');
+									$total_assets = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_ass');
 									
 									$this->smarty->assign('total_activity', $total_activity);
+									$this->smarty->assign('total_employee', $total_employee);
+									$this->smarty->assign('total_assets', $total_assets);
 								}
 							}
 							
@@ -92,6 +96,7 @@ class homex extends MY_Controller {
 						case "form_expense_source_employee":
 						case "form_assign_act_expense":
 						case "form_assign_emp_expense":
+						case "form_assign_assets_expense":
 							$form_default = 'laen';
 							$form = 'form_assignment';
 							
@@ -105,6 +110,8 @@ class homex extends MY_Controller {
 								$this->smarty->assign('jns_assignment', 'list_activity_expense');
 							}elseif($p2 == 'form_assign_emp_expense'){
 								$this->smarty->assign('jns_assignment', 'list_employee_expense');
+							}elseif($p2 == 'form_assign_assets_expense'){
+								$this->smarty->assign('jns_assignment', 'list_assets_expense');
 							}
 						break;
 						// End Modul Resources
@@ -129,8 +136,8 @@ class homex extends MY_Controller {
 		echo $this->mhomex->getdata($type, 'json');
 	}
 	
-	function getcost($balikan="", $p1="", $p2="", $p3="", $p4=""){
-		$data = $this->mhomex->getdata('total_cost', 'row_array', $p1, $p2, $p3, $p4);
+	function getcost($balikan="", $p1="", $p2="", $p3="", $p4="", $p5=""){
+		$data = $this->mhomex->getdata('total_cost', 'row_array', $p1, $p2, $p3, $p4, $p5);
 		
 		if($balikan == 'echo'){
 			echo number_format($data['total_cost'],2,",",".");;
