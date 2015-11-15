@@ -84,6 +84,12 @@ class homex extends MY_Controller {
 									$this->smarty->assign('total_activity', $total_activity);
 									$this->smarty->assign('total_employee', $total_employee);
 									$this->smarty->assign('total_assets', $total_assets);
+								}elseif($p2 == 'form_assets'){
+									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_assets_id', $id);
+									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_assets_id', $id);
+									
+									$this->smarty->assign('total_activity', $total_activity);
+									$this->smarty->assign('total_expense', $total_expense);
 								}
 							}
 							
@@ -97,6 +103,8 @@ class homex extends MY_Controller {
 						case "form_assign_act_expense":
 						case "form_assign_emp_expense":
 						case "form_assign_assets_expense":
+						case "form_assign_act_assets":
+						case "form_assign_exp_assets":
 							$form_default = 'laen';
 							$form = 'form_assignment';
 							
@@ -112,6 +120,10 @@ class homex extends MY_Controller {
 								$this->smarty->assign('jns_assignment', 'list_employee_expense');
 							}elseif($p2 == 'form_assign_assets_expense'){
 								$this->smarty->assign('jns_assignment', 'list_assets_expense');
+							}elseif($p2 == 'form_assign_act_assets'){
+								$this->smarty->assign('jns_assignment', 'list_activity_assets');
+							}elseif($p2 == 'form_assign_exp_assets'){
+								$this->smarty->assign('jns_assignment', 'list_expense_assets');
 							}
 						break;
 						// End Modul Resources

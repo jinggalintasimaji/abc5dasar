@@ -1,28 +1,30 @@
 <div id="tabs_{$main}" style="width:500px;height:320px;">
     <div title="Detail" style="padding:10px;">
 		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
-			<input type='hidden' name='id' value="{$data.id|default:''}">
+			<input type='hidden' id='id_assets' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
+			<input type='hidden' id='bulan_assets' value="{$bulan}">
+			<input type='hidden' id='tahun_assets' value="{$tahun}">
 			
 			<fieldset>
 			<legend>Assets Detail</legend>
-				{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='employee_id' value={$data.employee_id|default:''} }
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='last' value={$data.last|default:''} }
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Description' name='position' value={$data.position|default:''} }
+				{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
+				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
+				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Description' name='assets_description' value={$data.assets_description|default:''} }
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' name='wages' value={$data.wages|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' name='benefit' value={$data.benefit|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' name='amount' value={$data.amount|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
 							<br/>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.cost|default:''} }
 						</td>
 						<td width='50%'>
-							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
 							<br/>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='cost' value={$data.cost|default:''} }
 						</td>
 					</tr>
 				</table>
@@ -30,11 +32,11 @@
 		</form>
     </div>
     <div title="Assigned Activity" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
 		<br/>
-		{include file='template/grid.html' main='assign_act_assets' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_assets' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -45,7 +47,7 @@
 						<table width='100%'>
 							<tr>
 								<td width='50%'><b>TOTAL COST</b></td>
-								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+								<td width='50%'><b>Rp. <span id='cost_activity_assets'>{$total_activity}</span></b></td>
 							</tr>
 						</table>
 					</td>
@@ -55,10 +57,10 @@
 	</div>
     <div title="Expense Source" style="overflow:auto;padding:10px;">
 		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
 		<br/>
-		{include file='template/grid.html' main='expense_source_assets' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_efx_to_assets' main='assign_exp_assets' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -69,7 +71,7 @@
 						<table width='100%'>
 							<tr>
 								<td width='50%'><b>TOTAL COST</b></td>
-								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+								<td width='50%'><b>Rp. <span id='cost_expense_assets'>{$total_expense}</span></b></td>
 							</tr>
 						</table>
 					</td>

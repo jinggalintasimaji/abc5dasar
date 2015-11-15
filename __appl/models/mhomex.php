@@ -51,11 +51,18 @@ class mhomex extends CI_Model{
 				";
 			break;
 			case "tbl_assets":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
 				$sql = "
 					SELECT A.*, B.costcenter, C.resource
 					FROM tbl_assets A
 					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
 					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
+					$where 
 				";
 			break;
 			//End Modul Resource
@@ -340,11 +347,51 @@ class mhomex extends CI_Model{
 				//echo $sql;exit;
 			break;
 			
+			//tabs assets
+			case "ass_to_act":
+			case "exp_to_ass":
+				$id_assets = $this->input->post('id_assets');
+				if($id_assets){
+					$where .= "
+						AND  A.tbl_assets_id = '".$id_assets."' 
+					";
+				}
+				
+				if($type == 'ass_to_act'){
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun ";
+					$from = "tbl_are";
+					$join = "
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
+						LEFT JOIN tbl_assets C ON C.id = A.tbl_assets_id
+					";
+					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
+					
+				}elseif($type == 'exp_to_ass'){
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun ";
+					$from = "tbl_efx";
+					$join = "
+						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
+					";
+					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
+				}
+				
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$join
+					$where
+				";
+				
+				//echo $sql;exit;
+			break;
+			
+			
 			//Window Assignment
 			case "list_activity_employee":
 			case "list_expense_employee":
 			case "list_employee_expense":
 			case "list_assets_expense":
+			case "list_expense_assets":
 				if($this->modeling){
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
 				}else{
@@ -363,6 +410,9 @@ class mhomex extends CI_Model{
 				}elseif($type == 'list_assets_expense'){
 					$select = " A.id, A.assets_name, A.assets_id, A.tbl_rdm_id, A.rd_tot_qty";
 					$from = "tbl_assets";
+				}elseif($type == 'list_expense_assets'){
+					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
+					$from = "tbl_exp";
 				}
 					
 				$sql = "
@@ -907,7 +957,8 @@ class mhomex extends CI_Model{
 				}				
 			break;
 			
-			case "tbl_efx_assets":
+			case "tbl_efx_assets": // Tabs expense => to Asset, Tabs Assets => Expense Source
+			case "tbl_efx_to_assets":
 				$table = "tbl_efx";
 				$tot_qty = $data['rd_tot_qty'];
 				$amount = $data['amount'];
@@ -915,6 +966,7 @@ class mhomex extends CI_Model{
 				$tahun = $data['tahun'];
 				
 				unset($data['assets_name']);
+				unset($data['expense_name']);
 				unset($data['editing']);
 				unset($data['tbl_rdm_id']);
 				unset($data['rd_tot_qty']);
@@ -955,6 +1007,50 @@ class mhomex extends CI_Model{
 					$this->db->insert_batch($table, $array_batch_insert);
 				}				
 			break;
+			
+			//tabs assets
+			case "list_activity_assets":
+				$table = "tbl_are";
+				$count = count($data['datanya'])-1;
+				//echo $count;exit;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_assets_id" => $data['tbl_assets_id'],
+						"tbl_acm_id" => $data['datanya'][$i]['id'],
+						"tbl_rdm_id" => $data['datanya'][$i]['tbl_rdm_id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			
+			case "list_expense_assets":
+				$table = "tbl_efx";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_assets_id" => $data['tbl_assets_id'],
+						"tbl_exp_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			
 			//End Assignment
 		}
 		
