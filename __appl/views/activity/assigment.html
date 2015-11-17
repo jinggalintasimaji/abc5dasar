@@ -1,8 +1,17 @@
+<fieldset>
+<center>
+<label>Activity Code </label> : {$data.activity_code|default:'-'}
+<label>Activity Name </label> : {$data.descript|default:'-'}
+</center>
+</fieldset>
 <div id="panel_{$main}" style="padding:5px;">
 	<div id="tab_{$main}"></div>
 </div>
-
 <script>
-	var tab_array=["To Activity","From Activity","From Employees","From Assets","From Expanses"];
-	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul','',getClientHeight()-183,getClientHeight()-225,getClientWidth()-293,getClientWidth()-305);
+	var tab_array=["From Employees","From Assets","From Expanses"];
+	{if $child neq 0}
+		tab_array.push('From Activity');
+	{/if}
+	var id_act={$id_act};
+	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'','Detil Modul','',getClientHeight()-250,getClientHeight()-325,getClientWidth()-293,getClientWidth()-310);
 </script>

@@ -2,8 +2,8 @@
 			<fieldset >
 				<legend>Activity Cost</legend>
 				
-				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
-				<input type="hidden" name="editstatus" id="editstatus" value='add'>
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_master" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='edit'>
 				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
 				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
 				<table width='100%' style='margin-bottom:20px;'>
@@ -12,7 +12,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.total_cost|number_format:2:'.':','}
+							{$data.total_cost|number_format:2:'.':','|default:'-'}
 						</td>
 						<td >Activity Driver</td>
 						<td width='1%'>:</td>
@@ -68,7 +68,7 @@
 						<td >Capacity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox" onkeyup="$('#cap_rate').html({$data.total_cost}/$(this).val())">&nbsp;&nbsp;
+							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox number" onkeyup="$('#cap_rate').html(NumberFormat({$data.total_cost|default:'0'}/$(this).val()))">&nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
@@ -83,27 +83,26 @@
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
 							
-							<span id="cap_rate">{$data.cap_rate_1|number_format:2:'.':','}</span>
+							<span id="cap_rate">{$data.cap_rate_1|number_format:2:'.':','|default:'-'}</span>
 						</td>
 					</tr>
 					<tr>
 						<td >Budget</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.budget_amt|default:''}" name="budget_amt" id="budget_amt" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.budget|default:''}" name="budget" id="budget" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td >Target Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox" onkeyup="$('#tar_rate').html({$data.total_cost}/$(this).val())">
+							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox number" onkeyup="$('#tar_rate').html(NumberFormat({$data.total_cost|default:'0'}/$(this).val()))">
 						</td>
 					</tr>
 					<tr>
 						<td >Standart</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.standart|default:''}" name="standart" id="standart" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
-							
+							<input type="text" value="{$data.standart|default:''}" name="standart" id="standart" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 							
 						</td>
 						<td >Target Rate</td>
@@ -118,10 +117,40 @@
 					</tr>
 					
 				</table>
-						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
-						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						{include file='template/button.html' id='simpan_cost' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='close_cost' text='Back To List' icon='cancel' click=''}
 						
 				</form>
 				
 			</fieldset>
-			</div>
+			
+	</div>
+<script>
+	$('#capacity').trigger('keyup');
+	$('#quantity').trigger('keyup');
+	$('.number').numberbox({
+		    min:0,
+			precision:2,
+			groupSeparator:'.',
+			decimalSeparator:','
+	});
+	$('#close_cost').bind('click',function(){
+		$('#daftar_grid').show();
+		$('#detil_grid').hide();
+	});
+	$('#simpan_{$main}').bind('click',function(){
+		//alert('aaa');
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose()
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+	});
+</script>

@@ -2,7 +2,9 @@
 			<fieldset >
 				<legend>Activity Attribute</legend>
 				
-				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_master" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='edit'>
+				<input type="hidden" name="id" id="id2" value='{$data.id|default:''}'>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
 						<td >
@@ -11,9 +13,9 @@
 								<tr>
 									<td width='40%'>Budget Type</td>
 									<td width='5%'>:</td>
-									<td ><input type="radio" name="budget_type">&nbsp;Fixed</td>
-									<td ><input type="radio" name="budget_type">&nbsp;Variable</td>
-									<td ><input type="radio" name="budget_type">&nbsp;Step</td>
+									<td ><input type="radio" name="budget_type" value="Fixed" {if $data.budget_type eq 'Fixed'}checked{/if}>&nbsp;Fixed</td>
+									<td ><input type="radio" name="budget_type" value="Variable" {if $data.budget_type eq 'Variable'}checked{/if}>&nbsp;Variable</td>
+									<td ><input type="radio" name="budget_type" value="Step" {if $data.budget_type eq 'Step'}checked{/if}>&nbsp;Step</td>
 								</tr>
 							</table>
 							</fieldset>
@@ -25,10 +27,10 @@
 								<tr>
 									<td width='50%'>Cost Type</td>
 									<td width='5%'>:</td>
-									<td><input type="radio" name="budget_type">&nbsp;Unit</td>
-									<td><input type="radio" name="budget_type">&nbsp;Batch</td>
-									<td><input type="radio" name="budget_type">&nbsp;Product</td>
-									<td><input type="radio" name="budget_type">&nbsp;Facility</td>
+									<td><input type="radio" name="cost_type" value="Unit" {if $data.cost_type eq 'Unit'}checked{/if}>&nbsp;Unit</td>
+									<td><input type="radio" name="cost_type" value="Batch" {if $data.cost_type eq 'Batch'}checked{/if}>&nbsp;Batch</td>
+									<td><input type="radio" name="cost_type" value="Product" {if $data.cost_type eq 'Product'}checked{/if}>&nbsp;Product</td>
+									<td><input type="radio" name="cost_type" value="Facility" {if $data.cost_type eq 'Facility'}checked{/if}>&nbsp;Facility</td>
 								</tr>
 							</table>
 							</fieldset>
@@ -40,31 +42,53 @@
 							<fieldset>
 							<table width="100%" cellpadding="2" cellspacing="1">
 								<tr>
-									<td >Segment</td>
+									<td width='10%'>Segment</td>
 									<td width='1%'>:</td>
 									<td >
-										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+										<select name="cl_segment_id" style='width:80%;padding:2px;'>
+											<option value=""> -- Choice -- </option>
+											{foreach from=$segment item=i}
+											<option value="{$i.id}" {if $data.cl_segment_id eq $i.id}selected{/if}>{$i.segment}</option>
+											{/foreach}
+										</select>
+										
 									</td>
 								</tr>
 								<tr>
 									<td >Center</td>
 									<td width='1%'>:</td>
 									<td >
-										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+										<select name="cl_center_id" style='width:80%;padding:2px;'>
+											<option value=""> -- Choice -- </option>
+											{foreach from=$center item=i}
+											<option value="{$i.id}" {if $data.cl_center_id eq $i.id}selected{/if}>{$i.center_name}</option>	
+											{/foreach}
+										</select>
+										
 									</td>
 								</tr>
 								<tr>
 									<td >Class</td>
 									<td width='1%'>:</td>
 									<td >
-										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+										<select name="cl_class_id" style='width:80%;padding:2px;'>
+											<option value=""> -- Choice -- </option>
+											{foreach from=$class item=i}
+											<option value="{$i.id}" {if $data.cl_class_id eq $i.id}selected{/if}>{$i.class_name}</option>	
+											{/foreach}
+										</select>
 									</td>
 								</tr>
 								<tr>
-									<td >Improvement</td>
+									<td >Improvment</td>
 									<td width='1%'>:</td>
 									<td >
-										<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+										<select name="cl_improvment_id" style='width:80%;padding:2px;'>
+											<option value=""> -- Choice -- </option>
+											{foreach from=$improvment item=i}
+												<option value="{$i.id}" {if $data.cl_improvment_id eq $i.id}selected{/if}>{$i.improvment_name}</option>	
+											{/foreach}
+										</select>
 									</td>
 								</tr>
 							</table>
@@ -72,10 +96,32 @@
 						</td>
 					</tr>
 				</table>
-						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
-						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						{include file='template/button.html' id='simpan_attr' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_attr' text='Back To List' icon='cancel' click=''}
 						
 				</form>
 				
 			</fieldset>
 			</div>
+			
+	<script>
+	$('#clear_attr').bind('click',function(){
+		$('#daftar_grid').show();
+		$('#detil_grid').hide();
+	});
+	$('#simpan_attr').bind('click',function(){
+		//alert('aaa');
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose()
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+	});
+</script>

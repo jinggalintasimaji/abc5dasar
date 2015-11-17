@@ -2,26 +2,46 @@
 			<fieldset >
 				<legend>Process Of Activity</legend>
 				
-				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
-				<input type="hidden" name="editstatus" id="editstatus" value='add'>
-				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
-				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_master" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='edit'>
+				<input type="hidden" name="id" id="id4" value='{$data.id|default:''}'>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
 						<td >Notes</td>
 						<td width='1%'>:</td>
 						<td >
-							<textarea style='padding:2px;width:80%' name="descript" id="descript" rows="6">{$data.descript|default:''}</textarea>
+							<textarea style='padding:2px;width:80%' name="note" id="note" rows="6">{$data.note|default:''}</textarea>
 						</td>
 						
 					</tr>
 					
 				
 				</table>
-						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
-						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						{include file='template/button.html' id='simpan_note' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_note' text='Back To List' icon='cancel' click=''}
 						
 				</form>
 				
 			</fieldset>
 			</div>
+<script>
+	$('#clear_note').bind('click',function(){
+		$('#daftar_grid').show();
+		$('#detil_grid').hide();
+	});
+	$('#simpan_note').bind('click',function(){
+		//alert('aaa');
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose()
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+	});
+</script>

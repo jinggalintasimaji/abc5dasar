@@ -38,7 +38,7 @@
 </div>
 <div id="x2" style="float:left;">
 <fieldset >
-	<legend>HIERARKY ACTIVITY</legend>
+	<legend>HIERARKY TREE ACTIVITY</legend>
 	<div id="tree_nya_{$main}">
 		<div id="panel_tree">
 		<div id='tree_{$main}'></div>
@@ -60,14 +60,21 @@
 </div>
 <script>
 var tree_act,grid_act;
-$('#x1').css('height',(getClientHeight()-220));
-$('#x2').css('height',(getClientHeight()-220));
+$('#x1').css('height',(getClientHeight()-250));
+$('#x2').css('height',(getClientHeight()-250));
 $('#x1').css('width',(500));
 $('#x2').css('width',(450));
-$('#grid_nya_{$main}').css('height',(getClientHeight()-240));
-$('#tree_nya_{$main}').css('height',(getClientHeight()-240));
+$('#grid_nya_{$main}').css('height',(getClientHeight()-290));
+$('#tree_nya_{$main}').css('height',(getClientHeight()-290));
 //$('#grid_nya_{$main}').css('width',getClientWidth()-550);
-
+$('#bulan').off('change');
+$('#bulan').on('change',function(){
+	grid_act.datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun').val() });
+});
+$('#tahun').off('change');
+$('#tahun').on('change',function(){
+	$('#bulan').trigger('change');
+})
 $('#panel_tree').panel({
     width:500,
     height:150,
@@ -92,6 +99,10 @@ $('#panel_tree').panel({
 		nowrap: true,
         singleSelect:false,
 		pageSize:50,
+		queryParams:{
+			bulan:$('#bulan').val(),
+			tahun:$('#tahun').val()
+		},
 		toolbar:'#{$main}toolBar',
 		pageList:[50,100,150,200],
 		columns:[
@@ -128,7 +139,7 @@ $('#panel_tree').panel({
 					if(r==1){
 						//console.log(r);
 						tree_act.tree('reload');
-						//grid_act.datagrid('reload');
+						grid_act.datagrid('reload');
 					}
 					else{
 						console.log(r);
@@ -148,7 +159,7 @@ $('#panel_tree').panel({
 		
 	});
 	$('#find_{$main}').bind('click',function(){
-		grid_act.datagrid('reload',{ key:$('#key_{$main}').val() });
+		grid_act.datagrid('reload',{ key:$('#key_{$main}').val(),'bulan':$('#bulan').val(),'tahun':$('#tahun').val() });
 	});
 	$('#remove_tree').bind('click',function(){
 		select_tree=tree_act.tree('getSelected');

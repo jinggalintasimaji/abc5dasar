@@ -1,8 +1,13 @@
 <div id="panel_{$main}" style="padding:2px;">
+	<div style="padding:5px;width:99%;">
+	<center>
+	{include file="template/date_year.html"}
+	</center>
+	</div>
 	<div id="tab_{$main}"></div>
 </div>
 
 <script>
 	var tab_array=["Info","Tree","List"];
-	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul','',getClientHeight()-100,getClientHeight()-133,getClientWidth()-268,getClientWidth()-275);
+	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Detil Modul','',getClientHeight()-100,getClientHeight()-185,getClientWidth()-268,getClientWidth()-275);
 </script>

@@ -2,28 +2,33 @@
 			<fieldset >
 				<legend>Process Of Activity</legend>
 				
-				<form method='post' url="{$host}home/simpansavedata/tbl_acm_wizard" id="form_{$main}" enctype="multipart/form-data">
-				<input type="hidden" name="editstatus" id="editstatus" value='add'>
-				<input type="hidden" name="id" id="id" value='{$data.id|default:''}'>
+				<form method='post' url="{$host}home/simpansavedata/tbl_acm_master" id="form_{$main}" enctype="multipart/form-data">
+				<input type="hidden" name="editstatus" id="editstatus" value='edit'>
+				<input type="hidden" name="id" id="id3" value='{$data.id|default:''}'>
 				<input type="hidden" name="tbl_model_id" id="tbl_model_id" value='{$data.tbl_model_id|default:$model.id}'>
 				<table width='100%' style='margin-bottom:20px;'>
 					<tr>
-						<td >Processing Time</td>
+						<td width='20%' >Processing Time</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.process_time|default:''}" name="process_time" id="process_time" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td >Process</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<select name="tbl_process_id" style='width:80%;padding:2px;'>
+								<option value=""> -- Choice -- </option>
+								{foreach from=$process item=i}
+								<option value="{$i.id}" {if $data.tbl_process_id eq $i.id}selected{/if}>{$i.process_name}</option>	
+								{/foreach}
+							</select>
 						</td>
 					</tr>
 					<tr>
 						<td >Waiting Time</td>
 						<td width='1%'>:</td>
-						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						<td > 
+							<input type="text" value="{$data.waiting_time|default:''}" name="waiting_time" id="waiting_time" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td ></td>
 						<td width='1%'></td>
@@ -35,12 +40,17 @@
 						<td >Inspection Time</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.inspection_time|default:''}" name="inspection_time" id="inspection_time" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td >Root Couse</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
+							<select name="tbl_root_couses_id" style='width:80%;padding:2px;'>
+								<option value=""> -- Choice -- </option>
+								{foreach from=$root item=i}
+								<option value="{$i.id}" {if $data.tbl_root_couses_id eq $i.id}selected{/if}>{$i.root_couses_name}</option>	
+								{/foreach}
+							</select>
 							
 						</td>
 					</tr>
@@ -48,31 +58,31 @@
 						<td >Moving Time</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.moving_time|default:''}" name="moving_time" id="moving_time" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td >Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox">&nbsp;&nbsp;
+							<input type="text" value="{$data.quantity_process|default:''}" name="quantity_process" id="quantity_process" style='width:40%;padding:2px;' maxlength="10" class="easyui-validatebox number">&nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
 						<td >Value Added (CE)</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.value_add|default:''}" name="value_add" id="value_add" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td >Inefficiency Cost</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.inefficiency_cost|default:''}" name="inefficiency_cost" id="inefficiency_cost" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 					</tr>
 					<tr>
 						<td >NVA Cost</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox">
+							<input type="text" value="{$data.nva_cost|default:''}" name="nva_cost" id="nva_cost" style='width:50%;padding:2px;' maxlength="10" class="easyui-validatebox number">
 						</td>
 						<td ></td>
 						<td width='1%'></td>
@@ -82,10 +92,38 @@
 					</tr>
 				
 				</table>
-						{include file='template/button.html' id='simpan_act' text='Save' icon='save' click=''}
-						{include file='template/button.html' id='clear_act' text='Clear' icon='cancel' click=''}
+						{include file='template/button.html' id='simpan_pr' text='Save' icon='save' click=''}
+						{include file='template/button.html' id='clear_pr' text='Back To List' icon='cancel' click=''}
 						
 				</form>
 				
 			</fieldset>
 			</div>
+	<script>
+	
+	$('.number').numberbox({
+		    min:0,
+			precision:2,
+			groupSeparator:'.',
+			decimalSeparator:','
+	});
+	$('#clear_pr').bind('click',function(){
+		$('#daftar_grid').show();
+		$('#detil_grid').hide();
+	});
+	$('#simpan_pr').bind('click',function(){
+		//alert('aaa');
+		submit_form('form_{$main}',function(r){
+			//console.log(r);
+			if(r==1){
+				winLoadingClose();
+				$.messager.alert('ABC System',"Data Was Saved",'info');
+			}
+			else{
+				winLoadingClose()
+				$.messager.alert('ABC System',"Data NOT SAVED",'error');
+				console.log(r);
+			}
+		});
+	});
+</script>

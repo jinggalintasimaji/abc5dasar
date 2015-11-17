@@ -93,11 +93,18 @@
 </html>
 <script>
 	var model='{$model.id}';
-	$('#grid_nya_{$main}').css('height',(getClientHeight()-250));
+	$('#grid_nya_{$main}').css('height',(getClientHeight()-290));
 	genGrid('list_act','grid_{$main}','','');
 	
 	$(".easyui-validatebox").validatebox({ required:true }); 
-	
+	$('#bulan').off('change');
+	$('#bulan').on('change',function(){
+		$('#grid_{$main}').datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun').val() });
+	});
+	$('#tahun').off('change');
+	$('#tahun').on('change',function(){
+		$('#bulan').trigger('change');
+	})
 	$('#clear_act').bind('click',function(){
 		clear_form('form_{$main}');
 		$('#editstatus').val('add');
@@ -106,7 +113,7 @@
 		$('#data').show();
 	});
 	$('#find_{$main}').bind('click',function(){
-		$('#grid_{$main}').datagrid('reload',{ key:$('#key_{$main}').val() });
+		$('#grid_{$main}').datagrid('reload',{ key:$('#key_{$main}').val(),'bulan':$('#bulan').val(),'tahun':$('#tahun').val() });
 	});
 	
 	$('#add_{$main}').bind('click',function(){

@@ -186,6 +186,9 @@ class home extends MY_Controller {
 				break;
 				case "activity":
 					$id_act=$this->input->post('id');
+					$bulan=$this->input->post('bulan');
+					$tahun=$this->input->post('tahun');
+					
 					if(!$id_act){
 						$id_act=$this->input->post('id_act');
 					}
@@ -197,8 +200,37 @@ class home extends MY_Controller {
 							$this->smarty->assign('data' ,$data);
 						break;
 						case "cost":
+						case "attribute":
+						case "process":
+						case "notes":
+							if($p2=="attribute"){
+								$segment=$this->db->get('cl_segment')->result_array();
+								$center=$this->db->get('cl_center')->result_array();
+								$class=$this->db->get('cl_class')->result_array();
+								$improvment=$this->db->get('cl_improvment')->result_array();
+								$this->smarty->assign('segment' ,$segment);
+								$this->smarty->assign('center' ,$center);
+								$this->smarty->assign('class' ,$class);
+								$this->smarty->assign('improvment' ,$improvment);
+							}
+							if($p2=="process"){
+								$process=$this->db->get('tbl_process')->result_array();
+								$root=$this->db->get('tbl_root_couses')->result_array();
+								$this->smarty->assign('process' ,$process);
+								$this->smarty->assign('root' ,$root);
+								
+							}
 							$data=$this->mhome->getdata('detil_activity',$id_act);
+							//print_r($data);
 							$this->smarty->assign('data' ,$data);
+						break;
+						case "from_activity":
+							
+						break;
+						case "assigment":
+							
+							$child=$this->db->get_where('tbl_acm',array('pid'=>$id_act,'tbl_model_id'=>$this->modeling['id'],'bulan'=>$bulan,'tahun'=>$tahun))->result_array();
+							$this->smarty->assign('child' ,count($child));
 						break;
 					}
 				break;

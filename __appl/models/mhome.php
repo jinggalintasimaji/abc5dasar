@@ -12,14 +12,21 @@ class mhome extends CI_Model{
 		$table="";
 		switch($type){
 			case "detil_activity":
-				$id_cost_act=$this->getdata('get_id_activity',$p1);
-				$sql="SELECT * FROM tbl_acm_total_cost WHERE tbl_acm_id=".$id_cost_act." AND bulan=11 and tahun=2015";
-				//echo $sql;
+				
+				$id_cost_act=$p1;
+				$bulan=$this->input->post('bulan');
+				$tahun=$this->input->post('tahun');
+				$sql="SELECT total_cost FROM tbl_acm_total_cost WHERE tbl_acm_id=".$id_cost_act." AND bulan=".$bulan." and tahun=".$tahun;
 				$cost=$this->db->query($sql)->row_array();
-				//print_r($cost);exit;
-				//echo $cost['total_cost'];exit;
-				$data=$this->db->get_where('tbl_acm',array('id'=>$id_cost_act,'bulan'=>11,'tahun'=>2015))->row_array();
-				return array_merge($data, $cost);
+				$data=$this->db->get_where('tbl_acm',array('id'=>$id_cost_act,'bulan'=>$bulan,'tahun'=>$tahun))->row_array();			
+				//print_r($data);
+				$sql="SELECT count(tbl_emp_id)as head_count 
+						FROM tbl_are A
+						WHERE A.tbl_acm_id=".$id_cost_act." AND bulan=11 and tahun=2015";
+				
+				$head=$this->db->query($sql)->row_array();
+				
+				return array_merge($data, $cost,$head);
 				
 				
 			break;
@@ -39,6 +46,7 @@ class mhome extends CI_Model{
 					FROM tbl_user
 					WHERE nama_user = '".$p1."'
 				";
+				//echo $sql;
 				return $this->result_query($sql,'row_array');
 			break;
 			case "tbl_model":
@@ -96,15 +104,20 @@ class mhome extends CI_Model{
 			break;
 			case "tbl_acm_wizard":
 				$key=$this->input->post('key');
+				$bulan=$this->input->post('bulan');
+				$tahun=$this->input->post('tahun');
 				if($key)$where .=" AND A.descript like '%".$key."%' ";
-				$where .=" AND A.tbl_model_id=".$this->modeling['id'];
-				$where .=" AND pid IS NULL";
-				/*if($p1=='config'){
-					$where .=" AND pid IS NULL";
-				}*/
+				$where .=" AND A.tbl_model_id=".$this->modeling['id']." AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				//$where .=" AND pid IS NULL";
+				if($p1=='config'){
+					$where .=" AND pid IS NULL ";
+				}
 				$sql="SELECT A.*,C.cost_driver
 						FROM tbl_acm A
 						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id ".$where;
+				//echo $sql;
+				//print_r($this->db->query($sql)->result_array());exit;
+				
 				$footer =array('rd_tot_qty'=>'Total Cost','total'=>9999.99);
 				//print_r($footer);exit;
 			break;
@@ -157,8 +170,10 @@ class mhome extends CI_Model{
 				}
 			break;
 			case "tbl_acm_act":
-				$sql="SELECT A.* FROM tbl_acm A WHERE pid=".$this->input->post('pid')." AND tbl_model_id=".$this->modeling['id'];
+				$sql="SELECT A.* FROM tbl_acm A WHERE pid=".$this->input->post('pid')." 
+					AND tbl_model_id=".$this->modeling['id'];
 			break;
+			
 			case "tbl_act_to_act":
 				$bulan=(int)$this->input->post('bulan');
 				$tahun=(int)$this->input->post('tahun');
@@ -412,13 +427,21 @@ class mhome extends CI_Model{
 	function simpansavedata($table,$data,$sts_crud){ //$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
 		$this->db->trans_begin();
 		if(isset($data['id']))unset($data['id']);
+		if(isset($data['editing']))unset($data['editing']);
 		switch ($table){
 			case "tbl_acm":
+				//print_r($data);exit;
 				if($sts_crud=='edit'){
 					$exist=$this->db->get_where('tbl_acm',array('activity_code'=>$data['activity_code'],'level'=>$data['level'],'descript'=>$data['descript']))->result_array();
 					if(count($exist)>0){$sts_crud='edit';$array_where=array('activity_code'=>$data['activity_code'],'level'=>$data['level'],'descript'=>$data['descript']);}
 					else{$sts_crud='add';}
 				}
+			break;
+			case "tbl_acm_master":
+				//print_r($data);exit;
+				
+				$table='tbl_acm';
+				$array_where=array('id'=>$this->input->post('id'));
 			break;
 			case "tbl_acm_costing":
 				$table='tbl_acm';
@@ -637,6 +660,7 @@ class mhome extends CI_Model{
 				//$this->db->where($field_id,$id);
 				$this->db->where($array_where);
 				$this->db->update($table,$data);
+				//echo $this->db->last_query();
 				if($table=='tbl_are'){
 					$total_cost_act=$this->hitung_total_cost_act($this->input->post('tbl_acm_id'));
 					$ex=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$this->input->post('tbl_acm_id')))->row();
@@ -697,25 +721,25 @@ class mhome extends CI_Model{
 						}
 						
 						if($sts==0){
-							$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+							/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
 								SELECT $id_tree,tbl_model_id,descript,activity_code
 								FROM tbl_acm WHERE id=".$v;
 							$this->db->query($sql);
-							
-							//$this->db->where(array('id'=>$v));
-							//$this->db->update('tbl_acm',array('pid'=>$id_tree));
+							*/
+							$this->db->where(array('id'=>$v));
+							$this->db->update('tbl_acm',array('pid'=>$id_tree));
 						}
 						
 						
 					}
 					else{
-						$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
+						/*$sql="INSERT INTO tbl_acm (pid,tbl_model_id,descript,activity_code)
 								SELECT $id_tree,tbl_model_id,descript,activity_code
 								FROM tbl_acm WHERE id=".$v;
 						$this->db->query($sql);
-						
-						//$this->db->where(array('id'=>$v));
-						//$this->db->update('tbl_acm',array('pid'=>$id_tree));
+						*/
+						$this->db->where(array('id'=>$v));
+						$this->db->update('tbl_acm',array('pid'=>$id_tree));
 					}
 				/*}else{
 					//$this->db->where(array('id'=>$v));

@@ -14,6 +14,7 @@ class Login extends MY_Controller {
 		$error=false;
 		if($user && $pass){
 			$cek_user=$this->mhome->getdata('data_login',$user);
+			//print_r($cek_user);exit;
 			if(count($cek_user)>0){
 				if(isset($cek_user['status']) && $cek_user['status']==1){
 					if($pass==$this->encrypt->decode($cek_user['password'])){
