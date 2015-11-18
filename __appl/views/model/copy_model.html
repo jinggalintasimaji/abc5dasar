@@ -1,0 +1,96 @@
+<fieldset>
+
+<table width="100%">
+	<tr>
+		<td></td>
+		<td>Model Name</td>
+		<td>:</td>
+		<td>{$data.nama_model}</td>
+		<td></td>
+		<td>Create Date</td>
+		<td>:</td>
+		<td>{$data.create_date}</td>
+	<tr>
+	<tr>
+		<td></td>
+		<td>Model Description</td>
+		<td>:</td>
+		<td>{$data.deskripsi}</td>
+		<td></td>
+		<td>Create By</td>
+		<td>:</td>
+		<td>{$data.create_by}</td>
+	<tr>
+</table>
+<fieldset>
+	<form method='post' url="{$host}home/duplicate_model" id="form_{$main}" enctype="multipart/form-data">
+	<input type="hidden" name="id_model" id="id_model" value='{$data.id|default:''}'>
+	<legend>Attribut Model Data</legend>
+	<table width='100%' style='margin-bottom:20px;'>
+		<tr>
+			<td width='34%'>Model New Name</td>
+			<td width='1%'>:</td>
+			<td width='75%'>
+				<input type="text" value="{$data.nama_model|default:''}" name="nama_model" id="nama_model" style='width:90%;padding:2px;' class="easyui-validatebox">
+			</td>
+		</tr>
+		<tr>
+			<td width='34%' valign="top">Description</td>
+			<td width='1%' valign="top">:</td>
+			<td width='75%'>
+				<textarea style='padding:2px;width:90%' name="deskripsi" id="deskripsi" rows="3">{$data.deskripsi|default:''}</textarea>
+			</td>
+		</tr>
+
+		<tr>
+			<td width='34%' valign="top">Costing Data Duplicate</td>
+			<td width='1%' valign="top">:</td>
+			<td width='75%'>
+				<input type="checkbox" name="costing[]" class="cek_list" value="emp" checked>&nbsp;&nbsp;Employee&nbsp;&nbsp;
+				<input type="checkbox" name="costing[]" class="cek_list" value="exp" checked>&nbsp;&nbsp;Expanses&nbsp;&nbsp;
+				<input type="checkbox" name="costing[]" class="cek_list" value="assets" checked>&nbsp;&nbsp;Assets&nbsp;&nbsp;	
+				<input type="checkbox" name="costing[]" class="cek_list" value="act" checked>&nbsp;&nbsp;Activity	
+			</td>
+		</tr>
+		<!--tr>
+			<td width='34%' valign="top">Cost Object</td>
+			<td width='1%' valign="top">:</td>
+			<td width='75%'>
+				<input type="checkbox" name="cost_object" class="cek_list">&nbsp;&nbsp;Employee&nbsp;&nbsp;
+				<input type="checkbox" name="cost_object" class="cek_list">&nbsp;&nbsp;Expanses&nbsp;&nbsp;
+				<input type="checkbox" name="cost_object" class="cek_list">&nbsp;&nbsp;Assets
+			</td>
+		</tr-->
+	</table>
+		{include file='template/button.html' id='duplicate_model' text='Duplicate Data' icon='save' click=''}
+		{include file='template/button.html' id='close_duplicate' text='Close' icon='cancel' click=''}
+	</form>
+</fieldset>
+</fieldset>
+<script>
+	$('#close_duplicate').bind('click',function(){
+		closeWindow();
+	});
+	$('#duplicate_model').bind('click',function(){
+		var cek_na=[];
+		submit_form('form_{$main}',function(r){
+				if(r==1){
+					winLoadingClose();
+					$.messager.alert('ABC System',"Data Was Saved",'info');
+					closeWindow();
+					$('#grid_100').datagrid('reload');
+				}
+				else{
+					winLoadingClose()
+					$.messager.alert('ABC System',"Data NOT SAVED",'error');
+					console.log(r);
+				}
+		});
+		/*$( ".cek_list" ).each(function( index ) {
+		  if($(this).is(":checked")==true){
+			cek_na.push($(this).attr('data'));
+		  }
+		});
+		console.log(cek_na);*/
+	});
+</script>
