@@ -1220,4 +1220,28 @@ class mhome extends CI_Model{
 		}
 		
 	}
+	
+	function duplicate_model($post){
+		
+		//print_r($post);
+		if(count($post['costing'])>0){
+			foreach($post['costing'] as $v){
+				switch($v){
+					case "emp":
+						
+					break;
+					case "exp":
+					
+					break;
+					case "assets":
+					
+					break;
+					case "act":
+					
+					break;
+				}
+				//echo $v;
+			}
+		}
+	}
 }

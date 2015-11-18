@@ -2165,7 +2165,13 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var judulwindow = 'Form Data Provinsi';
 			var table="cl_provinsi";
 		break;
-		
+		case "copy_model":
+			var lebar = getClientWidth()-500;
+			var tinggi = getClientHeight()-300;
+			var judulwindow = 'Duplicate / Copy Model';
+			var table="tbl_model";
+			urlpost = host+'home/modul/'+modulnya+'/'+submodulnya;
+		break;
 		//Setting
 		case "701":
 			var lebar = getClientWidth()-800;
@@ -2350,6 +2356,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 	}
 	
 	switch(type){
+		
 		case "add":
 			if(stswindow == undefined){
 				$('#grid_nya_'+submodulnya).hide();
@@ -2368,6 +2375,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		break;
 		case "edit":
 		case "delete":
+		case "copy_model":
 			var row = $("#grid_"+submodulnya).datagrid('getSelected');
 			if(row){
 				if(type=='edit'){
@@ -2386,7 +2394,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 						}
 					});
 				}
-				else{
+				else if(type=='delete'){
 					if(confirm("Do You Want To Delete This Data ?")){
 						loadingna();
 						$.post(urldelete, {id:row.id,'editstatus':'delete'}, function(r){
@@ -2402,6 +2410,11 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 							}
 						});	
 					}
+				}
+				else{
+					$.post(host+'home/modul/'+modulnya+'/copy_model', { id:row.id }, function(resp){
+						windowForm(resp, judulwindow, (getClientWidth()-500), (getClientHeight()-280));
+					});
 				}
 			}
 			else{

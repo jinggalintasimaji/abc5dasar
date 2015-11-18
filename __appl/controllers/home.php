@@ -45,6 +45,10 @@ class home extends MY_Controller {
 								$this->smarty->assign('data',$ex);
 							}
 						break;
+						case "copy_model":
+							$ex=$this->mhome->getdata('tbl_model','edit_grid',$this->input->post('id'));
+							$this->smarty->assign('data',$ex);
+						break;
 						case "form_map_rdm":
 							//if($sts_na=='edit'){
 								$sql="SELECT A.tbl_rdm_id,A.rd_tot_qty,B.resource 
@@ -317,6 +321,17 @@ class home extends MY_Controller {
 		else{
 			echo $this->mhome->get_report($p1);
 		}
+	}
+	
+	function duplicate_model(){
+		$post = array();
+        foreach($_POST as $k=>$v){
+			if($this->input->post($k)!=""){
+				$post[$k] = $this->db->escape_str($this->input->post($k));
+			}
+			
+		}
+		echo $this->mhome->duplicate_model($post);
 	}
 	
 }
