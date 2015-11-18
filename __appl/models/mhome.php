@@ -297,6 +297,7 @@ class mhome extends CI_Model{
 				$sql = "SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
 					FROM tbl_emp A
 					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where;
+				//echo $sql;
 			break;
 			
 			case "tbl_bpd":
@@ -489,6 +490,7 @@ class mhome extends CI_Model{
 				}
 			break;
 			case "tbl_are":
+				//print_r($data);exit;
 				if($sts_crud=='edit'){
 					//unset($data['id']);
 					
@@ -526,6 +528,49 @@ class mhome extends CI_Model{
 					$data['create_date']=date('Y-m-d H:i:s');
 					$data['create_by']='Goyz';
 					$array_where=array('id'=>$this->input->post('id'));
+				}
+				else{
+				//	print_r($data);exit;
+					if($sts_crud=='add')$child_id=$data['tbl_emp_id'];
+					if($sts_crud=='delete')$child_id=$this->input->post('id');
+					unset($data['tbl_emp_id']);
+					if(count($child_id)>0){
+						foreach($child_id as $v){
+							if($sts_crud=='add'){
+								$data['tbl_emp_id']=$v;
+								$this->db->insert($table,$data);
+							}else{
+								//CEK activity ID di Are
+								
+								$act_id=$this->db->get_where('tbl_are',array('id'=>$v))->row_array();
+								//echo $this->db->last_query();
+								//print_r($act_id);exit;
+								if((float)$act_id['total_cost']!=0){
+									//GET TOTAL COST ACTIVITY
+									$total_cost=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id['tbl_acm_id'],'bulan'=>$act_id['bulan'],'tahun'=>$act_id['tahun']))->row_array();
+									$total_cost_act=(float)$total_cost['total_cost']-(float)$act_id['total_cost'];
+									$data_total=array('bulan'=>$act_id['bulan'],
+													  'tahun'=>$act_id['tahun'],
+													  'total_cost'=>$total_cost_act
+									);
+									if(isset($total_cost['id'])){
+										$this->db->where('id',$total_cost['id']);
+										$this->db->update('tbl_acm_total_cost',$data_total);
+									}
+								}
+															
+								$this->db->where('id',$v);
+								$this->db->delete($table);
+							}
+							//echo $v.'<br>';
+						}
+					}
+					if($this->db->trans_status() == false){
+						$this->db->trans_rollback();
+						return 0;
+					} else{
+						return $this->db->trans_commit();
+					}
 				}
 			break;
 			case "tbl_act_to_act":
@@ -566,6 +611,47 @@ class mhome extends CI_Model{
 					$data['create_by']=$this->auth['nama_user'];;
 					$array_where=array('id'=>$this->input->post('id'));
 				}
+				else{
+				//	print_r($data);exit;
+					if($sts_crud=='add')$child_id=$data['tbl_acm_child_id'];
+					if($sts_crud=='delete')$child_id=$this->input->post('id');
+					unset($data['tbl_acm_child_id']);
+					if(count($child_id)>0){
+						foreach($child_id as $v){
+							if($sts_crud=='add'){
+								$data['tbl_acm_child_id']=$v;
+								$this->db->insert($table,$data);
+							}else{
+								$act_id=$this->db->get_where('tbl_are',array('id'=>$v))->row_array();
+								if((float)$act_id['total_cost']!=0){
+									//GET TOTAL COST ACTIVITY
+									$total_cost=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id['tbl_acm_id'],'bulan'=>$act_id['bulan'],'tahun'=>$act_id['tahun']))->row_array();
+									$total_cost_act=(float)$total_cost['total_cost']-(float)$act_id['total_cost'];
+									$data_total=array('bulan'=>$act_id['bulan'],
+													  'tahun'=>$act_id['tahun'],
+													  'total_cost'=>$total_cost_act
+									);
+									if(isset($total_cost['id'])){
+										$this->db->where('id',$total_cost['id']);
+										$this->db->update('tbl_acm_total_cost',$data_total);
+									}
+								}
+								
+								
+								$this->db->where('id',$v);
+								$this->db->delete($table);
+							}
+							//echo $v.'<br>';
+						}
+					}
+					if($this->db->trans_status() == false){
+						$this->db->trans_rollback();
+						return 0;
+					} else{
+						return $this->db->trans_commit();
+					}
+				}
+				
 			break;
 			case "tbl_are_exp":
 				$table="tbl_are";
@@ -605,6 +691,49 @@ class mhome extends CI_Model{
 					$data['create_date']=date('Y-m-d H:i:s');
 					$data['create_by']=$this->auth['nama_user'];
 					$array_where=array('id'=>$this->input->post('id'));
+				}
+				else{
+				//	print_r($data);exit;
+					if($sts_crud=='add')$child_id=$data['tbl_exp_id'];
+					if($sts_crud=='delete')$child_id=$this->input->post('id');
+					unset($data['tbl_exp_id']);
+					if(count($child_id)>0){
+						foreach($child_id as $v){
+							if($sts_crud=='add'){
+								$data['tbl_exp_id']=$v;
+								$this->db->insert($table,$data);
+							}else{
+								//CEK activity ID di Are
+								
+								$act_id=$this->db->get_where('tbl_are',array('id'=>$v))->row_array();
+								//echo $this->db->last_query();
+								//print_r($act_id);exit;
+								if((float)$act_id['total_cost']!=0){
+									//GET TOTAL COST ACTIVITY
+									$total_cost=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id['tbl_acm_id'],'bulan'=>$act_id['bulan'],'tahun'=>$act_id['tahun']))->row_array();
+									$total_cost_act=(float)$total_cost['total_cost']-(float)$act_id['total_cost'];
+									$data_total=array('bulan'=>$act_id['bulan'],
+													  'tahun'=>$act_id['tahun'],
+													  'total_cost'=>$total_cost_act
+									);
+									if(isset($total_cost['id'])){
+										$this->db->where('id',$total_cost['id']);
+										$this->db->update('tbl_acm_total_cost',$data_total);
+									}
+								}
+															
+								$this->db->where('id',$v);
+								$this->db->delete($table);
+							}
+							//echo $v.'<br>';
+						}
+					}
+					if($this->db->trans_status() == false){
+						$this->db->trans_rollback();
+						return 0;
+					} else{
+						return $this->db->trans_commit();
+					}
 				}
 			break;
 			case "tbl_model":

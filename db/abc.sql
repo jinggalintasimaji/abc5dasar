@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-11-17 14:52:27
+Date: 2015-11-18 11:13:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -241,7 +241,7 @@ INSERT INTO `tbl_acm` VALUES ('295', null, '2', null, '20200', 'Pengendalian Ang
 INSERT INTO `tbl_acm` VALUES ('296', null, '2', null, '20301', 'Penyusunan Laporan Operasional', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('297', null, '2', null, '20302', 'Penyusunan Laporan Keuangan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('298', null, '2', null, '30101', 'Persiapan Operasi Pemanduan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('299', '0', '2', null, '30102', 'MEMANDU KAPAL MASUK', '2000', null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, '1000', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('299', '0', '2', null, '30102', 'MEMANDU KAPAL MASUK', '2000', null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, '1000', null, 'Fixed', 'Unit', null, '1', null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('300', null, '2', null, '30103', 'MEMANDU KAPAL PINDAH', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('301', null, '2', null, '30104', 'MEMANDU KAPAL KELUAR', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('302', null, '2', null, '30105', 'Mencatat & Entri Data Realisasi Pandu', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -783,7 +783,7 @@ CREATE TABLE `tbl_acm_total_cost` (
   `tahun` int(11) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm_total_cost
@@ -794,7 +794,8 @@ INSERT INTO `tbl_acm_total_cost` VALUES ('3', '269', '6', '2015', '35562730');
 INSERT INTO `tbl_acm_total_cost` VALUES ('4', '424', '11', '2015', '150000');
 INSERT INTO `tbl_acm_total_cost` VALUES ('5', '277', '11', '2015', '9999999999');
 INSERT INTO `tbl_acm_total_cost` VALUES ('6', '424', '6', '2015', '135353600');
-INSERT INTO `tbl_acm_total_cost` VALUES ('7', '299', '11', '2015', '2000000000');
+INSERT INTO `tbl_acm_total_cost` VALUES ('7', '0', null, null, '-6767679');
+INSERT INTO `tbl_acm_total_cost` VALUES ('8', '299', '11', '2015', '5009634886');
 
 -- ----------------------------
 -- Table structure for `tbl_act_to_act`
@@ -848,7 +849,7 @@ CREATE TABLE `tbl_are` (
   `create_by` varchar(100) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_are
@@ -870,7 +871,11 @@ INSERT INTO `tbl_are` VALUES ('36', null, '269', null, '106', null, 'Loanss', '1
 INSERT INTO `tbl_are` VALUES ('37', '0', '424', '1', '0', '0', '', '0.00', '0', '135353600', '20', '1', '', '', '0', '11', '2015', '0000-00-00 00:00:00', '', '100000');
 INSERT INTO `tbl_are` VALUES ('38', null, '424', '2', null, null, null, null, null, '200000', null, null, null, null, null, null, null, null, null, '50000');
 INSERT INTO `tbl_are` VALUES ('39', '0', '277', '1', '0', '0', '', '99.99', '0', '9999999999', '0', '0', '', '', '0', '0', '0', '2015-11-12 18:40:40', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('43', null, '299', null, null, '277', null, '20.00', null, '2000000000', '1', null, null, null, null, '11', '2015', '2015-11-17 14:48:49', 'goyz', '2000000000');
+INSERT INTO `tbl_are` VALUES ('58', null, '299', '1', null, null, null, '10.00', null, '6767680', null, null, null, null, null, '11', '2015', '2015-11-18 10:52:32', 'Goyz', '6767680');
+INSERT INTO `tbl_are` VALUES ('59', null, '299', '2', null, null, null, '20.00', null, '1424344', null, null, null, null, null, '11', '2015', '2015-11-18 10:52:37', 'Goyz', '1424344');
+INSERT INTO `tbl_are` VALUES ('60', null, '299', '4', null, null, null, '20.00', null, '918726', null, null, null, null, null, '11', '2015', '2015-11-18 10:52:45', 'Goyz', '918726');
+INSERT INTO `tbl_are` VALUES ('61', null, '299', null, '1', null, null, '10.00', null, '524136', null, null, null, null, null, '11', '2015', '2015-11-18 11:06:32', 'goyz', '524136');
+INSERT INTO `tbl_are` VALUES ('63', null, '299', null, null, '277', null, '50.00', null, '5000000000', null, null, null, null, null, '11', '2015', '2015-11-18 11:11:52', 'goyz', '5000000000');
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -1085,28 +1090,28 @@ CREATE TABLE `tbl_emp` (
 -- ----------------------------
 -- Records of tbl_emp
 -- ----------------------------
-INSERT INTO `tbl_emp` VALUES ('1', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '22', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('2', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '25', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('3', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('4', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '66', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('5', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '22', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('6', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '76', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('7', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('8', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '56', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('9', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '90', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('10', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '226', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('11', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '67', '1', '4', '6', '2015');
-INSERT INTO `tbl_emp` VALUES ('12', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('13', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('14', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('15', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('16', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('17', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('18', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('19', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('20', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('21', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '0', '1', '4', '7', '2015');
-INSERT INTO `tbl_emp` VALUES ('22', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '0', '1', '4', '7', '2015');
+INSERT INTO `tbl_emp` VALUES ('1', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '22', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('2', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '25', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('3', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('4', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '66', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('5', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '22', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('6', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '76', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('7', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('8', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '56', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('9', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '90', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('10', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '226', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('11', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '67', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('12', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('13', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('14', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('15', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('16', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('17', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('18', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('19', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('20', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('21', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('22', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '0', '1', '4', '11', '2015');
 
 -- ----------------------------
 -- Table structure for `tbl_emp_act`
@@ -1163,28 +1168,28 @@ CREATE TABLE `tbl_exp` (
 -- ----------------------------
 -- Records of tbl_exp
 -- ----------------------------
-INSERT INTO `tbl_exp` VALUES ('1', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5241360', '73217600', '0', '1', '1', '668', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('2', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '414856', '4011210', '0', '1', '2', '789', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('3', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '68400', '4011210', '0', '1', '3', '889', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('4', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '722166', '4011210', '0', '1', '10', '67', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('5', '2', '2', '801.05.04', 'Tunjangan Prestasi', '3850000', '45677300', '0', '1', '9', '889', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('6', '2', '2', '801.05.05', 'Tunjangan Presensi', '684000', '3982070', '0', '1', '8', '226', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('7', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '44400000', '0', '0', '1', '11', '78', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('8', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '1723410000', '0', '0', '1', '7', '88', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('9', '2', '2', '804.19.00', 'A.B Pengrk. Plyr.Yg.Ditgh.', '41585000', '5783710000', '0', '1', '8', '0', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('10', '2', '2', '804.20.00', 'A.B Konsultan Unk.Litbang Yg.Dtgh', '3226650', '28765100', '0', '1', '8', '66', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('11', '2', '2', '804.99.00', 'A.B Yang Ditangguhkan Lain-lain', '0', '0', '0', '1', '7', '7', '', '', '6', '2015');
-INSERT INTO `tbl_exp` VALUES ('12', '2', '195', '807.06.00', 'Biaya Rumah Tangga Masa Kini', '1450800', '67017600', '0', '1', null, '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('13', '2', '252', '807.06.00', 'Biaya Rumah Tangga', '54000', '27475900', '0', '1', null, '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('14', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5104820', '73217600', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('15', '2', '6', '801.01.00', 'Biaya Penghasilan Pegawai', '5164000', '82607500', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('16', '2', '172', '801.01.00', 'Biaya Penghasilan Pegawai', '26246400', '453551000', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('17', '2', '171', '801.01.00', 'Biaya Penghasilan Pegawai', '33974200', '501775000', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('18', '2', '163', '801.01.00', 'Biaya Penghasilan Pegawai', '5887180', '54492900', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('19', '2', '79', '801.01.00', 'Biaya Penghasilan Pegawai', '73206800', '1091170000', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('20', '2', '55', '801.01.00', 'Biaya Penghasilan Pegawai', '7700150', '146729000', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('21', '2', '33', '801.01.00', 'Biaya Penghasilan Pegawai', '15678600', '327489000', '0', '1', '1', '0', '', '', '7', '2015');
-INSERT INTO `tbl_exp` VALUES ('22', '2', '11', '801.01.00', 'Biaya Penghasilan Pegawai', '9460130', '148280000', '0', '1', '1', '0', '', '', '7', '2015');
+INSERT INTO `tbl_exp` VALUES ('1', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5241360', '73217600', '0', '1', '1', '668', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('2', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '414856', '4011210', '0', '1', '2', '789', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('3', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '68400', '4011210', '0', '1', '3', '889', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('4', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '722166', '4011210', '0', '1', '10', '67', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('5', '2', '2', '801.05.04', 'Tunjangan Prestasi', '3850000', '45677300', '0', '1', '9', '889', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('6', '2', '2', '801.05.05', 'Tunjangan Presensi', '684000', '3982070', '0', '1', '8', '226', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('7', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '44400000', '0', '0', '1', '11', '78', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('8', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '1723410000', '0', '0', '1', '7', '88', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('9', '2', '2', '804.19.00', 'A.B Pengrk. Plyr.Yg.Ditgh.', '41585000', '5783710000', '0', '1', '8', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('10', '2', '2', '804.20.00', 'A.B Konsultan Unk.Litbang Yg.Dtgh', '3226650', '28765100', '0', '1', '8', '66', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('11', '2', '2', '804.99.00', 'A.B Yang Ditangguhkan Lain-lain', '0', '0', '0', '1', '7', '7', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('12', '2', '195', '807.06.00', 'Biaya Rumah Tangga Masa Kini', '1450800', '67017600', '0', '1', null, '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('13', '2', '252', '807.06.00', 'Biaya Rumah Tangga', '54000', '27475900', '0', '1', null, '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('14', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5104820', '73217600', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('15', '2', '6', '801.01.00', 'Biaya Penghasilan Pegawai', '5164000', '82607500', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('16', '2', '172', '801.01.00', 'Biaya Penghasilan Pegawai', '26246400', '453551000', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('17', '2', '171', '801.01.00', 'Biaya Penghasilan Pegawai', '33974200', '501775000', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('18', '2', '163', '801.01.00', 'Biaya Penghasilan Pegawai', '5887180', '54492900', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('19', '2', '79', '801.01.00', 'Biaya Penghasilan Pegawai', '73206800', '1091170000', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('20', '2', '55', '801.01.00', 'Biaya Penghasilan Pegawai', '7700150', '146729000', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('21', '2', '33', '801.01.00', 'Biaya Penghasilan Pegawai', '15678600', '327489000', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('22', '2', '11', '801.01.00', 'Biaya Penghasilan Pegawai', '9460130', '148280000', '0', '1', '1', '0', '', '', '11', '2015');
 
 -- ----------------------------
 -- Table structure for `tbl_loc`

@@ -1,59 +1,80 @@
-<table width="100%" id="ver-zebra" style="width:90%">
-	 <colgroup>
-    	<col class="vzebra-odd" />
-    	<col class="vzebra-even" />
-    	<col class="vzebra-odd" />
-        <col class="vzebra-even" />
-		<col class="vzebra-odd" />
-    </colgroup>
-	<thead>
-		<tr>
-			<th id="vzebra-comedy" scope="col">Employee Name</th>
-			<th id="vzebra-adventure" scope="col">Resource Driver</th>
-			<th id="vzebra-comedy" scope="col">Quantity</th>
-			<th id="vzebra-adventure" scope="col">Proportion</th>
-			<th id="vzebra-comedy" scope="col">Amount</th>
-		</tr>
-	</thead>
-	<tbody>
-		{*
-		{foreach from=$data item=i}
-		<tr>
-			<td>{$i.account}</td>
-			<td>{$i.name_na}</td>
-			<td>{$i.amount|number_format:2:".":","}</td>
-			<td>{$i.fte_na|default:'-'}</td>
-			<td>{$i.fte_cost|number_format:2:".":","}</td>
-		</tr>
-		{/foreach}
-		*}
-		<tr>
-			<td>XXX&nbsp;</td>
-			<td align="right">99&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-		</tr>
-		<tr>
-			<td>YYY&nbsp;</td>
-			<td align="right">99&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-		</tr>
-		<tr>
-			<td>ZZZ&nbsp;</td>
-			<td align="right">99&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-		</tr>
-		<tr style="border-top:1px solid ">
-			<td>Total Cost</td>
-			<td >&nbsp;</td>
-			<td>Total</td>
-			<td align="right">100%</td>
-			<td align="right">999.999.999.99</td>
-		</tr>
-	</tbody>
-</table>
+<div style='float:left;width:50%;margin-right:5px;margin-bottom:10px;display:none;' id="master_costing_emp">
+	<div id="tb_mst_employees">
+		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="tranfer_emp" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Transfer</span><span class="l-btn-icon icon-add">&nbsp;</span>
+				</span>
+			</a>
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing_emp').show();$('#master_costing_emp').hide();" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Close</span><span class="l-btn-icon icon-close">&nbsp;</span>
+				</span>
+			</a>
+		</div>
+	</div>
+	<div id='master_employee'></div>
+</div>
+<!--div style='float:left;width:6%'>
+	<br/>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="tranfer_emp" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_undo"></span>
+		</span>
+	</a> 
+	<br/>
+	<br/>
+	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_emp" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon arrow_redo"></span>
+		</span>
+	</a>
+</div>
+<div style='float:left;width:41%'>
+	<fieldset>
+	<form method='post' url="{$host}home/import_data/upload/are_emp/file_are/temp_are" id="form_{$main}" enctype="multipart/form-data">
+	<input type="hidden" name="act_id" id="act_id" value="">
+	<label>Month</label>: {html_select_date prefix='bulan_emp' start_year='+5' end_year='+5' display_days=false display_years=false all_extra='id="bulan_emp" style="width:50%;padding:2px;"'}<br>
+	<label>Year</label>: {html_select_date prefix='tahun_emp' start_year='+0' end_year='+5' display_days=false display_months=false all_extra='id="tahun_emp" style="width:50%;padding:2px;"'}<br>
+	<label>Upload Employee</label>: <input type="file" name="file_are" id="file_are"><br><br>
+	</form>
+	{include file='template/button.html' id='upload_are_emp' text='Upload' icon='save' click='' style="float:right;"}
+	{include file='template/button.html' id='download_are_emp' text='Download Template' icon='download' href='home/download_na/temp_are_emp' target="_blank" style="float:right;"}
+	</fieldset>
+</div-->
+<div style='float:left;width:100%;height:300px' id="detil_costing_emp">
+	<div id="tb_tbl_are_emp">
+		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+			
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing_emp').hide();$('#master_costing_emp').show();$('#master_employee').datagrid('reload');" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Add Employee</span><span class="l-btn-icon icon-add">&nbsp;</span>
+				</span>
+			</a>
+			<a href="javascript:void(0)" id="remove_emp" class="l-btn l-btn-small l-btn-plain" group="" onclick="" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Remove Employee</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+				</span>
+			</a>
+		</div>
+	</div>
+	<div id='tabel_employees'></div>
+</div>
+
+
+<script>
+	genGrid('mst_employees','master_employee', (getClientWidth()-325),(getClientHeight()-372));
+	genGridEditable('tbl_are_emp','tabel_employees', 500, 600,'tbl_are');
+	$('#act_id').val($('#id_activity').val());
+	$('#tranfer_emp').bind('click',function(r){
+		transfer_data('tbl_emp','tbl_are','master_employee','tabel_employees');
+		$('#detil_costing_emp').show();$('#master_costing_emp').hide();
+	});
+	$('#remove_emp').bind('click',function(r){
+		transfer_data('tbl_are','tbl_are_emp','tabel_employees','tabel_employees');
+		//console.log()
+	});
+	
+	
+</script>

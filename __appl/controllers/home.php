@@ -228,7 +228,8 @@ class home extends MY_Controller {
 							
 						break;
 						case "assigment":
-							
+							$data=$this->db->get_where('tbl_acm',array('id'=>$this->input->post('id_act')))->row_array();
+							$this->smarty->assign('data' ,$data);
 							$child=$this->db->get_where('tbl_acm',array('pid'=>$id_act,'tbl_model_id'=>$this->modeling['id'],'bulan'=>$bulan,'tahun'=>$tahun))->result_array();
 							$this->smarty->assign('child' ,count($child));
 						break;
