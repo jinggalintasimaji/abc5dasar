@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MysqlLocal
-Source Server Version : 50528
+Source Server         : Mysql - Localhost
+Source Server Version : 50516
 Source Host           : localhost:3306
-Source Database       : costing
+Source Database       : pelindo
 
 Target Server Type    : MYSQL
-Target Server Version : 50528
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2015-11-18 11:13:26
+Date: 2015-11-20 14:34:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -783,7 +783,7 @@ CREATE TABLE `tbl_acm_total_cost` (
   `tahun` int(11) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm_total_cost
@@ -796,6 +796,9 @@ INSERT INTO `tbl_acm_total_cost` VALUES ('5', '277', '11', '2015', '9999999999')
 INSERT INTO `tbl_acm_total_cost` VALUES ('6', '424', '6', '2015', '135353600');
 INSERT INTO `tbl_acm_total_cost` VALUES ('7', '0', null, null, '-6767679');
 INSERT INTO `tbl_acm_total_cost` VALUES ('8', '299', '11', '2015', '5009634886');
+INSERT INTO `tbl_acm_total_cost` VALUES ('9', '274', '11', '2015', '476780');
+INSERT INTO `tbl_acm_total_cost` VALUES ('10', '275', '11', '2015', '238390');
+INSERT INTO `tbl_acm_total_cost` VALUES ('11', '276', '11', '2015', '286068');
 
 -- ----------------------------
 -- Table structure for `tbl_act_to_act`
@@ -833,9 +836,10 @@ CREATE TABLE `tbl_are` (
   `tbl_acm_id` bigint(20) DEFAULT NULL,
   `tbl_emp_id` bigint(20) DEFAULT NULL,
   `tbl_exp_id` bigint(20) DEFAULT NULL,
+  `tbl_assets_id` bigint(20) DEFAULT NULL,
   `tbl_acm_child_id` bigint(20) DEFAULT NULL,
   `costcenter` varchar(100) DEFAULT NULL,
-  `percent` decimal(4,2) DEFAULT NULL,
+  `percent` float DEFAULT NULL,
   `cost_nbr` int(11) DEFAULT NULL,
   `cost` decimal(10,0) DEFAULT NULL,
   `rd_qty` float DEFAULT NULL,
@@ -849,33 +853,50 @@ CREATE TABLE `tbl_are` (
   `create_by` varchar(100) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_are
 -- ----------------------------
-INSERT INTO `tbl_are` VALUES ('7', null, '266', '3', null, null, null, '90.00', null, '49837590', '90', null, null, null, null, '6', '2015', '2015-06-24 09:49:24', 'Goyz', '49837590');
-INSERT INTO `tbl_are` VALUES ('8', null, '266', '2', null, null, null, '0.02', null, '10000', '10', null, null, null, null, '6', '2015', '2015-06-24 08:50:49', 'Goyz', '10000');
-INSERT INTO `tbl_are` VALUES ('9', null, '266', null, '102', null, 'Loan', '15.97', null, '10000000', null, null, null, null, null, '6', '2015', '2015-06-24 09:09:07', 'goyz', '10000000');
-INSERT INTO `tbl_are` VALUES ('10', null, '263', null, '102', null, 'Loansss', '0.00', null, '200', null, null, null, null, null, '6', '2015', '2015-06-24 09:46:47', 'goyz', '200');
-INSERT INTO `tbl_are` VALUES ('11', null, '263', null, '103', null, 'xxx', '0.00', null, '300', null, null, null, null, null, '6', '2015', '2015-06-24 09:47:26', 'goyz', '300');
-INSERT INTO `tbl_are` VALUES ('12', '0', '263', '1', '0', '0', '', '99.99', '0', '9999999999', '0', '0', '', '', '0', '6', '2015', '2015-06-24 09:47:52', 'Goyz', '500');
-INSERT INTO `tbl_are` VALUES ('14', null, '263', null, null, '266', null, '10.00', null, '5984759', null, null, null, null, null, '6', '2015', '2015-06-24 10:09:02', 'goyz', '5984759');
-INSERT INTO `tbl_are` VALUES ('30', null, '269', '1', null, null, null, '20.00', null, '11758820', '0', null, '', '', null, '6', '2015', null, null, '11758820');
-INSERT INTO `tbl_are` VALUES ('31', null, '269', '2', null, null, null, '30.00', null, '15142710', '0', null, '', '', null, '6', '2015', null, null, '15142710');
-INSERT INTO `tbl_are` VALUES ('32', null, '269', null, '102', null, 'Loanss', '0.02', null, '10000', '0', null, '', '', '0', '6', '2015', null, null, '10000');
-INSERT INTO `tbl_are` VALUES ('33', null, '269', null, '103', null, 'Loanss', '0.28', null, '20000', '0', null, '', '', '0', '6', '2015', null, null, '20000');
-INSERT INTO `tbl_are` VALUES ('34', null, '269', null, '104', null, 'Loanss', '10.00', null, '164800', '0', null, '', '', '0', '6', '2015', null, null, '164800');
-INSERT INTO `tbl_are` VALUES ('35', null, '269', null, '105', null, 'Loanss', '20.00', null, '8140000', '0', null, '', '', '0', '6', '2015', null, null, '8140000');
-INSERT INTO `tbl_are` VALUES ('36', null, '269', null, '106', null, 'Loanss', '10.00', null, '326400', '0', null, '', '', '0', '6', '2015', null, null, '326400');
-INSERT INTO `tbl_are` VALUES ('37', '0', '424', '1', '0', '0', '', '0.00', '0', '135353600', '20', '1', '', '', '0', '11', '2015', '0000-00-00 00:00:00', '', '100000');
-INSERT INTO `tbl_are` VALUES ('38', null, '424', '2', null, null, null, null, null, '200000', null, null, null, null, null, null, null, null, null, '50000');
-INSERT INTO `tbl_are` VALUES ('39', '0', '277', '1', '0', '0', '', '99.99', '0', '9999999999', '0', '0', '', '', '0', '0', '0', '2015-11-12 18:40:40', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('58', null, '299', '1', null, null, null, '10.00', null, '6767680', null, null, null, null, null, '11', '2015', '2015-11-18 10:52:32', 'Goyz', '6767680');
-INSERT INTO `tbl_are` VALUES ('59', null, '299', '2', null, null, null, '20.00', null, '1424344', null, null, null, null, null, '11', '2015', '2015-11-18 10:52:37', 'Goyz', '1424344');
-INSERT INTO `tbl_are` VALUES ('60', null, '299', '4', null, null, null, '20.00', null, '918726', null, null, null, null, null, '11', '2015', '2015-11-18 10:52:45', 'Goyz', '918726');
-INSERT INTO `tbl_are` VALUES ('61', null, '299', null, '1', null, null, '10.00', null, '524136', null, null, null, null, null, '11', '2015', '2015-11-18 11:06:32', 'goyz', '524136');
-INSERT INTO `tbl_are` VALUES ('63', null, '299', null, null, '277', null, '50.00', null, '5000000000', null, null, null, null, null, '11', '2015', '2015-11-18 11:11:52', 'goyz', '5000000000');
+INSERT INTO `tbl_are` VALUES ('5', '0', '269', '6', '0', '0', '0', '', '0', '0', '212848', '10', '1', '', '', '0', null, null, '2015-11-14 08:50:17', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('6', '0', '272', '6', '0', '0', '0', '', '10', '0', '476780', '0', '0', '', '', '0', null, null, '2015-11-14 08:50:17', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('7', '0', '271', '0', '1', '0', '0', '', '0', '0', '232949', '10', '1', '', '', '0', null, null, '2015-11-14 10:33:48', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('8', '0', '272', '0', '1', '0', '0', '', '10', '0', '524136', '0', '0', '', '', '0', null, null, '2015-11-14 10:33:48', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('9', '0', '269', '0', '0', '3', '0', '', '0', '0', '6696429', '1', '1', '', '', '0', null, null, '2015-11-15 13:03:02', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('11', '0', '271', '0', '0', '3', '0', '', '0', '0', '6666667', '1', '1', '', '', '0', null, null, '2015-11-15 13:08:27', 'Goyz Crotz', '0');
+
+-- ----------------------------
+-- Table structure for `tbl_assets`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_assets`;
+CREATE TABLE `tbl_assets` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tbl_model_id` bigint(20) DEFAULT NULL,
+  `tbl_loc_id` bigint(20) DEFAULT NULL,
+  `assets_id` varchar(100) DEFAULT NULL,
+  `assets_name` varchar(255) DEFAULT NULL,
+  `assets_description` text,
+  `cost` float DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `budget_1` float DEFAULT NULL,
+  `budget_2` float DEFAULT NULL,
+  `tbl_rdm_id` bigint(20) DEFAULT NULL,
+  `rd_tot_qty` float DEFAULT NULL,
+  `cost_type` varchar(5) DEFAULT NULL,
+  `cost_bucket` varchar(5) DEFAULT NULL,
+  `bulan` smallint(6) DEFAULT NULL,
+  `tahun` int(11) DEFAULT NULL,
+  `create_by` varchar(255) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_assets
+-- ----------------------------
+INSERT INTO `tbl_assets` VALUES ('1', '2', null, '112233', 'Kapal Pandu', 'Kapal Tjoi', null, '200000000', null, null, '1', '2', null, null, '6', '2015', null, null);
+INSERT INTO `tbl_assets` VALUES ('2', '2', null, '222444', 'Kapal Tug', 'Tug Tug', null, '500000000', null, null, '1', '3', null, null, '6', '2015', null, null);
+INSERT INTO `tbl_assets` VALUES ('3', '2', null, '55566', 'Kapal Speed', 'Speedy Gonjales', null, '1500000000', null, null, null, null, null, null, '6', '2015', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -1035,6 +1056,7 @@ CREATE TABLE `tbl_efx` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tbl_exp_id` int(11) DEFAULT NULL,
   `tbl_emp_id` int(11) DEFAULT NULL,
+  `tbl_assets_id` int(11) DEFAULT NULL,
   `percent` float DEFAULT NULL,
   `cost_nbr` float DEFAULT NULL,
   `rd_qty` float DEFAULT NULL,
@@ -1047,13 +1069,25 @@ CREATE TABLE `tbl_efx` (
   `costcenter_desc` varchar(200) DEFAULT NULL,
   `budget_type` varchar(100) DEFAULT NULL,
   `cost_type` varchar(100) DEFAULT NULL,
+  `create_by` varchar(255) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_efx
 -- ----------------------------
-INSERT INTO `tbl_efx` VALUES ('1', '1', null, '10', '100', null, null, null, null, null, null, null, 'xx1', 'Fixed', 'Fixed');
+INSERT INTO `tbl_efx` VALUES ('1', '1', '2', null, '0', '0', '290', '7250', '0', '0', '0', '0', '0', '', '', '', null, null);
+INSERT INTO `tbl_efx` VALUES ('2', '2', '2', null, '0', '0', '344', '0', '0', '0', '0', '0', '0', '', '', '', null, null);
+INSERT INTO `tbl_efx` VALUES ('4', '5', '2', null, '0', '0', '100', '0', '0', '0', '0', '0', '0', '', '', '', null, null);
+INSERT INTO `tbl_efx` VALUES ('12', '1', '6', '0', '0', '0', '10', '78463.5', '0', '0', '0', '0', '0', '', '', 'S', 'Goyz Crotz', '2015-11-14 10:14:01');
+INSERT INTO `tbl_efx` VALUES ('13', '9', '6', '0', '2', '0', '0', '831700', '0', '0', '0', '0', '0', '', '', 'B', 'Goyz Crotz', '2015-11-14 10:14:01');
+INSERT INTO `tbl_efx` VALUES ('14', '1', '0', '1', '0', '0', '2', '200000000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-14 11:02:49');
+INSERT INTO `tbl_efx` VALUES ('15', '1', '0', '3', '0', '0', '20', '156927', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-14 11:02:49');
+INSERT INTO `tbl_efx` VALUES ('16', '6', '0', '3', '0', '0', '20', '60531', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-15 13:35:44');
+INSERT INTO `tbl_efx` VALUES ('17', '9', '0', '3', '24', '0', '0', '9980400', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-15 13:35:44');
+INSERT INTO `tbl_efx` VALUES ('18', '1', '6', null, null, null, null, null, null, null, null, null, null, null, null, null, 'Goyz Crotz', '2015-11-20 07:48:18');
+INSERT INTO `tbl_efx` VALUES ('19', '5', '6', null, null, null, null, null, null, null, null, null, null, null, null, null, 'Goyz Crotz', '2015-11-20 07:48:18');
 
 -- ----------------------------
 -- Table structure for `tbl_emp`
@@ -1841,10 +1875,11 @@ CREATE TABLE `tbl_user` (
   `tlp` varchar(15) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'goyz', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
-INSERT INTO `tbl_user` VALUES ('2', 'user', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '2', 'User Guest', null, 'L', null, '1');
+INSERT INTO `tbl_user` VALUES ('1', 'admin', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
+INSERT INTO `tbl_user` VALUES ('2', 'user', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '2', 'User Guest', null, 'L', null, '1');
+INSERT INTO `tbl_user` VALUES ('4', 'user_2', 'R2s+MzlfaarWwB2lVu9qQX5V1jEjKvkfMuZHnmzayO2kB4Engg9px0X3OtpYlhMx1ADCOlkDcC3pvjo5OvIlMg==', '2', 'User Guest 2', 'guest@gmail.com', 'L', '021-99889898', '1');
