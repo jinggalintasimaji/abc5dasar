@@ -136,6 +136,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 	var urlnya;
 	var urlglobal="";
 	var param={};
+	var footer=false;
 	if(flagkode == 'jenonk'){
 		var url_crud = host+"homex/simpansavedata/"+crud_table;
 		var tolbarnya = '#tb_'+modnya;
@@ -211,6 +212,72 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'output_rate',title:'Output Rate',width:80, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0}}
 				},
+			]
+		break;
+		case "tbl_are_asset":
+			judulnya = "";
+			urlnya = "tbl_asset_are/"+id_act;
+			fitnya = true;
+			//footer = true;
+			param['bulan']=$('#bulan').val();
+			param['tahun']=$('#tahun').val();
+			kolom[modnya] = [	
+				
+				{field:'assets_name',title:'Assets Name',width:180, halign:'center',align:'left'},
+				{field:'amount',title:'Amount',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					},
+				},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value == null || value == 0){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					}
+				},
+				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						//if(value)return NumberFormat(value);
+						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					},
+				},
+				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
+				},				
+				{field:'cost',title:'TotalCost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},		
+				{field:'action',title:'Action',width:100,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
 			]
 		break;
 		case "tbl_are_emp":
@@ -1154,6 +1221,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		nowrap: false,
         singleSelect:true,
 		queryParams:param,
+		showFooter:footer,
 		frozenColumns:[
             frozen[modnya]
         ],
@@ -1344,6 +1412,19 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
 				{field:'name_na',title:'Employee Name',width:240, halign:'center',align:'left'},
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
+			]
+		break;
+		case "mst_asset":
+			judulnya = "";
+			urlnya = "tbl_assets";
+			param['bulan']=$('#bulan').val();
+			param['tahun']=$('#tahun').val();
+			fitnya = false;
+			singleSelek = false;
+			kolom[modnya] = [	
+				{field:'assets_id',title:'Assets ID',width:80, halign:'center',align:'center'},
+				{field:'assets_name',title:'Assets Name',width:400, halign:'center',align:'left'},
+				{field:'assets_description',title:'Description',width:250, halign:'center',align:'left'},
 			]
 		break;
 		case "mst_act":
@@ -2806,8 +2887,19 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 				switch(to){
 					case "tbl_emp_act":
 						post['editstatus']='add';
-						
 						post['tbl_emp_id']=id_grid;
+					break;
+					case "tbl_asset_are":
+						post['editstatus']='add';
+						post['tbl_acm_id']=id_act;
+						post['bulan']=$('#bulan').val();
+						post['tahun']=$('#tahun').val();
+						post['tbl_assets_id']=id_grid;
+					break;
+					case "tbl_are_asset":
+						to="tbl_are";
+						post['editstatus']='delete';
+						post['id']=id_grid;
 					break;
 					case "tbl_are":
 						post['editstatus']='add';
@@ -2846,9 +2938,7 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 						to="tbl_are";
 						post['editstatus']='delete';
 						post['id']=id_grid;
-					break;
-					
-					
+					break;	
 					case "tbl_efx":
 						post['editstatus']='add';
 						post['tbl_exp_id']=row.id;

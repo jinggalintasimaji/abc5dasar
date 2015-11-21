@@ -252,6 +252,21 @@ class mhome extends CI_Model{
 						LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
 						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id ";
 			break;
+			case "tbl_asset_are":
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				$where .=" AND tbl_assets_id IS NOT NULL ";
+				$select ="B.assets_name,B.amount,A.total_cost,E.rdm_qty";
+				$join ="LEFT JOIN tbl_assets B ON A.tbl_assets_id=B.id ";
+				$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
+				$sql="SELECT A.*,D.costcenter as cost_desc, ".$select."
+						FROM tbl_are A 
+						".$join."
+						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+						LEFT JOIN tbl_loc D ON B.tbl_loc_id=D.id ".$where;
+				//$footer =array('rd_tot_qty'=>'Total Cost','total_cost'=>9999.99);
+			break;
 			case "tbl_are":
 				$select="";
 				$join="";
@@ -272,7 +287,12 @@ class mhome extends CI_Model{
 					$join .="LEFT JOIN tbl_exp B ON A.tbl_exp_id=B.id ";
 					$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
 				}
-				
+				if($p2=='asset'){
+					$where .=" AND tbl_assets_id IS NOT NULL ";
+					$select .="B.assets_name,B.amount,A.total_cost,E.rdm_qty";
+					$join .="LEFT JOIN tbl_assets B ON A.tbl_assets_id=B.id ";
+					$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
+				}
 				$bulan=(int)$this->input->post('bulan');
 				$tahun=(int)$this->input->post('tahun');
 				
@@ -299,7 +319,14 @@ class mhome extends CI_Model{
 					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where;
 				//echo $sql;
 			break;
-			
+			case "tbl_assets":
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
+				
+				$sql = "SELECT A.* FROM tbl_assets A ".$where;
+				//echo $sql;
+			break;
 			case "tbl_bpd":
 				$sql="SELECT A.*,B.activity_code,B.descript as activity_desc,B.val_cost as activity_cost
 						FROM tbl_bpd A
@@ -490,6 +517,7 @@ class mhome extends CI_Model{
 				}
 			break;
 			case "tbl_are":
+			
 				//print_r($data);exit;
 				if($sts_crud=='edit'){
 					//unset($data['id']);
@@ -538,6 +566,92 @@ class mhome extends CI_Model{
 						foreach($child_id as $v){
 							if($sts_crud=='add'){
 								$data['tbl_emp_id']=$v;
+								$this->db->insert($table,$data);
+							}else{
+								//CEK activity ID di Are
+								
+								$act_id=$this->db->get_where('tbl_are',array('id'=>$v))->row_array();
+								//echo $this->db->last_query();
+								//print_r($act_id);exit;
+								if((float)$act_id['total_cost']!=0){
+									//GET TOTAL COST ACTIVITY
+									$total_cost=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id['tbl_acm_id'],'bulan'=>$act_id['bulan'],'tahun'=>$act_id['tahun']))->row_array();
+									$total_cost_act=(float)$total_cost['total_cost']-(float)$act_id['total_cost'];
+									$data_total=array('bulan'=>$act_id['bulan'],
+													  'tahun'=>$act_id['tahun'],
+													  'total_cost'=>$total_cost_act
+									);
+									if(isset($total_cost['id'])){
+										$this->db->where('id',$total_cost['id']);
+										$this->db->update('tbl_acm_total_cost',$data_total);
+									}
+								}
+															
+								$this->db->where('id',$v);
+								$this->db->delete($table);
+							}
+							//echo $v.'<br>';
+						}
+					}
+					if($this->db->trans_status() == false){
+						$this->db->trans_rollback();
+						return 0;
+					} else{
+						return $this->db->trans_commit();
+					}
+				}
+			break;
+			case "tbl_asset_are":
+				$table='tbl_are';
+				//print_r($data);exit;
+				if($sts_crud=='edit'){
+					//unset($data['id']);
+					
+					$ex=$this->db->get_where('tbl_are',array('id'=>$this->input->post('id')))->row_array();
+					//print_r($_POST);exit;
+					if($_POST['percent']!=$ex['percent']){$isi='P';}
+					if($_POST['cost']!=$ex['cost']){$isi='C';}
+					if($_POST['rd_qty']!=$ex['rd_qty']){$isi='R';}
+					
+					//echo $isi;exit;
+					unset($data['total_cost']);
+					if($isi=='C'){
+						$data['total_cost']=$data['cost'];
+						unset($data['percent']);
+						$data['percent']=($data['cost']/$data['amount'])*100;
+					}
+					if($isi=='P'){
+						$data['total_cost']=($data['amount'] * $data['percent'])/100;
+						unset($data['amount']);
+						$data['cost']=$data['total_cost'];
+					}
+					if($isi=='R'){						
+						$data['total_cost']=($data['amount']/$data['rdm_qty']) * $data['rd_qty'];
+						unset($data['percent']);
+						$data['cost']=$data['total_cost'];
+						$data['percent']=($data['cost']/$data['amount'])*100;
+					}
+					unset($data['rdm_qty']);
+					unset($data['tbl_assets_id']);
+					unset($data['assets_name']);
+					unset($data['amount']);
+					unset($data['cost_desc']);
+					//unset($data['total_cost']);
+					//print_r($data);exit;
+					$data['create_date']=date('Y-m-d H:i:s');
+					$data['create_by']='Goyz';
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+				else{
+				//	print_r($data);exit;
+					if($sts_crud=='add')$child_id=$data['tbl_assets_id'];
+					if($sts_crud=='delete')$child_id=$this->input->post('id');
+					//print_r($data['tbl_assets_id']);exit;
+					unset($data['tbl_assets_id']);
+					if(count($child_id)>0){
+						foreach($child_id as $v){
+							if($sts_crud=='add'){
+								$data['tbl_assets_id']=$v;
 								$this->db->insert($table,$data);
 							}else{
 								//CEK activity ID di Are
@@ -806,6 +920,7 @@ class mhome extends CI_Model{
 					}
 					
 				}
+				
 			break;
 			case "delete":
 				$this->db->where('id',$this->input->post('id'));
