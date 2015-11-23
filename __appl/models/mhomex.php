@@ -442,6 +442,63 @@ class mhomex extends CI_Model{
 			break;
 			//End Total Cost
 			
+			//get total di expense
+			case "total_expense":
+				if($this->modeling){
+					$where .= " AND tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND tbl_model_id = '0' ";
+				}
+				
+				$sql = "
+					SELECT SUM(amount) as total_expense
+					FROM tbl_exp
+					$where
+				";
+			break;
+			case "total_expense_activity":
+			case "total_expense_employee":
+			case "total_expense_assets":
+				if($this->modeling){
+					$whereexp = " AND tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$whereexp = " AND tbl_model_id = '0' ";
+				}
+				$sqlexpense = "
+					SELECT id
+					FROM tbl_exp
+					WHERE 1=1 $whereexp 
+				";
+				$dataexpense = $this->db->query($sqlexpense)->result_array();
+				$array = array();
+				foreach($dataexpense as $k=>$v){
+					array_push($array, $v['id']);
+				}
+				$join_data = join("','",$array);
+				
+				if($type == 'total_expense_activity'){
+					$sum = 'cost';
+					$tabel = 'tbl_are';
+					$where .= " AND tbl_exp_id <> 0 AND tbl_exp_id IS NOT NULL ";
+				}elseif($type == 'total_expense_employee'){
+					$sum = 'cost';
+					$tabel = 'tbl_efx';
+					$where .= " AND tbl_emp_id <> 0 AND tbl_emp_id IS NOT NULL ";
+				}elseif($type == 'total_expense_assets'){
+					$sum = 'cost';
+					$tabel = 'tbl_efx';
+					$where .= " AND tbl_assets_id <> 0 AND tbl_assets_id IS NOT NULL ";
+				}
+				
+				$sql = "
+					SELECT SUM($sum) as $type
+					FROM $tabel
+					$where AND tbl_exp_id IN ('".$join_data."') 
+				";
+				
+			break;
+			//end get total di expense
+			
 		}
 		
 		if($balikan == 'json'){
@@ -464,6 +521,7 @@ class mhomex extends CI_Model{
 			case "tbl_emp":
 			case "tbl_exp":
 			case "tbl_loc":
+			case "tbl_assets":
 			case "tbl_rdm":
 			case "tbl_cdm":
 			case "tbl_prm":
@@ -478,6 +536,12 @@ class mhomex extends CI_Model{
 					unset($data['cost_driver']);
 					unset($data['prod_id']);
 				}
+				
+				if($table == 'tbl_emp'){
+					$data['total'] = ($data['wages'] + $data['benefits'] + $data['ot_premium']);
+				}
+				
+				
 			break;
 			case "tbl_user":
 				if($sts_crud != 'delete'){
@@ -553,6 +617,9 @@ class mhomex extends CI_Model{
 					}else{
 						$lib="Excel2007";
 					}
+					
+					//$inputFileType = PHPExcel_IOFactory::identify($upload_path.$filename);
+					//$objReader =  PHPExcel_IOFactory::createReader($inputFileType);//excel2007
 					$objReader =  PHPExcel_IOFactory::createReader($lib);//excel2007
 					ini_set('max_execution_time', 123456);
 					//end set
@@ -560,9 +627,10 @@ class mhomex extends CI_Model{
 					$objPHPExcel = $objReader->load($folder_aplod); 
 					$objReader->setReadDataOnly(true);
 					$nama_sheet=$objPHPExcel->getSheetNames();
-					$worksheet = $objPHPExcel->getSheet(0);
+					$worksheet = $objPHPExcel->setActiveSheetIndex(0);
 					$array_batch_insert = array();
 					$array_batch_update = array();
+					
 					switch($type_import){
 						case "tbl_loc":
 							$fieldnya = 'costcenter';
@@ -728,6 +796,87 @@ class mhomex extends CI_Model{
 								);
 								array_push($array_batch_insert, $array_insert);	
 							}	
+						break;
+						case "tbl_assets":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$arraynya = array(
+									'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+									'tbl_model_id'=>$this->modeling['id'], 
+									'bulan'=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
+									"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+								);
+								$cek_data = $this->db->get_where('tbl_assets', $arraynya )->row_array();
+								$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
+								
+								$arrayrdm = array(
+									'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+									'tbl_model_id'=>$this->modeling['id'], 
+									'bulan'=>((int)$worksheet->getCell("K".$i)->getCalculatedValue() - 1),
+									"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+								);
+								$rdm = $this->db->get_where('tbl_assets', $arrayrdm )->row_array();
+								if(isset($rdm)){
+									if(!empty($rdm['tbl_rdm_id']) ){
+										$rdm_value = $rdm['tbl_rdm_id'];
+									}else{
+										$rdm_value = null;
+									}
+								}else{
+									$rdm_value = null;
+								}
+								
+								if(empty($cek_data)){
+									$array_insert = array(
+										"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+										"assets_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+										"assets_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+										"assets_description"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+										"cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+										"amount"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+										"budget_1"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+										"budget_2"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue() ),
+										"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+										"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+										"tbl_rdm_id"=>$rdm_value,
+										"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+										"create_by"=>$this->auth['nama_lengkap'],
+										"create_date"=>date('Y-m-d H:i:s'),
+									);
+									array_push($array_batch_insert, $array_insert);	
+								}else{
+									$array_update = array(
+										"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+										"assets_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+										"assets_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+										"assets_description"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+										"cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+										"amount"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+										"budget_1"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+										"budget_2"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue() ),
+										"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+										"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+										"tbl_rdm_id"=>$rdm_value,
+										"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+										"create_by"=>$this->auth['nama_lengkap'],
+										"create_date"=>date('Y-m-d H:i:s'),
+									);
+									//array_push($array_batch_update, $array_update);	
+									
+									$array_where = array(
+										'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'], 
+										'bulan'=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+									);
+									$this->db->update('tbl_assets', $array_update, $array_where);
+									
+								}
+								
+							}
 						break;
 						case "tbl_rdm":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){

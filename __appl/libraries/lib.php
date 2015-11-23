@@ -172,7 +172,8 @@ class lib {
 		
 		$optTemp = '<option value="0"> -- Choose -- </option>';
 		switch($type){
-			case "import_reference":
+			case "import_resource":
+				/*
 				$data = array(
 					'0' => array('id'=>'tbl_loc','txt'=>'Data Location'),
 					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
@@ -180,6 +181,12 @@ class lib {
 					'3' => array('id'=>'tbl_rdm','txt'=>'Data Resource Driver'),
 					'4' => array('id'=>'tbl_cdm','txt'=>'Data Cost Driver'),
 					'5' => array('id'=>'tbl_prm','txt'=>'Data Product Master'),
+				);
+				*/
+				$data = array(
+					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
+					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
+					'2' => array('id'=>'tbl_assets','txt'=>'Data Assets'),
 				);
 			break;
 			case "jenis_kelamin":
@@ -197,12 +204,27 @@ class lib {
 			case "bulan" :
 				$ci->load->helper('db_helper');
 				$data = arraydate('bulan');
-				$optTemp = '<option value="0"> -- Filter Month -- </option>';
+				$optTemp = '<option value="0"> -- Month -- </option>';
 			break;
 			case "tahun" :
 				$ci->load->helper('db_helper');
 				$data = arraydate('tahun');
-				$optTemp = '<option value="0"> -- Filter Year -- </option>';
+				$optTemp = '<option value="0"> -- Year -- </option>';
+			break;
+			case "cost_type":
+				$data = array(
+					'0' => array('id'=>'fixed','txt'=>'Fixed'),
+					'1' => array('id'=>'variable','txt'=>'Variable'),
+					'2' => array('id'=>'step','txt'=>'Step'),
+				);
+			break;
+			case "cost_bucket":
+				$data = array(
+					'0' => array('id'=>'unit','txt'=>'Unit'),
+					'1' => array('id'=>'batch','txt'=>'Batch'),
+					'2' => array('id'=>'product','txt'=>'Product'),
+					'2' => array('id'=>'facility','txt'=>'Facility'),
+				);
 			break;
 			default:
 				$data = $ci->mhome->get_combo($type, $p1, $p2);

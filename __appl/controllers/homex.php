@@ -55,11 +55,26 @@ class homex extends MY_Controller {
 					
 					switch($p2){
 						// Modul Resources
+						case "import_data": 
+							$this->smarty->assign('combo_modul' ,$this->lib->fillcombo('import_resource', 'return'));
+						break;
 						case "employees": 
 						case "expenses":
 						case "assets": 
 							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
 							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+							
+							if($p2 == 'expenses'){
+								$total_expense = $this->mhomex->getdata('total_expense', 'row_array');
+								$total_expense_activity = $this->mhomex->getdata('total_expense_activity', 'row_array');
+								$total_expense_employee = $this->mhomex->getdata('total_expense_employee', 'row_array');
+								$total_expense_assets = $this->mhomex->getdata('total_expense_assets', 'row_array');
+								
+								$this->smarty->assign('total_expense', number_format($total_expense['total_expense'],2,",",".") );
+								$this->smarty->assign('total_expense_activity', number_format($total_expense_activity['total_expense_activity'],2,",",".") );
+								$this->smarty->assign('total_expense_employee', number_format($total_expense_employee['total_expense_employee'],2,",",".") );
+								$this->smarty->assign('total_expense_assets', number_format($total_expense_assets['total_expense_assets'],2,",",".") );
+							}
 						break;
 						case "form_employees": 
 						case "form_expenses":
@@ -89,9 +104,17 @@ class homex extends MY_Controller {
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_assets_id', $id);
 									
 									$this->smarty->assign('total_activity', $total_activity);
-									$this->smarty->assign('total_expense', $total_expense);
+									$this->smarty->assign('total_expense', $total_expense);									
+								}
+							}else{
+								if($p2 == 'form_assets'){
+									$this->smarty->assign('cost_type', $this->lib->fillcombo('cost_type', 'return', ($editstatus == 'edit' ? $data['cost_type'] : "") ) );
+									$this->smarty->assign('cost_bucket', $this->lib->fillcombo('cost_bucket', 'return', ($editstatus == 'edit' ? $data['cost_bucket'] : "") ) );
 								}
 							}
+							
+							$this->smarty->assign('bulan_form', $this->lib->fillcombo('bulan', 'return', ($editstatus == 'edit' ? $data['bulan'] : "") ) );
+							$this->smarty->assign('tahun_form', $this->lib->fillcombo('tahun', 'return', ($editstatus == 'edit' ? $data['tahun'] : "") ) );
 							
 							$this->smarty->assign('option_costcenter', $this->lib->fillcombo('tbl_loc', 'return', ($editstatus == 'edit' ? $data['tbl_loc_id'] : "") ) );
 							$this->smarty->assign('option_resourcedriver', $this->lib->fillcombo('tbl_rdm', 'return', ($editstatus == 'edit' ? $data['tbl_rdm_id'] : "") ) );
@@ -183,11 +206,12 @@ class homex extends MY_Controller {
 		switch($type){
 			case "tbl_emp":
 			case "tbl_exp":
+			case "tbl_assets":
 				$this->load->library("PHPExcel");
 				$objReader = PHPExcel_IOFactory::createReader('Excel2007');
 				$objPHPExcel = $objReader->load("__repository/template_import/".$type.".xlsx");
 				$dataexcell = $objPHPExcel->setActiveSheetIndex(1);
-				$dataloc = $this->db->get('tbl_loc')->result_array();
+				$dataloc = $this->db->get_where('tbl_loc', array('tbl_model_id'=>$this->modeling['id']) )->result_array();
 				
 				$i = 1;
 				foreach($dataloc as $k=>$v){

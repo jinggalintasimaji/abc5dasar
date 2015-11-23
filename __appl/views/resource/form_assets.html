@@ -1,6 +1,6 @@
 <div id="tabs_{$main}" style="width:500px;height:320px;">
     <div title="Detail" style="padding:10px;">
-		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+		<form method='post' url="{$host}homex/simpansavedata/tbl_assets" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
 			<input type='hidden' id='id_assets' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
 			<input type='hidden' id='bulan_assets' value="{$bulan}">
@@ -8,21 +8,33 @@
 			
 			<fieldset>
 			<legend>Assets Detail</legend>
-				{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Description' name='assets_description' value={$data.assets_description|default:''} }
+				<table width='100%'>
+					<tr>
+						<td width='50%'>
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Description' name='assets_description' value={$data.assets_description|default:''} }
+						</td>
+						<td width='50%'>
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Month' name='bulan' option={$bulan_form} } 
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Year' name='tahun' option={$tahun_form} } 						
+						</td>
+					</tr>
+				</table>
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' name='amount' value={$data.amount|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.cost|default:''} }
 						</td>
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Bucket' name='cost_bucket' option={$cost_bucket} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='cost' value={$data.cost|default:''} }
 						</td>
@@ -31,6 +43,7 @@
 			</fieldset>
 		</form>
     </div>
+	{if $editstatus eq 'edit'}
     <div title="Assigned Activity" style="overflow:auto;padding:10px;">
 		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
@@ -79,16 +92,16 @@
 			</table>
 		</div>    
     </div>
-	
+	{/if}
 </div>
 <div style='margin-top:5px;'>
-	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnCancel_assets" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
 			<span class="l-btn-text">Back To List</span><span class="l-btn-icon icon-remove">&nbsp;</span>
 		</span>
 	</a>	
 	&nbsp;&nbsp;&nbsp;			
-	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnSimpan_assets" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
 			<span class="l-btn-text">Save Data</span><span class="l-btn-icon icon-save">&nbsp;</span>
 		</span>
@@ -102,4 +115,36 @@
 		plain: false,
 		fit:true
 	});
+	
+	$('#btnSimpan_assets').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+				console.log(r);
+			}
+			
+			//$('#employees').addClass('loading');
+			//$.post(host+'homex/modul/resource/employees', {},function(r){
+			//	$('#employees').removeClass('loading').html(r);
+			//});
+			
+			$('#detil_nya_assets').hide();
+			$('#grid_nya_assets').show();
+			$('#grid_assets').datagrid('reload');
+			
+			winLoadingClose();
+		});
+		return false;
+	});
+	
+	$('#btnCancel_assets').on('click',function(){
+		$('#detil_nya_assets').hide();
+		$('#grid_nya_assets').show();
+		$('#grid_assets').datagrid('reload');
+		return false;
+	});
+
 </script>

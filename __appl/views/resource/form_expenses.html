@@ -1,6 +1,6 @@
 <div id="tabs_{$main}" style="width:500px;height:248px;">
     <div title="Detail" style="padding:10px;">
-		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+		<form method='post' url="{$host}homex/simpansavedata/tbl_exp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
 			<input type='hidden' id='id_expense' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
 			<input type='hidden' id='bulan_expense' value="{$bulan}">
@@ -8,10 +8,21 @@
 			
 			<fieldset>
 			<legend>Expenses Detail</legend>
-				{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
 				{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				<table width='100%'>
+					<tr>
+						<td width='50%'>
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Exp. Level' name='exp_level' value={$data.exp_level|default:''} }
+						</td>
+						<td width='50%'>
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Month' name='bulan' option={$bulan_form} } 
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Year' name='tahun' option={$tahun_form} } 						
+						</td>
+					</tr>
+				</table>
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
@@ -31,6 +42,7 @@
 			</fieldset>
 		</form>
     </div>
+	{if $editstatus eq 'edit'}
     <div title="To Activity" style="overflow:auto;padding:10px;">
 		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
 		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
@@ -107,6 +119,7 @@
 			</table>
 		</div>    
     </div>
+	{/if}
 	
 	{*
     <div title="Expense Source" style="overflow:auto;padding:10px;">
@@ -139,13 +152,13 @@
 	
 </div>
 <div style='margin-top:5px;'>
-	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnCancel_expenses" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
 			<span class="l-btn-text">Back To List</span><span class="l-btn-icon icon-remove">&nbsp;</span>
 		</span>
 	</a>	
 	&nbsp;&nbsp;&nbsp;			
-	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnSimpan_expenses" onClick="">
 		<span class="l-btn-left l-btn-icon-left">
 			<span class="l-btn-text">Save Data</span><span class="l-btn-icon icon-save">&nbsp;</span>
 		</span>
@@ -158,5 +171,36 @@
 		width: getClientWidth()-280,
 		plain: false,
 		fit:true
+	});
+	
+	$('#btnSimpan_expenses').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+				console.log(r);
+			}
+			
+			//$('#employees').addClass('loading');
+			//$.post(host+'homex/modul/resource/employees', {},function(r){
+			//	$('#employees').removeClass('loading').html(r);
+			//});
+			
+			$('#detil_nya_expenses').hide();
+			$('#grid_nya_expenses').show();
+			$('#grid_expenses').datagrid('reload');
+			
+			winLoadingClose();
+		});
+		return false;
+	});
+	
+	$('#btnCancel_expenses').on('click',function(){
+		$('#detil_nya_expenses').hide();
+		$('#grid_nya_expenses').show();
+		$('#grid_expenses').datagrid('reload');
+		return false;
 	});
 </script>
