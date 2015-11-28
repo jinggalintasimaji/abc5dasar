@@ -321,7 +321,7 @@ class mhomex extends CI_Model{
 					";
 					
 				}elseif($type == 'emp_to_exp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.last as employee_name ";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.last as employee_name, B.wages as amount, B.bulan, B.tahun ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id 
@@ -405,7 +405,7 @@ class mhomex extends CI_Model{
 					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
 					$from = "tbl_exp";
 				}elseif($type == 'list_employee_expense'){
-					$select = " A.id, A.employee_id, A.last";
+					$select = " A.id, A.employee_id, A.last, A.tbl_rdm_id, A.rd_tot_qty";
 					$from = "tbl_emp";
 				}elseif($type == 'list_assets_expense'){
 					$select = " A.id, A.assets_name, A.assets_id, A.tbl_rdm_id, A.rd_tot_qty";
@@ -1015,11 +1015,17 @@ class mhomex extends CI_Model{
 					$amount = ( $data['percent'] / 100 ) * $gaji;
 					$data['rd_qty'] = 0;
 				}else{
+					if($data['rd_qty'] >= $tot_qty){
+						exit;
+					}
 					$amount = ($data['rd_qty'] * $gaji) / $tot_qty;
-					$data['percent'] = 0;
+					$percent = ($amount/$gaji) * 100;
+					$data['percent'] = number_format($percent,2);
 				}
+				
 				$data['cost'] = $amount;
 				
+				/*
 				$cek_data = $this->db->get_where('tbl_acm_total_cost', array('tbl_acm_id'=>$data['tbl_acm_id'], 'bulan'=>$bulan, 'tahun'=>$tahun ) )->row_array();
 				if($cek_data){
 					$total_cost = ($cek_data['total_cost'] + $amount);
@@ -1033,6 +1039,7 @@ class mhomex extends CI_Model{
 					);
 					$this->db->insert('tbl_acm_total_cost', $arrayinsert);
 				}
+				*/
 				
 			break;
 			case "list_expense_employee":
@@ -1054,33 +1061,38 @@ class mhomex extends CI_Model{
 					$this->db->insert_batch($table, $array_batch_insert);
 				}					
 			break;
-			case "tbl_efx":
-				$tot_qty = $data['rd_tot_qty'];
-				$amount = $data['amount'];
-				$bulan = $data['bulan'];
-				$tahun = $data['tahun'];
-				
-				unset($data['expense_name']);
-				unset($data['employee_name']);
-				unset($data['editing']);
-				unset($data['tbl_rdm_id']);
-				unset($data['rd_tot_qty']);
-				unset($data['amount']);
-				unset($data['bulan']);
-				unset($data['tahun']);
-				
-				if($tot_qty == null){
-					$amount = ( $data['percent'] / 100 ) * $amount;
-					$data['rd_qty'] = 0;
-				}elseif($tot_qty == 0){
-					$amount = ( $data['percent'] / 100 ) * $amount;
-					$data['rd_qty'] = 0;
-				}else{
-					$amount = ($amount * $data['rd_qty']) / $tot_qty;
-					$data['percent'] = 0;
+			case "tbl_efx": // tabs employee -> expense Source, Tabs expense -> To Employee
+				if($sts_crud != 'delete'){
+					$tot_qty = $data['rd_tot_qty'];
+					$amounts = $data['amount'];
+					$bulan = $data['bulan'];
+					$tahun = $data['tahun'];
+					
+					unset($data['expense_name']);
+					unset($data['employee_name']);
+					unset($data['editing']);
+					unset($data['tbl_rdm_id']);
+					unset($data['rd_tot_qty']);
+					unset($data['amount']);
+					unset($data['bulan']);
+					unset($data['tahun']);
+					
+					if($tot_qty == null){
+						$amount = ( $data['percent'] / 100 ) * $amounts;
+						$data['rd_qty'] = 0;
+					}elseif($tot_qty == 0){
+						$amount = ( $data['percent'] / 100 ) * $amounts;
+						$data['rd_qty'] = 0;
+					}else{
+						if($data['rd_qty'] >= $tot_qty){
+							exit;
+						}
+						$amount = ($data['rd_qty'] * $amounts) / $tot_qty;
+						$percent = ($amount/$amounts) * 100;
+						$data['percent'] = number_format($percent,2);
+					}
+					$data['cost'] = $amount;
 				}
-				$data['cost'] = $amount;
-				
 			break;
 			
 			//tabs expense
@@ -1106,11 +1118,32 @@ class mhomex extends CI_Model{
 				}				
 			break;
 			
+			case "list_employee_expense":
+				$table = "tbl_efx";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_exp_id" => $data['tbl_exp_id'],
+						"tbl_emp_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}			
+			break;
+				
+			
 			case "tbl_efx_assets": // Tabs expense => to Asset, Tabs Assets => Expense Source
 			case "tbl_efx_to_assets":
 				$table = "tbl_efx";
 				$tot_qty = $data['rd_tot_qty'];
-				$amount = $data['amount'];
+				$amounts = $data['amount'];
 				$bulan = $data['bulan'];
 				$tahun = $data['tahun'];
 				
@@ -1124,14 +1157,18 @@ class mhomex extends CI_Model{
 				unset($data['tahun']);
 				
 				if($tot_qty == null){
-					$amount = ( $data['percent'] / 100 ) * $amount;
+					$amount = ( $data['percent'] / 100 ) * $amounts;
 					$data['rd_qty'] = 0;
 				}elseif($tot_qty == 0){
-					$amount = ( $data['percent'] / 100 ) * $amount;
+					$amount = ( $data['percent'] / 100 ) * $amounts;
 					$data['rd_qty'] = 0;
 				}else{
-					$amount = ($amount * $data['rd_qty']) / $tot_qty;
-					$data['percent'] = 0;
+					if($data['rd_qty'] >= $tot_qty){
+						exit;
+					}
+					$amount = ($amounts * $data['rd_qty']) / $tot_qty;
+					$percent = ($amount/$amounts) * 100;
+					$data['percent'] = number_format($percent,2);
 				}
 				$data['cost'] = $amount;
 				
@@ -1156,6 +1193,7 @@ class mhomex extends CI_Model{
 					$this->db->insert_batch($table, $array_batch_insert);
 				}				
 			break;
+			
 			
 			//tabs assets
 			case "list_activity_assets":

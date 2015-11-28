@@ -88,23 +88,29 @@ class homex extends MY_Controller {
 								if($p2 == 'form_employees'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_emp_id', $id);
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_emp_id', $id);
+									$gaji = number_format($data['wages'],2,",",".");;
 									
 									$this->smarty->assign('total_activity', $total_activity);
 									$this->smarty->assign('total_expense', $total_expense);
+									$this->smarty->assign('gaji', $gaji);
 								}elseif($p2 == 'form_expenses'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_exp_id', $id);
 									$total_employee = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_emp');
 									$total_assets = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_ass');
+									$amount = number_format($data['amount'],2,",",".");;
 									
 									$this->smarty->assign('total_activity', $total_activity);
 									$this->smarty->assign('total_employee', $total_employee);
 									$this->smarty->assign('total_assets', $total_assets);
+									$this->smarty->assign('amount', $amount);
 								}elseif($p2 == 'form_assets'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_assets_id', $id);
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_assets_id', $id);
+									$amount = number_format($data['amount'],2,",",".");;
 									
 									$this->smarty->assign('total_activity', $total_activity);
-									$this->smarty->assign('total_expense', $total_expense);									
+									$this->smarty->assign('total_expense', $total_expense);		
+									$this->smarty->assign('amount', $amount);									
 								}
 							}else{
 								if($p2 == 'form_assets'){

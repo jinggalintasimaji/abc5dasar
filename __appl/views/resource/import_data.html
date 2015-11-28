@@ -1,0 +1,70 @@
+<form method='post' url="{$host}homex/simpansavedata/import_data" id="form_{$main}" enctype="multipart/form-data">
+	<input type='hidden' name='editstatus' value='import_data' />
+	<input type='hidden' name='id' value='' />
+	<div style="padding:10px;">
+		<div style="float:left;width:100%;margin-right:5px;">
+			<fieldset>
+				<legend>Import Data Resource</legend>
+				<table width='100%' style='margin-bottom:20px;'>
+					<tr>
+						<td width='20%'>Modul Resource</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<select name="modul_reference" id="modul_reference" onChange="kumpulAction('changemodul');" class='easyui-validatebox' style='width:30%;padding:1px;border:0.5px #D3D3D3 solid' class="easyui-validatebox">
+								{$combo_modul}
+							</select>
+							&nbsp;&nbsp;
+							<font style='font-size:10px;color:red;'>*) Select Modul First To Download Template Resource</font>
+						</td>
+					</tr>
+					<tr>
+						<td width='20%'>Download Template</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<span id='template'></span>
+						</td>
+					</tr>
+					<tr>
+						<td width='20%'>File Import</td>
+						<td width='1%'>:</td>
+						<td width='75%'>
+							<input type='file' name='file_import' id='file_import' style='width:50%;padding:1px;border:0.5px #D3D3D3 solid' class="easyui-validatebox">
+						</td>
+					</tr>
+				</table>
+				{if $model}
+				<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="btsimpan" onClick="">
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Save</span><span class="l-btn-icon icon-save"></span>
+					</span>
+				</a>
+				{else}				
+					No Models Activate
+				{/if}				
+			</fieldset>
+		</div>
+	</div>
+</form>
+
+<script>
+	$(".easyui-validatebox").validatebox({ required:true }); 
+	
+	$('#btsimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+				console.log(r);
+			}
+			
+			$('#modul_reference').val('');
+			$('#file_import').val('');
+			$('#template').html('');
+			
+			winLoadingClose();
+		});
+		return false;
+	});
+</script>

@@ -270,6 +270,22 @@ function arraydate($type=""){
 				'11' => array('id'=>'12','txt'=>'Desember'),
 			);
 		break;
+		case 'bulan_singkat':
+			$data = array(
+				'0' => array('id'=>'1','txt'=>'Jan'),
+				'1' => array('id'=>'2','txt'=>'Feb'),
+				'2' => array('id'=>'3','txt'=>'Mar'),
+				'3' => array('id'=>'4','txt'=>'Apr'),
+				'4' => array('id'=>'5','txt'=>'Mei'),
+				'5' => array('id'=>'6','txt'=>'Jun'),
+				'6' => array('id'=>'7','txt'=>'Jul'),
+				'7' => array('id'=>'8','txt'=>'Ags'),
+				'8' => array('id'=>'9','txt'=>'Sept'),
+				'9' => array('id'=>'10','txt'=>'Okt'),
+				'10' => array('id'=>'11','txt'=>'Nov'),
+				'11' => array('id'=>'12','txt'=>'Des'),
+			);
+		break;
 		case 'tahun':
 			$data = array();
 			$year = date('Y');

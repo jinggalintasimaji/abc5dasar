@@ -47,10 +47,20 @@
     </div>
 	{if $editstatus eq 'edit'}
     <div title="Assigned Activity" style="overflow:auto;padding:10px;">
-        {include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
-		<br/>
+        <table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Total Salary</label> : Rp. {$gaji|default:''}
+					<br/>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>
 		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
@@ -71,10 +81,18 @@
 		</div>    
 	</div>
     <div title="Expense Source" style="overflow:auto;padding:10px;">
-        {include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
-		<br/>
+		<table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Employee ID' name='employee_id' value={$data.employee_id|default:''} }
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Fullname' name='last' value={$data.last|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>		
 		{include file='template/grid_editable.html' crud_table='tbl_efx' main='expense_source_employee' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
@@ -133,6 +151,7 @@
 			//	$('#employees').removeClass('loading').html(r);
 			//});
 			
+			$('#detil_nya_employees').html('');
 			$('#detil_nya_employees').hide();
 			$('#grid_nya_employees').show();
 			$('#grid_employees').datagrid('reload');
@@ -143,6 +162,7 @@
 	});
 	
 	$('#btnCancel_employee').on('click',function(){
+		$('#detil_nya_employees').html('');
 		$('#detil_nya_employees').hide();
 		$('#grid_nya_employees').show();
 		$('#grid_employees').datagrid('reload');

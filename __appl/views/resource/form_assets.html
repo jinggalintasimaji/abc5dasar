@@ -45,9 +45,20 @@
     </div>
 	{if $editstatus eq 'edit'}
     <div title="Assigned Activity" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
+		<table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Total Amount</label> : Rp. {$amount|default:''}
+					<br/>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>		
 		<br/>
 		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_assets' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
@@ -69,9 +80,18 @@
 		</div>    
 	</div>
     <div title="Expense Source" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id'} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
+		<table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets ID' name='assets_id' value={$data.assets_id|default:''} }
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Assets Name' name='assets_name' value={$data.assets_name|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>		
 		<br/>
 		{include file='template/grid_editable.html' crud_table='tbl_efx_to_assets' main='assign_exp_assets' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
@@ -131,6 +151,7 @@
 			//	$('#employees').removeClass('loading').html(r);
 			//});
 			
+			$('#detil_nya_assets').html('');
 			$('#detil_nya_assets').hide();
 			$('#grid_nya_assets').show();
 			$('#grid_assets').datagrid('reload');
@@ -141,6 +162,7 @@
 	});
 	
 	$('#btnCancel_assets').on('click',function(){
+		$('#detil_nya_assets').html('');
 		$('#detil_nya_assets').hide();
 		$('#grid_nya_assets').show();
 		$('#grid_assets').datagrid('reload');

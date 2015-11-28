@@ -44,10 +44,22 @@
     </div>
 	{if $editstatus eq 'edit'}
     <div title="To Activity" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
-		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+		<table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+					{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Total Expense</label> : Rp. {$amount|default:''}
+					<br/>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>		
+		
 		<br/>
 		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_expense' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
@@ -69,12 +81,21 @@
 		</div>    
 	</div>
     <div title="To Employee" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
-		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+		<table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+					{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>			
 		<br/>
-		{include file='template/grid_editable.html' crud_table='tbl_efx' main='assign_emp_expense' mod={$mod} button_2='false' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_efx' main='assign_emp_expense' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -94,11 +115,19 @@
 		</div>    
     </div>
     <div title="To Assets" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
-		{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
-		
+		<table width='100%'>
+			<tr>
+				<td width='50%'>
+					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
+					{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
+					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				</td>
+				<td width='50%' valign='top'>
+					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
+				</td>
+			</tr>
+		</table>					
 		<br/>
 		{include file='template/grid_editable.html' crud_table='tbl_efx_assets' main='assign_assets_expense' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
@@ -188,6 +217,7 @@
 			//	$('#employees').removeClass('loading').html(r);
 			//});
 			
+			$('#detil_nya_expenses').html('');
 			$('#detil_nya_expenses').hide();
 			$('#grid_nya_expenses').show();
 			$('#grid_expenses').datagrid('reload');
@@ -198,6 +228,7 @@
 	});
 	
 	$('#btnCancel_expenses').on('click',function(){
+		$('#detil_nya_expenses').html('');
 		$('#detil_nya_expenses').hide();
 		$('#grid_nya_expenses').show();
 		$('#grid_expenses').datagrid('reload');
