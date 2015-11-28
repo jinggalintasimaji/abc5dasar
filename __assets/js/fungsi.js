@@ -768,12 +768,12 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -873,12 +873,12 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:120, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -914,8 +914,13 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
-						if(value)return value;
-						else return '-';
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
 					},
 				},
 				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
@@ -931,12 +936,12 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -966,29 +971,48 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			pagesizeboy = 50;
 			param['id_expense'] = $('#id_expense').val();
-			kolom[modnya] = [	
+			frozen[modnya] = [
 				{field:'employee_name',title:'Employee Name',width:200, halign:'center',align:'left'},
-				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
+			];
+			kolom[modnya] = [	
+				{field:'amount',title:'Salary', width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
 						if(value)return NumberFormat(value);
-						else return '-';
+					},
+				},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
 					},
 				},
 				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+						
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -1020,18 +1044,23 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			param['id_expense'] = $('#id_expense').val();
 			frozen[modnya] = [
 				{field:'assets_name',title:'Assets Name',width:200, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [	
 				{field:'amount',title:'Assets Amount',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
 						if(value)return NumberFormat(value);
 						else return '-';
 					},
 				},
-			];
-			kolom[modnya] = [	
 				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
-						if(value)return value;
-						else return '-';
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
 					},
 				},
 				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
@@ -1047,12 +1076,12 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -1088,29 +1117,36 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
-						if(value)return value;
-						else return '-';
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
 					},
 				},
 				{field:'rd_qty',title:'Quantity',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+						if(value == null){
 							return '-';
-						}else{
-							if(value)return value;
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -1151,33 +1187,36 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				},
 				{field:'rd_tot_qty',title:'Res. Driver Qty.', width:120, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
-						if(value == null || value == 0){
+						if(value == null){
 							return '-';
-						}else{
-							if(value)return value;
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					}
 				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
-						//if(value)return NumberFormat(value);
-						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+						if(value == null){
 							return '-';
-						}else{
-							if(value)return value;
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:120, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
-							if(value)return value;
-						}else if(rowData.rd_tot_qty == 0){
-							if(value)return value;
-						}else{
+						if(value == null){
 							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
 						}
 					},
 				},				
@@ -1274,6 +1313,7 @@ function saverow(div,target){
 		'grid_assign_act_employee',
 		'grid_expense_source_employee',
 		'grid_assign_act_expense',
+		'grid_assign_emp_expense',
 		'grid_assign_assets_expense',
 		'grid_assign_act_assets',
 		'grid_assign_exp_assets',
@@ -1290,6 +1330,10 @@ function saverow(div,target){
 	}else if(div == 'grid_assign_act_expense'){
 		url = host+"homex/getcost/echo/cost/tbl_are/tbl_exp_id/"+$('#id_expense').val();
 		divtotcost = "cost_activity_expense";
+	
+	}else if(div == 'grid_assign_emp_expense'){
+		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_emp/";
+		divtotcost = "cost_employee_expense";
 		
 	}else if(div == 'grid_assign_assets_expense'){
 		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_ass/";
@@ -2133,6 +2177,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'employee_id',title:'Employee ID',width:120, halign:'center',align:'left'},
 				{field:'last',title:'Employee Name',width:200, halign:'center',align:'left'},
+				{field:'rd_tot_qty',title:'Res. Driver Qty',width:150, halign:'center',align:'left'},
 			]
 		break;	
 		case "list_assets_expense":
