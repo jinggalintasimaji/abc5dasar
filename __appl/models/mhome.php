@@ -31,6 +31,7 @@ class mhome extends CI_Model{
 				
 			break;
 			case "get_id_activity":
+				
 				$sql="SELECT * FROM tbl_acm WHERE id=".$p1." AND tbl_model_id=".$this->modeling['id'];
 				$act_par=$this->db->query($sql)->row();
 				$sql="SELECT id FROM tbl_acm WHERE activity_code='".$act_par->activity_code."' 
@@ -39,6 +40,28 @@ class mhome extends CI_Model{
 					  AND pid IS NOT NULL";
 				//echo $sql;exit;
 				return $this->db->query($sql)->row('id');
+			break;
+			case "get_cost_act":
+				$bulan=$this->input->post('bulan');
+				$tahun=$this->input->post('tahun');
+				$sql="SELECT (SUM(A.percent)/100)as fte 
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE A.tbl_acm_id=".$p1." AND tbl_emp_id IS NOT NULL AND A.bulan=".$bulan." 
+						AND A.tahun=".$tahun." AND B.tbl_model_id=".$this->modeling['id'];
+				$fte=$this->db->query($sql)->row_array();
+				$sql="SELECT SUM(A.total_cost)as variable_cost 
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
+						
+						WHERE A.tbl_acm_id=".$p1." AND A.bulan=".$bulan." 
+						AND tbl_exp_id IS NOT NULL 
+						AND A.tahun=".$tahun." AND B.tbl_model_id=".$this->modeling['id']." 
+						AND C.budgettype='Variable'";
+				$variable=$this->db->query($sql)->row_array();
+				$data=array('fte'=>$fte['fte'],'variable_cost'=>$variable['variable_cost']);
+				return $data;
 			break;
 			case "data_login":
 				$sql = "
@@ -170,8 +193,9 @@ class mhome extends CI_Model{
 				}
 			break;
 			case "tbl_acm_act":
-				$sql="SELECT A.* FROM tbl_acm A WHERE pid=".$this->input->post('pid')." 
-					AND tbl_model_id=".$this->modeling['id'];
+				$sql="SELECT A.* FROM tbl_acm A 
+					WHERE tbl_model_id=".$this->modeling['id']." AND A.id <> ".$this->input->post('pid');
+					//WHERE pid=".$this->input->post('pid')." 
 			break;
 			
 			case "tbl_act_to_act":

@@ -1,59 +1,86 @@
-<table width="100%" id="ver-zebra" style="width:90%">
-	 <colgroup>
-    	<col class="vzebra-odd" />
-    	<col class="vzebra-even" />
-    	<col class="vzebra-odd" />
-        <col class="vzebra-even" />
-		<col class="vzebra-odd" />
-    </colgroup>
-	<thead>
-		<tr>
-			<th id="vzebra-comedy" scope="col">Activity Name</th>
-			<th id="vzebra-adventure" scope="col">Resource Driver</th>
-			<th id="vzebra-comedy" scope="col">Quantity</th>
-			<th id="vzebra-adventure" scope="col">Proportion</th>
-			<th id="vzebra-comedy" scope="col">Amount</th>
-		</tr>
-	</thead>
-	<tbody>
-		{*
-		{foreach from=$data item=i}
-		<tr>
-			<td>{$i.account}</td>
-			<td>{$i.name_na}</td>
-			<td>{$i.amount|number_format:2:".":","}</td>
-			<td>{$i.fte_na|default:'-'}</td>
-			<td>{$i.fte_cost|number_format:2:".":","}</td>
-		</tr>
-		{/foreach}
-		*}
-		<tr>
-			<td>XXX&nbsp;</td>
-			<td align="right">99&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-		</tr>
-		<tr>
-			<td>YYY&nbsp;</td>
-			<td align="right">99&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-		</tr>
-		<tr>
-			<td>ZZZ&nbsp;</td>
-			<td align="right">99&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-			<td align="right">&nbsp;</td>
-		</tr>
-		<tr style="border-top:1px solid ">
-			<td>Total Cost</td>
-			<td >&nbsp;</td>
-			<td>Total</td>
-			<td align="right">100%</td>
-			<td align="right">999.999.999.99</td>
-		</tr>
-	</tbody>
-</table>
+
+<div style='float:left;margin-right:5px;margin-bottom:10px;display:none;' id="master_costing">
+	<div id="tb_mst_act">
+		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="tranfer_act" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Transfer</span><span class="l-btn-icon icon-add">&nbsp;</span>
+				</span>
+			</a>
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing').show();$('#master_costing').hide();" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Close</span><span class="l-btn-icon icon-close">&nbsp;</span>
+				</span>
+			</a>
+		</div>
+	</div>
+	<div id='master_act'></div>
+</div>
+
+<div style='float:left;width:100%;height:300px' id="detil_costing">
+	<div id="tb_tbl_act">
+		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+			
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing').hide();$('#master_costing').show();$('#master_act').datagrid('reload');" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Add Activity</span><span class="l-btn-icon icon-add">&nbsp;</span>
+				</span>
+			</a>
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="transfer_data('tbl_act_to_act','tbl_act_to_act2','tabel_act','tabel_act');" >
+				<span class="l-btn-left l-btn-icon-left">
+					<span class="l-btn-text">Remove Activity</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+				</span>
+			</a>
+		</div>
+	</div>
+	<div id='tabel_act'></div>
+</div>
+
+
+<script>
+	
+	//$('#detil_costing').css('height',getClientHeight()-300));
+	genGrid('mst_act','master_act',(getClientWidth()-325),(getClientHeight()-372));
+	genGridEditable('tbl_act','tabel_act', 500, 600,'tbl_act_to_act');
+	$('#act_id_act').val({$id_act});
+	
+	$('#tranfer_act').bind('click',function(r){
+		transfer_data('tbl_acm','tbl_act_to_act','master_act','tabel_act');
+		$('#detil_costing').show();$('#master_costing').hide();
+		//console.log()
+	});
+	$('#remove_act').bind('click',function(r){
+		transfer_data('tbl_act_to_act','tbl_act_to_act2','tabel_act','tabel_act');
+		//console.log()
+	});
+	$('#bulan_act').on('change',function(){
+		$("#tabel_act").edatagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_act').val() });
+	});
+	$('#tahun_act').on('change',function(){
+		$('#bulan_act').trigger('change');
+	});
+	/*$('#upload_act').bind('click',function(){
+		
+		if($('#file_act').val()!=''){
+			loadingna();
+			submit_form('form_{$main}',function(r){
+				if(r==1){
+					winLoadingClose();
+					$.messager.alert('ABC System', "Data Was Saved", 'info');
+					$("#master_act").datagrid('reload');
+					$("#tabel_act").edatagrid('reload');
+				}else{
+					winLoadingClose();
+					$.messager.alert('ABC System', "Data Not Saved", 'error');
+					console.log(r);
+				}
+			});
+			
+			//return false;
+		}
+		else{
+			winLoadingClose();
+			$.messager.alert('ABC System', "Please Select Your File Upload", 'error');
+		}
+	});*/
+</script>

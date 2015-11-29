@@ -224,6 +224,10 @@ class home extends MY_Controller {
 								$this->smarty->assign('root' ,$root);
 								
 							}
+							if($p2=="cost"){
+								$data_cost=$this->mhome->getdata('get_cost_act',$id_act);
+								$this->smarty->assign('data_cost' ,$data_cost);
+							}
 							$data=$this->mhome->getdata('detil_activity',$id_act);
 							//print_r($data);
 							$this->smarty->assign('data' ,$data);

@@ -40,7 +40,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.variable_cost|default:'-'}
+							{$data_cost.variable_cost|number_format:2:'.':','|default:'-'}
 						</td>
 						<td >Cost Rate</td>
 						<td width='1%'>:</td>
@@ -63,7 +63,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.fte|default:'-'}
+							{$data_cost.fte|number_format:2:'.':','|default:'-'}
 						</td>
 						<td >Capacity</td>
 						<td width='1%'>:</td>
