@@ -2,7 +2,7 @@
 <div style='float:left;margin-right:5px;margin-bottom:10px;display:none;' id="master_to_costing">
 	<div id="tb_mst_act_to">
 		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
-			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="tranfer_act" >
+			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="tranfer_act_to" >
 				<span class="l-btn-left l-btn-icon-left">
 					<span class="l-btn-text">Transfer</span><span class="l-btn-icon icon-add">&nbsp;</span>
 				</span>
@@ -44,12 +44,12 @@
 	genGridEditable('tbl_act_to','tabel_act_to', 500, 600,'tbl_act_to_act');
 	$('#act_id_act').val({$id_act});
 	
-	$('#tranfer_act').bind('click',function(r){
+	$('#tranfer_act_to').bind('click',function(r){
 		transfer_data('tbl_acm','tbl_act_to_act3','master_act_to','tabel_act_to');
 		$('#detil_to_costing').show();$('#master_to_costing').hide();
 		//console.log()
 	});
-	$('#remove_act').bind('click',function(r){
+	$('#remove_act_to').bind('click',function(r){
 		transfer_data('tabel_act_to','tbl_act_to_act2','tabel_act_to','tabel_act_to');
 		//console.log()
 	});
