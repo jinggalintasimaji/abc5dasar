@@ -197,10 +197,13 @@ class home extends MY_Controller {
 						$id_act=$this->input->post('id_act');
 					}
 					$this->smarty->assign('id_act' ,$id_act);
+					$this->smarty->assign('bulan' ,$bulan);
+					$this->smarty->assign('tahun' ,$tahun);
 					switch($p2){
 						case "detail":
 							//echo $id_act;exit;
 							$data=$this->db->get_where('tbl_acm',array('id'=>$this->input->post('id_act')))->row_array();
+							
 							$this->smarty->assign('data' ,$data);
 						break;
 						case "cost":
@@ -227,6 +230,10 @@ class home extends MY_Controller {
 							if($p2=="cost"){
 								$data_cost=$this->mhome->getdata('get_cost_act',$id_act);
 								$this->smarty->assign('data_cost' ,$data_cost);
+								$cdm=$this->mhome->getdata('get_cdm');
+								//echo $this->db->last_query();
+								//print_r($cdm);
+								$this->smarty->assign('cdm' ,$cdm);
 							}
 							$data=$this->mhome->getdata('detil_activity',$id_act);
 							//print_r($data);
@@ -240,6 +247,10 @@ class home extends MY_Controller {
 							$this->smarty->assign('data' ,$data);
 							$child=$this->db->get_where('tbl_acm',array('pid'=>$id_act,'tbl_model_id'=>$this->modeling['id'],'bulan'=>$bulan,'tahun'=>$tahun))->result_array();
 							$this->smarty->assign('child' ,count($child));
+						break;
+						case "info":
+							$data=$this->mhome->getdata('rekap_act');
+							$this->smarty->assign('data' ,$data);
 						break;
 					}
 				break;

@@ -177,6 +177,56 @@ class mhome extends CI_Model{
 				
 				return json_encode($result);
 			break;
+			case "tree_act":
+				$id = isset($_POST['id_act']) ? intval($_POST['id_act']) : 0;
+				$result = array();
+				//echo $this->input->post('id');exit;
+				
+				$sql="SELECT B.id,B.descript as parent,A.total_cost
+						FROM tbl_acm_total_cost A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE A.tbl_acm_id=".$id." 
+						AND A.bulan=".$this->input->post('bulan')." 
+						AND A.tahun=".$this->input->post('tahun');
+					//$node = array();
+				$parent=$this->db->query($sql)->row_array();
+					$result['id'] = 'PAR-'.$parent['id'];
+					$result['text'] = $parent['parent']." <span style='color:navy'>( Cost : ".number_format($parent['total_cost'],2)." ) </span>";
+					$result['state'] = 'open';
+					//array_push($result,$node);
+				
+				if(isset($_POST['id_act'])){
+					$where .=" AND C.tbl_model_id = ".$this->modeling['id'];
+					$where .=" AND A.tbl_acm_child_id IS NOT NULL AND A.tbl_acm_id=".$id;
+					$where .=" AND A.bulan=".$this->input->post('bulan');
+					$where .=" AND A.tahun=".$this->input->post('tahun');
+					$sql="SELECT A.id,C.descript as child,D.total_cost 
+							FROM tbl_are A
+							LEFT JOIN tbl_acm C ON A.tbl_acm_child_id=C.id
+							LEFT JOIN (
+								SELECT * FROM tbl_acm_total_cost WHERE bulan=".$this->input->post('bulan')." 
+								AND tahun=".$this->input->post('tahun')."
+							)D ON D.tbl_acm_id=C.id
+							".$where;
+					//echo $sql;
+					$rs = $this->db->query($sql)->result_array();
+					if(count($rs)>0){
+						$result['children']=array();
+						foreach($rs as $v){
+							$node = array();
+							$node['id'] = 'CHILD-'.$v['id'];
+							$node['text'] = $v['child']." <span style='color:navy'>( Cost : ".number_format($v['total_cost'],2)." ) </span>";;
+							
+							array_push($result['children'],$node);
+						}
+						//$result['children']
+					}
+					
+				}
+				
+				
+				return json_encode(array($result));
+			break;
 			case "tbl_acm":
 				if($p4=="edit_grid"){
 					$where .=" AND A.id='".$p1."'";
@@ -197,7 +247,44 @@ class mhome extends CI_Model{
 					WHERE tbl_model_id=".$this->modeling['id']." AND A.id <> ".$this->input->post('pid');
 					//WHERE pid=".$this->input->post('pid')." 
 			break;
-			
+			case "rekap_act":
+				$sql_act="SELECT SUM(A.total_cost)as total_act 
+				FROM tbl_acm_total_cost A
+				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+				WHERE A.bulan=".$this->input->post('bulan')."  
+				AND A.tahun=".$this->input->post('tahun')."  
+				AND B.tbl_model_id=".$this->modeling['id'];
+				$sql_emp="SELECT SUM(A.total_cost) as total_emp 
+				FROM tbl_are A
+				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+				WHERE A.tbl_emp_id IS NOT NULL 
+				AND A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
+				AND B.tbl_model_id=".$this->modeling['id'];
+				$sql_exp="SELECT SUM(A.total_cost) as total_exp 
+				FROM tbl_are A
+				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+				WHERE A.tbl_exp_id IS NOT NULL 
+				AND A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
+				AND B.tbl_model_id=".$this->modeling['id'];
+				$sql_asset="SELECT SUM(A.total_cost) as total_asset 
+				FROM tbl_are A
+				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+				WHERE A.tbl_assets_id IS NOT NULL 
+				AND A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
+				AND B.tbl_model_id=".$this->modeling['id'];
+				$tot_act=$this->db->query($sql_act)->row_array();
+				$tot_exp=$this->db->query($sql_exp)->row_array();
+				$tot_emp=$this->db->query($sql_emp)->row_array();
+				$tot_asset=$this->db->query($sql_asset)->row_array();
+				
+				$data=array('act'=>$tot_act['total_act'],
+							'emp'=>$tot_emp['total_emp'],
+							'exp'=>$tot_exp['total_exp'],
+							'asset'=>$tot_asset['total_asset'],
+				);
+				return $data;
+				
+			break;
 			case "tbl_act_to_act":
 				$bulan=(int)$this->input->post('bulan');
 				$tahun=(int)$this->input->post('tahun');
@@ -252,6 +339,29 @@ class mhome extends CI_Model{
 						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id
 					WHERE tbl_acm_id=".$p1." AND B.tbl_model_id=".$this->modeling['id'].$where;*/
 				//echo $sql;	
+			break;
+			case "tbl_act_to_act2":
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
+				
+				$where .="  AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				$sql="SELECT A.*, C.activity_code,C.descript,F.total_cost as total_cost_act,A.total_cost,E.rdm_qty
+						FROM tbl_are A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_child_id=B.id 
+						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+						LEFT JOIN tbl_rdm E ON C.tbl_rdm_id=E.id 
+						LEFT JOIN tbl_acm_total_cost F ON F.tbl_acm_id=C.id 
+								
+						".$where."  AND A.tbl_acm_child_id=".$p1." 
+						AND tbl_acm_child_id IS NOT NULL";
+				
+				//echo $sql;	
+			break;
+			case "get_cdm":
+				$bulan=$this->input->post('bulan');
+					$tahun=$this->input->post('tahun');
+				$sql="SELECT * FROM tbl_cdm WHERE tbl_model_id=".$this->modeling['id']." AND bulan=".$bulan." AND tahun=".$tahun;
+				return $this->db->query($sql)->result_array();
 			break;
 			case "tbl_bpm":
 				if($p4=="edit_grid"){
@@ -758,6 +868,86 @@ class mhome extends CI_Model{
 						foreach($child_id as $v){
 							if($sts_crud=='add'){
 								$data['tbl_acm_child_id']=$v;
+								$this->db->insert($table,$data);
+							}else{
+								$act_id=$this->db->get_where('tbl_are',array('id'=>$v))->row_array();
+								if((float)$act_id['total_cost']!=0){
+									//GET TOTAL COST ACTIVITY
+									$total_cost=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id['tbl_acm_id'],'bulan'=>$act_id['bulan'],'tahun'=>$act_id['tahun']))->row_array();
+									$total_cost_act=(float)$total_cost['total_cost']-(float)$act_id['total_cost'];
+									$data_total=array('bulan'=>$act_id['bulan'],
+													  'tahun'=>$act_id['tahun'],
+													  'total_cost'=>$total_cost_act
+									);
+									if(isset($total_cost['id'])){
+										$this->db->where('id',$total_cost['id']);
+										$this->db->update('tbl_acm_total_cost',$data_total);
+									}
+								}
+								
+								
+								$this->db->where('id',$v);
+								$this->db->delete($table);
+							}
+							//echo $v.'<br>';
+						}
+					}
+					if($this->db->trans_status() == false){
+						$this->db->trans_rollback();
+						return 0;
+					} else{
+						return $this->db->trans_commit();
+					}
+				}
+				
+			break;
+			case "tbl_act_to_act3":
+				$table='tbl_are';
+				if($sts_crud=='edit'){
+					//unset($data['id']);
+					
+					$ex=$this->db->get_where('tbl_are',array('id'=>$this->input->post('id')))->row_array();
+					//print_r($_POST);exit;
+					if($_POST['percent']!=$ex['percent']){$isi='P';}
+					if($_POST['cost']!=$ex['cost']){$isi='C';}
+					if($_POST['rd_qty']!=$ex['rd_qty']){$isi='R';}
+					
+					//echo $isi;exit;
+					unset($data['total_cost']);
+					if($isi=='C'){
+						$data['total_cost']=$data['cost'];
+						unset($data['percent']);
+						$data['percent']=($data['cost']/$data['total_cost_act'])*100;
+					}
+					if($isi=='P'){
+						$data['total_cost']=($data['total_cost_act'] * $data['percent'])/100;
+						unset($data['cost']);
+						$data['cost']=$data['total_cost'];
+					}
+					if($isi=='R'){						
+						$data['total_cost']=($data['total_cost_act']/$data['rdm_qty']) * $data['rd_qty'];
+						unset($data['percent']);
+						$data['cost']=$data['total_cost'];
+						$data['percent']=($data['cost']/$data['total_cost_act'])*100;
+					}
+					
+					
+					unset($data['activity_code']);
+					unset($data['descript']);
+					unset($data['total_cost_act']);
+					$data['create_date']=date('Y-m-d H:i:s');
+					$data['create_by']=$this->auth['nama_user'];;
+					$array_where=array('id'=>$this->input->post('id'));
+				}
+				else{
+				//	print_r($data);exit;
+					if($sts_crud=='add')$child_id=$data['tbl_acm_id'];
+					if($sts_crud=='delete')$child_id=$this->input->post('id');
+					unset($data['tbl_acm_id']);
+					if(count($child_id)>0){
+						foreach($child_id as $v){
+							if($sts_crud=='add'){
+								$data['tbl_acm_id']=$v;
 								$this->db->insert($table,$data);
 							}else{
 								$act_id=$this->db->get_where('tbl_are',array('id'=>$v))->row_array();

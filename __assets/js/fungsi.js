@@ -568,6 +568,73 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				}*/
 			]
 		break;	
+		case "tbl_act_to":
+			judulnya = "";
+			urlnya = "tbl_act_to_act2/"+id_act;
+			fitnya = true;
+			param['bulan']=$('#bulan').val();
+			param['tahun']=$('#tahun').val();
+			kolom[modnya] = [	
+				
+				{field:'descript',title:'Activity Desc.',width:250, halign:'center',align:'left'},
+				{field:'total_cost_act',title:'Cost Activity',width:150, halign:'center',align:'right',
+					//editor:{type:'numberbox',options:{value:0}}
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value == null || value == 0){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					}
+				},
+				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						//if(value)return NumberFormat(value);
+						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
+							return '-';
+						}else{
+							if(value)return value;
+						}
+					},
+				},
+				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0}},
+					formatter:function(value,rowData,rowIndex){
+						if(rowData.rd_tot_qty == null){
+							if(value)return value;
+						}else if(rowData.rd_tot_qty == 0){
+							if(value)return value;
+						}else{
+							return '-';
+						}
+					},
+				},				
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},		
+				{field:'action',title:'Action',width:100,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+				
+			]
+		break;	
 		case "tbl_expenses":
 			judulnya = "";
 			urlnya = "tbl_efx";
@@ -1472,6 +1539,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		case "mst_act":
+		case "mst_act_to":
 			judulnya = "";
 			urlnya = "tbl_acm_act";
 			param['pid']=id_act;
@@ -2919,6 +2987,7 @@ function loadingna(){
 
 function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag_oke){
 	//var row=$('#'+grid_id_from).datagrid('getSelected');
+	console.log(grid_id_from);
 	var row=$('#'+grid_id_from).datagrid('getSelections');
 	var post={};
 	var id_grid=[];
@@ -2962,18 +3031,24 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 					break;
 					case "tbl_act_to_act":
 						post['editstatus']='add';
-						
 						post['tbl_acm_child_id']=id_grid;
 						post['tbl_acm_id']=id_act;
 						post['bulan']=$('#bulan').val();
 						post['tahun']=$('#tahun').val();
 					break;
-					
+					case "tbl_act_to_act3":
+						post['editstatus']='add';
+						post['tbl_acm_child_id']=id_act;
+						post['tbl_acm_id']=id_grid;
+						post['bulan']=$('#bulan').val();
+						post['tahun']=$('#tahun').val();
+					break;
 					case "tbl_act_to_act2":
 						to="tbl_act_to_act";
 						post['editstatus']='delete';
 						post['id']=id_grid;
 					break;
+					
 					case "tbl_emp":
 						to="tbl_emp_act";
 						post['editstatus']='delete';
@@ -3077,3 +3152,25 @@ function NumberFormat(value) {
    // if(isNaN(output))  output = "0";
     return output + "." + jml1[1];
 }
+
+function get_cost_rate(cost,act_qty){
+	var val=parseFloat(cost)/parseFloat(act_qty);
+	return NumberFormat(parseFloat(val));
+}
+function get_cap_rate(cost,capacity){
+	var val=parseFloat(cost)/parseFloat(capacity);
+	return NumberFormat(parseFloat(val).toFixed(2));
+}
+function get_target_rate(cost,target_capacity){
+	var val=parseFloat(cost)/parseFloat(target_capacity);
+	return NumberFormat(parseFloat(val).toFixed(2));
+}
+function get_uti(actual,capacity){
+	var val=((parseFloat(actual)/parseFloat(capacity))*100);
+	return NumberFormat(parseFloat(val).toFixed(2));
+}
+function get_perform(actual,target){
+	var val=((parseFloat(actual)/parseFloat(target))*100);
+	return NumberFormat(parseFloat(val).toFixed(2));
+}
+

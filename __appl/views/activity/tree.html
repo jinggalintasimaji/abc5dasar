@@ -1,207 +1,29 @@
-<div id="list_act_na" style="padding:10px;">
-<div id="x1" style="float:left;margin-right:10px;">
-<fieldset >
-	<legend>LIST ACTIVITY</legend>
-	<div id="grid_nya_{$main}">
-		<div id="{$main}toolBar">
-			<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
-				Find Activity : <input type="text" value="" placeholder="Keyword To Find Activity" name="key_{$main}" id="key_{$main}" style='width:40%;padding:2px;' maxlength="10" class="easyui-validatebox">
-				
-				<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="find_{$main}" onClick="" >
-					<span class="l-btn-left l-btn-icon-left">
-						<span class="l-btn-text">Find</span><span class="l-btn-icon icon-search"></span>
-					</span>
-				</a>
-				
-			</div>
-		</div>
-		<div id='grid_{$main}'></div>
+
+<div id="tree_nya_{$main}">
+	<div id="panel_tree">
+	<div id='tree_{$main}'></div>
 	</div>
-</fieldset>
-</div>
-<div id="x3" style="float:left;;margin-right:10px;padding-top:50px;" >
-	<br/>
-	<br/>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="transfer_act" onClick="">
-		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon icon-redo"></span>
-		</span>
-	</a>
-	<br/>
-	<br/>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="remove_tree" onClick="">
-		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">&nbsp;</span><span class="l-btn-icon icon-undo"></span>
-		</span>
-	</a> 
-	
-</div>
-<div id="x2" style="float:left;">
-<fieldset >
-	<legend>HIERARKY TREE ACTIVITY</legend>
-	<div id="tree_nya_{$main}">
-		<div id="panel_tree">
-		<div id='tree_{$main}'></div>
-		</div>
-	</div>
-	<!--br>
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="next3" onClick="" style="float:right;">
-		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">..NEXT STEP...</span><span class="l-btn-icon icon-redo"></span>
-		</span>
-	</a> &nbsp;&nbsp;&nbsp;
-	<a href="javascript:void(0)" class="l-btn l-btn-small " group="" id="back2" onClick="" style="float:right;">
-		<span class="l-btn-left l-btn-icon-left">
-			<span class="l-btn-text">..BACK STEP...</span><span class="l-btn-icon icon-undo"></span>
-		</span>
-	</a--> 
-</fieldset>
-</div>
 </div>
 <script>
-var tree_act,grid_act;
-$('#x1').css('height',(getClientHeight()-250));
+var tree_act;
 $('#x2').css('height',(getClientHeight()-250));
-$('#x1').css('width',(500));
 $('#x2').css('width',(450));
-$('#grid_nya_{$main}').css('height',(getClientHeight()-290));
-$('#tree_nya_{$main}').css('height',(getClientHeight()-290));
-//$('#grid_nya_{$main}').css('width',getClientWidth()-550);
+$('#tree_nya_{$main}').css('height',(getClientHeight()-350));
 $('#bulan').off('change');
-$('#bulan').on('change',function(){
-	grid_act.datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun').val() });
-});
-$('#tahun').off('change');
-$('#tahun').on('change',function(){
-	$('#bulan').trigger('change');
-})
 $('#panel_tree').panel({
     width:500,
     height:150,
     title:'Hierarky Activity',
 	fit:true
 }); 
-
-//genGrid('list_act_2','grid_{$main}');
-
-	grid_act=$("#grid_{$main}").datagrid({
-		title:'List Activity',
-        //height:tingginya,
-        width:240,
-		
-		rownumbers:false,
-		iconCls:'database',
-        fit:true,
-        striped:true,
-        pagination:true,
-        remoteSort: false,
-        url: host+"home/getdata/tbl_acm_wizard/config",		
-		nowrap: true,
-        singleSelect:false,
-		pageSize:50,
-		queryParams:{
-			bulan:$('#bulan').val(),
-			tahun:$('#tahun').val()
-		},
-		toolbar:'#{$main}toolBar',
-		pageList:[50,100,150,200],
-		columns:[
-           [	
-				{ field:'activity_code',title:'Activity',width:120, halign:'center',align:'left' },
-				{ field:'descript',title:'Description',width:300, halign:'center',align:'left' }
-			]
-        ],
-	});
 	tree_act = $('#tree_{$main}').tree({
 		checkbox: false,
-		url:host+"home/getdata/tbl_acm_tree",
-		onDblClick:function(node){
-			console.log(node.id);
+		url:host+"home/getdata/tree_act",
+		queryParams:{
+			id_act:{$id_act},
+			bulan:{$bulan},
+			tahun:{$tahun},
 		}
 	});
-	var selec_grid,select_tree,id_tree
 	
-	$('#transfer_act').bind('click',function(){
-		//console.log(grid_act.datagrid('getSelections'));
-		var id_grid=[];
-		selec_grid=grid_act.datagrid('getSelections');
-		select_tree=tree_act.tree('getSelected');
-		if(selec_grid.length > 0){
-			if(select_tree){
-				id_tree=select_tree.id;
-				for(x in selec_grid){
-					id_grid.push(selec_grid[x].id);
-					//console.log(selec_grid[x].id);
-				}
-				console.log(id_grid);
-				console.log(id_tree);
-				$.post(host+'home/config_act',{ id_grid:id_grid,id_tree:id_tree },function(r){
-					if(r==1){
-						//console.log(r);
-						tree_act.tree('reload');
-						grid_act.datagrid('reload');
-					}
-					else{
-						console.log(r);
-						$.messager.alert('ABC System',"Failed Defined Child",'error');
-					}
-				});
-				
-				
-			}
-			else{
-				$.messager.alert('ABC System',"Select Tree To Defined Child",'error');
-			}
-		}
-		else{
-			$.messager.alert('ABC System',"Select List Activity",'error');
-		}
-		
-	});
-	$('#find_{$main}').bind('click',function(){
-		grid_act.datagrid('reload',{ key:$('#key_{$main}').val(),'bulan':$('#bulan').val(),'tahun':$('#tahun').val() });
-	});
-	$('#remove_tree').bind('click',function(){
-		select_tree=tree_act.tree('getSelected');
-		if(select_tree){
-			id_tree=select_tree.id;
-			$.post(host+'home/config_act/remove',{ id_tree:id_tree },function(r){
-					if(r==1){
-						//console.log(r);
-						tree_act.tree('reload');
-						//grid_act.datagrid('reload');
-					}
-					else{
-						console.log(r);
-						$.messager.alert('ABC System',"Failed Remove",'error');
-					}
-				});
-		}
-		else{
-				$.messager.alert('ABC System',"Select Tree To Remove In Hierarky",'error');
-		}
-	});
-	$('#back2').bind('click',function(){
-		$('#step_2').hide();
-		$('#step_1').show();
-	});
-	$('#next3').bind('click',function(){
-		select_tree=tree_act.tree('getSelected');
-		if(select_tree){
-			if(select_tree.id!=0){
-				$('#step_2').hide();
-				$('#step_3').html('');
-				$('#step_3').show();
-				$.post(host+'home/modul/model/cost_activity/act_wizard',{ id_act:select_tree.id },function(r){
-					$('#step_3').html(r);
-				});
-			}
-			else{
-				$.messager.alert('ABC System'," This Model Cannot Defined Cost Activity ",'error');
-			}
-		}
-		else{
-			$.messager.alert('ABC System',"Please Select Tree Into View Cost Activity ",'error');
-		}
-	});
 </script>

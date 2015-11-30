@@ -18,7 +18,12 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.act_driver|default:'-'}
+							<select name="tbl_cdm_id" style='width:80%;padding:2px;'>
+								<option value=""> -- Choice -- </option>
+								{foreach from=$cdm item=i}
+								<option value="{$i.id}" {if $data.tbl_cdm_id eq $i.id}selected{/if}>{$i.descript}</option>
+								{/foreach}
+							</select>
 						</td>
 					</tr>
 					<tr>
@@ -31,8 +36,8 @@
 						<td >Actual Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.rd_tot_qty|default:'-'}
+							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox number" 
+								onkeyup="">
 						</td>
 					</tr>
 					<tr>
@@ -46,15 +51,11 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							
-							{if $data.total_cost|default:'' neq '' && $data.rd_tot_qty|default:'' neq ''}
-								{($data.total_cost / $data.rd_tot_qty)|number_format:2:'.':','}
-							{else}
-								-
-							{/if}
+							<span id="cost_rate">-</span>
 							&nbsp;&nbsp;
 							Utilsation &nbsp;
-							{$data.utilisation|default:'-'}
+							<span id="uti">-</span>
+							
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
 						</td>
 					</tr>
@@ -68,7 +69,8 @@
 						<td >Capacity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox number" onkeyup="$('#cap_rate').html(NumberFormat({$data.total_cost|default:'0'}/$(this).val()))">&nbsp;&nbsp;
+							<input type="text" value="{$data.capacity|default:''}" name="capacity" id="capacity" style='width:30%;padding:2px;' maxlength="10" class="easyui-validatebox number" 
+								>&nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
@@ -95,7 +97,7 @@
 						<td >Target Quantity</td>
 						<td width='1%'>:</td>
 						<td >
-							<input type="text" value="{$data.quantity|default:''}" name="quantity" id="quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox number" onkeyup="$('#tar_rate').html(NumberFormat({$data.total_cost|default:'0'}/$(this).val()))">
+							<input type="text" value="{$data.target_quantity|default:''}" name="target_quantity" id="target_quantity" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox number" onkeyup="">
 						</td>
 					</tr>
 					<tr>
@@ -111,7 +113,8 @@
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"--> &nbsp;&nbsp;
 							<span id="tar_rate"></span>
 							Performance &nbsp;
-							{$data.performance|default:'-'}
+							<span id="perform"></span>
+							
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
 						</td>
 					</tr>
@@ -126,14 +129,59 @@
 			
 	</div>
 <script>
-	$('#capacity').trigger('keyup');
-	$('#quantity').trigger('keyup');
+	
+	$('#capacity').numberbox({
+		    min:0,
+			precision:2,
+			groupSeparator:'.',
+			decimalSeparator:',',
+			onChange:function(){
+				
+				$('#cap_rate').html(get_cap_rate({$data.total_cost|default:'0'},$(this).val()));
+				$('#uti').html(get_uti($('#quantity').val(),$(this).val()));
+			}
+			
+	});
+	$('#quantity').numberbox({
+		    min:0,
+			precision:2,
+			groupSeparator:'.',
+			decimalSeparator:',',
+			onChange:function(){
+				
+				$('#cost_rate').html(get_cost_rate({$data.total_cost|default:'0'},$(this).val()));
+			}
+			
+	});
+	$('#target_quantity').numberbox({
+		    min:0,
+			precision:2,
+			groupSeparator:'.',
+			decimalSeparator:',',
+			onChange:function(){
+				$('#tar_rate').html(get_target_rate({$data.total_cost|default:'0'},$(this).val()));
+				$('#perform').html(get_perform($('#quantity').val(),$(this).val()));
+				
+			}
+			
+	});
+	$('#capacity').trigger('change');
+	//$('#target_quantity').trigger('keyup');
+	//$('#quantity').trigger('keyup');
+	$('#cap_rate').html(get_cap_rate({$data.total_cost|default:'0'},$('#capacity').val()));
+	$('#uti').html(get_uti($('#quantity').val(),$('#capacity').val()));
+	$('#cost_rate').html(get_cost_rate({$data.total_cost|default:'0'},$('#quantity').val()));
+	$('#tar_rate').html(get_target_rate({$data.total_cost|default:'0'},$('#target_quantity').val()));
+	$('#perform').html(get_perform($('#quantity').val(),$('#target_quantity').val()));
 	$('.number').numberbox({
 		    min:0,
 			precision:2,
 			groupSeparator:'.',
 			decimalSeparator:','
 	});
+	
+	
+	
 	$('#close_cost').bind('click',function(){
 		$('#daftar_grid').show();
 		$('#detil_grid').hide();
