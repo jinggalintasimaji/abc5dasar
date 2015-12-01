@@ -48,15 +48,11 @@ class homex extends MY_Controller {
 						$this->smarty->assign('bulan',$bulan);
 						$this->smarty->assign('tahun',$tahun);
 					}
-					if($mod == 'cost_object'){
-						$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
-						$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
-					}
 					
 					switch($p2){
 						// Modul Resources
 						case "import_data": 
-							$this->smarty->assign('combo_modul' ,$this->lib->fillcombo('import_resource', 'return'));
+							$this->smarty->assign('combo_modul' ,$this->lib->fillcombo('import_'.$mod, 'return'));
 						break;
 						case "employees": 
 						case "expenses":
@@ -156,6 +152,39 @@ class homex extends MY_Controller {
 							}
 						break;
 						// End Modul Resources
+						
+						//Modul Cost Object
+						case "cost_object":
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+						break;
+						
+						case "form_cost_object": 
+							$tabel = $this->input->post('tabel');
+							if($editstatus == 'edit'){
+								$id = $this->input->post('id');
+								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
+								$this->smarty->assign('data', $data );
+								
+								if($p2 == 'form_cost_object'){
+									
+								}
+							}
+						break;
+						
+						case "form_assign_act_costobject":
+							$form_default = 'laen';
+							$form = 'form_assignment';
+							$value1 = $this->input->post('id_tambahan');
+							$this->smarty->assign('value1', $value1);
+							
+							if($p2 == 'form_assign_act_costobject'){
+								$this->smarty->assign('jns_assignment', 'list_activity_costobject');
+							}elseif($p2 == 'xx'){
+								$this->smarty->assign('jns_assignment', 'list_expense_employee');
+							}
+						break;
+						//End Modul Cost Object
 					}
 					
 					$this->smarty->assign('mod',$mod);

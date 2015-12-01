@@ -1,0 +1,131 @@
+<div id="tabs_{$main}" style="width:500px;height:320px;">
+    <div title="Profitability" style="padding:10px;">
+		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+			<input type='hidden' id='id_prm' name='id' value="{$data.id|default:''}">
+			<input type='hidden' name='editstatus' value="{$editstatus}">
+			<input type='hidden' id='bulan_cost_object' value="{$bulan}">
+			<input type='hidden' id='tahun_cost_object' value="{$tahun}">
+
+			
+			<fieldset>
+			<legend>Profit Detail</legend>
+				{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='prod_id' value={$data.prod_id|default:''} }
+				{include file='template/input_form.html' size='besar' type='text' tampilan='label' label='Service Name' name='descript' value={$data.descript|default:''} }
+				<table width='100%' style='margin-top:10px;'>
+					<tr>
+						<td width='50%'>
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' name='revenue' value={$data.revenue|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' name='reduction' value={$data.reduction|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' name='net_revenue' value={$data.net_revenue|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' name='direct_cost' value={$data.direct_cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Activity Cost' name='activity_cost' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' name='abc_cost' value={$data.abc_cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' name='221734000' value={$data.221734000|default:''} }
+						</td>
+						<td width='50%'>
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Segment' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Service Group' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' name='prod_qty' value={$data.prod_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' name='uom' value={$data.uom|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' name='cost_rate' value={$data.cost_rate|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Quantity' name='target_qty' value={$data.target_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Rate' name='target_rate' value={$data.target_rate|default:''} }
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
+    </div>
+    <div title="Cost Driver" style="overflow:auto;padding:10px;">
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='prod_id' value={$data.prod_id|default:''} }
+		{include file='template/input_form.html' size='besar' type='text' tampilan='label' label='Service Name' name='descript' value={$data.descript|default:''} }
+		<br/>
+		<br/>
+		{include file='template/grid_editable.html' crud_table='tbl_prd' main='assign_act_costobject' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
+			<table width='100%'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>			
+					<td width='50%'>
+						<table width='100%'>
+							<tr>
+								<td width='50%'><b>TOTAL COST</b></td>
+								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>    
+	</div>
+    <div title="Customer" style="overflow:auto;padding:10px;">
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='employee_id' value={$data.employee_id|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service Name' name='last' value={$data.last|default:''} }
+		<br/>
+		{include file='template/grid.html' main='customer_cost_object' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
+			<table width='100%'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>			
+					<td width='50%'>
+						<table width='100%'>
+							<tr>
+								<td width='50%'><b>TOTAL COST</b></td>
+								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>    
+    </div>
+    <div title="Location" style="overflow:auto;padding:10px;">
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='employee_id' value={$data.employee_id|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service Name' name='last' value={$data.last|default:''} }
+		<br/>
+		{include file='template/grid.html' main='location_cost_object' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
+			<table width='100%'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>			
+					<td width='50%'>
+						<table width='100%'>
+							<tr>
+								<td width='50%'><b>TOTAL COST</b></td>
+								<td width='50%'><b>Rp. XXX.XXX.XXX</b></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>    
+    </div>
+</div>
+<div style='margin-top:5px;'>
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Back To List</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+		</span>
+	</a>	
+	&nbsp;&nbsp;&nbsp;			
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Save Data</span><span class="l-btn-icon icon-save">&nbsp;</span>
+		</span>
+	</a>
+</div>
+
+<script>
+	$("#tabs_{$main}").tabs({
+		height: getClientHeight()-190,
+		width: getClientWidth()-280,
+		plain: false,
+		fit:true
+	});
+</script>

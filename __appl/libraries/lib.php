@@ -173,20 +173,17 @@ class lib {
 		$optTemp = '<option value="0"> -- Choose -- </option>';
 		switch($type){
 			case "import_resource":
-				/*
-				$data = array(
-					'0' => array('id'=>'tbl_loc','txt'=>'Data Location'),
-					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
-					'2' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
-					'3' => array('id'=>'tbl_rdm','txt'=>'Data Resource Driver'),
-					'4' => array('id'=>'tbl_cdm','txt'=>'Data Cost Driver'),
-					'5' => array('id'=>'tbl_prm','txt'=>'Data Product Master'),
-				);
-				*/
 				$data = array(
 					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
 					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
 					'2' => array('id'=>'tbl_assets','txt'=>'Data Assets'),
+				);
+			break;
+			case "import_cost_object":
+				$data = array(
+					'0' => array('id'=>'tbl_emp','txt'=>'Data Cost Object'),
+					'1' => array('id'=>'tbl_exp','txt'=>'Data Customer'),
+					'2' => array('id'=>'tbl_assets','txt'=>'Data Location'),
 				);
 			break;
 			case "jenis_kelamin":

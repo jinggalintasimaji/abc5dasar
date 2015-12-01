@@ -386,7 +386,7 @@ class mhomex extends CI_Model{
 			break;
 			
 			
-			//Window Assignment
+			//Window Assignment Resource
 			case "list_activity_employee":
 			case "list_expense_employee":
 			case "list_employee_expense":
@@ -421,9 +421,57 @@ class mhomex extends CI_Model{
 					$where 
 				";
 			break;
-			
-			
 			//End Data Assignment
+			
+			//tabs cost object
+			case "act_to_cobj":
+				$id_prm = $this->input->post('id_prm');
+				if($id_prm){
+					$where .= "
+						AND  A.tbl_prm_id = '".$id_prm."' 
+					";
+				}
+				
+				if($type == 'act_to_cobj'){
+					$select = " A.*, B.descript as activity_name, C.descript as cost_driver_name ";
+					$from = "tbl_prd";
+					$join = "
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
+						LEFT JOIN tbl_cdm C ON C.id = A.tbl_cdm_id
+					";
+				}
+				
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$join
+					$where
+				";
+			break;
+			
+			//Window Assignment Resource
+			case "list_activity_costobject":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+
+				if($type == 'list_activity_costobject'){
+					$select = " A.id, A.activity_code, A.descript, A.tbl_cdm_id ";
+					$from = "tbl_acm";
+					$where .= " AND A.tbl_cdm_id IS NOT NULL ";
+				}elseif($type == 'list_expense_employeesssss'){
+					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
+					$from = "tbl_exp";
+				}
+					
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$where 
+				";
+			break;
 			
 			//Get Total Cost
 			case "total_cost":
@@ -1237,8 +1285,32 @@ class mhomex extends CI_Model{
 					$this->db->insert_batch($table, $array_batch_insert);
 				}				
 			break;
-			
 			//End Assignment
+			
+			// Modul Cost Object
+			case "list_activity_costobject":
+				$table = "tbl_prd";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_prm_id" => $data['tbl_prm_id'],
+						"tbl_acm_id" => $data['datanya'][$i]['id'],
+						"tbl_cdm_id" => $data['datanya'][$i]['tbl_cdm_id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			
+			// End Modul Cost Object
+			
 		}
 		
 		switch ($sts_crud){
