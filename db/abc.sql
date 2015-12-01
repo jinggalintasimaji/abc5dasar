@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2015-11-20 14:34:29
+Date: 2015-12-02 03:58:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -216,21 +216,21 @@ CREATE TABLE `tbl_acm` (
 -- ----------------------------
 -- Records of tbl_acm
 -- ----------------------------
-INSERT INTO `tbl_acm` VALUES ('274', null, '2', null, '10100', 'KEHUMASAN & PROMOSI', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('275', null, '2', null, '10200', 'AKTIVITAS PPSA', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('276', null, '2', null, '10201', 'Menerima PPKB dan Kelengkapannya', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, 'Fixed', null, '1', null, null, '1', null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('277', '299', '2', null, '10202', 'Entri Data PPKB yang Diterima', '20', '324', null, null, null, null, null, null, null, null, 'AAAA', '11', '2015', '200000', '200000', '10', null, 'Variable', 'Batch', '1', null, null, null, '34', '234', null, '34', null, '1', null, null, null);
-INSERT INTO `tbl_acm` VALUES ('278', null, '2', null, '10203', 'Rapat Perencanaan Tambat & BM', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('274', null, '2', '1', '10100', 'KEHUMASAN & PROMOSI', null, null, null, null, null, null, null, null, '1', '10', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('275', '0', '2', '2', '10200', 'AKTIVITAS PPSA', null, null, null, null, null, null, null, null, '1', '10', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('276', '299', '2', '3', '10201', 'Menerima PPKB dan Kelengkapannya', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, 'Fixed', null, '1', null, null, '1', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('277', '299', '2', '4', '10202', 'Entri Data PPKB yang Diterima', '20', '324', null, null, null, null, null, null, null, null, 'AAAA', '11', '2015', '200000', '200000', '10', null, 'Variable', 'Batch', '1', null, null, null, '34', '234', null, '34', null, '1', null, null, null);
+INSERT INTO `tbl_acm` VALUES ('278', null, '2', '5', '10203', 'Rapat Perencanaan Tambat & BM', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('279', null, '2', null, '10204', 'Rencana Penetapan Pel. Kapal & Barang', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('280', null, '2', null, '10205', 'Entri Data atas PPKB yg telah Ditetapkan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('281', null, '2', null, '10206', 'Mendistribusikan PPKB ke Unit Operasi', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('282', null, '2', null, '10207', 'Memproses PPKB Kalimas', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('283', null, '2', null, '10300', 'PELAYANAN PROPERTI', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('283', '0', '2', null, '10300', 'PELAYANAN PROPERTI', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('284', null, '2', null, '10301', 'Pelayanan Permohonan HPL', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('285', null, '2', null, '10302', 'Pelayanan Permohonan Air Umum', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('286', null, '2', null, '10303', 'Pelayanan Permohonan Listrik', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('287', null, '2', null, '10304', 'Pelayanan Pengusahaan Iklan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('288', null, '2', null, '10305', 'Survey Lapangan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('288', '283', '2', null, '10305', 'Survey Lapangan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('289', null, '2', null, '10306', 'Pengurusan Izin Prinsip', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('290', null, '2', null, '10307', 'Menyusun RAB Instalasi Air', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('291', null, '2', null, '10308', 'Menyusun RAB Instalasi Listrik', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -783,7 +783,7 @@ CREATE TABLE `tbl_acm_total_cost` (
   `tahun` int(11) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm_total_cost
@@ -792,13 +792,17 @@ INSERT INTO `tbl_acm_total_cost` VALUES ('1', '263', '6', '2015', '9999999999');
 INSERT INTO `tbl_acm_total_cost` VALUES ('2', '266', '6', '2015', '59847590');
 INSERT INTO `tbl_acm_total_cost` VALUES ('3', '269', '6', '2015', '35562730');
 INSERT INTO `tbl_acm_total_cost` VALUES ('4', '424', '11', '2015', '150000');
-INSERT INTO `tbl_acm_total_cost` VALUES ('5', '277', '11', '2015', '9999999999');
+INSERT INTO `tbl_acm_total_cost` VALUES ('5', '277', '11', '2015', '1226744');
 INSERT INTO `tbl_acm_total_cost` VALUES ('6', '424', '6', '2015', '135353600');
 INSERT INTO `tbl_acm_total_cost` VALUES ('7', '0', null, null, '-6767679');
 INSERT INTO `tbl_acm_total_cost` VALUES ('8', '299', '11', '2015', '5009634886');
-INSERT INTO `tbl_acm_total_cost` VALUES ('9', '274', '11', '2015', '476780');
-INSERT INTO `tbl_acm_total_cost` VALUES ('10', '275', '11', '2015', '238390');
+INSERT INTO `tbl_acm_total_cost` VALUES ('9', '274', '11', '2015', '52809716');
+INSERT INTO `tbl_acm_total_cost` VALUES ('10', '275', '11', '2015', '49329262');
 INSERT INTO `tbl_acm_total_cost` VALUES ('11', '276', '11', '2015', '286068');
+INSERT INTO `tbl_acm_total_cost` VALUES ('12', '281', '11', '2015', '476780');
+INSERT INTO `tbl_acm_total_cost` VALUES ('13', '291', '11', '2015', '953560');
+INSERT INTO `tbl_acm_total_cost` VALUES ('14', '274', '6', '2015', '180000000');
+INSERT INTO `tbl_acm_total_cost` VALUES ('15', '275', '6', '2015', '40000000');
 
 -- ----------------------------
 -- Table structure for `tbl_act_to_act`
@@ -853,17 +857,32 @@ CREATE TABLE `tbl_are` (
   `create_by` varchar(100) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_are
 -- ----------------------------
-INSERT INTO `tbl_are` VALUES ('5', '0', '269', '6', '0', '0', '0', '', '0', '0', '212848', '10', '1', '', '', '0', null, null, '2015-11-14 08:50:17', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('6', '0', '272', '6', '0', '0', '0', '', '10', '0', '476780', '0', '0', '', '', '0', null, null, '2015-11-14 08:50:17', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('7', '0', '271', '0', '1', '0', '0', '', '0', '0', '232949', '10', '1', '', '', '0', null, null, '2015-11-14 10:33:48', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('8', '0', '272', '0', '1', '0', '0', '', '10', '0', '524136', '0', '0', '', '', '0', null, null, '2015-11-14 10:33:48', 'Goyz Crotz', '0');
 INSERT INTO `tbl_are` VALUES ('9', '0', '269', '0', '0', '3', '0', '', '0', '0', '6696429', '1', '1', '', '', '0', null, null, '2015-11-15 13:03:02', 'Goyz Crotz', '0');
 INSERT INTO `tbl_are` VALUES ('11', '0', '271', '0', '0', '3', '0', '', '0', '0', '6666667', '1', '1', '', '', '0', null, null, '2015-11-15 13:08:27', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('15', null, '277', '3', null, null, null, null, '10', null, '559953', null, null, null, null, null, '11', '2015', '2015-11-20 12:29:26', 'Goyz', '559953');
+INSERT INTO `tbl_are` VALUES ('16', null, '277', '5', null, null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('18', null, '299', null, null, null, '277', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('22', null, '275', null, null, '3', null, null, null, null, null, null, '0', null, null, null, null, null, '2015-11-26 08:34:07', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('23', null, '277', '4', null, null, null, null, '10', null, '459363', null, null, null, null, null, '11', '2015', '2015-11-26 08:38:01', 'Goyz', '459363');
+INSERT INTO `tbl_are` VALUES ('26', null, '277', null, '2', null, null, null, '50', null, '207428', null, null, null, null, null, '11', '2015', '2015-11-26 08:38:52', 'admin', '207428');
+INSERT INTO `tbl_are` VALUES ('27', null, '277', null, '3', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('28', null, '277', null, '6', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('29', null, '299', null, null, null, '277', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('30', null, '299', null, null, null, '276', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('31', null, '299', null, null, null, '277', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('32', '0', '274', '1', '0', '0', '0', '', '60', '0', '40606080', '0', '0', '', '', '0', null, null, '2015-11-26 08:53:31', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('33', '0', '275', '1', '0', '0', '0', '', '40', '0', '27070720', '0', '0', '', '', '0', null, null, '2015-11-26 08:53:31', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('36', '0', '274', '6', '0', '0', '0', '', '50', '0', '2383900', '5', '1', '', '', '0', null, null, '2015-11-28 11:17:38', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('37', '0', '275', '6', '0', '0', '0', '', '40', '0', '1907120', '4', '1', '', '', '0', null, null, '2015-11-28 11:17:38', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('39', '0', '274', '0', '1', '0', '0', '', '60', '0', '3144816', '6', '1', '', '', '0', null, null, '2015-11-28 13:45:43', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('40', '0', '275', '0', '1', '0', '0', '', '40', '0', '2096544', '4', '1', '', '', '0', null, null, '2015-11-28 13:45:43', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('41', '0', '274', '0', '0', '1', '0', '', '90', '0', '180000000', '9', '1', '', '', '0', null, null, '2015-11-28 19:45:07', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('42', '0', '275', '0', '0', '1', '0', '', '10', '0', '20000000', '1', '1', '', '', '0', null, null, '2015-11-28 19:45:07', 'Goyz Crotz', '0');
 
 -- ----------------------------
 -- Table structure for `tbl_assets`
@@ -882,14 +901,14 @@ CREATE TABLE `tbl_assets` (
   `budget_2` float DEFAULT NULL,
   `tbl_rdm_id` bigint(20) DEFAULT NULL,
   `rd_tot_qty` float DEFAULT NULL,
-  `cost_type` varchar(5) DEFAULT NULL,
-  `cost_bucket` varchar(5) DEFAULT NULL,
+  `cost_type` varchar(50) DEFAULT NULL,
+  `cost_bucket` varchar(50) DEFAULT NULL,
   `bulan` smallint(6) DEFAULT NULL,
   `tahun` int(11) DEFAULT NULL,
   `create_by` varchar(255) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_assets
@@ -897,6 +916,12 @@ CREATE TABLE `tbl_assets` (
 INSERT INTO `tbl_assets` VALUES ('1', '2', null, '112233', 'Kapal Pandu', 'Kapal Tjoi', null, '200000000', null, null, '1', '2', null, null, '6', '2015', null, null);
 INSERT INTO `tbl_assets` VALUES ('2', '2', null, '222444', 'Kapal Tug', 'Tug Tug', null, '500000000', null, null, '1', '3', null, null, '6', '2015', null, null);
 INSERT INTO `tbl_assets` VALUES ('3', '2', null, '55566', 'Kapal Speed', 'Speedy Gonjales', null, '1500000000', null, null, null, null, null, null, '6', '2015', null, null);
+INSERT INTO `tbl_assets` VALUES ('4', '3', '0', '111222333', 'Laptop Toshiba', 'Laptop', null, '5600000', '5600000', '0', null, null, 'fixed', 'unit', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
+INSERT INTO `tbl_assets` VALUES ('5', '3', '0', '333335555', 'Laptop Dell', 'Laptop', null, '7000000', '7000000', '0', null, null, 'variable', 'batch', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
+INSERT INTO `tbl_assets` VALUES ('6', '3', '0', '55556666', 'PC Dell', 'Personal Comp.', null, '3000000', '3000000', '0', null, null, 'step', 'product', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
+INSERT INTO `tbl_assets` VALUES ('7', '3', '0', '77788888', 'Printer', 'Alat Cetak', null, '200000', '200000', '0', null, null, 'variable', 'facility', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
+INSERT INTO `tbl_assets` VALUES ('8', '3', '0', '666677777', 'Scanner', 'Scanning', null, '700000', '700000', '0', null, null, 'fixed', 'product', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
+INSERT INTO `tbl_assets` VALUES ('10', '1', '17', '1726728', 'Laptop Toshiba', 'Laptop Merk Toshiba', '0', '5000000', '0', null, '7', '5', 'fixed', 'unit', '11', '2015', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -1049,6 +1074,27 @@ INSERT INTO `tbl_cdm` VALUES ('25', '2', '30108', 'Headcount Pandu', '3', '7', '
 INSERT INTO `tbl_cdm` VALUES ('26', '2', '10300', 'Jumlah Keluhan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
 
 -- ----------------------------
+-- Table structure for `tbl_cust`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_cust`;
+CREATE TABLE `tbl_cust` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tbl_model_id` bigint(20) DEFAULT NULL,
+  `customer_name` varchar(255) DEFAULT NULL,
+  `customer_id` varchar(100) DEFAULT NULL,
+  `bulan` int(5) DEFAULT NULL,
+  `tahun` int(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_cust
+-- ----------------------------
+INSERT INTO `tbl_cust` VALUES ('1', '2', 'PT. Perikanan Terpadu', '0001', '11', '2015');
+INSERT INTO `tbl_cust` VALUES ('2', '2', 'PT. Nusantara', '0002', '11', '2015');
+INSERT INTO `tbl_cust` VALUES ('3', '2', 'PT. MXN', '0003', '11', '2015');
+
+-- ----------------------------
 -- Table structure for `tbl_efx`
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_efx`;
@@ -1072,22 +1118,23 @@ CREATE TABLE `tbl_efx` (
   `create_by` varchar(255) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_efx
 -- ----------------------------
-INSERT INTO `tbl_efx` VALUES ('1', '1', '2', null, '0', '0', '290', '7250', '0', '0', '0', '0', '0', '', '', '', null, null);
+INSERT INTO `tbl_efx` VALUES ('1', '1', '2', '0', '40', '0', '10', '2848690', '0', '0', '0', '0', '0', '', '', '', '', '0000-00-00 00:00:00');
 INSERT INTO `tbl_efx` VALUES ('2', '2', '2', null, '0', '0', '344', '0', '0', '0', '0', '0', '0', '', '', '', null, null);
 INSERT INTO `tbl_efx` VALUES ('4', '5', '2', null, '0', '0', '100', '0', '0', '0', '0', '0', '0', '', '', '', null, null);
-INSERT INTO `tbl_efx` VALUES ('12', '1', '6', '0', '0', '0', '10', '78463.5', '0', '0', '0', '0', '0', '', '', 'S', 'Goyz Crotz', '2015-11-14 10:14:01');
-INSERT INTO `tbl_efx` VALUES ('13', '9', '6', '0', '2', '0', '0', '831700', '0', '0', '0', '0', '0', '', '', 'B', 'Goyz Crotz', '2015-11-14 10:14:01');
-INSERT INTO `tbl_efx` VALUES ('14', '1', '0', '1', '0', '0', '2', '200000000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-14 11:02:49');
-INSERT INTO `tbl_efx` VALUES ('15', '1', '0', '3', '0', '0', '20', '156927', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-14 11:02:49');
 INSERT INTO `tbl_efx` VALUES ('16', '6', '0', '3', '0', '0', '20', '60531', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-15 13:35:44');
 INSERT INTO `tbl_efx` VALUES ('17', '9', '0', '3', '24', '0', '0', '9980400', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-15 13:35:44');
-INSERT INTO `tbl_efx` VALUES ('18', '1', '6', null, null, null, null, null, null, null, null, null, null, null, null, null, 'Goyz Crotz', '2015-11-20 07:48:18');
-INSERT INTO `tbl_efx` VALUES ('19', '5', '6', null, null, null, null, null, null, null, null, null, null, null, null, null, 'Goyz Crotz', '2015-11-20 07:48:18');
+INSERT INTO `tbl_efx` VALUES ('22', '1', '6', '0', '52.63', '0', '40', '2509370', '0', '0', '0', '0', '0', '', '', 'S', 'Goyz Crotz', '2015-11-28 12:06:37');
+INSERT INTO `tbl_efx` VALUES ('25', '7', '6', '0', '76.92', '0', '60', '34153800', '0', '0', '0', '0', '0', '', '', 'B', 'Goyz Crotz', '2015-11-28 12:35:30');
+INSERT INTO `tbl_efx` VALUES ('26', '1', '3', '0', '8', '0', '0', '447962', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 18:37:12');
+INSERT INTO `tbl_efx` VALUES ('28', '1', '0', '3', '20', '0', '0', '300000000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:32:24');
+INSERT INTO `tbl_efx` VALUES ('29', '1', '0', '2', '74.85', '0', '500', '3923170', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:52:39');
+INSERT INTO `tbl_efx` VALUES ('30', '6', '0', '2', '8.85', '0', '20', '60531', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:52:39');
+INSERT INTO `tbl_efx` VALUES ('31', '13', '0', '3', '50', '0', '0', '27000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:53:26');
 
 -- ----------------------------
 -- Table structure for `tbl_emp`
@@ -1114,38 +1161,46 @@ CREATE TABLE `tbl_emp` (
   `fte_count` float DEFAULT NULL,
   `tbl_rdm_id` int(11) DEFAULT NULL,
   `rd_tot_qty` float DEFAULT NULL,
+  `cost_type` varchar(50) DEFAULT NULL,
+  `cost_bucket` varchar(50) DEFAULT NULL,
   `bugettype` varchar(10) DEFAULT NULL,
   `cost_nbr` float DEFAULT NULL,
   `bulan` smallint(6) DEFAULT NULL,
   `tahun` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_emp
 -- ----------------------------
-INSERT INTO `tbl_emp` VALUES ('1', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '22', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('2', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '25', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('3', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('4', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '66', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('5', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '22', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('6', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '76', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('7', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('8', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '56', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('9', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '90', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('10', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '226', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('11', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '67', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('12', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('13', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('14', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('15', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('16', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('17', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('18', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('19', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('20', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('21', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '0', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('22', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '0', '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('1', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '22', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('2', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '25', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('3', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('4', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '66', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('5', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '22', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('6', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '76', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('7', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('8', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '56', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('9', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '90', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('10', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '226', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('11', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '67', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('12', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '67676800', '0', '0', '67676800', '3', 'Pandu Madya I', '5891130', '0', '1', '1', '1', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('13', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('14', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('15', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('16', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('17', '2', '55', '520103095', '', '', 'SARMIN', '', '4767800', '0', '0', '4767800', '3', 'Staf Pelaksana Senior I', '4767800', '0', '1', '1', '10', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('18', '2', '10', '520201223', '', '', 'MUSLICH', '', '5069440', '0', '0', '5069440', '3', 'Staf Muda IV', '5069440', '0', '1', '1', '10', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('19', '2', '183', '520201227', '', '', 'SUTOPO', '', '5187120', '0', '0', '5187120', '3', 'Staf Muda III', '5187120', '0', '1', '1', '5', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('20', '2', '244', '520201228', '', '', 'SULISTIASTUTI', '', '5082070', '0', '0', '5082070', '3', 'Staf Muda IV', '5082070', '0', '1', '1', '4', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('21', '2', '258', '520301232', '', '', 'MARTINI', '', '5394540', '0', '0', '5394540', '3', 'Staf Muda III', '5394540', '0', '1', '1', '5', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('22', '2', '183', '520301242', '', '', 'SUPENI, SE.', '', '4884330', '0', '0', '4884330', '3', 'Staf Muda IV', '4884330', '0', '1', '1', '5', '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('121', '1', '2', '540201690', '', '', 'KUDORI', '', '58794100', '0', '0', '58794100', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('122', '1', '3', '590902566', '', '', 'TRISNO DUMADI, S.Sos', '', '50475700', '0', '0', '50475700', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('123', '1', '4', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '55375100', '0', '0', '55375100', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('124', '1', '5', '154092055', '', '', 'LELAN ANTONIUS', '', '92973300', '0', '0', '92973300', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('125', '1', '6', '520303404', '', '', 'GASPAR ABISLONG', '', '17194000', '0', '0', '17194000', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('126', '1', '17', '178989797', null, null, 'Tim Developer Sistem', null, '78900000', '700000', '0', '79600000', null, 'Programmer PHP', '0', null, '3', '1', '7', '5', null, null, null, null, '11', '2015');
 
 -- ----------------------------
 -- Table structure for `tbl_emp_act`
@@ -1192,38 +1247,41 @@ CREATE TABLE `tbl_exp` (
   `exp_level` int(11) DEFAULT NULL,
   `tbl_rdm_id` int(11) DEFAULT NULL,
   `rd_tot_qty` float DEFAULT NULL,
+  `cost_type` varchar(50) DEFAULT NULL,
+  `cost_bucket` varchar(50) DEFAULT NULL,
   `budgettype` varchar(10) DEFAULT NULL,
   `budgetchg` varchar(100) DEFAULT NULL,
   `bulan` smallint(6) DEFAULT NULL,
   `tahun` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_exp
 -- ----------------------------
-INSERT INTO `tbl_exp` VALUES ('1', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5241360', '73217600', '0', '1', '1', '668', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('2', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '414856', '4011210', '0', '1', '2', '789', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('3', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '68400', '4011210', '0', '1', '3', '889', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('4', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '722166', '4011210', '0', '1', '10', '67', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('5', '2', '2', '801.05.04', 'Tunjangan Prestasi', '3850000', '45677300', '0', '1', '9', '889', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('6', '2', '2', '801.05.05', 'Tunjangan Presensi', '684000', '3982070', '0', '1', '8', '226', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('7', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '44400000', '0', '0', '1', '11', '78', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('8', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '1723410000', '0', '0', '1', '7', '88', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('9', '2', '2', '804.19.00', 'A.B Pengrk. Plyr.Yg.Ditgh.', '41585000', '5783710000', '0', '1', '8', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('10', '2', '2', '804.20.00', 'A.B Konsultan Unk.Litbang Yg.Dtgh', '3226650', '28765100', '0', '1', '8', '66', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('11', '2', '2', '804.99.00', 'A.B Yang Ditangguhkan Lain-lain', '0', '0', '0', '1', '7', '7', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('12', '2', '195', '807.06.00', 'Biaya Rumah Tangga Masa Kini', '1450800', '67017600', '0', '1', null, '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('13', '2', '252', '807.06.00', 'Biaya Rumah Tangga', '54000', '27475900', '0', '1', null, '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('14', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5104820', '73217600', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('15', '2', '6', '801.01.00', 'Biaya Penghasilan Pegawai', '5164000', '82607500', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('16', '2', '172', '801.01.00', 'Biaya Penghasilan Pegawai', '26246400', '453551000', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('17', '2', '171', '801.01.00', 'Biaya Penghasilan Pegawai', '33974200', '501775000', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('18', '2', '163', '801.01.00', 'Biaya Penghasilan Pegawai', '5887180', '54492900', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('19', '2', '79', '801.01.00', 'Biaya Penghasilan Pegawai', '73206800', '1091170000', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('20', '2', '55', '801.01.00', 'Biaya Penghasilan Pegawai', '7700150', '146729000', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('21', '2', '33', '801.01.00', 'Biaya Penghasilan Pegawai', '15678600', '327489000', '0', '1', '1', '0', '', '', '11', '2015');
-INSERT INTO `tbl_exp` VALUES ('22', '2', '11', '801.01.00', 'Biaya Penghasilan Pegawai', '9460130', '148280000', '0', '1', '1', '0', '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('1', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5241360', '73217600', '0', '1', '1', '668', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('2', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '414856', '4011210', '0', '1', '2', '789', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('3', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '68400', '4011210', '0', '1', '3', '889', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('4', '2', '2', '801.02.00', 'Biaya Tunjangan PPh Ps.21', '722166', '4011210', '0', '1', '10', '67', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('5', '2', '2', '801.05.04', 'Tunjangan Prestasi', '3850000', '45677300', '0', '1', '9', '889', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('6', '2', '2', '801.05.05', 'Tunjangan Presensi', '684000', '3982070', '0', '1', '8', '226', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('7', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '44400000', '0', '0', '1', '11', '78', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('8', '2', '2', '803.01.00', 'Biaya Pemeliharaan Bangn.Faspel.', '1723410000', '0', '0', '1', '7', '88', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('9', '2', '2', '804.19.00', 'A.B Pengrk. Plyr.Yg.Ditgh.', '41585000', '5783710000', '0', '1', '8', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('10', '2', '2', '804.20.00', 'A.B Konsultan Unk.Litbang Yg.Dtgh', '3226650', '28765100', '0', '1', '8', '66', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('11', '2', '2', '804.99.00', 'A.B Yang Ditangguhkan Lain-lain', '0', '0', '0', '1', '7', '7', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('12', '2', '195', '807.06.00', 'Biaya Rumah Tangga Masa Kini', '1450800', '67017600', '0', '1', null, '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('13', '2', '252', '807.06.00', 'Biaya Rumah Tangga', '54000', '27475900', '0', '1', null, '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('14', '2', '2', '801.01.00', 'Biaya Penghasilan Pegawai', '5104820', '73217600', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('15', '2', '6', '801.01.00', 'Biaya Penghasilan Pegawai', '5164000', '82607500', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('16', '2', '172', '801.01.00', 'Biaya Penghasilan Pegawai', '26246400', '453551000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('17', '2', '171', '801.01.00', 'Biaya Penghasilan Pegawai', '33974200', '501775000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('18', '2', '163', '801.01.00', 'Biaya Penghasilan Pegawai', '5887180', '54492900', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('19', '2', '79', '801.01.00', 'Biaya Penghasilan Pegawai', '73206800', '1091170000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('20', '2', '55', '801.01.00', 'Biaya Penghasilan Pegawai', '7700150', '146729000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('21', '2', '33', '801.01.00', 'Biaya Penghasilan Pegawai', '15678600', '327489000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('22', '2', '11', '801.01.00', 'Biaya Penghasilan Pegawai', '9460130', '148280000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('23', '1', '12', '803.00.00', 'Biaya Perawatan Software', '6000000', '5000000', null, '1', '11', '2', null, null, null, null, '11', '2015');
 
 -- ----------------------------
 -- Table structure for `tbl_loc`
@@ -1556,6 +1614,27 @@ INSERT INTO `tbl_loc` VALUES ('310', '1', 'PRK', '880.13.00', 'Biaya Denda Pajak
 INSERT INTO `tbl_loc` VALUES ('311', '1', 'PRK', '880.99.00', 'Biaya Diluar Usaha Lainnya', '6', '2015');
 
 -- ----------------------------
+-- Table structure for `tbl_location`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_location`;
+CREATE TABLE `tbl_location` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tbl_model_id` bigint(20) DEFAULT NULL,
+  `location_id` varchar(100) DEFAULT NULL,
+  `location_name` varchar(255) DEFAULT NULL,
+  `bulan` int(5) DEFAULT NULL,
+  `tahun` int(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_location
+-- ----------------------------
+INSERT INTO `tbl_location` VALUES ('1', '2', '0001', 'Kalimas', '11', '2015');
+INSERT INTO `tbl_location` VALUES ('2', '2', '0002', 'Pelabuhan Tj. Mas', '11', '2015');
+INSERT INTO `tbl_location` VALUES ('3', '2', '0003', 'Pelabuhan Tj. Perak', '11', '2015');
+
+-- ----------------------------
 -- Table structure for `tbl_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_menu`;
@@ -1577,53 +1656,12 @@ CREATE TABLE `tbl_menu` (
 INSERT INTO `tbl_menu` VALUES ('0', null, null, null, null, 'icon-group', '1', null);
 INSERT INTO `tbl_menu` VALUES ('1', null, null, 'Home', null, 'home_chart', '1', null);
 INSERT INTO `tbl_menu` VALUES ('2', null, null, 'Modelling', 'home/modul/model/main/100', 'modelling', '1', null);
-INSERT INTO `tbl_menu` VALUES ('3', null, null, 'Resources', 'homex/modul/resource/main/', 'resource', '1', null);
-INSERT INTO `tbl_menu` VALUES ('4', null, null, 'Activities', 'home/modul/activity/main', 'activity', '1', null);
-INSERT INTO `tbl_menu` VALUES ('5', null, null, 'Cost Object', 'home/modul/costobject/main/', 'cost_object', '1', null);
+INSERT INTO `tbl_menu` VALUES ('3', null, null, 'Resources', 'home/modul/resource/main/', 'resource', '1', null);
+INSERT INTO `tbl_menu` VALUES ('4', null, null, 'Activities', 'home/modul/activity/main/', 'activity', '1', null);
+INSERT INTO `tbl_menu` VALUES ('5', null, null, 'Cost Object', 'homex/modul/cost_object/main/', 'cost_object', '1', null);
 INSERT INTO `tbl_menu` VALUES ('6', null, null, 'Report', null, 'report', '1', null);
 INSERT INTO `tbl_menu` VALUES ('7', null, null, 'Setting', 'home/modul/setting/main/', 'data_proses', '1', null);
 INSERT INTO `tbl_menu` VALUES ('8', null, null, 'Parameter', 'home/modul/parameter/main/', 'database', '1', null);
-
--- ----------------------------
--- Table structure for `tbl_menu_copy`
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_menu_copy`;
-CREATE TABLE `tbl_menu_copy` (
-  `id` smallint(6) NOT NULL,
-  `parent_id` smallint(6) DEFAULT NULL,
-  `type_menu` varchar(1) DEFAULT NULL,
-  `nama_menu` varchar(100) DEFAULT NULL,
-  `url` varchar(200) DEFAULT NULL,
-  `icon_menu` varchar(100) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  `ref_tbl` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of tbl_menu_copy
--- ----------------------------
-INSERT INTO `tbl_menu_copy` VALUES ('1', null, 'P', 'Modeling', null, null, '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('2', null, 'P', 'Data Master', null, null, '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('3', null, 'P', 'Process Master', null, null, '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('4', null, 'P', 'Cost Object', null, null, '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('5', null, 'P', 'Item Master', null, null, '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('6', null, 'P', 'Report', null, null, '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('7', null, 'P', 'Setting', null, null, '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('8', null, 'P', 'Reference', null, null, '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('100', '1', 'C', 'Set Modeling', 'home/modul/model/main/100', 'icon-group_key', '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('101', '1', 'C', 'Mapping Activity', 'home/modul/model/mapping', 'icon-group_key', '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('102', '1', 'C', 'Production', 'homex/modul/model/production', 'icon-group', '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('201', '2', 'C', 'Data Activity Master', 'home/modul/activity_master/main/201', 'icon-group', '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('301', '2', 'C', 'Data Process Master', 'home/modul/process_master/main/301', 'icon-group', '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('401', '4', 'C', 'Data Cost Object', 'home/modul/cost_object/main/401', 'icon-group', '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('501', '2', 'c', 'Data Item Master', 'home/modul/item_master/main/501', 'icon-group', '0', null);
-INSERT INTO `tbl_menu_copy` VALUES ('601', '6', 'C', 'Activity', 'home/modul/report/main/601', 'icon-group', '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('602', '6', 'C', 'Activity Attributes', 'home/modul/report/main/602', 'icon-group', '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('603', '6', 'C', 'Activity Driver', 'home/modul/report/main/603', 'icon-group', '1', null);
-INSERT INTO `tbl_menu_copy` VALUES ('701', '7', 'C', 'User Management', 'homex/modul/setting/701', 'icon-group', '1', 'tbl_user');
-INSERT INTO `tbl_menu_copy` VALUES ('702', '7', 'C', 'User Group', 'homex/modul/setting/702', 'icon-group', '1', 'cl_user_group');
-INSERT INTO `tbl_menu_copy` VALUES ('801', '8', 'C', 'Data Reference', 'home/modul/reference/main/801', 'icon-group', '1', null);
 
 -- ----------------------------
 -- Table structure for `tbl_model`
@@ -1636,13 +1674,14 @@ CREATE TABLE `tbl_model` (
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_model
 -- ----------------------------
 INSERT INTO `tbl_model` VALUES ('1', 'Pelayanan Kapal', 'Testing Ajx', '2015-06-23 09:51:12', 'Goyz');
 INSERT INTO `tbl_model` VALUES ('2', 'Model Tester 2', 'Testing Kedua Coy xxx', '2015-05-22 06:20:21', 'Goyz');
+INSERT INTO `tbl_model` VALUES ('3', 'Model Percobaan 1', 'Model Untuk Testing Aplikasi Versi 1', '2015-11-22 17:20:27', 'Goyz');
 
 -- ----------------------------
 -- Table structure for `tbl_prd`
@@ -1653,19 +1692,24 @@ CREATE TABLE `tbl_prd` (
   `tbl_model_id` int(11) DEFAULT NULL,
   `tbl_prm_id` bigint(20) DEFAULT NULL,
   `tbl_cdm_id` bigint(20) DEFAULT NULL,
+  `tbl_acm_id` bigint(20) DEFAULT NULL,
   `quantity` float DEFAULT NULL,
+  `cost_rate` float DEFAULT NULL,
+  `cost` float DEFAULT NULL,
   `weight` float DEFAULT NULL,
   `unweight` float DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `create_by` varchar(255) DEFAULT NULL,
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prd
 -- ----------------------------
-INSERT INTO `tbl_prd` VALUES ('1', '1', '1', '2', '20', '20', '21', '6', '2015');
-INSERT INTO `tbl_prd` VALUES ('2', '1', '1', '1', '0', '0', '0', '6', '2015');
+INSERT INTO `tbl_prd` VALUES ('3', '0', '1', '1', '274', '5', '200000', '1000000', '0', '0', '2015-12-01 12:13:29', 'Goyz Crotz', '0', '0');
+INSERT INTO `tbl_prd` VALUES ('4', '0', '1', '2', '275', '6', '20000', '120000', '0', '0', '2015-12-01 12:13:29', 'Goyz Crotz', '0', '0');
 
 -- ----------------------------
 -- Table structure for `tbl_prev_group`
@@ -1707,21 +1751,18 @@ CREATE TABLE `tbl_prm` (
   `tbl_model_id` int(11) DEFAULT NULL,
   `prod_id` varchar(10) DEFAULT NULL,
   `level` varchar(10) DEFAULT NULL,
-  `descript` varchar(50) DEFAULT NULL,
-  `udn_prm_1` float DEFAULT NULL,
-  `udn_prm_2` float DEFAULT NULL,
-  `udn_prm_3` float DEFAULT NULL,
-  `udn_prm_4` float DEFAULT NULL,
-  `udn_prm_5` float DEFAULT NULL,
-  `udn_prm_6` float DEFAULT NULL,
-  `udf_prm_1` float DEFAULT NULL,
-  `udf_prm_2` float DEFAULT NULL,
-  `udf_prm_3` float DEFAULT NULL,
-  `udf_prm_4` float DEFAULT NULL,
-  `udf_prm_5` float DEFAULT NULL,
-  `udf_prm_6` float DEFAULT NULL,
-  `udf_prm_7` float DEFAULT NULL,
-  `udf_prm_8` float DEFAULT NULL,
+  `descript` text,
+  `reduction` float DEFAULT NULL,
+  `net_revenue` float DEFAULT NULL,
+  `activity_cost` float DEFAULT NULL,
+  `direct_cost` float DEFAULT NULL,
+  `uom` float DEFAULT NULL,
+  `prod_qty` float DEFAULT NULL,
+  `target_qty` float DEFAULT NULL,
+  `segment_id` int(11) DEFAULT NULL,
+  `service_group_id` int(11) DEFAULT NULL,
+  `cost_rate` float DEFAULT NULL,
+  `target_rate` float DEFAULT NULL,
   `qtyproduce` float DEFAULT NULL,
   `unit_cost` float DEFAULT NULL,
   `abc_cost` float DEFAULT NULL,
@@ -1742,28 +1783,28 @@ CREATE TABLE `tbl_prm` (
 -- ----------------------------
 -- Records of tbl_prm
 -- ----------------------------
-INSERT INTO `tbl_prm` VALUES ('1', '2', 'AIR1P011', '1', 'AIR KAPAL PIPA NONREGULER DALAM NEG', '96', '805077', '20312', '0', '0', '0', null, null, null, null, null, null, null, null, '20312', '583.576', '11853600', '11853600', '233588000', '221734000', '0', '0', '11853600', '11853600', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('2', '2', 'AIR1T011', '1', 'AIR KAPAL TONGKANG NONREGULER DALAM', '10', '27682', '770', '0', '0', '0', null, null, null, null, null, null, null, null, '770', '45432.2', '34982800', '34982800', '11319000', '-23663800', '0', '0', '34982800', '34982800', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('3', '2', 'ALT11000', '1', 'ALAT PEMADAM KEBAKARAN', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '0', '0', '9577180', '9577180', '25500', '-9551680', '0', '0', '9577180', '9577180', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('4', '2', 'DER11100', '1', 'DERMAGA UMUM (TON)', '414', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '719387000', '0.10312', '74183400', '74183400', '996574000', '922391000', '0', '0', '74183400', '74183400', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('5', '2', 'DER11200', '1', 'DERMAGA UMUM (M3)', '147', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '138023000', '0.138938', '19176700', '19176700', '237608000', '218431000', '0', '0', '19176700', '19176700', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('6', '2', 'DER11300', '1', 'DERMAGA UMUM (EKOR)', '14', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '5733', '205.631', '1178880', '1178880', '9699290', '8520410', '0', '0', '1178880', '1178880', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('7', '2', 'GUD11100', '1', 'GUDANG USAHA (TON)', '206', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '14637600', '1.55109', '22704200', '22704200', '26737300', '4033040', '0', '0', '22704200', '22704200', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('8', '2', 'GUD11200', '1', 'GUDANG USAHA (M3)', '221', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '42246700', '1.13507', '47952900', '47952900', '69535700', '21582800', '0', '0', '47952900', '47952900', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('9', '2', 'LAP11100', '1', 'LAPANGAN (TON)', '94', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '18341800', '1.34203', '24615200', '24615200', '33252200', '8637080', '0', '0', '24615200', '24615200', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('10', '2', 'LAP11200', '1', 'LAPANGAN (M3)', '109', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '16467900', '1.1882', '19567200', '19567200', '27201600', '7634490', '0', '0', '19567200', '19567200', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('11', '2', 'LIS1B1TR', '1', 'LISTRIK USAHA KECIL', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '19335', '66.9462', '1294410', '1294410', '14104000', '12809600', '0', '0', '1294410', '1294410', null, null, '6', '2015');
-INSERT INTO `tbl_prm` VALUES ('12', '2', 'AIR1P011', '1', 'AIR KAPAL PIPA NONREGULER DALAM NEG', '96', '805077', '20312', '0', '0', '0', null, null, null, null, null, null, null, null, '20312', '583.576', '11853600', '11853600', '233588000', '221734000', '0', '0', '11853600', '11853600', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('13', '2', 'AIR1T011', '1', 'AIR KAPAL TONGKANG NONREGULER DALAM', '10', '27682', '770', '0', '0', '0', null, null, null, null, null, null, null, null, '770', '45432.2', '34982800', '34982800', '11319000', '-23663800', '0', '0', '34982800', '34982800', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('14', '2', 'ALT11000', '1', 'ALAT PEMADAM KEBAKARAN', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '0', '0', '9577180', '9577180', '25500', '-9551680', '0', '0', '9577180', '9577180', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('15', '2', 'DER11100', '1', 'DERMAGA UMUM (TON)', '414', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '719387000', '0.10312', '74183400', '74183400', '996574000', '922391000', '0', '0', '74183400', '74183400', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('16', '2', 'DER11200', '1', 'DERMAGA UMUM (M3)', '147', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '138023000', '0.138938', '19176700', '19176700', '237608000', '218431000', '0', '0', '19176700', '19176700', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('17', '2', 'DER11300', '1', 'DERMAGA UMUM (EKOR)', '14', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '5733', '205.631', '1178880', '1178880', '9699290', '8520410', '0', '0', '1178880', '1178880', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('18', '2', 'GUD11100', '1', 'GUDANG USAHA (TON)', '206', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '14637600', '1.55109', '22704200', '22704200', '26737300', '4033040', '0', '0', '22704200', '22704200', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('19', '2', 'GUD11200', '1', 'GUDANG USAHA (M3)', '221', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '42246700', '1.13507', '47952900', '47952900', '69535700', '21582800', '0', '0', '47952900', '47952900', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('20', '2', 'LAP11100', '1', 'LAPANGAN (TON)', '94', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '18341800', '1.34203', '24615200', '24615200', '33252200', '8637080', '0', '0', '24615200', '24615200', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('21', '2', 'LAP11200', '1', 'LAPANGAN (M3)', '109', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '16467900', '1.1882', '19567200', '19567200', '27201600', '7634490', '0', '0', '19567200', '19567200', null, null, '7', '2015');
-INSERT INTO `tbl_prm` VALUES ('22', '2', 'LIS1B1TR', '1', 'LISTRIK USAHA KECIL', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, '19335', '66.9462', '1294410', '1294410', '14104000', '12809600', '0', '0', '1294410', '1294410', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('1', '2', 'AIR1P011', '1', 'AIR KAPAL PIPA NONREGULER DALAM NEG', '96', '805077', null, '20312', '0', null, '0', null, null, null, null, '20312', '583.576', '11853600', '11853600', '233588000', '221734000', '0', '0', '11853600', '11853600', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('2', '2', 'AIR1T011', '1', 'AIR KAPAL TONGKANG NONREGULER DALAM', '10', '27682', null, '770', '0', null, '0', null, null, null, null, '770', '45432.2', '34982800', '34982800', '11319000', '-23663800', '0', '0', '34982800', '34982800', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('3', '2', 'ALT11000', '1', 'ALAT PEMADAM KEBAKARAN', '0', '0', null, '0', '0', null, '0', null, null, null, null, '0', '0', '9577180', '9577180', '25500', '-9551680', '0', '0', '9577180', '9577180', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('4', '2', 'DER11100', '1', 'DERMAGA UMUM (TON)', '414', '0', null, '0', '0', null, '0', null, null, null, null, '719387000', '0.10312', '74183400', '74183400', '996574000', '922391000', '0', '0', '74183400', '74183400', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('5', '2', 'DER11200', '1', 'DERMAGA UMUM (M3)', '147', '0', null, '0', '0', null, '0', null, null, null, null, '138023000', '0.138938', '19176700', '19176700', '237608000', '218431000', '0', '0', '19176700', '19176700', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('6', '2', 'DER11300', '1', 'DERMAGA UMUM (EKOR)', '14', '0', null, '0', '0', null, '0', null, null, null, null, '5733', '205.631', '1178880', '1178880', '9699290', '8520410', '0', '0', '1178880', '1178880', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('7', '2', 'GUD11100', '1', 'GUDANG USAHA (TON)', '206', '0', null, '0', '0', null, '0', null, null, null, null, '14637600', '1.55109', '22704200', '22704200', '26737300', '4033040', '0', '0', '22704200', '22704200', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('8', '2', 'GUD11200', '1', 'GUDANG USAHA (M3)', '221', '0', null, '0', '0', null, '0', null, null, null, null, '42246700', '1.13507', '47952900', '47952900', '69535700', '21582800', '0', '0', '47952900', '47952900', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('9', '2', 'LAP11100', '1', 'LAPANGAN (TON)', '94', '0', null, '0', '0', null, '0', null, null, null, null, '18341800', '1.34203', '24615200', '24615200', '33252200', '8637080', '0', '0', '24615200', '24615200', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('10', '2', 'LAP11200', '1', 'LAPANGAN (M3)', '109', '0', null, '0', '0', null, '0', null, null, null, null, '16467900', '1.1882', '19567200', '19567200', '27201600', '7634490', '0', '0', '19567200', '19567200', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('11', '2', 'LIS1B1TR', '1', 'LISTRIK USAHA KECIL', '0', '0', null, '0', '0', null, '0', null, null, null, null, '19335', '66.9462', '1294410', '1294410', '14104000', '12809600', '0', '0', '1294410', '1294410', null, null, '6', '2015');
+INSERT INTO `tbl_prm` VALUES ('12', '2', 'AIR1P011', '1', 'AIR KAPAL PIPA NONREGULER DALAM NEG', '96', '805077', null, '20312', '0', null, '0', null, null, null, null, '20312', '583.576', '11853600', '11853600', '233588000', '221734000', '0', '0', '11853600', '11853600', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('13', '2', 'AIR1T011', '1', 'AIR KAPAL TONGKANG NONREGULER DALAM', '10', '27682', null, '770', '0', null, '0', null, null, null, null, '770', '45432.2', '34982800', '34982800', '11319000', '-23663800', '0', '0', '34982800', '34982800', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('14', '2', 'ALT11000', '1', 'ALAT PEMADAM KEBAKARAN', '0', '0', null, '0', '0', null, '0', null, null, null, null, '0', '0', '9577180', '9577180', '25500', '-9551680', '0', '0', '9577180', '9577180', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('15', '2', 'DER11100', '1', 'DERMAGA UMUM (TON)', '414', '0', null, '0', '0', null, '0', null, null, null, null, '719387000', '0.10312', '74183400', '74183400', '996574000', '922391000', '0', '0', '74183400', '74183400', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('16', '2', 'DER11200', '1', 'DERMAGA UMUM (M3)', '147', '0', null, '0', '0', null, '0', null, null, null, null, '138023000', '0.138938', '19176700', '19176700', '237608000', '218431000', '0', '0', '19176700', '19176700', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('17', '2', 'DER11300', '1', 'DERMAGA UMUM (EKOR)', '14', '0', null, '0', '0', null, '0', null, null, null, null, '5733', '205.631', '1178880', '1178880', '9699290', '8520410', '0', '0', '1178880', '1178880', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('18', '2', 'GUD11100', '1', 'GUDANG USAHA (TON)', '206', '0', null, '0', '0', null, '0', null, null, null, null, '14637600', '1.55109', '22704200', '22704200', '26737300', '4033040', '0', '0', '22704200', '22704200', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('19', '2', 'GUD11200', '1', 'GUDANG USAHA (M3)', '221', '0', null, '0', '0', null, '0', null, null, null, null, '42246700', '1.13507', '47952900', '47952900', '69535700', '21582800', '0', '0', '47952900', '47952900', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('20', '2', 'LAP11100', '1', 'LAPANGAN (TON)', '94', '0', null, '0', '0', null, '0', null, null, null, null, '18341800', '1.34203', '24615200', '24615200', '33252200', '8637080', '0', '0', '24615200', '24615200', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('21', '2', 'LAP11200', '1', 'LAPANGAN (M3)', '109', '0', null, '0', '0', null, '0', null, null, null, null, '16467900', '1.1882', '19567200', '19567200', '27201600', '7634490', '0', '0', '19567200', '19567200', null, null, '7', '2015');
+INSERT INTO `tbl_prm` VALUES ('22', '2', 'LIS1B1TR', '1', 'LISTRIK USAHA KECIL', '0', '0', null, '0', '0', null, '0', null, null, null, null, '19335', '66.9462', '1294410', '1294410', '14104000', '12809600', '0', '0', '1294410', '1294410', null, null, '7', '2015');
 
 -- ----------------------------
 -- Table structure for `tbl_process`
@@ -1786,20 +1827,26 @@ INSERT INTO `tbl_process` VALUES ('1', 'Process 1');
 DROP TABLE IF EXISTS `tbl_ptp`;
 CREATE TABLE `tbl_ptp` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `prod_idt` varchar(10) DEFAULT NULL,
-  `prod_idf` varchar(10) DEFAULT NULL,
+  `tbl_cust_id` bigint(20) DEFAULT NULL,
+  `tbl_location_id` bigint(20) DEFAULT NULL,
+  `tbl_prm_id` bigint(20) DEFAULT NULL,
   `quantity` float DEFAULT NULL,
   `sell_price` float DEFAULT NULL,
   `percent` float DEFAULT NULL,
   `cost` float DEFAULT NULL,
   `revenue` float DEFAULT NULL,
-  `tbl_prm_id` bigint(20) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `create_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_ptp
 -- ----------------------------
+INSERT INTO `tbl_ptp` VALUES ('1', '1', '0', '1', '6', '2000', '0', '12000', '0', '2015-12-01 20:48:43', 'Goyz Crotz');
+INSERT INTO `tbl_ptp` VALUES ('2', '2', '0', '1', '7', '10000', '0', '70000', '0', '2015-12-01 20:48:43', 'Goyz Crotz');
+INSERT INTO `tbl_ptp` VALUES ('3', '0', '1', '1', '9', '2000', '0', '18000', '0', '2015-12-01 21:53:38', 'Goyz Crotz');
+INSERT INTO `tbl_ptp` VALUES ('4', '0', '2', '1', '10', '900000', '0', '9000000', '0', '2015-12-01 21:53:38', 'Goyz Crotz');
 
 -- ----------------------------
 -- Table structure for `tbl_rdm`
@@ -1859,27 +1906,3 @@ CREATE TABLE `tbl_root_couses` (
 -- Records of tbl_root_couses
 -- ----------------------------
 INSERT INTO `tbl_root_couses` VALUES ('1', 'Root Couses 1');
-
--- ----------------------------
--- Table structure for `tbl_user`
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_user`;
-CREATE TABLE `tbl_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama_user` varchar(100) DEFAULT NULL,
-  `password` varchar(200) DEFAULT NULL,
-  `cl_user_group_id` smallint(6) DEFAULT NULL,
-  `nama_lengkap` varchar(200) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `jenis_kelamin` varchar(1) DEFAULT NULL,
-  `tlp` varchar(15) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of tbl_user
--- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'admin', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
-INSERT INTO `tbl_user` VALUES ('2', 'user', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '2', 'User Guest', null, 'L', null, '1');
-INSERT INTO `tbl_user` VALUES ('4', 'user_2', 'R2s+MzlfaarWwB2lVu9qQX5V1jEjKvkfMuZHnmzayO2kB4Engg9px0X3OtpYlhMx1ADCOlkDcC3pvjo5OvIlMg==', '2', 'User Guest 2', 'guest@gmail.com', 'L', '021-99889898', '1');
