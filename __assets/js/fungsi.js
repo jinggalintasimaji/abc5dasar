@@ -1308,6 +1308,56 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		break;		
 		
 		//end Modul Resource
+		
+		//Modul Cost Object
+		case "assign_act_costobject":
+			judulnya = "";
+			urlnya = "act_to_cobj";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_prm'] = $('#id_prm').val();
+			frozen[modnya] = [
+				{field:'activity_name',title:'Activity Name', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'cost_driver_name',title:'Cost Driver', width:250, halign:'center',align:'left'},
+				{field:'cost_rate',title:'Cost Rate', width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			]
+		break;		
+		//end Modul Cost Object
 	}
 	
 	$("#"+divnya).edatagrid({
@@ -1873,24 +1923,24 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		//Cost Object
 		case "cost_object":
 			judulnya = "";
-			urlnya = "tbl_cdms";
+			urlnya = "tbl_prm";
 			fitnya = true;
 			urlglobal = host+'homex/getdata/'+urlnya;
 			kolom[modnya] = [	
-				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'left'},
+				{field:'prod_id',title:'Prod. ID',width:100, halign:'center',align:'center'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
-				{field:'roundit',title:'Roundit',width:100, halign:'center',align:'right'},
-				{field:'sudn_cd',title:'SUDN Cost Driver',width:150, halign:'center',align:'right'},				
-				{field:'mudn_cd',title:'MUDN Cost Driver',width:150, halign:'center',align:'right'},				
-				{field:'mudn_uom',title:'MUDN UOM',width:100, halign:'center',align:'right'},				
-				{field:'sweight',title:'Sweight',width:100, halign:'center',align:'right'},				
-				{field:'mweight',title:'Mweight',width:100, halign:'center',align:'right'},				
-				{field:'budgettype',title:'Budget Type',width:100, halign:'center',align:'right'},				
-				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
-				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
-				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
-				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},	
-			]
+				{field:'level',title:'Level',width:100, halign:'center',align:'center'},
+				{field:'qtyproduce',title:'Qty. Prod.',width:100, halign:'center',align:'right'},
+				{field:'revenue',title:'Revenue',width:100, halign:'center',align:'left'},
+				{field:'unit_cost',title:'Unit Cost',width:100, halign:'center',align:'right'},
+				{field:'abc_cost',title:'ABC Cost',width:100, halign:'center',align:'center'},
+				{field:'ovh_cost',title:'Overhead Cost',width:100, halign:'center',align:'center'},
+				{field:'profitable',title:'Lost Factor',width:100, halign:'center',align:'right'},
+				{field:'abc_lower',title:'ABC Lower',width:100, halign:'center',align:'center'},
+				{field:'ovh_lower',title:'Overhead Lower',width:100, halign:'center',align:'center'},
+				{field:'abc_cost_r',title:'ABC Cost(r)',width:100, halign:'center',align:'center'},
+				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:100, halign:'center',align:'center'},
+			];
 		break;
 		//End Cost Object
 		
@@ -2278,6 +2328,22 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		break;		
 		//END List Assignment - Resources
 		
+		
+		// List Assignment - Cost Object
+		case "list_activity_costobject":
+			judulnya = "";
+			urlnya = "list_activity_costobject";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			
+			kolom[modnya] = [	
+				{field:'activity_code',title:'Activity Code',width:120, halign:'center',align:'left'},
+				{field:'descript',title:'Activity Desc',width:200, halign:'center',align:'left'},
+			]
+		break;		
+		// END List Assignment - Cost Object
 	}
 	
 	grid_nya=$("#"+divnya).datagrid({
@@ -2542,11 +2608,24 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		
 		// End Resource
 		
-		// Cost Object
+		// Modul Cost Object
+		
+		//tabs Cost Object
 		case "cost_object":
+			table = 'tbl_prm';
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
-		// End Cost Object
+		case "assign_act_costobject":
+			table = 'tbl_prd';
+			id_tambahan = $('#id_prm').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Activity';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		// End Modul Cost Object
 	}
 	
 	switch(type){
@@ -2947,6 +3026,39 @@ function kumpulAction(type, p1, p2, p3){
 			}
 		break;
 		//End Assignment
+		
+		// Modul Cost Object
+		case 'list_activity_costobject':
+			var row = $("#grid_"+type).edatagrid('getSelections');
+			if(row){
+				var assignment = $('#jenis_assignment').val();
+				post_detil['tbl_prm_id'] = $('#hdn_'+type).val();
+				post_detil['editstatus'] = 'kontel';
+				post_detil['datanya'] = row;
+				post_detil['id'] = 'kontel';
+				post_detil['bulan']	= $('#bulan_cost_object').val();
+				post_detil['tahun']	= $('#tahun_cost_object').val();
+				
+				$.post(host+'homex/simpansavedata/'+type, post_detil, function(r){
+					if(r == 1){
+						$.messager.alert('ABC System',"Data Saved",'info');
+					}else{
+						$.messager.alert('ABC System', "Failed Saved -"+r, 'error');
+					}
+					closeWindow();
+					
+					if(type == 'list_activity_costobject'){
+						$('#grid_assign_act_costobject').datagrid('reload');
+					}else if(type == 'list_expense_assetsssss'){
+						//$('#grid_assign_exp_assets').datagrid('reload');
+					}
+				});
+				
+			}else{
+				$.messager.alert('ABC System',"Select Row In Grid Data",'error');
+			}
+		break;
+		// End Modul Cost Object
 		
 	}
 }		
