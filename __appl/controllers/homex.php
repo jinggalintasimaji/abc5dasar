@@ -155,6 +155,8 @@ class homex extends MY_Controller {
 						
 						//Modul Cost Object
 						case "cost_object":
+						case "customer":
+						case "location":
 							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
 							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
 						break;
@@ -173,6 +175,8 @@ class homex extends MY_Controller {
 						break;
 						
 						case "form_assign_act_costobject":
+						case "form_assign_cust_costobject":
+						case "form_assign_loc_costobject":
 							$form_default = 'laen';
 							$form = 'form_assignment';
 							$value1 = $this->input->post('id_tambahan');
@@ -180,8 +184,10 @@ class homex extends MY_Controller {
 							
 							if($p2 == 'form_assign_act_costobject'){
 								$this->smarty->assign('jns_assignment', 'list_activity_costobject');
-							}elseif($p2 == 'xx'){
-								$this->smarty->assign('jns_assignment', 'list_expense_employee');
+							}elseif($p2 == 'form_assign_cust_costobject'){
+								$this->smarty->assign('jns_assignment', 'list_customer_costobject');
+							}elseif($p2 == 'form_assign_loc_costobject'){
+								$this->smarty->assign('jns_assignment', 'list_location_costobject');
 							}
 						break;
 						//End Modul Cost Object

@@ -1,4 +1,4 @@
-<div id="tabs_{$main}" style="width:500px;height:320px;">
+<div id="tabs_{$main}" style="width:500px;height:285px;">
     <div title="Profitability" style="padding:10px;">
 		<form method='post' url="{$host}homex/simpansavedata/tbl_emp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
 			<input type='hidden' id='id_prm' name='id' value="{$data.id|default:''}">
@@ -41,7 +41,7 @@
 		{include file='template/input_form.html' size='besar' type='text' tampilan='label' label='Service Name' name='descript' value={$data.descript|default:''} }
 		<br/>
 		<br/>
-		{include file='template/grid_editable.html' crud_table='tbl_prd' main='assign_act_costobject' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		{include file='template/grid_editable.html' crud_table='tbl_prd_costobject' main='assign_act_costobject' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -61,10 +61,11 @@
 		</div>    
 	</div>
     <div title="Customer" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='prod_id' value={$data.prod_id|default:''} }
+		{include file='template/input_form.html' size='besar' type='text' tampilan='label' label='Service Name' name='descript' value={$data.descript|default:''} }
 		<br/>
-		{include file='template/grid.html' main='customer_cost_object' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<br/>
+		{include file='template/grid_editable.html' crud_table='tbl_cust_costobject' main='assign_cust_costobject' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>
@@ -84,10 +85,11 @@
 		</div>    
     </div>
     <div title="Location" style="overflow:auto;padding:10px;">
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='employee_id' value={$data.employee_id|default:''} }
-		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service Name' name='last' value={$data.last|default:''} }
+		{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Service ID' name='prod_id' value={$data.prod_id|default:''} }
+		{include file='template/input_form.html' size='besar' type='text' tampilan='label' label='Service Name' name='descript' value={$data.descript|default:''} }
 		<br/>
-		{include file='template/grid.html' main='location_cost_object' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<br/>
+		{include file='template/grid_editable.html' crud_table='tbl_loc_costobject' main='assign_loc_costobject' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
 				<tr>

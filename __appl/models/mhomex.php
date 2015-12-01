@@ -425,6 +425,8 @@ class mhomex extends CI_Model{
 			
 			//tabs cost object
 			case "act_to_cobj":
+			case "cust_to_cobj":
+			case "loc_to_cobj":
 				$id_prm = $this->input->post('id_prm');
 				if($id_prm){
 					$where .= "
@@ -439,6 +441,20 @@ class mhomex extends CI_Model{
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 						LEFT JOIN tbl_cdm C ON C.id = A.tbl_cdm_id
 					";
+				}elseif($type == 'cust_to_cobj'){
+					$select = " A.*, B.customer_name ";
+					$from = "tbl_ptp";
+					$join = "
+						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id 
+					";
+					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+				}elseif($type == 'loc_to_cobj'){
+					$select = " A.*, B.location_name ";
+					$from = "tbl_ptp";
+					$join = "
+						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id 
+					";
+					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
 				}
 				
 				$sql = "
@@ -449,8 +465,56 @@ class mhomex extends CI_Model{
 				";
 			break;
 			
-			//Window Assignment Resource
+			// Tabs Customer
+			case "tbl_cust":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= " AND A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."' ";
+				}
+				
+				$sql = "
+					SELECT A.*
+					FROM tbl_cust A
+					$where
+				";
+			break;
+			// End Tabs Customer
+			
+			// Tabs Location
+			case "tbl_location":
+				if($this->modeling){
+					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
+				}else{
+					$where .= " AND A.tbl_model_id = '0' ";
+				}
+				
+				$bulan = $this->input->post('bulan');
+				$tahun = $this->input->post('tahun');
+				
+				if($bulan && $tahun){
+					$where .= " AND A.bulan = '".(int)$bulan."' AND A.tahun = '".$tahun."' ";
+				}
+				
+				$sql = "
+					SELECT A.*
+					FROM tbl_location A
+					$where
+				";
+			break;
+			// End Tabs Location
+			
+			//Window Assignment Cost Object
 			case "list_activity_costobject":
+			case "list_customer_costobject":
+			case "list_location_costobject":
 				if($this->modeling){
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
 				}else{
@@ -461,9 +525,12 @@ class mhomex extends CI_Model{
 					$select = " A.id, A.activity_code, A.descript, A.tbl_cdm_id ";
 					$from = "tbl_acm";
 					$where .= " AND A.tbl_cdm_id IS NOT NULL ";
-				}elseif($type == 'list_expense_employeesssss'){
-					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
-					$from = "tbl_exp";
+				}elseif($type == 'list_customer_costobject'){
+					$select = " A.id, A.customer_name, A.customer_id ";
+					$from = "tbl_cust";
+				}elseif($type == 'list_location_costobject'){
+					$select = " A.id, A.location_name, A.location_id ";
+					$from = "tbl_location";
 				}
 					
 				$sql = "
@@ -1309,6 +1376,67 @@ class mhomex extends CI_Model{
 				}				
 			break;
 			
+			case "tbl_prd_costobject":
+				$table = "tbl_prd";
+				unset($data['activity_name']);
+				unset($data['cost_driver_name']);
+				unset($data['editing']);
+				
+				$cost = ($data['cost_rate'] * $data['quantity']);
+				$data['cost'] = $cost;
+			break;
+			
+			case "list_customer_costobject":
+				$table = "tbl_ptp";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_prm_id" => $data['tbl_prm_id'],
+						"tbl_cust_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			
+			case "tbl_cust_costobject":
+			case "tbl_loc_costobject":
+				$table = "tbl_ptp";
+				unset($data['customer_name']);
+				unset($data['location_name']);
+				unset($data['editing']);
+				
+				$cost = ($data['sell_price'] * $data['quantity']);
+				$data['cost'] = $cost;
+			break;
+			
+			case "list_location_costobject":
+				$table = "tbl_ptp";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_prm_id" => $data['tbl_prm_id'],
+						"tbl_location_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+
 			// End Modul Cost Object
 			
 		}
