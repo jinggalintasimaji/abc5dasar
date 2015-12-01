@@ -1323,11 +1323,20 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			kolom[modnya] = [		
 				{field:'cost_driver_name',title:'Cost Driver', width:250, halign:'center',align:'left'},
 				{field:'cost_rate',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
+						//if(value)return NumberFormat(value);
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
 					},
 				},
 				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
 					formatter:function(value,rowData,rowIndex){
 						if(value == null){
 							return '-';
@@ -1355,7 +1364,117 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 						}
 					}
 				}	
-			]
+			];
+		break;		
+		case "assign_cust_costobject":
+			judulnya = "";
+			urlnya = "cust_to_cobj";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_prm'] = $('#id_prm').val();
+			frozen[modnya] = [
+				{field:'customer_name',title:'Customer Name', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						//if(value)return NumberFormat(value);
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			];
+		break;		
+		case "assign_loc_costobject":
+			judulnya = "";
+			urlnya = "loc_to_cobj";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_prm'] = $('#id_prm').val();
+			frozen[modnya] = [
+				{field:'location_name',title:'Location Name', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						//if(value)return NumberFormat(value);
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			];
 		break;		
 		//end Modul Cost Object
 	}
@@ -2344,6 +2463,56 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;		
 		// END List Assignment - Cost Object
+		
+		case "customer":
+			judulnya = "";
+			urlnya = "tbl_cust";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
+				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
+			];
+		break;
+		case "list_customer_costobject":
+			judulnya = "";
+			urlnya = "list_customer_costobject";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			
+			kolom[modnya] = [	
+				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
+				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
+			]
+		break;	
+		
+		case "location":
+			judulnya = "";
+			urlnya = "tbl_location";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'location_id',title:'Location ID',width:200, halign:'center',align:'left'},
+				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
+			];
+		break;
+		case "list_location_costobject":
+			judulnya = "";
+			urlnya = "list_location_costobject";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			
+			kolom[modnya] = [	
+				{field:'location_id',title:'Location ID',width:200, halign:'center',align:'left'},
+				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
+			]
+		break;	
 	}
 	
 	grid_nya=$("#"+divnya).datagrid({
@@ -2622,6 +2791,26 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			lebar = getClientWidth()-800;
 			tinggi = getClientHeight()-250;
 			judulwindow = 'Map Activity';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assign_cust_costobject":
+			table = 'tbl_ptp';
+			id_tambahan = $('#id_prm').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Customer';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assign_loc_costobject":
+			table = 'tbl_ptp';
+			id_tambahan = $('#id_prm').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Location';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
@@ -3029,6 +3218,8 @@ function kumpulAction(type, p1, p2, p3){
 		
 		// Modul Cost Object
 		case 'list_activity_costobject':
+		case 'list_customer_costobject':
+		case 'list_location_costobject':
 			var row = $("#grid_"+type).edatagrid('getSelections');
 			if(row){
 				var assignment = $('#jenis_assignment').val();
@@ -3049,8 +3240,11 @@ function kumpulAction(type, p1, p2, p3){
 					
 					if(type == 'list_activity_costobject'){
 						$('#grid_assign_act_costobject').datagrid('reload');
-					}else if(type == 'list_expense_assetsssss'){
+					}else if(type == 'list_customer_costobject'){
 						//$('#grid_assign_exp_assets').datagrid('reload');
+						$('#grid_assign_cust_costobject').datagrid('reload');
+					}else if(type == 'list_location_costobject'){
+						$('#grid_assign_loc_costobject').datagrid('reload');
 					}
 				});
 				
