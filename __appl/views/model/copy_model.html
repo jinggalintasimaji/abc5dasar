@@ -31,7 +31,7 @@
 			<td width='34%'>Model New Name</td>
 			<td width='1%'>:</td>
 			<td width='75%'>
-				<input type="text" value="{$data.nama_model|default:''}" name="nama_model" id="nama_model" style='width:90%;padding:2px;' class="easyui-validatebox">
+				<input type="text" value="{$data.nama_model|default:''} copy" name="nama_model" id="nama_model" style='width:90%;padding:2px;' class="easyui-validatebox">
 			</td>
 		</tr>
 		<tr>
@@ -49,7 +49,8 @@
 				<input type="checkbox" name="costing[]" class="cek_list" value="emp" checked>&nbsp;&nbsp;Employee&nbsp;&nbsp;
 				<input type="checkbox" name="costing[]" class="cek_list" value="exp" checked>&nbsp;&nbsp;Expanses&nbsp;&nbsp;
 				<input type="checkbox" name="costing[]" class="cek_list" value="assets" checked>&nbsp;&nbsp;Assets&nbsp;&nbsp;	
-				<input type="checkbox" name="costing[]" class="cek_list" value="act" checked>&nbsp;&nbsp;Activity	
+				<input type="checkbox" name="costing[]" class="cek_list" value="act" checked>&nbsp;&nbsp;Activity&nbsp;&nbsp;	
+				<input type="checkbox" name="costing[]" class="cek_list" value="costing" checked>&nbsp;&nbsp;Data Costing	
 			</td>
 		</tr>
 		<!--tr>
