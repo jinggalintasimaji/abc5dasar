@@ -1649,7 +1649,11 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'activity_code',title:'Activity',width:150, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:450, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Cost Driver',width:150, halign:'center',align:'right'},
-				{field:'total',title:'Cost',width:150, halign:'center',align:'right'}
+				{field:'total',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						return NumberFormat(value);
+					}
+				}
 			];
 		break;
 		case "list_act_2":

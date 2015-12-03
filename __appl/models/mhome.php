@@ -130,18 +130,23 @@ class mhome extends CI_Model{
 				$bulan=$this->input->post('bulan');
 				$tahun=$this->input->post('tahun');
 				if($key)$where .=" AND A.descript like '%".$key."%' ";
-				$where .=" AND A.tbl_model_id=".$this->modeling['id']." AND A.bulan=".$bulan." AND A.tahun=".$tahun;
+				$where .=" AND A.tbl_model_id=".$this->modeling['id']." 
+				AND A.bulan=".$bulan." AND A.tahun=".$tahun;
 				//$where .=" AND pid IS NULL";
 				if($p1=='config'){
 					$where .=" AND pid IS NULL ";
 				}
-				$sql="SELECT A.*,C.cost_driver
+				$sql="SELECT A.*,C.cost_driver,B.total_cost as total
 						FROM tbl_acm A
-						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id ".$where;
-				//echo $sql;
+						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id  
+						LEFT JOIN(
+							SELECT * FROM tbl_acm_total_cost WHERE bulan=".$bulan." AND tahun=".$tahun."
+						)B ON B.tbl_acm_id=A.id ".$where;
+				//..echo $sql;
 				//print_r($this->db->query($sql)->result_array());exit;
-				
-				$footer =array('rd_tot_qty'=>'Total Cost','total'=>9999.99);
+				$sql_na="SELECT SUM(total_cost) as total from tbl_acm_total_cost  WHERE bulan=".$bulan." AND tahun=".$tahun;
+				$tot=$this->db->query($sql_na)->row_array();
+				$footer =array('rd_tot_qty'=>'Total Cost','total'=>$tot['total']);
 				//print_r($footer);exit;
 			break;
 			case "tbl_acm_tree":
