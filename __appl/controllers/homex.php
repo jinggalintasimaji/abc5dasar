@@ -59,6 +59,7 @@ class homex extends MY_Controller {
 						case "assets": 
 							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
 							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+							$this->smarty->assign('costcenter', $this->lib->fillcombo('tbl_loc_search', 'return') );
 							
 							if($p2 == 'expenses'){
 								$total_expense = $this->mhomex->getdata('total_expense', 'row_array');
@@ -86,8 +87,10 @@ class homex extends MY_Controller {
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_emp_id', $id);
 									$gaji = number_format($data['wages'],2,",",".");;
 									
-									$this->smarty->assign('total_activity', $total_activity);
-									$this->smarty->assign('total_expense', $total_expense);
+									$this->smarty->assign('total_activity', $total_activity['total_cost']);
+									$this->smarty->assign('total_percent_activity', $total_activity['total_percent']);
+									$this->smarty->assign('total_expense', $total_expense['total_cost']);
+									$this->smarty->assign('total_percent_expense', $total_expense['total_percent']);
 									$this->smarty->assign('gaji', $gaji);
 								}elseif($p2 == 'form_expenses'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_exp_id', $id);
@@ -95,9 +98,12 @@ class homex extends MY_Controller {
 									$total_assets = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_ass');
 									$amount = number_format($data['amount'],2,",",".");;
 									
-									$this->smarty->assign('total_activity', $total_activity);
-									$this->smarty->assign('total_employee', $total_employee);
-									$this->smarty->assign('total_assets', $total_assets);
+									$this->smarty->assign('total_activity', $total_activity['total_cost']);
+									$this->smarty->assign('total_percent_activity', $total_activity['total_percent']);
+									$this->smarty->assign('total_employee', $total_employee['total_cost']);
+									$this->smarty->assign('total_percent_employee', $total_employee['total_percent']);
+									$this->smarty->assign('total_assets', $total_assets['total_cost']);
+									$this->smarty->assign('total_percent_assets', $total_assets['total_percent']);
 									$this->smarty->assign('amount', $amount);
 								}elseif($p2 == 'form_assets'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_assets_id', $id);
@@ -214,11 +220,16 @@ class homex extends MY_Controller {
 	
 	function getcost($balikan="", $p1="", $p2="", $p3="", $p4="", $p5=""){
 		$data = $this->mhomex->getdata('total_cost', 'row_array', $p1, $p2, $p3, $p4, $p5);
+		$array = array(
+			'total_cost' => number_format($data['total_cost'],2,",","."),
+			'total_percent' => number_format($data['total_percent'],0,",",".")
+		);
+		
 		
 		if($balikan == 'echo'){
-			echo number_format($data['total_cost'],2,",",".");;
+			echo json_encode($array);
 		}elseif($balikan == 'return'){
-			return number_format($data['total_cost'],2,",",".");;
+			return $array;
 		}
 	}
 	

@@ -44,23 +44,27 @@
     </div>
 	{if $editstatus eq 'edit'}
     <div title="To Activity" style="overflow:auto;padding:10px;">
-		<table width='100%'>
+		<input type='hidden' id='total_percent_act_exp' value="{$total_percent_activity|default:''}">
+		<table width='100%' style='margin-bottom:10px;'>
 			<tr>
-				<td width='50%'>
-					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
-					{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Cost Center</label> : <span class='cost_centersss'></span>
+					<br/>
+					<label style='width:100px;'>Account ID</label> : {$data.account|default:''}
+					<br/>
+					<label style='width:100px;'>Account Desc.</label> : {$data.descript|default:''}
 				</td>
 				<td width='50%' valign='top'>
 					<label style='width:100px;'>Total Expense</label> : Rp. {$amount|default:''}
+					<br/>
+					<label style='width:100px;'>Month</label> : <span class='monthhsss'></span>
+					<br/>
+					<label style='width:100px;'>Year</label> : <span class='yearrsss'></span>
 					<br/>
 					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
 				</td>
 			</tr>
 		</table>		
-		
-		<br/>
 		{include file='template/grid_editable.html' crud_table='tbl_are_assignment' main='assign_act_expense' mod={$mod} button_2='true' filter_core='false' tinggi_grid='225px' tinggi_toolbar='30px'}
 		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
 			<table width='100%'>
@@ -81,15 +85,22 @@
 		</div>    
 	</div>
     <div title="To Employee" style="overflow:auto;padding:10px;">
+		<input type='hidden' id='total_percent_emp_exp' value="{$total_percent_employee|default:''}">
 		<table width='100%'>
 			<tr>
-				<td width='50%'>
-					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
-					{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Cost Center</label> : <span class='cost_centersss'></span>
+					<br/>
+					<label style='width:100px;'>Account ID</label> : {$data.account|default:''}
+					<br/>
+					<label style='width:100px;'>Account Desc.</label> : {$data.descript|default:''}
+					<br/>				
 				</td>
 				<td width='50%' valign='top'>
+					<label style='width:100px;'>Month</label> : <span class='monthhsss'></span>
+					<br/>
+					<label style='width:100px;'>Year</label> : <span class='yearrsss'></span>
+					<br/>				
 					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
 				</td>
 			</tr>
@@ -115,15 +126,22 @@
 		</div>    
     </div>
     <div title="To Assets" style="overflow:auto;padding:10px;">
+		<input type='hidden' id='total_percent_ass_exp' value="{$total_percent_assets|default:''}">
 		<table width='100%'>
 			<tr>
-				<td width='50%'>
-					{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Center' name='tbl_loc_id' option={$option_costcenter}} 
-					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account ID' name='account' value={$data.account|default:''} }
-					{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
-					{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Description' name='descript' value={$data.descript|default:''} }
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Cost Center</label> : <span class='cost_centersss'></span>
+					<br/>
+					<label style='width:100px;'>Account ID</label> : {$data.account|default:''}
+					<br/>
+					<label style='width:100px;'>Account Desc.</label> : {$data.descript|default:''}
+					<br/>				
 				</td>
 				<td width='50%' valign='top'>
+					<label style='width:100px;'>Month</label> : <span class='monthhsss'></span>
+					<br/>
+					<label style='width:100px;'>Year</label> : <span class='yearrsss'></span>
+					<br/>				
 					<font color='red'>*) Nilai Quantity Tidak Boleh Lebih Besar Dari Res. Driver Qty.</font>
 				</td>
 			</tr>
@@ -195,6 +213,11 @@
 </div>
 
 <script>
+	$('.cost_centersss').html($('#tbl_loc_id option:selected').text());
+	$('.monthhsss').html($('#bulan option:selected').text());
+	$('.yearrsss').html($('#tahun option:selected').text());
+
+	
 	$("#tabs_{$main}").tabs({
 		height: getClientHeight()-200,
 		width: getClientWidth()-280,

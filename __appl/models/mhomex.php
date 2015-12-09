@@ -14,6 +14,22 @@ class mhomex extends CI_Model{
 		$ci =& get_instance();
 		$ci->load->model('mhome');
 		$where = " WHERE 1=1 ";
+		$costcenter = $this->input->post('cost_center');
+		$month = $this->input->post('month');
+		$year = $this->input->post('year');
+		
+		if($costcenter){
+			$where .= " AND A.tbl_loc_id = '".$costcenter."' ";
+		}
+		
+		if($month){
+			$where .= " AND A.bulan = '".$month."' ";
+		}
+		
+		if($year){
+			$where .= " AND A.tahun = '".$year."' ";
+		}
+		
 		if($p1){
 			$where .= " AND A.id = '".$p1."' ";
 		}
@@ -278,17 +294,19 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'emp_to_act'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.total as gaji, C.bulan, C.tahun ";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.total as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
 					$from = "tbl_are";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 						LEFT JOIN tbl_emp C ON C.id = A.tbl_emp_id
+						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id
 					";
 				}elseif($type == 'exp_to_emp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun ";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun, C.descript AS resource_name ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
+						LEFT JOIN tbl_rdm C ON B.tbl_rdm_id = C.id
 					";
 				}
 				
@@ -298,7 +316,7 @@ class mhomex extends CI_Model{
 					$join
 					$where
 				";
-				
+				//echo $sql;exit;
 			break;
 			
 			//Tabs Expense
@@ -313,26 +331,29 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'exp_to_act'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun ";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
 					$from = "tbl_are";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 						LEFT JOIN tbl_exp C ON C.id = A.tbl_exp_id
+						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id
 					";
 					
 				}elseif($type == 'emp_to_exp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.last as employee_name, B.wages as amount, B.bulan, B.tahun ";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.last as employee_name, B.wages as amount, B.bulan, B.tahun, C.descript AS resource_name ";
 					$from = "tbl_efx";
 					$join = "
-						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id 
+						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id
+						LEFT JOIN tbl_rdm C ON B.tbl_rdm_id = C.id						
 					";
 					$where .= " AND A.tbl_emp_id IS NOT NULL AND A.tbl_emp_id <> '0'";
 					
 				}elseif($type == 'ass_to_exp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.assets_name, B.amount, B.bulan, B.tahun ";
+					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.assets_name, B.amount, B.bulan, B.tahun, C.descript AS resource_name  ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_assets B ON B.id = A.tbl_assets_id 
+						LEFT JOIN tbl_rdm C ON B.tbl_rdm_id = C.id	
 					";
 					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
 					
@@ -401,18 +422,67 @@ class mhomex extends CI_Model{
 				if($type == 'list_activity_employee'){
 					$select = " A.id, A.activity_code, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
 					$from = "tbl_acm";
+					$flag = $this->input->post('flag');
+					
+					if($flag == "employee"){
+						$id_beda = $this->input->post('id_employee');
+						$field_where = "tbl_emp_id";
+					}elseif($flag == "expense"){
+						$id_beda = $this->input->post('id_expense');
+						$field_where = "tbl_exp_id";	
+					}elseif($flag == "assets"){
+						$id_beda = $this->input->post('id_assets');
+						$field_where = "tbl_assets_id";	
+					}
+					
+					$field_select = "tbl_acm_id";
+					$table_beda = "tbl_are";
 				}elseif($type == 'list_expense_employee'){
 					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
 					$from = "tbl_exp";
+					
+					$id_beda = $this->input->post('id_employee');
+					$field_where = "tbl_emp_id";
+					$field_select = "tbl_exp_id";
+					$table_beda = "tbl_efx";
 				}elseif($type == 'list_employee_expense'){
 					$select = " A.id, A.employee_id, A.last, A.tbl_rdm_id, A.rd_tot_qty";
 					$from = "tbl_emp";
+					
+					$id_beda = $this->input->post('id_expense');
+					$field_where = "tbl_exp_id";
+					$field_select = "tbl_emp_id";
+					$table_beda = "tbl_efx";					
+					
 				}elseif($type == 'list_assets_expense'){
 					$select = " A.id, A.assets_name, A.assets_id, A.tbl_rdm_id, A.rd_tot_qty";
 					$from = "tbl_assets";
+					
+					$id_beda = $this->input->post('id_expense');
+					$field_where = "tbl_exp_id";
+					$field_select = "tbl_assets_id";
+					$table_beda = "tbl_efx";			
 				}elseif($type == 'list_expense_assets'){
 					$select = " A.id, A.account, A.descript, A.tbl_rdm_id, A.rd_tot_qty ";
 					$from = "tbl_exp";
+				}
+				
+				$sql_beda = "
+					SELECT ".$field_select." as id
+					FROM ".$table_beda."
+					WHERE ".$field_where." = '".$id_beda."'
+				";
+				$query_beda = $this->db->query($sql_beda)->result_array();
+				if($query_beda){
+					$bedanya = array();
+					$idx_s = 0;
+					foreach($query_beda as $k => $v){
+						$bedanya[$idx_s] = $v['id'];
+						$idx_s++;
+					}
+					if($bedanya){
+						$where .= " AND A.id NOT IN ('".join("','",$bedanya)."')";
+					}
 				}
 					
 				$sql = "
@@ -420,6 +490,7 @@ class mhomex extends CI_Model{
 					FROM $from A
 					$where 
 				";
+				//echo $sql;exit;
 			break;
 			//End Data Assignment
 			
@@ -550,7 +621,21 @@ class mhomex extends CI_Model{
 				}
 				
 				$sql = "
-					SELECT SUM(".$p1.") as total_cost 
+					SELECT SUM(".$p1.") as total_cost, SUM(percent) as total_percent 
+					FROM ".$p2."
+					WHERE ".$p3." = '".$p4."' $where
+				";
+			break;
+			case "total_percent_models":
+				$where = "";
+				if($p5 == 'expense_emp'){
+					$where .= " AND tbl_emp_id IS NOT NULL AND tbl_emp_id <> '0' ";
+				}elseif($p5 == 'expense_ass'){
+					$where .= " AND tbl_assets_id IS NOT NULL AND tbl_assets_id <> '0' ";
+				}
+				
+				$sql = "
+					SELECT SUM(".$p1.") as total_percent 
 					FROM ".$p2."
 					WHERE ".$p3." = '".$p4."' $where
 				";
@@ -1135,7 +1220,16 @@ class mhomex extends CI_Model{
 					}
 					$amount = ($data['rd_qty'] * $gaji) / $tot_qty;
 					$percent = ($amount/$gaji) * 100;
-					$data['percent'] = number_format($percent,2);
+					$data['percent'] = number_format($percent,0);
+				}
+				
+				$cek_percent = $this->db->get_where('tbl_are', array('id' => $id) )->row_array();
+				if($data['percent'] >= $cek_percent){
+					$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_are", "tbl_emp_id", $data['tbl_emp_id']);
+					$percent_allowed = ($total_percent['total_percent'] + $data['percent']);
+					if($percent_allowed > 100){
+						exit;
+					}
 				}
 				
 				$data['cost'] = $amount;
@@ -1204,8 +1298,18 @@ class mhomex extends CI_Model{
 						}
 						$amount = ($data['rd_qty'] * $amounts) / $tot_qty;
 						$percent = ($amount/$amounts) * 100;
-						$data['percent'] = number_format($percent,2);
+						$data['percent'] = number_format($percent,0);
 					}
+										
+					$cek_percent = $this->db->get_where('tbl_efx', array('id' => $id) )->row_array();
+					if($data['percent'] >= $cek_percent){
+						$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_efx", "tbl_emp_id", $data['tbl_emp_id']);
+						$percent_allowed = ($total_percent['total_percent'] + $data['percent']);
+						if($percent_allowed > 100){
+							exit;
+						}
+					}
+					
 					$data['cost'] = $amount;
 				}
 			break;
@@ -1283,7 +1387,16 @@ class mhomex extends CI_Model{
 					}
 					$amount = ($amounts * $data['rd_qty']) / $tot_qty;
 					$percent = ($amount/$amounts) * 100;
-					$data['percent'] = number_format($percent,2);
+					$data['percent'] = number_format($percent,0);
+				}
+				
+				$cek_percent = $this->db->get_where('tbl_efx', array('id' => $id) )->row_array();
+				if($data['percent'] >= $cek_percent){
+					$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_efx", "tbl_assets_id", $data['tbl_assets_id']);
+					$percent_allowed = ($total_percent['total_percent'] + $data['percent']);
+					if($percent_allowed > 100){
+						exit;
+					}
 				}
 				$data['cost'] = $amount;
 				

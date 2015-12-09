@@ -170,8 +170,16 @@ class lib {
 		}
 		
 		
-		$optTemp = '<option value="0"> -- Choose -- </option>';
+		if($type == 'tbl_loc_search'){
+			$optTemp = '';
+		}else{
+			$optTemp = '<option value="0"> -- Choose -- </option>';
+		}
 		switch($type){
+			case "tbl_loc_search":
+				$type = 'tbl_loc';
+				$data = $ci->mhome->get_combo($type, $p1, $p2);
+			break;
 			case "import_resource":
 				$data = array(
 					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
@@ -201,12 +209,12 @@ class lib {
 			case "bulan" :
 				$ci->load->helper('db_helper');
 				$data = arraydate('bulan');
-				$optTemp = '<option value="0"> -- Month -- </option>';
+				$optTemp = '<option value=""> -- Month -- </option>';
 			break;
 			case "tahun" :
 				$ci->load->helper('db_helper');
 				$data = arraydate('tahun');
-				$optTemp = '<option value="0"> -- Year -- </option>';
+				$optTemp = '<option value=""> -- Year -- </option>';
 			break;
 			case "cost_type":
 				$data = array(

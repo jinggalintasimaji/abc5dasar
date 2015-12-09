@@ -4,19 +4,26 @@
 		{if $filter_core eq 'true'}
 			<div id='filter_core'>
 				<label style='width:80px;'>Filter Data</label>:
-				<select id='cost_center' style='width:150px;padding:3px;'>
+				<select id='cost_center_{$main}' style='width:150px;padding:3px;'>
 					<option value=''>-- Filter Cost Center --</option>
+					{$costcenter}
 				</select>
 				&nbsp;&nbsp;
 				{if $filter_tahun_bulan|default:'' eq 'true'}
-					<select id='bulan' style='width:150px;padding:3px;'>
+					<select id='bulan_{$main}' style='width:150px;padding:3px;'>
 						{$bulan}
 					</select>
 					&nbsp;&nbsp;&nbsp;
-					<select id='tahun' style='width:150px;padding:3px;'>
+					<select id='tahun_{$main}' style='width:150px;padding:3px;'>
 						{$tahun}
 					</select>
 				{/if}
+				&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" style='' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="cariData('{$main}');">
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Cari</span><span class="l-btn-icon icon-search">&nbsp;</span>
+					</span>
+				</a>	
 			</div>
 		{/if}
 		{if $button|default:'' eq 'true'}
