@@ -137,6 +137,9 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 	var urlglobal="";
 	var param={};
 	var footer=false;
+	var pagesizeboy=10;
+	var paging=true;
+	
 	if(flagkode == 'jenonk'){
 		var url_crud = host+"homex/simpansavedata/"+crud_table;
 		var tolbarnya = '#tb_'+modnya;
@@ -284,6 +287,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			judulnya = "";
 			urlnya = "tbl_are/"+id_act+"/emp";
 			fitnya = true;
+			pagesizeboy=200;
+			paging=false;
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
 			kolom[modnya] = [	
@@ -1480,7 +1485,10 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 		iconCls:'database',
         fit:fitnya,
         striped:true,
-        pagination:true,
+        pagination:paging,
+       // pagination:true,
+		pageSize:pagesizeboy,
+		pageList:[10,20,30,40,50,75,100,200],
         remoteSort: false,
         //showFooter: true,
 		url: (urlglobal == "" ? host+"home/getdata/"+urlnya : urlglobal),		
