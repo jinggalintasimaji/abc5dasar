@@ -70,6 +70,11 @@
 								<span class="l-btn-text">Edit</span><span class="l-btn-icon icon-edit">&nbsp;</span>
 							</span>
 						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="detil_{$main}" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">View Detail & Assigments</span><span class="l-btn-icon cost_object">&nbsp;</span>
+							</span>
+						</a>
 						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="del_{$main}" >
 							<span class="l-btn-left l-btn-icon-left">
 								<span class="l-btn-text">Delete</span><span class="l-btn-icon icon-remove">&nbsp;</span>
@@ -133,6 +138,22 @@
 			}
 		
 	});
+	$('#detil_{$main}').bind('click',function(){
+		var row = $('#grid_{$main}').datagrid('getSelected');
+			if(row){
+				$('#daftar_grid').hide();
+				$('#detil_grid').show();
+				$('#detil_grid').addClass('loading').html('');
+				$.post(host+"home/modul/activity/main_detil",{ id:row.id },function(r){
+					$('#detil_grid').removeClass('loading').html(r);
+				});
+			}
+			else{
+				$.messager.alert('ABC System',"Select Row In Grid",'error');
+			}
+		
+	});
+	
 	$('#del_{$main}').bind('click',function(){
 		
 	});

@@ -249,7 +249,10 @@ class mhome extends CI_Model{
 			break;
 			case "tbl_acm_act":
 				$sql="SELECT A.* FROM tbl_acm A 
-					WHERE tbl_model_id=".$this->modeling['id']." AND A.id <> ".$this->input->post('pid');
+					WHERE tbl_model_id=".$this->modeling['id']." AND A.id <> ".$this->input->post('pid')." 
+					AND A.id NOT IN (
+						SELECT tbl_acm_child_id  FROM tbl_are WHERE tbl_acm_child_id IS NOT NULL AND tbl_acm_id=".$this->input->post('pid')."
+					)";
 					//WHERE pid=".$this->input->post('pid')." 
 			break;
 			case "rekap_act":
@@ -451,19 +454,27 @@ class mhome extends CI_Model{
 			case "tbl_emp":
 				$bulan=(int)$this->input->post('bulan');
 				$tahun=(int)$this->input->post('tahun');
+				$id_act=(int)$this->input->post('id_act');
 				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
 				
 				$sql = "SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
 					FROM tbl_emp A
-					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where;
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where." 
+					AND A.id NOT IN (
+						SELECT tbl_emp_id  FROM tbl_are WHERE tbl_emp_id IS NOT NULL AND tbl_acm_id=".$id_act."
+					)";
 				//echo $sql;
 			break;
 			case "tbl_assets":
 				$bulan=(int)$this->input->post('bulan');
 				$tahun=(int)$this->input->post('tahun');
+				$id_act=(int)$this->input->post('id_act');
 				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
 				
-				$sql = "SELECT A.* FROM tbl_assets A ".$where;
+				$sql = "SELECT A.* FROM tbl_assets A ".$where." 
+					AND A.id NOT IN (
+						SELECT tbl_assets_id  FROM tbl_are WHERE tbl_assets_id IS NOT NULL AND tbl_acm_id=".$id_act."
+					)";
 				//echo $sql;
 			break;
 			case "tbl_bpd":
@@ -474,12 +485,16 @@ class mhome extends CI_Model{
 			case "tbl_exp":
 				$bulan=(int)$this->input->post('bulan');
 				$tahun=(int)$this->input->post('tahun');
+				$id_act=(int)$this->input->post('id_act');
 				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
 				
 				$sql = "
 					SELECT A.*,B.costcenter
 					FROM tbl_exp A 
-					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where;;
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where." 
+					AND A.id NOT IN (
+						SELECT tbl_exp_id  FROM tbl_are WHERE tbl_exp_id IS NOT NULL AND tbl_acm_id=".$id_act."
+					)";
 			break;
 			case "tbl_efx":
 				$sql = "
@@ -622,7 +637,8 @@ class mhome extends CI_Model{
 				//$table='tbl_acm';
 				//echo $data['rd_tot_qty'];exit;
 				$sts=0;
-				$act=$this->db->get_where('tbl_acm',array('activity_code'=>$this->input->post('act_code'),'tbl_model_id'=>$this->modeling['id']))->result_array();
+				$act=$this->db->get_where('tbl_acm',array('id'=>$this->input->post('id_act'),'tbl_model_id'=>$this->modeling['id']))->result_array();
+				//echo $this->db->last_query();exit;
 				foreach($act as $v){
 					$sql="UPDATE tbl_acm set tbl_rdm_id=".$data['tbl_rdm_id'].", rd_tot_qty= ".$data['rd_tot_qty']." 
 						 WHERE id=".$v['id']." AND tbl_model_id=".$this->modeling['id'];
@@ -1075,6 +1091,30 @@ class mhome extends CI_Model{
 				if($sts_crud=='edit'){
 					//unset($data['id']);
 					$array_where=array('id'=>$this->input->post('id'));
+				}
+				if($sts_crud=='delete'){
+					$id_model=$this->input->post('id');
+					
+					$tables = array("tbl_emp","tbl_exp","tbl_assets","tbl_prd","tbl_are","tbl_acm_total_cost","tbl_acm");
+					foreach($tables as $x) {
+						if($x=='tbl_are'){
+							$sql="DELETE A
+									FROM ".$x." A
+									JOIN tbl_acm B ON A.tbl_acm_id=B.id
+									WHERE B.tbl_model_id=".$id_model;
+						}elseif($x=='tbl_acm_total_cost'){
+							$sql="DELETE A
+									FROM ".$x." A
+									JOIN tbl_acm B ON A.tbl_acm_id=B.id
+									WHERE B.tbl_model_id=".$id_model;
+						}
+						else{
+							$sql="DELETE FROM ".$x." where tbl_model_id=".$id_model;
+						}
+						$this->db->query($sql);
+					 
+					}
+					
 				}
 			break;
 			case "tbl_acm_wizard":

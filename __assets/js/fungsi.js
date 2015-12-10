@@ -294,32 +294,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 						return NumberFormat(value);
 					},
 				},
-				/*
-				{field:'rdm_qty',title:'Res.Driv.',width:100, halign:'center',align:'right',
-					formatter:function(value,rowData,rowIndex){
-						return NumberFormat(value);
-					},
-				},
-				{field:'cost',title:'Cost',width:100, halign:'center',align:'right',
-					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
-					},
-					editor:{type:'numberbox',options:{precision:1,value:0,min:0}}
-					
-				},
-				{field:'percent',title:'%',width:50, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{precision:2,value:0,min:0,max:100}}
-				},
 				
-				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{ value:0 }}
-				},
-				
-				{field:'total_cost',title:'Total Cost',width:150, halign:'center',align:'right',
-					formatter:function(value,rowData,rowIndex){
-						if(value)return NumberFormat(value);
-					},
-				}*/
 				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:100, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
 						if(value == null || value == 0){
@@ -341,7 +316,16 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{
+							type:'numberbox',
+							options:{
+								value:0,
+								min:0,
+								onChange:function(){
+									console.log($(this).numberbox('getValue'));
+								}
+							}
+					},
 					formatter:function(value,rowData,rowIndex){
 						if(rowData.rd_tot_qty == null){
 							if(value)return value;
@@ -1518,9 +1502,11 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
             row.editing = true;
             updateActions(divnya,index);
         },
+		
         onAfterEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
+			
         },
         onCancelEdit:function(index,row){
             row.editing = false;
@@ -1708,6 +1694,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_emp";
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			param['id_act']=id_act;
 			fitnya = false;
 			singleSelek = false;
 			kolom[modnya] = [	
@@ -1721,6 +1708,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_assets";
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			param['id_act']=id_act;
 			fitnya = false;
 			singleSelek = false;
 			kolom[modnya] = [	
@@ -1747,6 +1735,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_exp";
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			param['id_act']=id_act;
 			fitnya = false;
 			singleSelek = false;
 			kolom[modnya] = [	

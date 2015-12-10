@@ -102,12 +102,15 @@
 		submit_form('form_{$main}_{$acak}',function(r){
 			if(r==1){
 				$.messager.alert('ABC System', "Mapping Success", 'info');
+				windowFormClosePanel();
+				$('#grid_list').datagrid('reload');
+				
 			}else{
 				console.log(r);
 				$.messager.alert('ABC System', "Error System", 'error');
 			}
 			
-			windowFormClosePanel();
+			
 			$('#grid_mapping').datagrid('reload');
 			
 		});
