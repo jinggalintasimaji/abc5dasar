@@ -110,9 +110,11 @@ class homex extends MY_Controller {
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_assets_id', $id);
 									$amount = number_format($data['amount'],2,",",".");;
 									
-									$this->smarty->assign('total_activity', $total_activity);
-									$this->smarty->assign('total_expense', $total_expense);		
-									$this->smarty->assign('amount', $amount);									
+									$this->smarty->assign('total_activity', $total_activity['total_cost']);
+									$this->smarty->assign('total_percent_activity', $total_activity['total_percent']);
+									$this->smarty->assign('total_expense', $total_expense['total_cost']);	
+									$this->smarty->assign('total_percent_expense', $total_expense['total_percent']);
+									$this->smarty->assign('amount', $amount);								
 								}
 							}else{
 								if($p2 == 'form_assets'){
