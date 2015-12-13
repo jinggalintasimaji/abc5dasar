@@ -1178,8 +1178,11 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			pagesizeboy = 50;
 			param['id_assets'] = $('#id_assets').val();
-			kolom[modnya] = [	
+			frozen[modnya] = [
 				{field:'activity_name',title:'Activity Name',width:200, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [	
+				{field:'resource_name',title:'Res. Driver',width:200, halign:'center',align:'left'},			
 				{field:'rd_tot_qty',title:'Res. Driver Qty.',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
 						if(value == null){
@@ -1250,6 +1253,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 						if(value)return NumberFormat(value);
 					},
 				},
+				{field:'resource_name',title:'Res. Driver',width:200, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Res. Driver Qty.', width:120, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
 						if(value == null){
@@ -1550,6 +1554,7 @@ function saverow(div,target){
 	var url = ""; 
 	var divtotcost = ""; 
 	var divtotpercent = ""; 
+	var divtxtpercent = ""; 
 	var arraynya = [
 		'grid_assign_act_employee',
 		'grid_expense_source_employee',
@@ -1564,34 +1569,43 @@ function saverow(div,target){
 		url = host+"homex/getcost/echo/cost/tbl_are/tbl_emp_id/"+$('#id_employee').val();
 		divtotcost = "cost_activity_employee";
 		divtotpercent = "total_percent_act_emp";
+		divtxtpercent = "total_percent_act_emp_txt";
 		
 	}else if(div == 'grid_expense_source_employee'){
 		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_emp_id/"+$('#id_employee').val();
 		divtotcost = "cost_expense_employee";
 		divtotpercent = "total_percent_exp_emp";
+		divtxtpercent = "total_percent_exp_emp_txt";
 	
 	}else if(div == 'grid_assign_act_expense'){
 		url = host+"homex/getcost/echo/cost/tbl_are/tbl_exp_id/"+$('#id_expense').val();
 		divtotcost = "cost_activity_expense";
 		divtotpercent = "total_percent_act_exp";
+		divtxtpercent = "total_percent_act_exp_txt";
 	
 	}else if(div == 'grid_assign_emp_expense'){
 		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_emp/";
 		divtotcost = "cost_employee_expense";
 		divtotpercent = "total_percent_emp_exp";
+		divtxtpercent = "total_percent_emp_exp_txt";
 		
 	}else if(div == 'grid_assign_assets_expense'){
 		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_ass/";
 		divtotcost = "cost_assets_expense";
 		divtotpercent = "total_percent_ass_exp";
+		divtxtpercent = "total_percent_ass_exp_txt";
 		
 	}else if(div == 'grid_assign_act_assets'){
 		url = host+"homex/getcost/echo/cost/tbl_are/tbl_assets_id/"+$('#id_assets').val();
 		divtotcost = "cost_activity_assets";
+		divtotpercent = "total_percent_act_ass";
+		divtxtpercent = "total_percent_act_ass_txt";
 		
 	}else if(div == 'grid_assign_exp_assets'){
 		url = host+"homex/getcost/echo/cost/tbl_efx/tbl_assets_id/"+$('#id_assets').val()+"/expense_ass/";
 		divtotcost = "cost_expense_assets";
+		divtotpercent = "total_percent_exp_ass";
+		divtxtpercent = "total_percent_exp_ass_txt";
 		
 	}
 	
@@ -1600,6 +1614,7 @@ function saverow(div,target){
 			var objnyaboi = $.parseJSON(respo);
 			$('#'+divtotcost).html(objnyaboi.total_cost);
 			$('#'+divtotpercent).val(objnyaboi.total_percent);
+			$('#'+divtxtpercent).html(objnyaboi.total_percent);
 		});
 	}
 }
@@ -2745,6 +2760,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 					return false;
 				}
 			}
+			
 			table = 'tbl_are';
 			id_tambahan = $('#id_employee').val();
 			stswindow = 'windowform';
@@ -2757,6 +2773,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urltot = host+"homex/getcost/echo/cost/tbl_are/tbl_emp_id/"+$('#id_employee').val();
 			divtotcost = "cost_activity_employee";
 			divtotpercent = "total_percent_act_emp";
+			divtxtpercent = "total_percent_act_emp_txt";
 		break;
 		case "expense_source_employee":
 			if(type == 'add'){
@@ -2778,6 +2795,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urltot = host+"homex/getcost/echo/cost/tbl_efx/tbl_emp_id/"+$('#id_employee').val();
 			divtotcost = "cost_expense_employee";
 			divtotpercent = "total_percent_exp_emp";
+			divtxtpercent = "total_percent_exp_emp_txt";
 		break;
 		
 		//tabs expense
@@ -2800,6 +2818,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urltot = host+"homex/getcost/echo/cost/tbl_are/tbl_exp_id/"+$('#id_expense').val();
 			divtotcost = "cost_activity_expense";
 			divtotpercent = "total_percent_act_exp";
+			divtxtpercent = "total_percent_act_exp_txt";
 		break;
 		case "assign_emp_expense":
 			if(type == 'add'){
@@ -2820,6 +2839,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urltot = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_emp/";
 			divtotcost = "cost_employee_expense";
 			divtotpercent = "total_percent_emp_exp";
+			divtxtpercent = "total_percent_emp_exp_txt";
 		break;
 		case "assign_assets_expense":
 			if(type == 'add'){
@@ -2840,6 +2860,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urltot = host+"homex/getcost/echo/cost/tbl_efx/tbl_exp_id/"+$('#id_expense').val()+"/expense_ass/";
 			divtotcost = "cost_assets_expense";
 			divtotpercent = "total_percent_ass_exp";
+			divtxtpercent = "total_percent_ass_exp_txt";
 		break;
 		case "expenses":
 			table="tbl_exp";
@@ -2852,6 +2873,12 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 		break;
 		case "assign_act_assets":
+			if(type == 'add'){
+				if($('#total_percent_act_ass').val() >= 100 ){
+					$.messager.alert('ABC System',"Not Allowed More Than 100%!",'info');
+					return false;
+				}
+			}
 			table = 'tbl_are';
 			id_tambahan = $('#id_assets').val();
 			stswindow = 'windowform';
@@ -2860,8 +2887,19 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			judulwindow = 'Map Activity';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_are/tbl_assets_id/"+$('#id_assets').val();
+			divtotcost = "cost_activity_assets";
+			divtotpercent = "total_percent_act_ass";
+			divtxtpercent = "total_percent_act_ass_txt";
 		break;
 		case "assign_exp_assets":
+			if(type == 'add'){
+				if($('#total_percent_exp_ass').val() >= 100 ){
+					$.messager.alert('ABC System',"Not Allowed More Than 100%!",'info');
+					return false;
+				}
+			}
 			table = 'tbl_efx';
 			id_tambahan = $('#id_assets').val();
 			stswindow = 'windowform';
@@ -2870,6 +2908,11 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			judulwindow = 'Expense List';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_efx/tbl_assets_id/"+$('#id_assets').val()+"/expense_ass/";
+			divtotcost = "cost_expense_assets";
+			divtotpercent = "total_percent_exp_ass";
+			divtxtpercent = "total_percent_exp_ass_txt";
 		break;
 		
 		// End Resource
@@ -2976,6 +3019,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 										var obj = $.parseJSON(respo);
 										$('#'+divtotcost).html(obj.total_cost);
 										$('#'+divtotpercent).val(obj.total_percent);
+										$('#'+divtxtpercent).val(obj.total_percent);
 									});
 								}
 								
