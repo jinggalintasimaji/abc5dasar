@@ -1563,6 +1563,9 @@ function saverow(div,target){
 		'grid_assign_assets_expense',
 		'grid_assign_act_assets',
 		'grid_assign_exp_assets',
+		'grid_assign_act_costobject',
+		'grid_assign_cust_costobject',
+		'grid_assign_loc_costobject',
 	];
 	
 	if(div == 'grid_assign_act_employee'){
@@ -1607,6 +1610,18 @@ function saverow(div,target){
 		divtotpercent = "total_percent_exp_ass";
 		divtxtpercent = "total_percent_exp_ass_txt";
 		
+	}else if(div == 'grid_assign_act_costobject'){
+		url = host+"homex/getcost/echo/cost/tbl_prd/tbl_prm_id/"+$('#id_prm').val();
+		divtotcost = "total_costdriver_costobject";
+	
+	}else if(div == 'grid_assign_cust_costobject'){
+		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_prm_id/"+$('#id_prm').val()+"/customer_costobject/";
+		divtotcost = "total_customer_costobject";
+		
+	}else if(div == 'grid_assign_loc_costobject'){
+		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_prm_id/"+$('#id_prm').val()+"/location_costobject/";
+		divtotcost = "total_location_costobject";
+	
 	}
 	
 	if( $.inArray(div, arraynya) > -1 ){
@@ -2079,9 +2094,11 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_prm";
 			fitnya = true;
 			urlglobal = host+'homex/getdata/'+urlnya;
-			kolom[modnya] = [	
+			frozen[modnya] = [
 				{field:'prod_id',title:'Prod. ID',width:100, halign:'center',align:'center'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+			];			
+			kolom[modnya] = [	
 				{field:'level',title:'Level',width:100, halign:'center',align:'center'},
 				{field:'qtyproduce',title:'Qty. Prod.',width:100, halign:'center',align:'right'},
 				{field:'revenue',title:'Revenue',width:100, halign:'center',align:'left'},
@@ -2093,6 +2110,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'ovh_lower',title:'Overhead Lower',width:100, halign:'center',align:'center'},
 				{field:'abc_cost_r',title:'ABC Cost(r)',width:100, halign:'center',align:'center'},
 				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:100, halign:'center',align:'center'},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},					
 			];
 		break;
 		//End Cost Object
@@ -2428,12 +2447,18 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			if(modnya == 'list_activity_employee'){
 				param['id_employee'] = $('#id_employee').val();
 				param['flag'] = "employee";
+				param['month'] = $('#bulan_employee').val();
+				param['year'] = $('#tahun_employee').val();
 			}else if(modnya == 'list_activity_expense'){
 				param['id_expense'] = $('#id_expense').val();
 				param['flag'] = "expense";
+				param['month'] = $('#bulan_expense').val();
+				param['year'] = $('#tahun_expense').val();
 			}else if(modnya == 'list_activity_assets'){
 				param['id_assets'] = $('#id_assets').val();
 				param['flag'] = "assets";
+				param['month'] = $('#bulan_assets').val();
+				param['year'] = $('#tahun_assets').val();
 			}
 			
 			kolom[modnya] = [	
@@ -2450,6 +2475,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			pagesizeboy = 50;
 			singleSelek = false;
 			param['id_employee'] = $('#id_employee').val();
+			param['month'] = $('#bulan_employee').val();
+			param['year'] = $('#tahun_employee').val();
 			kolom[modnya] = [	
 				{field:'account',title:'Accoount',width:120, halign:'center',align:'left'},
 				{field:'descript',title:'Expense Desc',width:200, halign:'center',align:'left'},
@@ -2513,25 +2540,15 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			pagesizeboy = 50;
 			singleSelek = false;
-			
+			param['id_prm'] = $('#id_prm').val();
+			param['month'] = $('#bulan_costobject').val();
+			param['year'] = $('#tahun_costobject').val();
+
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity Code',width:120, halign:'center',align:'left'},
 				{field:'descript',title:'Activity Desc',width:200, halign:'center',align:'left'},
 			]
 		break;		
-		// END List Assignment - Cost Object
-		
-		case "customer":
-			judulnya = "";
-			urlnya = "tbl_cust";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
-				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
-			];
-		break;
 		case "list_customer_costobject":
 			judulnya = "";
 			urlnya = "list_customer_costobject";
@@ -2539,12 +2556,42 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			pagesizeboy = 50;
 			singleSelek = false;
-			
+			param['id_prm'] = $('#id_prm').val();
+			param['month'] = $('#bulan_costobject').val();
+			param['year'] = $('#tahun_costobject').val();
 			kolom[modnya] = [	
 				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
 				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
 			]
-		break;	
+		break;			
+		case "list_location_costobject":
+			judulnya = "";
+			urlnya = "list_location_costobject";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			param['id_prm'] = $('#id_prm').val();
+			param['month'] = $('#bulan_costobject').val();
+			param['year'] = $('#tahun_costobject').val();
+			kolom[modnya] = [	
+				{field:'location_id',title:'Location ID',width:200, halign:'center',align:'left'},
+				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
+			]
+		break;			
+		// END List Assignment - Cost Object
+		
+		case "customer":
+			judulnya = "";
+			urlnya = "tbl_cust";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;			
+			kolom[modnya] = [	
+				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
+				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
+			];
+		break;
 		
 		case "location":
 			judulnya = "";
@@ -2557,19 +2604,6 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
 			];
 		break;
-		case "list_location_costobject":
-			judulnya = "";
-			urlnya = "list_location_costobject";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			singleSelek = false;
-			
-			kolom[modnya] = [	
-				{field:'location_id',title:'Location ID',width:200, halign:'center',align:'left'},
-				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
-			]
-		break;	
 	}
 	
 	grid_nya=$("#"+divnya).datagrid({
@@ -2933,6 +2967,11 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			judulwindow = 'Map Activity';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_prd/tbl_prm_id/"+$('#id_prm').val();
+			divtotcost = "total_costdriver_costobject";			
+			divtotpercent = "";
+			divtxtpercent = "";						
 		break;
 		case "assign_cust_costobject":
 			table = 'tbl_ptp';
@@ -2943,6 +2982,11 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			judulwindow = 'Map Customer';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_ptp/tbl_prm_id/"+$('#id_prm').val()+"/customer_costobject/";
+			divtotcost = "total_customer_costobject";
+			divtotpercent = "";
+			divtxtpercent = "";			
 		break;
 		case "assign_loc_costobject":
 			table = 'tbl_ptp';
@@ -2953,6 +2997,12 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			judulwindow = 'Map Location';
 			urldelete = host+'homex/simpansavedata/'+table;
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_prm_id/"+$('#id_prm').val()+"/location_costobject/";
+			divtotcost = "total_location_costobject";
+			divtotpercent = "";
+			divtxtpercent = "";				
+			
 		break;
 		// End Modul Cost Object
 	}
