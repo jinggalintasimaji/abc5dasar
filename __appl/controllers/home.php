@@ -199,6 +199,7 @@ class home extends MY_Controller {
 					$this->smarty->assign('id_act' ,$id_act);
 					$this->smarty->assign('bulan' ,$bulan);
 					$this->smarty->assign('tahun' ,$tahun);
+					$this->smarty->assign('sub_mod' ,$p2);
 					switch($p2){
 						case "detail":
 							//echo $id_act;exit;
@@ -347,6 +348,10 @@ class home extends MY_Controller {
 			
 		}
 		echo $this->mhome->duplicate_model($post);
+	}
+	
+	function getcost($p1="",$p2="",$p3,$p4){
+		echo $this->mhome->get_cost($p1,$p2,$p3,$p4);
 	}
 	
 }

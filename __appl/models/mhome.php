@@ -412,16 +412,27 @@ class mhome extends CI_Model{
 			case "tbl_are":
 				$select="";
 				$join="";
+				$bulan=(int)$this->input->post('bulan');
+				$tahun=(int)$this->input->post('tahun');
 				if($p1!=""){
 					$where .=" AND A.tbl_acm_id=".$p1;
 				}
 				
 				if($p2=='emp'){
-						$where .=" AND tbl_emp_id IS NOT NULL ";
+						$where .=" AND A.tbl_emp_id IS NOT NULL ";
 						$select .=" B.employee_id,CONCAT(B.first,B.last)as name_na,B.total,E.rdm_qty,
 									A.total_cost ";
 						$join .="LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id ";
 						$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
+						$join .="LEFT JOIN (
+										SELECT A.tbl_emp_id,SUM(A.percent)as persen 
+										FROM tbl_are A
+										LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+										WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+										AND A.tbl_emp_id IS NOT NULL
+										AND B.tbl_model_id=".$this->modeling['id']."
+										GROUP BY A.tbl_emp_id
+								)E ON (E.tbl_emp_id=A.tbl_emp_id AND E.tbl_emp_id=B.id)";
 				}
 				if($p2=='exp'){
 					$where .=" AND tbl_exp_id IS NOT NULL ";
@@ -435,12 +446,11 @@ class mhome extends CI_Model{
 					$join .="LEFT JOIN tbl_assets B ON A.tbl_assets_id=B.id ";
 					$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";
 				}
-				$bulan=(int)$this->input->post('bulan');
-				$tahun=(int)$this->input->post('tahun');
+	
 				
 				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun;
 				
-				$sql="SELECT A.*,D.costcenter as cost_desc, ".$select."
+				$sql="SELECT A.*,D.costcenter as cost_desc,E.persen,".$select."
 						FROM tbl_are A 
 						".$join."
 						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
@@ -457,9 +467,18 @@ class mhome extends CI_Model{
 				$id_act=(int)$this->input->post('id_act');
 				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
 				
-				$sql = "SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na
+				$sql = "SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na,C.tot_persen
 					FROM tbl_emp A
-					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id".$where." 
+					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id 
+					LEFT JOIN (
+						SELECT A.tbl_emp_id,SUM(A.percent) as tot_persen 
+						FROM tbl_are A
+						LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+						WHERE A.tbl_emp_id IS NOT NULL AND A.bulan=".$bulan." AND A.tahun=".$tahun." 
+						AND B.tbl_model_id=".$this->modeling['id']."
+						GROUP BY A.tbl_emp_id
+					)C ON C.tbl_emp_id=A.id 
+					".$where." 
 					AND A.id NOT IN (
 						SELECT tbl_emp_id  FROM tbl_are WHERE tbl_emp_id IS NOT NULL AND tbl_acm_id=".$id_act."
 					)";
@@ -684,6 +703,7 @@ class mhome extends CI_Model{
 					if($_POST['rd_qty']!=$ex['rd_qty']){$isi='R';}
 					
 					//echo $isi;exit;
+					unset($data['persen']);
 					unset($data['total_cost']);
 					if($isi=='C'){
 						$data['total_cost']=$data['cost'];
@@ -1835,5 +1855,21 @@ class mhome extends CI_Model{
 			
 			break;
 		}
+	}
+	
+	function get_cost($p1,$p2,$p3,$p4){
+		$where="";
+		switch($p1){
+			case "emp":
+				$where .=" AND tbl_emp_id IS NOT NULL";
+			break;
+		}
+		$sql="SELECT SUM(percent)as total_percent,SUM(total_cost)as total_cost 
+					FROM tbl_are 
+					WHERE tbl_acm_id=".$p2." AND bulan=".$p3." AND tahun=".$p4;
+					
+		$data=$this->db->query($sql)->row_array();
+		return json_encode(array('total_cost'=>number_format($data['total_cost'],2,",","."),
+								  'total_percent'=>number_format($data['total_percent'],2,",",".")));
 	}
 }

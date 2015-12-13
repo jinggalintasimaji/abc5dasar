@@ -5,7 +5,7 @@ var myVar = setInterval(function(){
 },1000);
 
 
-
+var index_row;
 $(document).ready(function(){
     frmWidth = getClientWidth();
     frmHeight = getClientHeight();
@@ -327,7 +327,21 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 								value:0,
 								min:0,
 								onChange:function(){
-									console.log($(this).numberbox('getValue'));
+									/*var inputan=parseFloat($(this).numberbox('getValue'));
+									var row_na=$("#"+divnya).datagrid('getSelected');
+									var persen=(isNaN(parseFloat(row_na.persen))==true ? 0 : parseFloat(row_na.persen));
+									var persen_exist=(isNaN(parseFloat(row_na.percent))==true ? 0 : parseFloat(row_na.percent));
+									var total_persen=inputan+(persen - persen_exist);
+									//console.log(persen_exist);
+									//console.log(total_persen);
+									if(total_persen>100){
+										alert('Proportion Employees More Than 100%, Residual Proportion of '+(100-persen));
+										return cancelrow(divnya,this);
+									}
+									*/
+									//console.log(row_na.persen);
+									//var tot_persen=parseFloat($(this).numberbox('getValue'));
+									//console.log($(this).numberbox('getValue'));
 								}
 							}
 					},
@@ -349,7 +363,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'action',title:'Action',width:100,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
-							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var modul="act";
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this,\''+modul+'\')">Save</a> ';
 							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
 							return s+c;
 						} else {
@@ -1518,12 +1533,14 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
         onAfterEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
-			
         },
         onCancelEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
         },
+		onClickRow:function(rowIndex){
+			index_row=rowIndex;
+		}
 	});
 }
 
@@ -1547,10 +1564,7 @@ function deleterow(div,target){
         }
     });
 }
-function saverow(div,target){
-     $('#'+div).datagrid('endEdit', getRowIndex(target));
-     $('#'+div).datagrid('reload');
-	 
+function saverow(div,target,modul){
 	var url = ""; 
 	var divtotcost = ""; 
 	var divtotpercent = ""; 
@@ -1566,6 +1580,7 @@ function saverow(div,target){
 		'grid_assign_act_costobject',
 		'grid_assign_cust_costobject',
 		'grid_assign_loc_costobject',
+		'tabel_employees'
 	];
 	
 	if(div == 'grid_assign_act_employee'){
@@ -1623,19 +1638,74 @@ function saverow(div,target){
 		divtotcost = "total_location_costobject";
 	
 	}
+	// Activity
 	
-	if( $.inArray(div, arraynya) > -1 ){
-		$.post(url, {}, function(respo){
-			var objnyaboi = $.parseJSON(respo);
-			$('#'+divtotcost).html(objnyaboi.total_cost);
-			$('#'+divtotpercent).val(objnyaboi.total_percent);
-			$('#'+divtxtpercent).html(objnyaboi.total_percent);
-		});
+	else if(div == 'tabel_employees'){
+		url = host+"home/getcost/emp/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		divtotcost = "total_cost_from_employees";
+		//divtotpercent = "cost_form_employees";
+		divtxtpercent = "total_persen_from_employees";
+		
 	}
+	
+	
+	if(typeof(modul) == "undefined"){
+		$('#'+div).datagrid('endEdit', getRowIndex(target));
+		$('#'+div).datagrid('reload');
+	}else{
+		var editors = $('#'+div).datagrid('getEditor', {index:index_row,field:'percent'});
+		//console.log($(editors.target).numberbox('getValue'));
+		var inputan=parseFloat($(editors.target).numberbox('getValue'));
+		//var inputan=parseFloat($(this).numberbox('getValue'));
+		var row_na=$("#"+div).datagrid('getSelected');
+		var persen=(isNaN(parseFloat(row_na.persen))==true ? 0 : parseFloat(row_na.persen));
+		var persen_exist=(isNaN(parseFloat(row_na.percent))==true ? 0 : parseFloat(row_na.percent));
+		var total_persen=inputan+(persen - persen_exist);
+		var str_total_act=$('#'+divtxtpercent).html();
+		var total_act_pesen_exist=parseFloat(str_total_act.replace(",","."));
+		var total_act_pesen=(total_act_pesen_exist-persen_exist)+inputan;
+		
+		console.log(total_act_pesen_exist);
+		console.log(total_act_pesen);
+		if(total_persen>100){
+			alert('Proportion Employees More Than 100%, Residual Proportion of '+(100-persen));
+			return cancelrow(div,target);
+		}else{
+			if(total_act_pesen > 100){
+				alert('Proportion Activity More Than 100%');
+				return cancelrow(div,target);
+			}else{
+				$('#'+div).datagrid('endEdit', getRowIndex(target));
+				$('#'+div).datagrid('reload');
+			}
+		}
+	}
+	 
+	
+		if( $.inArray(div, arraynya) > -1 ){
+			get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+		}
+	
 }
+
+function get_total_cost(url,divtotcost,divtotpercent,divtxtpercent){
+	$.post(url, {}, function(respo){
+		var objnyaboi = $.parseJSON(respo);
+		console.log(objnyaboi.total_cost);
+		console.log(divtotcost);
+		$('#'+divtotcost).html(objnyaboi.total_cost);
+		$('#'+divtotpercent).val(objnyaboi.total_percent);
+		$('#'+divtxtpercent).html(objnyaboi.total_percent);
+	});
+}
+
+
 function cancelrow(div,target){
      $('#'+div).datagrid('cancelEdit', getRowIndex(target));
 }
+
+
+
 
 function genGrid(modnya, divnya, lebarnya, tingginya){
 	if(lebarnya == undefined){
@@ -1739,6 +1809,12 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'employee_id',title:'Emp. ID',width:80, halign:'center',align:'center'},
 				{field:'name_na',title:'Employee Name',width:240, halign:'center',align:'left'},
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
+				{field:'tot_persen',title:'Proportion Total(%)',width:150, halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						var persen=parseFloat(value)
+						return (isNaN(persen)==true ? 0 : persen);
+					}
+				}
 			]
 		break;
 		case "mst_asset":

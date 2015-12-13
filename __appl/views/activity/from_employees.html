@@ -63,13 +63,18 @@
 		<div id='tabel_employees'></div>
 	</div>
 	<div >
-		{include file="template/total_footer.html"}
+		{include file="template/total_footer.html" mod=$main total_persen=0 total_cost=0}
 	</div>
 </div>
 
 
 <script>
+	var url = host+"home/getcost/emp/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+	var divtotcost = "total_cost_from_employees";
+	var divtotpercent = "cost_form_employees";
+	var divtxtpercent = "total_persen_from_employees";
 	$('#data_gridna').css('height',(getClientHeight()-400));
+	get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
 	genGrid('mst_employees','master_employee', (getClientWidth()-325),(getClientHeight()-372));
 	genGridEditable('tbl_are_emp','tabel_employees', 500, 600,'tbl_are');
 	$('#act_id').val($('#id_activity').val());
