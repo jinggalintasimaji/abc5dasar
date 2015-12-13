@@ -4,11 +4,13 @@
 		{if $filter_core eq 'true'}
 			<div id='filter_core'>
 				<label style='width:80px;'>Filter Data</label>:
+				{if $filter_cost_center|default:'' eq 'true'}
 				<select id='cost_center_{$main}' style='width:150px;padding:3px;'>
 					<option value=''>-- Filter Cost Center --</option>
 					{$costcenter}
-				</select>
+				</select>				
 				&nbsp;&nbsp;
+				{/if}
 				{if $filter_tahun_bulan|default:'' eq 'true'}
 					<select id='bulan_{$main}' style='width:150px;padding:3px;'>
 						{$bulan}

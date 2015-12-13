@@ -177,9 +177,20 @@ class homex extends MY_Controller {
 								$this->smarty->assign('data', $data );
 								
 								if($p2 == 'form_cost_object'){
+									$total_cost_driver = $this->getcost('return', 'cost', 'tbl_prd', 'tbl_prm_id', $id);
+									$total_customer = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'customer_costobject');
+									$total_location = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'location_costobject');
 									
+									$this->smarty->assign('total_cost_driver', $total_cost_driver['total_cost']);
+									$this->smarty->assign('total_customer', $total_customer['total_cost']);
+									$this->smarty->assign('total_location', $total_location['total_cost']);
 								}
+								
 							}
+							
+							$this->smarty->assign('bulan_form', $this->lib->fillcombo('bulan', 'return', ($editstatus == 'edit' ? $data['bulan'] : "") ) );
+							$this->smarty->assign('tahun_form', $this->lib->fillcombo('tahun', 'return', ($editstatus == 'edit' ? $data['tahun'] : "") ) );
+							$this->smarty->assign('submodul', $this->input->post('submodul') );
 						break;
 						
 						case "form_assign_act_costobject":
@@ -222,10 +233,17 @@ class homex extends MY_Controller {
 	
 	function getcost($balikan="", $p1="", $p2="", $p3="", $p4="", $p5=""){
 		$data = $this->mhomex->getdata('total_cost', 'row_array', $p1, $p2, $p3, $p4, $p5);
-		$array = array(
-			'total_cost' => number_format($data['total_cost'],2,",","."),
-			'total_percent' => number_format($data['total_percent'],0,",",".")
-		);
+		
+		if($p2 != 'tbl_prd'){
+			$array = array(
+				'total_cost' => number_format($data['total_cost'],2,",","."),
+				'total_percent' => number_format($data['total_percent'],0,",",".")
+			);
+		}else{
+			$array = array(
+				'total_cost' => number_format($data['total_cost'],2,",","."),
+			);
+		}
 		
 		
 		if($balikan == 'echo'){

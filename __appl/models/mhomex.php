@@ -598,17 +598,53 @@ class mhomex extends CI_Model{
 				}else{
 					$where .= " AND A.tbl_model_id = '0' ";
 				}
-
+				
+				$wheretambah = "";
 				if($type == 'list_activity_costobject'){
 					$select = " A.id, A.activity_code, A.descript, A.tbl_cdm_id ";
 					$from = "tbl_acm";
 					$where .= " AND A.tbl_cdm_id IS NOT NULL ";
+					
+					$id_beda = $this->input->post('id_prm');
+					$field_where = "tbl_prm_id";
+					$field_select = "tbl_acm_id";
+					$table_beda = "tbl_prd";
 				}elseif($type == 'list_customer_costobject'){
 					$select = " A.id, A.customer_name, A.customer_id ";
 					$from = "tbl_cust";
+					
+					$id_beda = $this->input->post('id_prm');
+					$field_where = "tbl_prm_id";
+					$field_select = "tbl_cust_id";
+					$table_beda = "tbl_ptp";
+					$wheretambah .= "AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0'";
 				}elseif($type == 'list_location_costobject'){
 					$select = " A.id, A.location_name, A.location_id ";
 					$from = "tbl_location";
+					
+					$id_beda = $this->input->post('id_prm');
+					$field_where = "tbl_prm_id";
+					$field_select = "tbl_location_id";
+					$table_beda = "tbl_ptp";
+					$wheretambah .= "AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0'";
+				}
+				
+				$sql_beda = "
+					SELECT ".$field_select." as id
+					FROM ".$table_beda."
+					WHERE ".$field_where." = '".$id_beda."' ".$wheretambah."
+				";
+				$query_beda = $this->db->query($sql_beda)->result_array();
+				if($query_beda){
+					$bedanya = array();
+					$idx_s = 0;
+					foreach($query_beda as $k => $v){
+						$bedanya[$idx_s] = $v['id'];
+						$idx_s++;
+					}
+					if($bedanya){
+						$where .= " AND A.id NOT IN ('".join("','",$bedanya)."')";
+					}
 				}
 					
 				$sql = "
@@ -625,10 +661,20 @@ class mhomex extends CI_Model{
 					$where .= " AND tbl_emp_id IS NOT NULL AND tbl_emp_id <> '0' ";
 				}elseif($p5 == 'expense_ass'){
 					$where .= " AND tbl_assets_id IS NOT NULL AND tbl_assets_id <> '0' ";
+				}elseif($p5 == 'customer_costobject'){
+					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+				}elseif($p5 == 'location_costobject'){
+					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+				}
+				
+				if($p2 != 'tbl_prd'){
+					$select_tambah = " , SUM(percent) as total_percent  ";
+				}else{
+					$select_tambah = "";
 				}
 				
 				$sql = "
-					SELECT SUM(".$p1.") as total_cost, SUM(percent) as total_percent 
+					SELECT SUM(".$p1.") as total_cost ".$select_tambah."
 					FROM ".$p2."
 					WHERE ".$p3." = '".$p4."' $where
 				";
