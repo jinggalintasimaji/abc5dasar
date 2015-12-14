@@ -224,6 +224,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			//footer = true;
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			pagesizeboy=200;
+			paging=false;
 			kolom[modnya] = [	
 				
 				{field:'assets_name',title:'Assets Name',width:180, halign:'center',align:'left'},
@@ -255,13 +257,14 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
+						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
 						}else if(rowData.rd_tot_qty == 0){
 							if(value)return value;
 						}else{
 							return '-';
-						}
+						}*/
+						if(value)return NumberFormat(value);
 					},
 				},				
 				{field:'cost',title:'TotalCost',width:150, halign:'center',align:'right',
@@ -272,7 +275,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'action',title:'Action',width:100,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
-							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var modul="act";
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this,\''+modul+'\')">Save</a> ';
 							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
 							return s+c;
 						} else {
@@ -346,13 +350,14 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 							}
 					},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
+						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
 						}else if(rowData.rd_tot_qty == 0){
 							if(value)return value;
 						}else{
 							return '-';
-						}
+						}*/
+						if(value)return NumberFormat(value);
 					},
 				},				
 				{field:'cost',title:'TotalCost',width:150, halign:'center',align:'right',
@@ -381,6 +386,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			pagesizeboy=200;
+			paging=false;
 			kolom[modnya] = [	
 				
 				{field:'descript',title:'Expenses Desc.',width:200, halign:'center',align:'left'},
@@ -413,13 +420,14 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
+						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
 						}else if(rowData.rd_tot_qty == 0){
 							if(value)return value;
 						}else{
 							return '-';
-						}
+						}*/
+						if(value)return NumberFormat(value);
 					},
 				},				
 				{field:'cost',title:'TotalCost',width:150, halign:'center',align:'right',
@@ -430,7 +438,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'action',title:'Action',width:100,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
-							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var modul="act";
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this,\''+modul+'\')">Save</a> ';
 							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
 							return s+c;
 						} else {
@@ -478,6 +487,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			pagesizeboy=200;
+			paging=false;
 			kolom[modnya] = [	
 				
 				{field:'descript',title:'Activity Desc.',width:250, halign:'center',align:'left'},
@@ -510,13 +521,14 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
+						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
 						}else if(rowData.rd_tot_qty == 0){
 							if(value)return value;
 						}else{
 							return '-';
-						}
+						}*/
+						if(value)return NumberFormat(value);
 					},
 				},				
 				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
@@ -527,7 +539,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'action',title:'Action',width:100,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
-							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var modul="act";
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this,\''+modul+'\')">Save</a> ';
 							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
 							return s+c;
 						} else {
@@ -578,6 +591,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
+			pagesizeboy=200;
+			paging=false;
 			kolom[modnya] = [	
 				
 				{field:'descript',title:'Activity Desc.',width:250, halign:'center',align:'left'},
@@ -610,13 +625,14 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
 					editor:{type:'numberbox',options:{value:0,min:0}},
 					formatter:function(value,rowData,rowIndex){
-						if(rowData.rd_tot_qty == null){
+						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
 						}else if(rowData.rd_tot_qty == 0){
 							if(value)return value;
 						}else{
 							return '-';
-						}
+						}*/
+						if(value)return NumberFormat(value);
 					},
 				},				
 				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
@@ -627,7 +643,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'action',title:'Action',width:100,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
-							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var modul="act";
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this,\''+modul+'\')">Save</a> ';
 							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
 							return s+c;
 						} else {
@@ -1580,7 +1597,11 @@ function saverow(div,target,modul){
 		'grid_assign_act_costobject',
 		'grid_assign_cust_costobject',
 		'grid_assign_loc_costobject',
-		'tabel_employees'
+		'tabel_employees',
+		'tabel_expenses',
+		'tabel_assets',
+		'tabel_act',
+		'tabel_act_to'
 	];
 	
 	if(div == 'grid_assign_act_employee'){
@@ -1647,7 +1668,34 @@ function saverow(div,target,modul){
 		divtxtpercent = "total_persen_from_employees";
 		
 	}
-	
+	else if(div == 'tabel_expenses'){
+		url = host+"home/getcost/exp/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		divtotcost = "total_cost_from_expanses";
+		//divtotpercent = "cost_form_employees";
+		divtxtpercent = "total_persen_from_expanses";
+		
+	}
+	else if(div == 'tabel_assets'){
+		url = host+"home/getcost/assets/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		divtotcost = "total_cost_from_assets";
+		//divtotpercent = "cost_form_employees";
+		divtxtpercent = "total_persen_from_assets";
+		
+	}
+	else if(div == 'tabel_act'){
+		url = host+"home/getcost/f_act/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		divtotcost = "total_cost_from_activity";
+		//divtotpercent = "cost_form_employees";
+		divtxtpercent = "total_persen_from_activity";
+		
+	}
+	else if(div == 'tabel_act_to'){
+		url = host+"home/getcost/t_act/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		divtotcost = "total_cost_to_activity";
+		//divtotpercent = "cost_form_employees";
+		divtxtpercent = "total_persen_to_activity";
+		
+	}
 	
 	if(typeof(modul) == "undefined"){
 		$('#'+div).datagrid('endEdit', getRowIndex(target));
@@ -1665,14 +1713,14 @@ function saverow(div,target,modul){
 		var total_act_pesen_exist=parseFloat(str_total_act.replace(",","."));
 		var total_act_pesen=(total_act_pesen_exist-persen_exist)+inputan;
 		
-		console.log(total_act_pesen_exist);
-		console.log(total_act_pesen);
+		//console.log(total_act_pesen_exist);
+		//console.log(total_act_pesen);
 		if(total_persen>100){
-			alert('Proportion Employees More Than 100%, Residual Proportion of '+(100-persen));
+			alert('This Proportion More Than 100% , Residual Proportion of '+(100-persen));
 			return cancelrow(div,target);
 		}else{
 			if(total_act_pesen > 100){
-				alert('Proportion Activity More Than 100%');
+				alert('Total Proportion More Than 100%');
 				return cancelrow(div,target);
 			}else{
 				$('#'+div).datagrid('endEdit', getRowIndex(target));
@@ -1699,6 +1747,10 @@ function get_total_cost(url,divtotcost,divtotpercent,divtxtpercent){
 	});
 }
 
+function validasi_proportion(){
+	
+	
+}
 
 function cancelrow(div,target){
      $('#'+div).datagrid('cancelEdit', getRowIndex(target));
@@ -1829,18 +1881,33 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'assets_id',title:'Assets ID',width:80, halign:'center',align:'center'},
 				{field:'assets_name',title:'Assets Name',width:400, halign:'center',align:'left'},
 				{field:'assets_description',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'tot_persen',title:'Proportion Total(%)',width:150, halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						var persen=parseFloat(value)
+						return (isNaN(persen)==true ? 0 : persen);
+					}
+				}
 			]
 		break;
 		case "mst_act":
 		case "mst_act_to":
 			judulnya = "";
-			urlnya = "tbl_acm_act";
+			if(modnya=="mst_act_to")urlnya = "tbl_acm_act_to";
+			else urlnya = "tbl_acm_act";
 			param['pid']=id_act;
+			param['bulan']=$('#bulan').val();
+			param['tahun']=$('#tahun').val();
 			fitnya = false;
 			singleSelek = false;
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Activity Code',width:120, halign:'center',align:'center'},
-				{field:'descript',title:'Activity Desc.',width:240, halign:'center',align:'left'}
+				{field:'descript',title:'Activity Desc.',width:240, halign:'center',align:'left'},
+				{field:'tot_persen',title:'Proportion Total(%)',width:150, halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						var persen=parseFloat(value)
+						return (isNaN(persen)==true ? 0 : persen);
+					}
+				}
 			]
 		break;
 		
@@ -1857,6 +1924,12 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
 				{field:'exp_level',title:'Level',width:80, halign:'center',align:'left'},
+				{field:'tot_persen',title:'Proportion Total(%)',width:150, halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						var persen=parseFloat(value)
+						return (isNaN(persen)==true ? 0 : persen);
+					}
+				}
 			]
 		break;
 		

@@ -18,27 +18,37 @@
 </div>
 
 <div style='float:left;width:100%;height:300px' id="detil_costing">
-	<div id="tb_tbl_act">
-		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
-			
-			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing').hide();$('#master_costing').show();$('#master_act').datagrid('reload');" >
-				<span class="l-btn-left l-btn-icon-left">
-					<span class="l-btn-text">Add Activity</span><span class="l-btn-icon icon-add">&nbsp;</span>
-				</span>
-			</a>
-			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="transfer_data('tbl_act_to_act','tbl_act_to_act2','tabel_act','tabel_act');" >
-				<span class="l-btn-left l-btn-icon-left">
-					<span class="l-btn-text">Remove Activity</span><span class="l-btn-icon icon-remove">&nbsp;</span>
-				</span>
-			</a>
+	<div id="data_gridna_from_act">
+		<div id="tb_tbl_act">
+			<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+				
+				<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing').hide();$('#master_costing').show();$('#master_act').datagrid('reload');" >
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Add Activity</span><span class="l-btn-icon icon-add">&nbsp;</span>
+					</span>
+				</a>
+				<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="transfer_data('tbl_act_to_act','tbl_act_to_act2','tabel_act','tabel_act');" >
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Remove Activity</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+					</span>
+				</a>
+			</div>
 		</div>
+		<div id='tabel_act'></div>
 	</div>
-	<div id='tabel_act'></div>
+	<div >
+		{include file="template/total_footer.html" mod=$main total_persen=0 total_cost=0}
+	</div>
 </div>
 
 
 <script>
-	
+	var url = host+"home/getcost/f_act/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+	var divtotcost = "total_cost_from_activity";
+	var divtotpercent = "cost_form_activity";
+	var divtxtpercent = "total_persen_from_activity";
+	get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+	$('#data_gridna_from_act').css('height',(getClientHeight()-400));
 	//$('#detil_costing').css('height',getClientHeight()-300));
 	genGrid('mst_act','master_act',(getClientWidth()-325),(getClientHeight()-372));
 	genGridEditable('tbl_act','tabel_act', 500, 600,'tbl_act_to_act');

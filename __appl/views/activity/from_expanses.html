@@ -44,26 +44,37 @@
 	</fieldset>
 </div-->
 <div style='float:left;width:100%;height:300px;' id="detil_costing_exp">
-	<div id="tb_tbl_are_exp">
-		<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
-			
-			<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing_exp').hide();$('#master_costing_exp').show();$('#master_expenses').datagrid('reload');" >
-				<span class="l-btn-left l-btn-icon-left">
-					<span class="l-btn-text">Add Expanse</span><span class="l-btn-icon icon-add">&nbsp;</span>
-				</span>
-			</a>
-			<a href="javascript:void(0)" id="remove_efx" class="l-btn l-btn-small l-btn-plain" group="" onclick="" >
-				<span class="l-btn-left l-btn-icon-left">
-					<span class="l-btn-text">Remove Expanse</span><span class="l-btn-icon icon-remove">&nbsp;</span>
-				</span>
-			</a>
+	<div id="data_gridna_exp">
+		<div id="tb_tbl_are_exp">
+			<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
+				
+				<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" onclick="$('#detil_costing_exp').hide();$('#master_costing_exp').show();$('#master_expenses').datagrid('reload');" >
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Add Expanse</span><span class="l-btn-icon icon-add">&nbsp;</span>
+					</span>
+				</a>
+				<a href="javascript:void(0)" id="remove_efx" class="l-btn l-btn-small l-btn-plain" group="" onclick="" >
+					<span class="l-btn-left l-btn-icon-left">
+						<span class="l-btn-text">Remove Expanse</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+					</span>
+				</a>
+			</div>
 		</div>
+		<div id='tabel_expenses'></div>
 	</div>
-	<div id='tabel_expenses'></div>
+	<div >
+		{include file="template/total_footer.html" mod=$main total_persen=0 total_cost=0}
+	</div>
 </div>
 
 
 <script>
+	var url = host+"home/getcost/exp/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+	var divtotcost = "total_cost_from_expanses";
+	var divtotpercent = "cost_form_expanses";
+	var divtxtpercent = "total_persen_from_expanses";
+	get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+	$('#data_gridna_exp').css('height',(getClientHeight()-400));
 	genGrid('mst_expenses','master_expenses', (getClientWidth()-325),(getClientHeight()-372));
 	genGridEditable('tbl_are_exp','tabel_expenses', 500, 600,'tbl_are_exp');
 	$('#act_id_exp').val($('#id_activity').val());
