@@ -11,6 +11,21 @@ class mhome extends CI_Model{
 		$footer="";
 		$table="";
 		switch($type){
+			case "get_bulan_tahun":
+				$sql="SELECT max(A.tahun) as thn
+					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+					  WHERE B.tbl_model_id=".$this->modeling["id"];
+				$tahun=$this->db->query($sql)->row_array();
+				if(isset($tahun['thn'])){
+					$sql="SELECT max(A.bulan) as bln
+					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+					  WHERE B.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
+					$bulan=$this->db->query($sql)->row_array();
+				}
+				
+				$data=array('tahun'=>$tahun['thn'],'bulan'=>$bulan['bln']);
+				return $data;
+			break;
 			case "detil_activity":
 				
 				$id_cost_act=$p1;

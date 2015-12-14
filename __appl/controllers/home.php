@@ -193,6 +193,9 @@ class home extends MY_Controller {
 					$bulan=$this->input->post('bulan');
 					$tahun=$this->input->post('tahun');
 					
+					
+					
+					
 					if(!$id_act){
 						$id_act=$this->input->post('id_act');
 					}
@@ -201,6 +204,11 @@ class home extends MY_Controller {
 					$this->smarty->assign('tahun' ,$tahun);
 					$this->smarty->assign('sub_mod' ,$p2);
 					switch($p2){
+						case "main":
+							$data_date=$this->mhome->getdata('get_bulan_tahun');
+							//print_r($data_date);
+							$this->smarty->assign('data_date' ,$data_date);
+						break;
 						case "detail":
 							//echo $id_act;exit;
 							$data=$this->db->get_where('tbl_acm',array('id'=>$this->input->post('id_act')))->row_array();
