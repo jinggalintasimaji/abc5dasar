@@ -1701,32 +1701,7 @@ function saverow(div,target,modul){
 		$('#'+div).datagrid('endEdit', getRowIndex(target));
 		$('#'+div).datagrid('reload');
 	}else{
-		var editors = $('#'+div).datagrid('getEditor', {index:index_row,field:'percent'});
-		//console.log($(editors.target).numberbox('getValue'));
-		var inputan=parseFloat($(editors.target).numberbox('getValue'));
-		//var inputan=parseFloat($(this).numberbox('getValue'));
-		var row_na=$("#"+div).datagrid('getSelected');
-		var persen=(isNaN(parseFloat(row_na.persen))==true ? 0 : parseFloat(row_na.persen));
-		var persen_exist=(isNaN(parseFloat(row_na.percent))==true ? 0 : parseFloat(row_na.percent));
-		var total_persen=inputan+(persen - persen_exist);
-		var str_total_act=$('#'+divtxtpercent).html();
-		var total_act_pesen_exist=parseFloat(str_total_act.replace(",","."));
-		var total_act_pesen=(total_act_pesen_exist-persen_exist)+inputan;
-		
-		//console.log(total_act_pesen_exist);
-		//console.log(total_act_pesen);
-		if(total_persen>100){
-			alert('This Proportion More Than 100% , Residual Proportion of '+(100-persen));
-			return cancelrow(div,target);
-		}else{
-			if(total_act_pesen > 100){
-				alert('Total Proportion More Than 100%');
-				return cancelrow(div,target);
-			}else{
-				$('#'+div).datagrid('endEdit', getRowIndex(target));
-				$('#'+div).datagrid('reload');
-			}
-		}
+		validasi_proportion(div,target,divtxtpercent);
 	}
 	 
 	
@@ -1747,8 +1722,58 @@ function get_total_cost(url,divtotcost,divtotpercent,divtxtpercent){
 	});
 }
 
-function validasi_proportion(){
+function validasi_proportion(div,target,divtxtpercent){
+	var editors_persen = $('#'+div).datagrid('getEditor', {index:index_row,field:'percent'});
+	var editors_qty = $('#'+div).datagrid('getEditor', {index:index_row,field:'rd_qty'});
+	//console.log($(editors.target).numberbox('getValue'));
+	var inputan_persen=parseFloat($(editors_persen.target).numberbox('getValue'));//INPUTAN
+	var inputan_qty=parseFloat($(editors_qty.target).numberbox('getValue'));//INPUTAN
 	
+	console.log(inputan_qty);
+	//var inputan=parseFloat($(this).numberbox('getValue'));
+	var row_na=$("#"+div).datagrid('getSelected');
+	var rd_qty=(isNaN(parseFloat(row_na.rd_tot_qty))==true ? 0 : parseFloat(row_na.rd_tot_qty));
+	var rd_qty_exist=(isNaN(parseFloat(row_na.rd_qty))==true ? 0 : parseFloat(row_na.rd_qty));
+	var persen=(isNaN(parseFloat(row_na.persen))==true ? 0 : parseFloat(row_na.persen));
+	var persen_exist=(isNaN(parseFloat(row_na.percent))==true ? 0 : parseFloat(row_na.percent));
+	var total_persen
+	var str_total_act=$('#'+divtxtpercent).html();
+	var total_act_pesen_exist=parseFloat(str_total_act.replace(",","."));
+	var total_act_pesen;
+	
+	if(isNaN(inputan_qty)==false){
+		if(rd_qty!=0){
+			total_persen=((inputan_qty/rd_qty * 100))+(persen - persen_exist);
+			total_act_pesen=(total_act_pesen_exist-persen_exist)+((inputan_qty/rd_qty * 100));
+		}
+		else{
+			alert('RDM Qty IS Null Please Sign By Proportion');
+			return cancelrow(div,target);
+		}
+	}else{
+		if(isNaN(inputan_persen)==false){
+			total_persen=inputan_persen+(persen - persen_exist);
+			total_act_pesen=(total_act_pesen_exist-persen_exist)+inputan_persen;
+		}
+		else{
+			alert('Proportion IS NOT Null Please Sign Proportion');
+			return cancelrow(div,target);
+		}
+	}
+	
+	
+	if(total_persen > 100 ){
+		alert('This Proportion More Than 100% , Residual Proportion of '+(100-persen));
+		return cancelrow(div,target);
+	}else{
+		if(total_act_pesen > 100){
+			alert('Total Proportion More Than 100%');
+			return cancelrow(div,target);
+		}else{
+			$('#'+div).datagrid('endEdit', getRowIndex(target));
+			$('#'+div).datagrid('reload');
+		}
+	}
 	
 }
 
