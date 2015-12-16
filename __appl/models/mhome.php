@@ -12,6 +12,10 @@ class mhome extends CI_Model{
 		$table="";
 		switch($type){
 			case "get_bulan_tahun":
+				$tahun=array();
+				$bulan=array();
+				$tahun['thn']=date('Y');
+				$bulan['bln']=date('m');
 				$sql="SELECT max(A.tahun) as thn
 					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 					  WHERE B.tbl_model_id=".$this->modeling["id"];
@@ -22,6 +26,7 @@ class mhome extends CI_Model{
 					  WHERE B.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
 					$bulan=$this->db->query($sql)->row_array();
 				}
+				
 				
 				$data=array('tahun'=>$tahun['thn'],'bulan'=>$bulan['bln']);
 				return $data;
