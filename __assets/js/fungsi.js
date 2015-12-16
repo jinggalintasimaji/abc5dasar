@@ -244,7 +244,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					}
 				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
@@ -255,7 +255,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,max:100,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
@@ -314,7 +314,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					}
 				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
@@ -330,23 +330,9 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 							options:{
 								value:0,
 								min:0,
-								onChange:function(){
-									/*var inputan=parseFloat($(this).numberbox('getValue'));
-									var row_na=$("#"+divnya).datagrid('getSelected');
-									var persen=(isNaN(parseFloat(row_na.persen))==true ? 0 : parseFloat(row_na.persen));
-									var persen_exist=(isNaN(parseFloat(row_na.percent))==true ? 0 : parseFloat(row_na.percent));
-									var total_persen=inputan+(persen - persen_exist);
-									//console.log(persen_exist);
-									//console.log(total_persen);
-									if(total_persen>100){
-										alert('Proportion Employees More Than 100%, Residual Proportion of '+(100-persen));
-										return cancelrow(divnya,this);
-									}
-									*/
-									//console.log(row_na.persen);
-									//var tot_persen=parseFloat($(this).numberbox('getValue'));
-									//console.log($(this).numberbox('getValue'));
-								}
+								max:100,
+								decimalSeparator:'.',
+								precision:2
 							}
 					},
 					formatter:function(value,rowData,rowIndex){
@@ -407,7 +393,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					}
 				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
@@ -418,7 +404,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,max:100,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
@@ -508,7 +494,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					}
 				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
@@ -519,7 +505,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,max:100,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
@@ -612,7 +598,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					}
 				},
 				{field:'rd_qty',title:'Quantity',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(rowData.rd_qty == null || rowData.rd_qty == 0 ){
@@ -623,7 +609,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 					},
 				},
 				{field:'percent',title:'Proportion (%)',width:100, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0}},
+					editor:{type:'numberbox',options:{value:0,min:0,max:100,decimalSeparator:'.',precision:2}},
 					formatter:function(value,rowData,rowIndex){
 						/*if(rowData.rd_tot_qty == null){
 							if(value)return value;
@@ -1729,7 +1715,7 @@ function validasi_proportion(div,target,divtxtpercent){
 	var inputan_persen=parseFloat($(editors_persen.target).numberbox('getValue'));//INPUTAN
 	var inputan_qty=parseFloat($(editors_qty.target).numberbox('getValue'));//INPUTAN
 	
-	console.log(inputan_qty);
+	//console.log(inputan_qty);
 	//var inputan=parseFloat($(this).numberbox('getValue'));
 	var row_na=$("#"+div).datagrid('getSelected');
 	var rd_qty=(isNaN(parseFloat(row_na.rd_tot_qty))==true ? 0 : parseFloat(row_na.rd_tot_qty));
@@ -1742,9 +1728,20 @@ function validasi_proportion(div,target,divtxtpercent){
 	var total_act_pesen;
 	
 	if(isNaN(inputan_qty)==false){
+		
 		if(rd_qty!=0){
-			total_persen=((inputan_qty/rd_qty * 100))+(persen - persen_exist);
-			total_act_pesen=(total_act_pesen_exist-persen_exist)+((inputan_qty/rd_qty * 100));
+			
+			
+			if(inputan_qty > rd_qty ){
+				alert('Qty IS More Than RDM Qty');
+				return cancelrow(div,target);
+			}else{
+				total_persen=((inputan_qty/rd_qty * 100))+(persen - persen_exist);
+				total_act_pesen=(total_act_pesen_exist-persen_exist)+((inputan_qty/rd_qty * 100));
+				$(editors_persen.target).numberbox('setValue',(inputan_qty/rd_qty * 100));
+				console.log(total_act_pesen);
+				console.log('RD');
+			}
 		}
 		else{
 			alert('RDM Qty IS Null Please Sign By Proportion');
