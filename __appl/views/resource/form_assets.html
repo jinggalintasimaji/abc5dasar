@@ -25,11 +25,11 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' name='amount' value={$data.amount|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' class='duit' name='amount' value={$data.amount|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' class='duit' name='budget_1' value={$data.budget_1|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 
 							<br/>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$amount|default:''} }
 						</td>
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
@@ -153,6 +153,11 @@
 </div>
 
 <script>
+	$(document).ready(function() {
+		$(".duit").maskMoney( 'mask' );
+		$(".duit").maskMoney( { precision:0, thousands:'.' } );
+	} );
+
 	$('.cost_centersss').html($('#tbl_loc_id option:selected').text());
 	$('.monthhsss').html($('#bulan option:selected').text());
 	$('.yearrsss').html($('#tahun option:selected').text());

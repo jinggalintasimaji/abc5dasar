@@ -25,10 +25,10 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Salary' name='wages' value={$data.wages|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Benefits' name='benefits' value={$data.benefits|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Overtime' name='ot_premium' value={$data.ot_premium|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Other Cost' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Salary' class='duit' name='wages' value={$data.wages|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Benefits' class='duit' name='benefits' value={$data.benefits|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Overtime' class='duit' name='ot_premium' value={$data.ot_premium|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Other Cost' class='duit' name='budget_1' value={$data.budget_1|default:''} }
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.budget_1|default:''} }
 						</td>
@@ -155,6 +155,12 @@
 </div>
 
 <script>
+	//$(".duit").mask("999.999.999.999");
+	$(document).ready(function() {
+		$(".duit").maskMoney( 'mask' );
+		$(".duit").maskMoney( { precision:0, thousands:'.' } );
+	} );
+	
 	$('.cost_centersss').html($('#tbl_loc_id option:selected').text());
 	$('.monthhsss').html($('#bulan option:selected').text());
 	$('.yearrsss').html($('#tahun option:selected').text());

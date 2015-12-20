@@ -17,7 +17,7 @@
 {elseif $type eq 'text'}
 	{if $tampilan eq 'label'}
 		<label style='width:150px'>{$label}</label> :
-		<input {$readonly|default:''} type="text" name="{$name|default:''}" id="{$name|default:''}" value="{$value|default:''}" style="padding:3px;width:{$width}">
+		<input {$readonly|default:''} type="text" name="{$name|default:''}" class="{$class|default:''}" id="{$name|default:''}" value="{$value|default:''}" style="padding:3px;width:{$width}">
 	{/if}
 {/if}
 

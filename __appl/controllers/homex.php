@@ -57,8 +57,18 @@ class homex extends MY_Controller {
 						case "employees": 
 						case "expenses":
 						case "assets": 
-							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
-							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+							
+							if($p2 == 'employees'){
+								$tbl = 'tbl_emp';
+							}elseif($p2 == 'expenses'){
+								$tbl = 'tbl_exp';
+							}elseif($p2 == 'assets'){
+								$tbl = 'tbl_assets';
+							}
+							$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
+						
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
 							$this->smarty->assign('costcenter', $this->lib->fillcombo('tbl_loc_search', 'return') );
 							
 							if($p2 == 'expenses'){
@@ -80,12 +90,15 @@ class homex extends MY_Controller {
 							if($editstatus == 'edit'){
 								$id = $this->input->post('id');
 								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
-								$this->smarty->assign('data', $data );
 								
 								if($p2 == 'form_employees'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_emp_id', $id);
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_emp_id', $id);
-									$gaji = number_format($data['wages'],2,",",".");;
+									$gaji = number_format($data['wages'],2,",",".");
+									$data['wages'] = number_format($data['wages'],0,",",".");
+									$data['benefits'] = number_format($data['benefits'],0,",",".");
+									$data['ot_premium'] = number_format($data['ot_premium'],0,",",".");
+									$data['budget_1'] = number_format($data['budget_1'],0,",",".");
 									
 									$this->smarty->assign('total_activity', $total_activity['total_cost']);
 									$this->smarty->assign('total_percent_activity', $total_activity['total_percent']);
@@ -97,6 +110,8 @@ class homex extends MY_Controller {
 									$total_employee = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_emp');
 									$total_assets = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_ass');
 									$amount = number_format($data['amount'],2,",",".");;
+									$data['amount'] = number_format($data['amount'],0,",",".");
+									$data['budget_1'] = number_format($data['budget_1'],0,",",".");									
 									
 									$this->smarty->assign('total_activity', $total_activity['total_cost']);
 									$this->smarty->assign('total_percent_activity', $total_activity['total_percent']);
@@ -109,6 +124,8 @@ class homex extends MY_Controller {
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_assets_id', $id);
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_assets_id', $id);
 									$amount = number_format($data['amount'],2,",",".");;
+									$data['amount'] = number_format($data['amount'],0,",",".");
+									$data['budget_1'] = number_format($data['budget_1'],0,",",".");	
 									
 									$this->smarty->assign('total_activity', $total_activity['total_cost']);
 									$this->smarty->assign('total_percent_activity', $total_activity['total_percent']);
@@ -116,6 +133,8 @@ class homex extends MY_Controller {
 									$this->smarty->assign('total_percent_expense', $total_expense['total_percent']);
 									$this->smarty->assign('amount', $amount);								
 								}
+								
+								$this->smarty->assign('data', $data );
 							}else{
 								if($p2 == 'form_assets'){
 									$this->smarty->assign('cost_type', $this->lib->fillcombo('cost_type', 'return', ($editstatus == 'edit' ? $data['cost_type'] : "") ) );

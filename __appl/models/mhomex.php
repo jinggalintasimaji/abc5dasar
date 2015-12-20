@@ -698,6 +698,13 @@ class mhomex extends CI_Model{
 			//$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_are", "tbl_exp_id", $data['tbl_exp_id']);
 			//End Total Cost
 			
+			case "max_bulan":
+				$sql = "
+					SELECT max(bulan) as bln, max(tahun) as thn
+					FROM ".$p1."
+				";
+			break;
+			
 			//get total di expense
 			case "total_expense":
 				if($this->modeling){
@@ -1267,19 +1274,24 @@ class mhomex extends CI_Model{
 				
 				if($tot_qty == null){
 					$amount = ( $data['percent'] / 100 ) * $gaji;
-					$data['rd_qty'] = 0;
+					$data['rd_qty'] = null;
+					$data['tbl_rdm_id'] = null;
 				}elseif($tot_qty == 0){
 					$amount = ( $data['percent'] / 100 ) * $gaji;
-					$data['rd_qty'] = 0;
+					$data['rd_qty'] = null;
+					$data['tbl_rdm_id'] = null;
 				}else{
+					/*
 					if($data['rd_qty'] >= $tot_qty){
 						exit;
 					}
+					*/
 					$amount = ($data['rd_qty'] * $gaji) / $tot_qty;
 					$percent = ($amount/$gaji) * 100;
 					$data['percent'] = number_format($percent,0);
 				}
 				
+				/*
 				$cek_percent = $this->db->get_where('tbl_are', array('id' => $id) )->row_array();				
 				if($data['percent'] >= $cek_percent['percent']){
 					if($data['tbl_emp_id'] != "" || $data['tbl_emp_id'] != 0){
@@ -1300,6 +1312,7 @@ class mhomex extends CI_Model{
 						exit;
 					}
 				}
+				*/
 				
 				$data['cost'] = $amount;
 				
@@ -1358,19 +1371,25 @@ class mhomex extends CI_Model{
 					
 					if($tot_qty == null){
 						$amount = ( $data['percent'] / 100 ) * $amounts;
-						$data['rd_qty'] = 0;
+						$data['rd_qty'] = null;
+						//$data['tbl_rdm_id'] = null;
 					}elseif($tot_qty == 0){
 						$amount = ( $data['percent'] / 100 ) * $amounts;
-						$data['rd_qty'] = 0;
+						$data['rd_qty'] = null;
+						//$data['tbl_rdm_id'] = null;
 					}else{
+						/*
 						if($data['rd_qty'] >= $tot_qty){
 							exit;
 						}
+						*/
+						
 						$amount = ($data['rd_qty'] * $amounts) / $tot_qty;
 						$percent = ($amount/$amounts) * 100;
 						$data['percent'] = number_format($percent,0);
 					}
-										
+					
+					/*
 					$cek_percent = $this->db->get_where('tbl_efx', array('id' => $id) )->row_array();
 					if($data['percent'] >= $cek_percent['percent']){
 						$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_efx", "tbl_emp_id", $data['tbl_emp_id']);
@@ -1379,6 +1398,7 @@ class mhomex extends CI_Model{
 							exit;
 						}
 					}
+					*/
 					
 					$data['cost'] = $amount;
 				}
@@ -1453,14 +1473,17 @@ class mhomex extends CI_Model{
 					$amount = ( $data['percent'] / 100 ) * $amounts;
 					$data['rd_qty'] = 0;
 				}else{
+					/*
 					if($data['rd_qty'] >= $tot_qty){
 						exit;
 					}
+					*/
 					$amount = ($amounts * $data['rd_qty']) / $tot_qty;
 					$percent = ($amount/$amounts) * 100;
 					$data['percent'] = number_format($percent,0);
 				}
 				
+				/*
 				$cek_percent = $this->db->get_where('tbl_efx', array('id' => $id) )->row_array();
 				if($data['percent'] >= $cek_percent['percent']){
 					$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_efx", "tbl_assets_id", $data['tbl_assets_id']);
@@ -1470,6 +1493,7 @@ class mhomex extends CI_Model{
 						exit;
 					}
 				}
+				*/
 				$data['cost'] = $amount;
 				
 			break;
