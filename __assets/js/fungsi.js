@@ -862,7 +862,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 				{field:'action',title:'Action',width:150,align:'center',
 					formatter:function(value,row,index){
 						if (row.editing){
-							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							//var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\', this, \'emp_act\')">Save</a> ';
 							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
 							return s+c;
 						} else {
@@ -1532,7 +1533,6 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
             row.editing = true;
             updateActions(divnya,index);
         },
-		
         onAfterEdit:function(index,row){
             row.editing = false;
             updateActions(divnya,index);
@@ -1643,7 +1643,6 @@ function saverow(div,target,modul){
 	}else if(div == 'grid_assign_loc_costobject'){
 		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_prm_id/"+$('#id_prm').val()+"/location_costobject/";
 		divtotcost = "total_location_costobject";
-	
 	}
 	// Activity
 	
@@ -1683,18 +1682,39 @@ function saverow(div,target,modul){
 		
 	}
 	
-	if(typeof(modul) == "undefined"){
-		$('#'+div).datagrid('endEdit', getRowIndex(target));
-		$('#'+div).datagrid('reload');
-	}else{
-		validasi_proportion(div,target,divtxtpercent);
-	}
-	 
-	
+	var actionss = validasi_proportion(div,target,divtxtpercent);
+	console.log(actionss);
+	if(actionss == 1){
 		if( $.inArray(div, arraynya) > -1 ){
 			get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
 		}
+	}else{
+		return false;
+	}	
 	
+	/*
+	if(typeof(modul) == "undefined"){
+		//action = ;
+		if($('#'+div).datagrid('endEdit', getRowIndex(target))){
+			$('#'+div).datagrid('reload');
+			if( $.inArray(div, arraynya) > -1 ){
+				get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+			}
+		}else{
+			return false;
+		}
+	}else{
+		var actionss = validasi_proportion(div,target,divtxtpercent);
+		console.log(actionss);
+		if(actionss == 1){
+			if( $.inArray(div, arraynya) > -1 ){
+				get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+			}
+		}else{
+			return false;
+		}
+	}
+	*/
 }
 
 function get_total_cost(url,divtotcost,divtotpercent,divtxtpercent){
@@ -1731,9 +1751,8 @@ function validasi_proportion(div,target,divtxtpercent){
 		
 		if(rd_qty!=0){
 			
-			
 			if(inputan_qty > rd_qty ){
-				alert('Qty IS More Than RDM Qty');
+				$.messager.alert('ABC System',"Qty IS More Than RDM Qty",'info');
 				return cancelrow(div,target);
 			}else{
 				total_persen=((inputan_qty/rd_qty * 100))+(persen - persen_exist);
@@ -1742,9 +1761,10 @@ function validasi_proportion(div,target,divtxtpercent){
 				console.log(total_act_pesen);
 				console.log('RD');
 			}
+			
 		}
 		else{
-			alert('RDM Qty IS Null Please Sign By Proportion');
+			$.messager.alert('ABC System',"RDM Qty IS Null Please Sign By Proportion",'info');
 			return cancelrow(div,target);
 		}
 	}else{
@@ -1753,22 +1773,24 @@ function validasi_proportion(div,target,divtxtpercent){
 			total_act_pesen=(total_act_pesen_exist-persen_exist)+inputan_persen;
 		}
 		else{
-			alert('Proportion IS NOT Null Please Sign Proportion');
+			$.messager.alert('ABC System',"Proportion IS NOT Null Please Sign Proportion",'info');
 			return cancelrow(div,target);
 		}
 	}
 	
 	
 	if(total_persen > 100 ){
-		alert('This Proportion More Than 100% , Residual Proportion of '+(100-persen));
+		$.messager.alert('ABC System', 'This Proportion More Than 100% , Residual Proportion of '+(100-persen), 'info');
 		return cancelrow(div,target);
 	}else{
 		if(total_act_pesen > 100){
-			alert('Total Proportion More Than 100%');
+			$.messager.alert('ABC System',"Total Proportion More Than 100%",'info');
 			return cancelrow(div,target);
 		}else{
 			$('#'+div).datagrid('endEdit', getRowIndex(target));
 			$('#'+div).datagrid('reload');
+			
+			return 1;
 		}
 	}
 	
@@ -2485,17 +2507,34 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			url_detil = host+'homex/modul/';
 			fitnya = true;
 			pagesizeboy = 50;
+			param['month'] = $('#bulan_employees').val();
+			param['year'] = $('#tahun_employees').val();
 			frozen[modnya] = [
 				{field:'employee_id',title:'Emp. ID',width:100, halign:'center',align:'center'},
 				{field:'last',title:'Employee Name',width:250, halign:'center',align:'left'},
 			];
-
 			kolom[modnya] = [	
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'wages',title:'Wages',width:100, halign:'center',align:'left'},
-				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center'},
-				{field:'benefits',title:'Benefits',width:100, halign:'center',align:'right'},
-				{field:'total',title:'Total',width:100, halign:'center',align:'right'},
+				{field:'wages',title:'Wages',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},	
+				},
+				{field:'ot_premium',title:'OT. Premium',width:100, halign:'center',align:'center',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'benefits',title:'Benefits',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'total',title:'Total',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
 				{field:'class',title:'Class',width:100, halign:'center',align:'right'},
 				{field:'position',title:'Position',width:250, halign:'center',align:'left'},
 				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
@@ -2511,16 +2550,29 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
-			
+			param['month'] = $('#bulan_expenses').val();
+			param['year'] = $('#tahun_expenses').val();
 			frozen[modnya] = [
 				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
 				{field:'account',title:'Account',width:120, halign:'center',align:'center'},
 			];
 			kolom[modnya] = [	
 				{field:'descript',title:'Descript',width:250, halign:'center',align:'left'},
-				{field:'amount',title:'Amount',width:100, halign:'center',align:'left'},
-				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'center'},
-				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right'},
+				{field:'amount',title:'Amount',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'budget_1',title:'Budget 1',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'budget_2',title:'Budget 2',width:100, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
 				{field:'exp_level',title:'Exp. Level',width:100, halign:'center',align:'right'},
 				{field:'resource',title:'Resource Driver',width:150, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Resource Quantity',width:150, halign:'center',align:'right'},
@@ -2535,11 +2587,20 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
+			param['month'] = $('#bulan_assets').val();
+			param['year'] = $('#tahun_assets').val();			
 			kolom[modnya] = [	
 				{field:'assets_id',title:'Asset ID',width:200, halign:'center',align:'left'},
 				{field:'assets_name',title:'Assets Name',width:250, halign:'center',align:'left'},
 				//{field:'cost_center',title:'Cost Center',width:150, halign:'center',align:'right'},
-				{field:'amount',title:'Amount',width:150, halign:'center',align:'right'},				
+				{field:'amount',title:'Amount',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				//*/
+
 			]
 		break;
 		
@@ -3846,11 +3907,11 @@ function NumberFormat(value) {
     var output = "";
     for ( var i = 0; i <= amount.length-1; i++ ){
         output = amount[i] + output;
-        if ((i+1) % 3 == 0 && (amount.length-1) !== i)output = ',' + output;
+        if ((i+1) % 3 == 0 && (amount.length-1) !== i)output = '.' + output;
     }
-    if(jml1[1]===undefined) jml1[1] ="00";
+    //if(jml1[1]===undefined) jml1[1] ="00";
    // if(isNaN(output))  output = "0";
-    return output + "." + jml1[1];
+    return output; // + "." + jml1[1];
 }
 
 function get_cost_rate(cost,act_qty){
