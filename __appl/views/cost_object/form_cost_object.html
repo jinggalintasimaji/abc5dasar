@@ -23,28 +23,29 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' name='revenue' value={$data.revenue|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' name='reduction' value={$data.reduction|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' name='net_revenue' value={$data.net_revenue|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' name='direct_cost' value={$data.direct_cost|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Activity Cost' name='activity_cost' value={$data.budget_1|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' name='abc_cost' value={$data.abc_cost|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' name='profit_lost' value={$data.profit_lost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' class='duit' name='revenue' value={$data.revenue|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' class='duit' name='reduction' value={$data.reduction|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' class='duit' name='net_revenue' value={$data.net_revenue|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' class='duit' name='direct_cost' value={$data.direct_cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Activity Cost' class='duit' name='activity_cost' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' class='duit' name='abc_cost' value={$data.abc_cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' class='duit' name='profit_lost' value={$data.profit_lost|default:''} }
 						</td>
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Segment' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Service Group' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' name='prod_qty' value={$data.prod_qty|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' name='uom' value={$data.uom|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' name='cost_rate' value={$data.cost_rate|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Quantity' name='target_qty' value={$data.target_qty|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Rate' name='target_rate' value={$data.target_rate|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' class='duit' name='prod_qty' value={$data.prod_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' class='duit' name='uom' value={$data.uom|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' class='duit' name='cost_rate' value={$data.cost_rate|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Quantity' class='duit' name='target_qty' value={$data.target_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Rate' class='duit' name='target_rate' value={$data.target_rate|default:''} }
 						</td>
 					</tr>
 				</table>
 			</fieldset>
 		</form>
     </div>
+	{if $editstatus eq 'edit'}	
     <div title="Cost Driver" style="overflow:auto;padding:10px;">
 		<table width='100%' style='margin-bottom:20px;'>
 			<tr>
@@ -150,6 +151,7 @@
 			</table>
 		</div>    
     </div>
+	{/if}	
 </div>
 <div style='margin-top:5px;'>
 	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnCancel_costobject" onClick="">
@@ -166,6 +168,11 @@
 </div>
 
 <script>
+	$(document).ready(function() {
+		$(".duit").maskMoney( 'mask' );
+		$(".duit").maskMoney( { precision:0, thousands:'.' } );
+	} );
+
 	$('.monthhsss').html($('#bulan option:selected').text());
 	$('.yearrsss').html($('#tahun option:selected').text());
 

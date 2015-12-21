@@ -109,7 +109,7 @@ class homex extends MY_Controller {
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_exp_id', $id);
 									$total_employee = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_emp');
 									$total_assets = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_exp_id', $id, 'expense_ass');
-									$amount = number_format($data['amount'],2,",",".");;
+									$amount = number_format($data['amount'],0,",",".");;
 									$data['amount'] = number_format($data['amount'],0,",",".");
 									$data['budget_1'] = number_format($data['budget_1'],0,",",".");									
 									
@@ -123,7 +123,7 @@ class homex extends MY_Controller {
 								}elseif($p2 == 'form_assets'){
 									$total_activity = $this->getcost('return', 'cost', 'tbl_are', 'tbl_assets_id', $id);
 									$total_expense = $this->getcost('return', 'cost', 'tbl_efx', 'tbl_assets_id', $id);
-									$amount = number_format($data['amount'],2,",",".");;
+									$amount = number_format($data['amount'],0,",",".");;
 									$data['amount'] = number_format($data['amount'],0,",",".");
 									$data['budget_1'] = number_format($data['budget_1'],0,",",".");	
 									
@@ -135,12 +135,10 @@ class homex extends MY_Controller {
 								}
 								
 								$this->smarty->assign('data', $data );
-							}else{
-								if($p2 == 'form_assets'){
-									$this->smarty->assign('cost_type', $this->lib->fillcombo('cost_type', 'return', ($editstatus == 'edit' ? $data['cost_type'] : "") ) );
-									$this->smarty->assign('cost_bucket', $this->lib->fillcombo('cost_bucket', 'return', ($editstatus == 'edit' ? $data['cost_bucket'] : "") ) );
-								}
 							}
+							
+							$this->smarty->assign('cost_type', $this->lib->fillcombo('cost_type', 'return', ($editstatus == 'edit' ? $data['cost_type'] : "") ) );
+							$this->smarty->assign('cost_bucket', $this->lib->fillcombo('cost_bucket', 'return', ($editstatus == 'edit' ? $data['cost_bucket'] : "") ) );
 							
 							$this->smarty->assign('bulan_form', $this->lib->fillcombo('bulan', 'return', ($editstatus == 'edit' ? $data['bulan'] : "") ) );
 							$this->smarty->assign('tahun_form', $this->lib->fillcombo('tahun', 'return', ($editstatus == 'edit' ? $data['tahun'] : "") ) );
@@ -184,8 +182,17 @@ class homex extends MY_Controller {
 						case "cost_object":
 						case "customer":
 						case "location":
-							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
-							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+							if($p2 == 'cost_object'){
+								$tbl = 'tbl_prm';
+							}elseif($p2 == 'customer'){
+								$tbl = 'tbl_cust';
+							}elseif($p2 == 'location'){
+								$tbl = 'tbl_location';
+							}
+							$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
+
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
 						break;
 						
 						case "form_cost_object": 
@@ -193,6 +200,19 @@ class homex extends MY_Controller {
 							if($editstatus == 'edit'){
 								$id = $this->input->post('id');
 								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
+								$data['revenue'] = number_format($data['revenue'],0,",",".");
+								$data['reduction'] = number_format($data['reduction'],0,",",".");									
+								$data['net_revenue'] = number_format($data['net_revenue'],0,",",".");									
+								$data['direct_cost'] = number_format($data['direct_cost'],0,",",".");									
+								$data['activity_cost'] = number_format($data['activity_cost'],0,",",".");									
+								$data['abc_cost'] = number_format($data['abc_cost'],0,",",".");									
+								$data['profit_lost'] = number_format($data['profit_lost'],0,",",".");									
+								$data['prod_qty'] = number_format($data['prod_qty'],0,",",".");									
+								$data['uom'] = number_format($data['uom'],0,",",".");									
+								$data['cost_rate'] = number_format($data['cost_rate'],0,",",".");									
+								$data['target_qty'] = number_format($data['target_qty'],0,",",".");									
+								$data['target_rate'] = number_format($data['target_rate'],0,",",".");									
+								
 								$this->smarty->assign('data', $data );
 								
 								if($p2 == 'form_cost_object'){

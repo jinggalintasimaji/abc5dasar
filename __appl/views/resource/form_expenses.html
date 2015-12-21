@@ -28,12 +28,14 @@
 						<td width='50%'>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' class='duit' label='Amount' name='amount' value={$data.amount|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' class='duit' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$amount|default:''}}
 						</td>
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Bucket' name='cost_bucket' option={$cost_bucket} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' }
 						</td>

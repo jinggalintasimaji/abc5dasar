@@ -29,6 +29,7 @@
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Benefits' class='duit' name='benefits' value={$data.benefits|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Overtime' class='duit' name='ot_premium' value={$data.ot_premium|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Other Cost' class='duit' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.budget_1|default:''} }
 						</td>
@@ -37,6 +38,7 @@
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Full Time Equivalent (FTE)' name='fte_count' value={$data.fte_count|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Bucket' name='cost_bucket' option={$cost_bucket} } 														
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' value={$data.budget_1|default:''} }
 						</td>

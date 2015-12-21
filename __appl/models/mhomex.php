@@ -652,6 +652,7 @@ class mhomex extends CI_Model{
 					FROM $from A
 					$where 
 				";
+				//echo $sql; exit;
 			break;
 			
 			//Get Total Cost
@@ -781,9 +782,9 @@ class mhomex extends CI_Model{
 		unset($data['id']);
 		
 		switch ($table){
+			case "tbl_loc":
 			case "tbl_emp":
 			case "tbl_exp":
-			case "tbl_loc":
 			case "tbl_assets":
 			case "tbl_rdm":
 			case "tbl_cdm":
@@ -801,9 +802,38 @@ class mhomex extends CI_Model{
 				}
 				
 				if($table == 'tbl_emp'){
+					$data['wages'] = str_replace(".", "", $data['wages']);
+					$data['benefits'] = str_replace(".", "", $data['benefits']);
+					$data['ot_premium'] = str_replace(".", "", $data['ot_premium']);
+					$data['budget_1'] = str_replace(".", "", $data['budget_1']);
 					$data['total'] = ($data['wages'] + $data['benefits'] + $data['ot_premium']);
 				}
 				
+				if($table == 'tbl_exp'){
+					$data['amount'] = str_replace(".", "", $data['amount']);
+					$data['budget_1'] = str_replace(".", "", $data['budget_1']);
+				}
+				
+				if($table == 'tbl_assets'){
+					$data['amount'] = str_replace(".", "", $data['amount']);
+					$data['budget_1'] = str_replace(".", "", $data['budget_1']);
+				}
+				
+				if($table == 'tbl_prm'){
+					$data['revenue'] = str_replace(".", "", $data['revenue']);
+					$data['reduction'] = str_replace(".", "", $data['reduction']);
+					$data['net_revenue'] = str_replace(".", "", $data['net_revenue']);
+					$data['direct_cost'] = str_replace(".", "", $data['direct_cost']);
+					$data['activity_cost'] = str_replace(".", "", $data['activity_cost']);
+					$data['abc_cost'] = str_replace(".", "", $data['abc_cost']);
+					$data['profit_lost'] = str_replace(".", "", $data['profit_lost']);
+					
+					$data['prod_qty'] = str_replace(".", "", $data['prod_qty']);
+					$data['uom'] = str_replace(".", "", $data['uom']);
+					$data['cost_rate'] = str_replace(".", "", $data['cost_rate']);
+					$data['target_qty'] = str_replace(".", "", $data['target_qty']);
+					$data['target_rate'] = str_replace(".", "", $data['target_rate']);
+				}
 				
 			break;
 			case "tbl_user":
