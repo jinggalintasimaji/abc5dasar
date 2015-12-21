@@ -1344,7 +1344,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			kolom[modnya] = [		
 				{field:'cost_driver_name',title:'Cost Driver', width:250, halign:'center',align:'left'},
 				{field:'cost_rate',title:'Cost Rate', width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0} },
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0,groupSeparator:"."} },
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(value == null){
@@ -1399,7 +1399,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			];
 			kolom[modnya] = [		
 				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0} },
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0,groupSeparator:"."} },
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(value == null){
@@ -1454,7 +1454,7 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			];
 			kolom[modnya] = [		
 				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0} },
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0,groupSeparator:"."} },
 					formatter:function(value,rowData,rowIndex){
 						//if(value)return NumberFormat(value);
 						if(value == null){
@@ -1547,8 +1547,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 	});
 }
 
-function updateActions(div,index){
-    $('#'+div).datagrid('updateRow',{
+function updateActions(div,index){   
+	$('#'+div).datagrid('updateRow',{
         index: index,
         row:{}
     });
@@ -1682,15 +1682,26 @@ function saverow(div,target,modul){
 		
 	}
 	
-	var actionss = validasi_proportion(div,target,divtxtpercent);
-	console.log(actionss);
-	if(actionss == 1){
-		if( $.inArray(div, arraynya) > -1 ){
-			get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+	if(div == 'grid_assign_act_costobject' || div == 'grid_assign_cust_costobject' || div == 'grid_assign_loc_costobject'){
+		if($('#'+div).datagrid('endEdit', getRowIndex(target))){
+			$('#'+div).datagrid('reload');
+			if( $.inArray(div, arraynya) > -1 ){
+				get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+			}
+		}else{
+			return false;
 		}
 	}else{
-		return false;
-	}	
+		var actionss = validasi_proportion(div,target,divtxtpercent);
+		console.log(actionss);
+		if(actionss == 1){
+			if( $.inArray(div, arraynya) > -1 ){
+				get_total_cost(url,divtotcost,divtotpercent,divtxtpercent)
+			}
+		}else{
+			return false;
+		}
+	}
 	
 	/*
 	if(typeof(modul) == "undefined"){
@@ -2280,35 +2291,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		//end data production 
-				
-		//Cost Object
-		case "cost_object":
-			judulnya = "";
-			urlnya = "tbl_prm";
-			fitnya = true;
-			urlglobal = host+'homex/getdata/'+urlnya;
-			frozen[modnya] = [
-				{field:'prod_id',title:'Prod. ID',width:100, halign:'center',align:'center'},
-				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
-			];			
-			kolom[modnya] = [	
-				{field:'level',title:'Level',width:100, halign:'center',align:'center'},
-				{field:'qtyproduce',title:'Qty. Prod.',width:100, halign:'center',align:'right'},
-				{field:'revenue',title:'Revenue',width:100, halign:'center',align:'left'},
-				{field:'unit_cost',title:'Unit Cost',width:100, halign:'center',align:'right'},
-				{field:'abc_cost',title:'ABC Cost',width:100, halign:'center',align:'center'},
-				{field:'ovh_cost',title:'Overhead Cost',width:100, halign:'center',align:'center'},
-				{field:'profitable',title:'Lost Factor',width:100, halign:'center',align:'right'},
-				{field:'abc_lower',title:'ABC Lower',width:100, halign:'center',align:'center'},
-				{field:'ovh_lower',title:'Overhead Lower',width:100, halign:'center',align:'center'},
-				{field:'abc_cost_r',title:'ABC Cost(r)',width:100, halign:'center',align:'center'},
-				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:100, halign:'center',align:'center'},
-				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
-				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},					
-			];
-		break;
-		//End Cost Object
-		
+						
 		//Setting
 		case "user_manajemen":
 			judulnya = "";
@@ -2604,64 +2587,6 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		
-		/*	
-		case "all":
-			judulnya = "";
-			urlnya = "tbl_all_resources";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'employee_id',title:'Category',width:100, halign:'center',align:'center'},
-				{field:'first',title:'ResID',width:150, halign:'center',align:'left'},
-				{field:'last',title:'Name',width:300, halign:'center',align:'left'},
-				{field:'costcenter',title:'Cost Center',width:100, halign:'center',align:'center'},
-				{field:'wages',title:'Cost',width:100, halign:'center',align:'left'},
-			]
-		break;
-		case "to_act_expenses":
-			judulnya = "";
-			urlnya = "act_to_exp";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'resource',title:'Activity Name',width:200, halign:'center',align:'left'},
-				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
-				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
-				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
-				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
-			]
-		break;
-		case "to_employee_expenses":
-			judulnya = "";
-			urlnya = "act_to_exp";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'resource',title:'Employee Name',width:200, halign:'center',align:'left'},
-				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
-				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
-				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
-				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
-			]
-		break;
-		case "to_assets_expenses":
-			judulnya = "";
-			urlnya = "act_to_exp";
-			urlglobal = host+'homex/getdata/'+urlnya;
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'resource',title:'Assets Name',width:200, halign:'center',align:'left'},
-				{field:'descript',title:'Resource Driver',width:250, halign:'center',align:'left'},
-				{field:'rdm_qty',title:'Quantity',width:100, halign:'center',align:'right'},
-				{field:'budtypeupe',title:'Proportion',width:150, halign:'center',align:'right'},				
-				{field:'costnbrupe',title:'Amount',width:100, halign:'center',align:'right'},				
-			]
-		break;
-		*/
 		//End Resources
 
 		//List Assignment - Resources
@@ -2813,6 +2738,75 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		break;			
 		// END List Assignment - Cost Object
 		
+		//Cost Object
+		case "cost_object":
+			judulnya = "";
+			urlnya = "tbl_prm";
+			fitnya = true;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			param['month'] = $('#bulan_cost_object').val();
+			param['year'] = $('#tahun_cost_object').val();			
+			frozen[modnya] = [
+				{field:'prod_id',title:'Prod. ID',width:130, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:300, halign:'center',align:'left'},
+			];			
+			kolom[modnya] = [	
+				{field:'level',title:'Level',width:100, halign:'center',align:'center'},
+				{field:'qtyproduce',title:'Qty. Prod.',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'revenue',title:'Revenue',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'unit_cost',title:'Unit Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'abc_cost',title:'ABC Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'ovh_cost',title:'Overhead Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'profitable',title:'Lost Factor',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'abc_lower',title:'ABC Lower',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'ovh_lower',title:'Overhead Lower',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'abc_cost_r',title:'ABC Cost(r)',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'ovh_cost_r',title:'Overhead Cost(r)',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},					
+			];
+		break;
+		
 		case "customer":
 			judulnya = "";
 			urlnya = "tbl_cust";
@@ -2836,6 +2830,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
 			];
 		break;
+		
+		//End Cost Object
 	}
 	
 	grid_nya=$("#"+divnya).datagrid({
