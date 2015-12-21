@@ -17,18 +17,48 @@ class mhome extends CI_Model{
 				$tahun['thn']=date('Y');
 				$bulan['bln']=date('m');
 				$sql="SELECT max(A.tahun) as thn
-					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
-					  WHERE B.tbl_model_id=".$this->modeling["id"];
+					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id";
+				if (isset($this->modeling["id"]))$sql .=" WHERE B.tbl_model_id=".$this->modeling["id"];
 				$tahun=$this->db->query($sql)->row_array();
 				if(isset($tahun['thn'])){
 					$sql="SELECT max(A.bulan) as bln
-					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
-					  WHERE B.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
+					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id";
+					if (isset($this->modeling["id"]))$sql .=" WHERE B.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
 					$bulan=$this->db->query($sql)->row_array();
 				}
 				
 				
 				$data=array('tahun'=>$tahun['thn'],'bulan'=>$bulan['bln']);
+				return $data;
+			break;
+			case "get_dashboard":
+				$bulan=$this->input->post('bulan');
+				$tahun=$this->input->post('tahun');
+				$model=$this->input->post('model');
+				
+				$where .=" AND A.tahun=".$tahun;
+				//$where=" WHERE "
+				if($bulan!=""){
+					$where .=" AND A.bulan=".$bulan;
+				}
+				$data=array();
+				
+				$sql_act="SELECT sum(A.total_cost)as total_cost,
+						  (sum(A.percent)/100) as FTE,
+						  count(A.tbl_emp_id)as head_count 
+						  FROM tbl_are A 
+						  LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id".$where." AND B.tbl_model_id=".$model;
+				$data_act=$this->db->query($sql_act)->row_array();
+				$sql_co="SELECT sum(A.revenue)as revenue,
+							SUM(A.reduction)as reduction,
+							SUM(A.net_revenue)as net_revenue,
+							SUM(A.activity_cost)as activity_cost,
+							SUM(A.direct_cost)as direct_cost,
+							SUM(A.abc_cost)as abc_cost
+							FROM tbl_prm A ".$where." AND A.tbl_model_id=".$model;
+				$data_co=$this->db->query($sql_co)->row_array();			
+				$data['act']=$data_act;
+				$data['co']=$data_co;
 				return $data;
 			break;
 			case "detil_activity":
@@ -108,7 +138,10 @@ class mhome extends CI_Model{
 				}
 				
 			break;
-			
+			case "model":
+				$sql = " SELECT A.*	FROM tbl_model A ";
+				return $this->result_query($sql,'result_array');
+			break;
 			case "menu":
 				/*
 				$sql="SELECT a.tbl_menu_id,b.nama_menu 

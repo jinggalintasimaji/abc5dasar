@@ -36,6 +36,22 @@ class home extends MY_Controller {
 					$this->smarty->assign('menu',$menu);
 					return $this->smarty->display('index.html');
 				break;
+				case "dashboard":
+					switch($p2){
+						case "main":
+							$model = $this->mhome->getdata('model');
+							$tahun = $this->mhome->getdata('get_bulan_tahun');
+							$this->smarty->assign('model',$model);
+							$this->smarty->assign('tahun',$tahun);
+						break;
+						case "data_model":
+							$data = $this->mhome->getdata('get_dashboard');
+							$this->smarty->assign('data',$data);
+							//echo "<pre>";print_r($data);echo "</pre>";
+						break;
+					}
+
+				break;
 				case "model":
 					switch($p2){
 						case "form_100":
