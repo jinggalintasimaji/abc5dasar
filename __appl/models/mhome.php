@@ -699,6 +699,21 @@ class mhome extends CI_Model{
 					FROM cl_user_group
 				";
 			break;
+			case "segment_id":
+				$sql = "
+					SELECT id, seg_servicegroup_name as txt
+					FROM tbl_seg_servicegroup
+					WHERE pid IS NULL
+				";
+			break;
+			case "service_group_id":				
+				$sql = "
+					SELECT id, seg_servicegroup_name as txt
+					FROM tbl_seg_servicegroup
+					WHERE pid = '".$p3."'
+				";
+			break;
+			
 		}
 		return $this->db->query($sql)->result_array();
 	}
