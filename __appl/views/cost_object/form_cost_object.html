@@ -32,8 +32,8 @@
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' class='duit' name='profit_lost' value={$data.profit_lost|default:''} }
 						</td>
 						<td width='50%'>
-							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Segment' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
-							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Service Group' name='tbl_rdm_id' value={$data.tbl_rdm_id|default:''} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Segment' name='segment_id' option={$segment_id} }
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Service Group' name='service_group_id' option={$service_group_id} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' class='duit' name='prod_qty' value={$data.prod_qty|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' class='duit' name='uom' value={$data.uom|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' class='duit' name='cost_rate' value={$data.cost_rate|default:''} }
@@ -175,7 +175,11 @@
 
 	$('.monthhsss').html($('#bulan option:selected').text());
 	$('.yearrsss').html($('#tahun option:selected').text());
-
+	
+	$('#segment_id').on('change', function(){
+		fillCombo(host+'homex/getcombo/service_group_id/', 'service_group_id', '', $(this).val() );
+	});
+	
 	$("#tabs_{$main}").tabs({
 		height: getClientHeight()-190,
 		width: getClientWidth()-280,

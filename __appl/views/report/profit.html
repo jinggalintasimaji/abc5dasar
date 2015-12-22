@@ -1,0 +1,18 @@
+<fieldset >
+	<select id='bulan_{$main}' style='width:150px;padding:3px;'>
+		{$bulan}
+	</select>
+	&nbsp;&nbsp;&nbsp;
+	<select id='tahun_{$main}' style='width:150px;padding:3px;'>
+		{$tahun}
+	</select>
+	&nbsp;&nbsp;&nbsp;
+	<a href="javascript:void(0)" style='' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="kumpulAction('{$main}');">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Generate</span><span class="l-btn-icon icon-reload">&nbsp;</span>
+		</span>
+	</a>	
+</fieldset >
+
+<div id='main-report' style='margin-top:20px;padding:10px;'></div>
+	

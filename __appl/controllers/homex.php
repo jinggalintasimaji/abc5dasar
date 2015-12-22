@@ -219,12 +219,17 @@ class homex extends MY_Controller {
 									$total_cost_driver = $this->getcost('return', 'cost', 'tbl_prd', 'tbl_prm_id', $id);
 									$total_customer = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'customer_costobject');
 									$total_location = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'location_costobject');
-									
+																		
 									$this->smarty->assign('total_cost_driver', $total_cost_driver['total_cost']);
 									$this->smarty->assign('total_customer', $total_customer['total_cost']);
 									$this->smarty->assign('total_location', $total_location['total_cost']);
 								}
 								
+							}
+							
+							if($p2 == 'form_cost_object'){
+								$this->smarty->assign('segment_id', $this->lib->fillcombo('segment_id', 'return', ($editstatus == 'edit' ? $data['segment_id'] : "") ) );
+								$this->smarty->assign('service_group_id', $this->lib->fillcombo('service_group_id', 'return', ($editstatus == 'edit' ? $data['service_group_id'] : ""), ($editstatus == 'edit' ? $data['segment_id'] : "") ) );
 							}
 							
 							$this->smarty->assign('bulan_form', $this->lib->fillcombo('bulan', 'return', ($editstatus == 'edit' ? $data['bulan'] : "") ) );
@@ -249,6 +254,18 @@ class homex extends MY_Controller {
 							}
 						break;
 						//End Modul Cost Object
+						
+						//Modul Report
+						case "profit":
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+						break;
+						case "profit_detail":
+							$data = $this->mhomex->getreport('profit_detail');
+							$this->smarty->assign('data', $data);
+						break;
+						
+						//End Modul Report
 					}
 					
 					$this->smarty->assign('mod',$mod);
@@ -268,6 +285,10 @@ class homex extends MY_Controller {
 	
 	function getdata($type, $p1s=""){
 		echo $this->mhomex->getdata($type, 'json');
+	}
+	
+	function getcombo($p1="", $p2=""){
+		echo $this->lib->fillcombo($p1, 'echo');
 	}
 	
 	function getcost($balikan="", $p1="", $p2="", $p3="", $p4="", $p5=""){

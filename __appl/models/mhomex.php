@@ -774,6 +774,103 @@ class mhomex extends CI_Model{
 		}
 	}
 	
+	function getreport($type="", $p1="", $p2="", $p3=""){
+		$array = array();
+		$bulan = $this->input->post('bulan');
+		$tahun = $this->input->post('tahun');
+		
+		switch($type){
+			case "profit_detail":
+				$sql1 = "
+					SELECT *
+					FROM tbl_seg_servicegroup
+					WHERE pid IS NULL
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				$grand_total_rev  = 0;
+				$grand_total_abc = 0;
+				$grand_total_prof = 0;
+				
+				foreach($query1 as $k => $v){
+					$total_rev_segment = 0;
+					$total_abc_segment = 0;
+					$total_prof_segment = 0;
+					
+					$array['detail'][$k]['id_segment'] = $v['id'];
+					$array['detail'][$k]['nama_segment'] = $v['seg_servicegroup_name'];
+					$array['detail'][$k]['detail_service'] = array();
+					
+					$sql2 = "
+						SELECT *
+						FROM tbl_seg_servicegroup
+						WHERE pid = '".$v['id']."'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					
+					foreach($query2 as $z => $x){
+						$total_rev_service = 0;
+						$total_abc_service = 0;
+						$total_prof_service = 0;
+						
+						$array['detail'][$k]['detail_service'][$z]['id_service'] = $x['id'];
+						$array['detail'][$k]['detail_service'][$z]['nama_service'] = $x['seg_servicegroup_name'];
+						$array['detail'][$k]['detail_service'][$z]['detail_prm'] = array();
+						
+						$sql3 = "
+							SELECT *
+							FROM tbl_prm
+							WHERE service_group_id = '".$x['id']."'
+						";
+						$query3 = $this->db->query($sql3)->result_array();
+						
+						foreach($query3 as $y => $w){
+							$pendapatan = $w['revenue'];
+							$biaya_abc = $w['abc_cost'];
+							$profitabilitas = ($w['revenue'] - $w['abc_cost']);
+						
+							$array['detail'][$k]['detail_service'][$z]['detail_prm'][$y]['nama_prm'] = $w['descript'];
+							$array['detail'][$k]['detail_service'][$z]['detail_prm'][$y]['pendapatan'] = number_format($pendapatan,0,",",".");		
+							$array['detail'][$k]['detail_service'][$z]['detail_prm'][$y]['biaya_abc'] =  number_format($biaya_abc,0,",",".");
+							$array['detail'][$k]['detail_service'][$z]['detail_prm'][$y]['profitabilitas'] = number_format($profitabilitas,0,",",".");
+							
+							$total_rev_service += $pendapatan;
+							$total_abc_service += $biaya_abc;
+							$total_prof_service += $profitabilitas;
+						}
+						
+						$array['detail'][$k]['detail_service'][$z]['total_rev_service'] =  number_format($total_rev_service,0,",",".");		
+						$array['detail'][$k]['detail_service'][$z]['total_abc_service'] =  number_format($total_abc_service,0,",",".");		
+						$array['detail'][$k]['detail_service'][$z]['total_prof_service'] = number_format($total_prof_service,0,",",".");		
+						
+						$total_rev_segment += $total_rev_service;
+						$total_abc_segment += $total_abc_service;
+						$total_prof_segment += $total_prof_service;
+					}
+					
+					$array['detail'][$k]['total_rev_segment'] = number_format($total_rev_segment,0,",",".");		
+					$array['detail'][$k]['total_abc_segment'] = number_format($total_abc_segment,0,",",".");		
+					$array['detail'][$k]['total_prof_segment'] = number_format($total_prof_segment,0,",",".");		
+					
+					$grand_total_rev += $total_rev_segment;
+					$grand_total_abc += $total_abc_segment;
+					$grand_total_prof += $total_prof_segment;
+				}
+				
+				$array['grand_total']['grand_total_rev'] = number_format($grand_total_rev,0,",",".");		
+				$array['grand_total']['grand_total_abc'] = number_format($grand_total_abc,0,",",".");		
+				$array['grand_total']['grand_total_prof'] = number_format($grand_total_prof,0,",",".");		
+			break;
+		}
+		
+		/*
+		echo "<pre>";
+		print_r($array);
+		exit;
+		//*/
+		
+		return $array;
+	}
+	
 	function simpansavedata($table,$data,$sts_crud){ //savedata
 		$this->db->trans_begin();
 		

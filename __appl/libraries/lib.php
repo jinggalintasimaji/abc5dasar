@@ -169,7 +169,13 @@ class lib {
 			$selTxt = $p1;
 		}
 		
-		
+		$pid = $ci->input->post('v2');
+		if($pid){
+			$p2 = $pid;
+		}else{
+			$p2 = $p2;
+		}
+
 		if($type == 'tbl_loc_search'){
 			$optTemp = '';
 		}else{

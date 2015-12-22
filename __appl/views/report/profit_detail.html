@@ -1,0 +1,47 @@
+<center>
+<h2>
+	LAPORAN PROFITABILITAS TARIF
+</h2>
+</center>
+<br/>
+<br/>
+<table width='100%'>
+	<thead style='background-color:#DCE6F1;'>
+		<th align='center'>Segmen</th>
+		<th align='center'>Pendapatan</th>
+		<th align='center'>Biaya ABC</th>
+		<th align='center'>Profitabilitas</th>
+	</thead>
+	<tbody>
+		{foreach from=$data.detail item=rows}
+			<tr style='background-color:#E8F0F9;'>
+				<td style='padding-left:10px;'>{$rows.nama_segment}</td>
+				<td align='right'>{$rows.total_rev_segment}</td>
+				<td align='right'>{$rows.total_abc_segment}</td>
+				<td align='right'>{$rows.total_prof_segment}</td>
+			</tr>
+			{foreach from=$rows.detail_service item=rowss}
+				<tr style='background-color:#F1F6FC;'>
+					<td style='padding-left:20px;'>{$rowss.nama_service}</td>
+					<td align='right'>{$rowss.total_rev_service}</td>
+					<td align='right'>{$rowss.total_abc_service}</td>
+					<td align='right'>{$rowss.total_prof_service}</td>
+				</tr>
+				{foreach from=$rowss.detail_prm item=rowxx}
+					<tr>
+						<td style='padding-left:30px;'>{$rowxx.nama_prm}</td>
+						<td align='right'>{$rowxx.pendapatan}</td>
+						<td align='right'>{$rowxx.biaya_abc}</td>
+						<td align='right'>{$rowxx.profitabilitas}</td>
+					</tr>
+				{/foreach}
+			{/foreach}
+		{/foreach}
+		<tr style='background-color:#E8F0F9;font-weight:bold;'>
+			<td align='center'>Grand Total</td>
+			<td align='right'>{$data.grand_total.grand_total_rev}</td>
+			<td align='right'>{$data.grand_total.grand_total_abc}</td>
+			<td align='right'>{$data.grand_total.grand_total_prof}</td>
+		</tr>
+	</tbody>
+</table>
