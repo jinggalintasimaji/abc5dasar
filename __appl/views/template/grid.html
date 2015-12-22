@@ -79,8 +79,6 @@
 <div id='detil_nya_{$main}' width='100%'></div>
 
 <script>
-	//$('#grid_nya_{$main}').css('height',(getClientHeight()-181));
-	
 	var height_grid = "{$tinggi_grid|default:''}";
 	$('#grid_nya_{$main}').css('height', (height_grid != "" ? height_grid : (getClientHeight()-181) ) );
 	genGrid('{$main}','grid_{$main}');
