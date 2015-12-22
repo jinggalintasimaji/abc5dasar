@@ -3461,6 +3461,13 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 					case "cost_object":
 						urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 					break;
+					case "report":
+						switch(isi_tab.toLowerCase()){
+							default:
+								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
+							break;
+						}
+					break;
 					//default:urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 				}
 				console.log(par);
@@ -3705,6 +3712,17 @@ function kumpulAction(type, p1, p2, p3){
 		break;
 		// End Modul Cost Object
 		
+		//Modul Report
+		case "profit":
+			post_detil['bulan']	= $('#bulan_profit').val();
+			post_detil['tahun']	= $('#tahun_profit').val();
+			
+			$('#main-report').html('').addClass("loading");
+			$.post(host+'homex/modul/report/profit_detail', post_detil, function(r){
+				$('#main-report').html(r).removeClass("loading");
+			});
+		break;
+		//End Modul Report
 	}
 }		
 
