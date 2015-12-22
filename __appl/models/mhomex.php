@@ -820,6 +820,7 @@ class mhomex extends CI_Model{
 							SELECT *
 							FROM tbl_prm
 							WHERE service_group_id = '".$x['id']."'
+							AND bulan = '".$bulan."' AND tahun = '".$tahun."'
 						";
 						$query3 = $this->db->query($sql3)->result_array();
 						
