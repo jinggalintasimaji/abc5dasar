@@ -279,6 +279,20 @@ class home extends MY_Controller {
 						break;
 					}
 				break;
+				case "report":
+					switch($p2){
+						case "activity_master":
+						case "activity_resource":
+							$data=$this->mhome->getdata('tbl_acm_wizard','report',($p2=='activity_resource'?'resource':''));
+							$this->smarty->assign('data' ,$data);
+						break;
+						case "activity_driver":
+							$data=$this->mhome->getdata('get_activity_driver','report');
+							$this->smarty->assign('data' ,$data);
+						break;
+					}
+					
+				break;
 			}
 			$this->smarty->assign('mod',$mod);
 			$this->smarty->assign('main',$p2);

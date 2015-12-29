@@ -9,7 +9,6 @@ var index_row;
 $(document).ready(function(){
     frmWidth = getClientWidth();
     frmHeight = getClientHeight();
-	
 	$('#bodyHt').layout();
 	$('#bodyHt').layout('panel','west').panel({
 		collapsible:false
@@ -20,7 +19,7 @@ $(document).ready(function(){
 		height: getClientHeight()-178
 	});
 	var grid_nya;
-	
+	var main_report;
 
 });
 
@@ -3463,6 +3462,15 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 					break;
 					case "report":
 						switch(isi_tab.toLowerCase()){
+							case "activity_master":
+							case "activity_driver":
+							case "activity_by_segment":
+							case "activity_resource":
+								main_report=isi_tab.toLowerCase();
+								par['bulan']=$('#bulan').val();
+								par['tahun']=$('#tahun').val();
+								urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
+							break;
 							default:
 								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 							break;

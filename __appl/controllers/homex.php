@@ -264,7 +264,11 @@ class homex extends MY_Controller {
 							$data = $this->mhomex->getreport('profit_detail');
 							$this->smarty->assign('data', $data);
 						break;
-						
+						case "activity":
+							$tahun = $this->mhome->getdata('get_bulan_tahun');
+							$this->smarty->assign('data_date', $tahun);
+							//print_r($tahun);
+						break;
 						//End Modul Report
 					}
 					

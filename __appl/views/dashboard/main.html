@@ -41,24 +41,25 @@
 </div>
 
 <script>
-	$('#tahun_model').val({$tahun.tahun|default:2015})
-	$('#tahun_model').off('change');
-	$('#tahun_model').on('change',function(){
-		$('#data_model').html('').addClass('loading');
-		$.post(host+'home/modul/dashboard/data_model',{ 'tahun':$(this).val(),'bulan':$('#bulan_model').val(),'model':$('#model_data').val() },function(r){
-			 //$('#'+isi_tab).html(isi_tab+' -> '+title);
-			$('#data_model').removeClass('loading').html(r);
-			//$('#'+isi_tab.toLowerCase()).html(r);
+	$(function(){
+		$('#tahun_model').val({$tahun.tahun|default:2015})
+		$('#tahun_model').off('change');
+		$('#tahun_model').on('change',function(){
+			$('#data_model').html('').addClass('loading');
+			$.post(host+'home/modul/dashboard/data_model',{ 'tahun':$(this).val(),'bulan':$('#bulan_model').val(),'model':$('#model_data').val() },function(r){
+				 //$('#'+isi_tab).html(isi_tab+' -> '+title);
+				$('#data_model').removeClass('loading').html(r);
+				//$('#'+isi_tab.toLowerCase()).html(r);
+			});
 		});
-	});
-	$('#model_data').off('change');
-	$('#model_data').on('change',function(){
+		$('#model_data').off('change');
+		$('#model_data').on('change',function(){
+			$('#tahun_model').trigger('change');
+		});
+		$('#bulan_model').off('change');
+		$('#bulan_model').on('change',function(){
+			$('#tahun_model').trigger('change');
+		});
 		$('#tahun_model').trigger('change');
 	});
-	$('#bulan_model').off('change');
-	$('#bulan_model').on('change',function(){
-		$('#tahun_model').trigger('change');
-	});
-	$('#tahun_model').trigger('change');
-	
 </script>

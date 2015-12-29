@@ -31,6 +31,18 @@ class mhome extends CI_Model{
 				$data=array('tahun'=>$tahun['thn'],'bulan'=>$bulan['bln']);
 				return $data;
 			break;
+			case "get_activity_driver":
+				$bulan=$this->input->post('bulan');
+				$tahun=$this->input->post('tahun');
+				$sql="SELECT A.tbl_model_id,C.activity_code,B.descript as prm_name,C.descript as act_name,D.descript as cdm_name,
+						A.quantity,A.cost_rate,A.cost 
+						FROM tbl_prd A
+						LEFT JOIN tbl_prm B ON A.tbl_prm_id=B.id
+						LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+						LEFT JOIN tbl_cdm D ON A.tbl_cdm_id=D.id 
+						WHERE A.bulan=".$bulan." AND A.tahun=".$tahun;
+				return $this->db->query($sql)->result_array();
+			break;
 			case "get_dashboard":
 				$bulan=$this->input->post('bulan');
 				$tahun=$this->input->post('tahun');
@@ -189,9 +201,10 @@ class mhome extends CI_Model{
 				if($p1=='config'){
 					$where .=" AND pid IS NULL ";
 				}
-				$sql="SELECT A.*,C.cost_driver,B.total_cost as total
+				$sql="SELECT A.*,C.cost_driver,B.total_cost as total,E.resource,E.descript as rdm_name
 						FROM tbl_acm A
-						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id  
+						LEFT JOIN tbl_cdm C ON A.tbl_cdm_id=C.id 
+						LEFT JOIN tbl_rdm E ON A.tbl_rdm_id=E.id
 						LEFT JOIN(
 							SELECT * FROM tbl_acm_total_cost WHERE bulan=".$bulan." AND tahun=".$tahun."
 						)B ON B.tbl_acm_id=A.id ".$where;
@@ -200,6 +213,15 @@ class mhome extends CI_Model{
 				$sql_na="SELECT SUM(total_cost) as total from tbl_acm_total_cost  WHERE bulan=".$bulan." AND tahun=".$tahun;
 				$tot=$this->db->query($sql_na)->row_array();
 				$footer =array('rd_tot_qty'=>'Total Cost','total'=>$tot['total']);
+				if($p1=='report'){
+					if($p2=='resource'){
+						$sql .=" AND A.tbl_rdm_id IS NOT NULL ";
+					}
+					$result=$this->db->query($sql)->result_array();
+					$data=array('data'=>$result,'footer'=>$footer);
+					//$total_cost=
+					return $data;
+				}
 				//print_r($footer);exit;
 			break;
 			case "tbl_acm_tree":
