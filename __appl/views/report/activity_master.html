@@ -1,0 +1,24 @@
+<table width='100%'>
+	<thead style='background-color:#DCE6F1;'>
+		<tr>
+			<th align='center'>Activity Code</th>
+			<th align='center'>Activity Name</th>
+			<th align='center'>Total Cost</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from=$data.data item=i}
+		<tr style='background-color:#E8F0F9;'>
+			<td style='padding-left:10px;' align='center'>{$i.activity_code|default:'-'}</td>
+			<td style='padding-left:10px;'align='left'>{$i.descript|default:'-'}</td>
+			<td style='padding-right:10px;' align='right'>{$i.total|number_format:2:',':'.'|default:'-'}</td>
+		</tr>
+		{/foreach}
+		
+		<tr style='background-color:#DCE6F1;'>
+			<td style='padding-left:10px;font-weight:bold;' align='center' colspan="2">GRAND TOTAL</td>
+			<td style='padding-right:10px;font-weight:bold;'align='right'>{$data.footer.total|number_format:2:',':'.'|default:'-'}</td>
+		</tr>
+	</tbody>
+</table>
+	

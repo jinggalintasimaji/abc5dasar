@@ -1,0 +1,33 @@
+<table width='100%'>
+	<thead style='background-color:#DCE6F1;'>
+		<tr>
+			<th align='center'>Activity Code</th>
+			<th align='center'>Activity Name</th>
+			<th align='center'>Resource</th>
+			<th align='center'>Resource Driver</th>
+			<th align='center'>Quantity</th>
+			<th align='center'>Total Cost</th>
+		</tr>
+	</thead>
+	<tbody>
+		{assign var=tot_qty value=0}
+		{foreach from=$data.data item=i}
+		{assign var=tot_qty value=$tot_qty+$i.rd_tot_qty}
+		<tr style='background-color:#E8F0F9;'>
+			<td style='padding-left:10px;' align='center'>{$i.activity_code|default:'-'}</td>
+			<td style='padding-left:10px;'align='left'>{$i.descript|default:'-'}</td>
+			<td style='padding-left:10px;'align='left'>{$i.resource|default:'-'}</td>
+			<td style='padding-left:10px;'align='left'>{$i.rdm_name|default:'-'}</td>
+			<td style='padding-right:10px;' align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:'-'}</td>
+			<td style='padding-right:10px;' align='right'>{$i.total|number_format:2:',':'.'|default:'-'}</td>
+		</tr>
+		{/foreach}
+		
+		<tr style='background-color:#DCE6F1;'>
+			<td style='padding-left:10px;font-weight:bold;' align='center' colspan="4">GRAND TOTAL</td>
+			<td style='padding-right:10px;font-weight:bold;'align='right'>{$tot_qty|number_format:2:',':'.'|default:'-'}</td>
+			<td style='padding-right:10px;font-weight:bold;'align='right'>{$data.footer.total|number_format:2:',':'.'|default:'-'}</td>
+		</tr>
+	</tbody>
+</table>
+	
