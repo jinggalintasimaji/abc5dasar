@@ -276,9 +276,11 @@ class homex extends MY_Controller {
 					$this->smarty->assign('main',$p2);
 					$this->smarty->assign('sub_mod',$p3);
 					if($form_default == 'def'){
-						$this->smarty->display($mod.'/'.$p2.'.html');
+						if(!file_exists($this->config->item('appl').APPPATH.'views/'.$mod.'/'.$p2.'.html')){$this->smarty->display('konstruksi.html');}
+						else{$this->smarty->display($mod.'/'.$p2.'.html');}
 					}else{
-						$this->smarty->display($mod.'/'.$form.'.html');
+						if(!file_exists($this->config->item('appl').APPPATH.'views/'.$mod.'/'.$form.'.html')){$this->smarty->display('konstruksi.html');}
+						else{$this->smarty->display($mod.'/'.$form.'.html');}
 					}
 				break;
 			}
