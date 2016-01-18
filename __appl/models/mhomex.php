@@ -541,6 +541,7 @@ class mhomex extends CI_Model{
 					$join
 					$where
 				";
+				//echo $sql;exit;
 			break;
 			
 			// Tabs Customer
@@ -563,6 +564,40 @@ class mhomex extends CI_Model{
 					FROM tbl_cust A
 					$where
 				";
+			break;
+			case "cobj_to_cust":
+			case "loc_to_cust":
+				$id_cust = $this->input->post('id_cust');
+				if($id_cust){
+					$where .= "
+						AND  A.tbl_cust_id = '".$id_cust."' 
+					";
+				}
+				
+				if($type == 'cobj_to_cust'){
+					$select = " A.*, B.descript as cost_object_name";
+					$from = "tbl_ptp";
+					$join = "
+						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id 
+					";
+					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+				}elseif($type == 'loc_to_cust'){
+					$select = " A.*, B.location_name ";
+					$from = "tbl_ptp";
+					$join = "
+						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id 
+					";
+					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+				}
+				
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$join
+					$where
+				";
+				
+				//echo $sql;
 			break;
 			// End Tabs Customer
 			
@@ -587,12 +622,54 @@ class mhomex extends CI_Model{
 					$where
 				";
 			break;
+			case "cobj_to_location":
+			case "cust_to_location":
+				$id_location = $this->input->post('id_location');
+				if($id_location){
+					$where .= "
+						AND  A.tbl_location_id = '".$id_location."' 
+					";
+				}
+				
+				if($type == 'cobj_to_location'){
+					$select = " A.*, B.descript as cost_object_name";
+					$from = "tbl_ptp";
+					$join = "
+						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id 
+					";
+					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+				}elseif($type == 'cust_to_location'){
+					$select = " A.*, B.customer_name ";
+					$from = "tbl_ptp";
+					$join = "
+						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id 
+					";
+					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+				}
+				
+				$sql = "
+					SELECT $select
+					FROM $from A
+					$join
+					$where
+				";
+				
+				//echo $sql;
+			
+			break;
 			// End Tabs Location
 			
 			//Window Assignment Cost Object
 			case "list_activity_costobject":
 			case "list_customer_costobject":
 			case "list_location_costobject":
+			
+			case "list_costobject_customer":
+			case "list_location_customer":
+			
+			case "list_costobject_location":
+			case "list_customer_location":
+			
 				if($this->modeling){
 					$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
 				}else{
@@ -627,6 +704,47 @@ class mhomex extends CI_Model{
 					$field_select = "tbl_location_id";
 					$table_beda = "tbl_ptp";
 					$wheretambah .= "AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0'";
+					
+				}elseif($type == 'list_costobject_customer'){
+					$select = " A.id, A.descript, A.prod_id ";
+					$from = "tbl_prm";
+					
+					$id_beda = $this->input->post('id_cust');
+					$field_where = "tbl_cust_id";
+					$field_select = "tbl_prm_id";
+					$table_beda = "tbl_ptp";
+					$wheretambah .= "AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0'";
+				}elseif($type == 'list_location_customer'){
+					$select = " A.id, A.location_name, A.location_id ";
+					$from = "tbl_location";
+					
+					$id_beda = $this->input->post('id_cust');
+					$field_where = "tbl_cust_id";
+					$field_select = "tbl_location_id";
+					$table_beda = "tbl_ptp";
+					$wheretambah .= "AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0'";
+					
+				}elseif($type == 'list_costobject_location'){
+					$select = " A.id, A.descript, A.prod_id ";
+					$from = "tbl_prm";
+					
+					$id_beda = $this->input->post('id_location');
+					$field_where = "tbl_location_id";
+					$field_select = "tbl_prm_id";
+					$table_beda = "tbl_ptp";
+					$wheretambah .= "AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0'";
+				}elseif($type == 'list_customer_location'){
+					$select = " A.id, A.customer_name, A.customer_id ";
+					$from = "tbl_cust";
+					
+					$id_beda = $this->input->post('id_location');
+					$field_where = "tbl_location_id";
+					$field_select = "tbl_cust_id";
+					$table_beda = "tbl_ptp";
+					$wheretambah .= "AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0'";
+					
+					
+					
 				}
 				
 				$sql_beda = "
@@ -666,6 +784,14 @@ class mhomex extends CI_Model{
 					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
 				}elseif($p5 == 'location_costobject'){
 					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+				}elseif($p5 == 'costobject_customer'){
+					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+				}elseif($p5 == 'location_customer'){
+					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+				}elseif($p5 == 'costobject_location'){
+					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+				}elseif($p5 == 'customer_location'){
+					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
 				}
 				
 				if($p2 != 'tbl_prd'){
@@ -679,6 +805,7 @@ class mhomex extends CI_Model{
 					FROM ".$p2."
 					WHERE ".$p3." = '".$p4."' $where
 				";
+				//echo $sql;exit;
 			break;
 			case "total_percent_models":
 				$where = "";
@@ -1774,6 +1901,122 @@ class mhomex extends CI_Model{
 				}				
 			break;
 
+			case "list_costobject_customer":
+				$table = "tbl_ptp";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_cust_id" => $data['tbl_cust_id'],
+						"tbl_prm_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			case "tbl_customer_costobject":
+				$table = "tbl_ptp";
+				unset($data['cost_object_name']);
+				unset($data['location_name']);
+				unset($data['editing']);
+				
+				$cost = ($data['sell_price'] * $data['quantity']);
+				$data['cost'] = $cost;
+			break;
+			
+			case "list_location_customer":
+				$table = "tbl_ptp";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_cust_id" => $data['tbl_cust_id'],
+						"tbl_location_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			case "tbl_customer_location":
+				$table = "tbl_ptp";
+				unset($data['cost_object_name']);
+				unset($data['location_name']);
+				unset($data['editing']);
+				
+				$cost = ($data['sell_price'] * $data['quantity']);
+				$data['cost'] = $cost;
+			break;
+			
+			case "list_costobject_location":
+				$table = "tbl_ptp";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_location_id" => $data['tbl_location_id'],
+						"tbl_prm_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}				
+			break;
+			case "tbl_location_costobject":
+				$table = "tbl_ptp";
+				unset($data['cost_object_name']);
+				unset($data['customer_name']);
+				unset($data['editing']);
+				
+				$cost = ($data['sell_price'] * $data['quantity']);
+				$data['cost'] = $cost;
+			break;
+
+			case "list_customer_location":
+				$table = "tbl_ptp";
+				$count = count($data['datanya'])-1;
+				
+				$array_batch_insert = array();
+				for($i = 0; $i <= $count; $i++){
+					$array_insert = array(
+						"tbl_location_id" => $data['tbl_location_id'],
+						"tbl_cust_id" => $data['datanya'][$i]['id'],
+						"create_date" => date('Y-m-d H:i:s'),
+						"create_by" => $this->auth['nama_lengkap'],
+					);	
+					array_push($array_batch_insert, $array_insert);						
+				}
+				
+				if($array_batch_insert){
+					$this->db->insert_batch($table, $array_batch_insert);
+				}		
+			break;
+			case "tbl_location_customer":
+				$table = "tbl_ptp";
+				unset($data['cost_object_name']);
+				unset($data['customer_name']);
+				unset($data['editing']);
+				
+				$cost = ($data['sell_price'] * $data['quantity']);
+				$data['cost'] = $cost;
+			break;
+			
 			// End Modul Cost Object
 			
 		}

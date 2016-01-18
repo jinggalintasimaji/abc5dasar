@@ -196,26 +196,27 @@ class homex extends MY_Controller {
 						break;
 						
 						case "form_cost_object": 
+						case "form_customer": 
+						case "form_location": 
 							$tabel = $this->input->post('tabel');
 							if($editstatus == 'edit'){
 								$id = $this->input->post('id');
 								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
-								$data['revenue'] = number_format($data['revenue'],0,",",".");
-								$data['reduction'] = number_format($data['reduction'],0,",",".");									
-								$data['net_revenue'] = number_format($data['net_revenue'],0,",",".");									
-								$data['direct_cost'] = number_format($data['direct_cost'],0,",",".");									
-								$data['activity_cost'] = number_format($data['activity_cost'],0,",",".");									
-								$data['abc_cost'] = number_format($data['abc_cost'],0,",",".");									
-								$data['profit_lost'] = number_format($data['profit_lost'],0,",",".");									
-								$data['prod_qty'] = number_format($data['prod_qty'],0,",",".");									
-								$data['uom'] = number_format($data['uom'],0,",",".");									
-								$data['cost_rate'] = number_format($data['cost_rate'],0,",",".");									
-								$data['target_qty'] = number_format($data['target_qty'],0,",",".");									
-								$data['target_rate'] = number_format($data['target_rate'],0,",",".");									
-								
-								$this->smarty->assign('data', $data );
 								
 								if($p2 == 'form_cost_object'){
+									$data['revenue'] = number_format($data['revenue'],0,",",".");
+									$data['reduction'] = number_format($data['reduction'],0,",",".");									
+									$data['net_revenue'] = number_format($data['net_revenue'],0,",",".");									
+									$data['direct_cost'] = number_format($data['direct_cost'],0,",",".");									
+									$data['activity_cost'] = number_format($data['activity_cost'],0,",",".");									
+									$data['abc_cost'] = number_format($data['abc_cost'],0,",",".");									
+									$data['profit_lost'] = number_format($data['profit_lost'],0,",",".");									
+									$data['prod_qty'] = number_format($data['prod_qty'],0,",",".");									
+									$data['uom'] = number_format($data['uom'],0,",",".");									
+									$data['cost_rate'] = number_format($data['cost_rate'],0,",",".");									
+									$data['target_qty'] = number_format($data['target_qty'],0,",",".");									
+									$data['target_rate'] = number_format($data['target_rate'],0,",",".");		
+									
 									$total_cost_driver = $this->getcost('return', 'cost', 'tbl_prd', 'tbl_prm_id', $id);
 									$total_customer = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'customer_costobject');
 									$total_location = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'location_costobject');
@@ -223,8 +224,21 @@ class homex extends MY_Controller {
 									$this->smarty->assign('total_cost_driver', $total_cost_driver['total_cost']);
 									$this->smarty->assign('total_customer', $total_customer['total_cost']);
 									$this->smarty->assign('total_location', $total_location['total_cost']);
+								}elseif($p2 == "form_customer"){
+									$total_costobject = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_cust_id', $id, 'costobject_customer');
+									$total_location = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_cust_id', $id, 'location_customer');
+									
+									$this->smarty->assign('total_costobject', $total_costobject['total_cost']);
+									$this->smarty->assign('total_location', $total_location['total_cost']);									
+								}elseif($p2 == "form_location"){
+									$total_costobject = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_location_id', $id, 'costobject_location');
+									$total_customer = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_location_id', $id, 'customer_location');
+									
+									$this->smarty->assign('total_costobject', $total_costobject['total_cost']);
+									$this->smarty->assign('total_customer', $total_customer['total_cost']);									
 								}
 								
+								$this->smarty->assign('data', $data );
 							}
 							
 							if($p2 == 'form_cost_object'){
@@ -240,6 +254,13 @@ class homex extends MY_Controller {
 						case "form_assign_act_costobject":
 						case "form_assign_cust_costobject":
 						case "form_assign_loc_costobject":
+						
+						case "form_assign_costobject_cust":
+						case "form_assign_location_cust":
+						
+						case "form_assign_costobject_location":
+						case "form_assign_cust_location":
+						
 							$form_default = 'laen';
 							$form = 'form_assignment';
 							$value1 = $this->input->post('id_tambahan');
@@ -251,6 +272,17 @@ class homex extends MY_Controller {
 								$this->smarty->assign('jns_assignment', 'list_customer_costobject');
 							}elseif($p2 == 'form_assign_loc_costobject'){
 								$this->smarty->assign('jns_assignment', 'list_location_costobject');
+							
+							}elseif($p2 == 'form_assign_costobject_cust'){
+								$this->smarty->assign('jns_assignment', 'list_costobject_customer');
+							}elseif($p2 == 'form_assign_location_cust'){
+								$this->smarty->assign('jns_assignment', 'list_location_customer');
+								
+							}elseif($p2 == 'form_assign_costobject_location'){
+								$this->smarty->assign('jns_assignment', 'list_costobject_location');
+							}elseif($p2 == 'form_assign_cust_location'){
+								$this->smarty->assign('jns_assignment', 'list_customer_location');
+								
 							}
 						break;
 						//End Modul Cost Object

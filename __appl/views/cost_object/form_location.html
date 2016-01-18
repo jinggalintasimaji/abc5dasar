@@ -1,0 +1,157 @@
+<div id="tabs_{$main}" style="{* width:500px;height:285px; *}">
+    <div title="Location Detail" style="padding:10px;">
+		<form method='post' url="{$host}homex/simpansavedata/tbl_location" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+			<input type='hidden' id='id_location' name='id' value="{$data.id|default:''}">
+			<input type='hidden' name='editstatus' value="{$editstatus}">
+			<input type='hidden' id='bulan_location' value="{$bulan}">
+			<input type='hidden' id='tahun_location' value="{$tahun}">
+		
+			<fieldset>
+			<legend>Location Detail</legend>
+				<table width='100%'>
+					<tr>
+						<td width='50%'>
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Location ID' name='location_id' value={$data.location_id|default:''} }
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Location Name' name='location_name' value={$data.location_name|default:''} }
+						</td>
+						<td width='50%' valign='top'>
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Month' name='bulan' option={$bulan_form} } 
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Year' name='tahun' option={$tahun_form} } 						
+						</td>
+					</tr>
+				</table>
+			
+			</fieldset>
+		</form>
+	</div>
+	
+	{if $editstatus eq 'edit'}	
+	<div title="Cost Object" style="overflow:auto;padding:10px;">
+		<table width='100%' style='margin-bottom:20px;'>
+			<tr>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Location ID</label> : {$data.location_id|default:''}
+					<br/>
+					<label style='width:100px;'>Location Name</label> : {$data.location_name|default:''}
+					<br/>
+				</td>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Month</label> : <span class='monthhsss'></span>
+					<br/>
+					<label style='width:100px;'>Year</label> : <span class='yearrsss'></span>
+				</td>
+			</tr>
+		</table>
+		{include file='template/grid_editable.html' crud_table='tbl_location_costobject' main='assign_costobject_location' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
+			<table width='100%'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>			
+					<td width='50%'>
+						<table width='100%'>
+							<tr>
+								<td width='50%'><b>TOTAL COST</b></td>
+								<td width='50%'><b>Rp. <span id='total_costobject_location'>{$total_costobject}</span></b></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>    
+		
+	</div>
+	<div title="Customer" style="overflow:auto;padding:10px;">
+		<table width='100%' style='margin-bottom:20px;'>
+			<tr>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Location ID</label> : {$data.location_id|default:''}
+					<br/>
+					<label style='width:100px;'>Location Name</label> : {$data.location_name|default:''}
+					<br/>
+				</td>
+				<td width='50%' valign='top'>
+					<label style='width:100px;'>Month</label> : <span class='monthhsss'></span>
+					<br/>
+					<label style='width:100px;'>Year</label> : <span class='yearrsss'></span>
+				</td>
+			</tr>
+		</table>
+		{include file='template/grid_editable.html' crud_table='tbl_location_customer' main='assign_cust_location' mod={$mod} button_2='true' filter_core='false' tinggi_grid='265px' tinggi_toolbar='30px'}
+		<div style='margin-top:3px;border: 1px solid #48A2CA;'>
+			<table width='100%'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>			
+					<td width='50%'>
+						<table width='100%'>
+							<tr>
+								<td width='50%'><b>TOTAL COST</b></td>
+								<td width='50%'><b>Rp. <span id='total_customer_location'>{$total_customer}</span></b></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>    
+		
+	</div>
+	{/if}
+</div>
+<div style='margin-top:5px;'>
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnCancel_location" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Back To List</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+		</span>
+	</a>	
+	&nbsp;&nbsp;&nbsp;			
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnSimpan_location" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Save Data</span><span class="l-btn-icon icon-save">&nbsp;</span>
+		</span>
+	</a>
+</div>
+
+
+<script>
+	$('.monthhsss').html($('#bulan option:selected').text());
+	$('.yearrsss').html($('#tahun option:selected').text());
+
+	$("#tabs_{$main}").tabs({
+		height: getClientHeight()-220,
+		width: getClientWidth()-295,
+		plain: false,
+		fit:false
+	});
+	
+	$('#btnSimpan_location').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+				console.log(r);
+			}
+			
+			$('#detil_nya_location').html('');
+			$('#detil_nya_location').hide();
+			$('#grid_nya_location').show();
+			$('#grid_location').datagrid('reload');
+			
+			winLoadingClose();
+		});
+		return false;
+	});
+	
+	$('#btnCancel_location').on('click',function(){
+			$('#detil_nya_location').html('');
+			$('#detil_nya_location').hide();
+			$('#grid_nya_location').show();
+			$('#grid_location').datagrid('reload');
+		return false;
+	});
+	
+</script>
