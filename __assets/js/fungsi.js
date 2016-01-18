@@ -1497,6 +1497,229 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			];
 		break;		
 		//end Modul Cost Object
+		
+		//Modul Customer - Cost Object
+		case "assign_costobject_cust":
+			judulnya = "";
+			urlnya = "cobj_to_cust";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_cust'] = $('#id_cust').val();
+			frozen[modnya] = [
+				{field:'cost_object_name',title:'Cost Object', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0/*,groupSeparator:".",decimalSeparator:"."*/} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			];
+		break;
+		case "assign_location_cust":
+			judulnya = "";
+			urlnya = "loc_to_cust";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_cust'] = $('#id_cust').val();
+			frozen[modnya] = [
+				{field:'location_name',title:'Location', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0/*,groupSeparator:"."*/} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			];
+		break;
+		//End Modul Customer - Cost Object
+		
+		//Modul Location - Cost Object
+		case "assign_costobject_location":
+			judulnya = "";
+			urlnya = "cobj_to_location";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_location'] = $('#id_location').val();
+			frozen[modnya] = [
+				{field:'cost_object_name',title:'Cost Object', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0/*,groupSeparator:"."*/} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			];
+		break;
+		case "assign_cust_location":
+			judulnya = "";
+			urlnya = "cust_to_location";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			param['id_location'] = $('#id_location').val();
+			frozen[modnya] = [
+				{field:'customer_name',title:'Customer', width:250, halign:'center',align:'left'},
+			];
+			kolom[modnya] = [		
+				{field:'sell_price',title:'Cost Rate', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0,precision:0/*,groupSeparator:"."*/} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return NumberFormat(value);
+						}
+					},
+				},
+				{field:'quantity',title:'Quantity', width:150, halign:'center',align:'right',
+					editor:{type:'numberbox',options:{value:0,min:0} },
+					formatter:function(value,rowData,rowIndex){
+						if(value == null){
+							return '-';
+						}else if(value == 0){
+							return '-';
+						}else {
+							return (value);
+						}
+					}
+				},
+				{field:'cost',title:'Cost',width:150, halign:'center',align:'right',
+					formatter:function(value,rowData,rowIndex){
+						if(value)return NumberFormat(value);
+					},
+				},
+				{field:'action',title:'Action',width:130,align:'center',
+					formatter:function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(\''+divnya+'\',this)">Save</a> ';
+							var c = '<a href="#" onclick="cancelrow(\''+divnya+'\',this)">Cancel</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(\''+divnya+'\',this)">Edit</a> ';
+							return e;
+						}
+					}
+				}	
+			];
+		break;
+		//End Modul Location - Cost Object
+		
 	}
 	
 	$("#"+divnya).edatagrid({
@@ -1582,6 +1805,10 @@ function saverow(div,target,modul){
 		'grid_assign_act_costobject',
 		'grid_assign_cust_costobject',
 		'grid_assign_loc_costobject',
+		'grid_assign_costobject_cust',
+		'grid_assign_location_cust',
+		'grid_assign_costobject_location',
+		'grid_assign_cust_location',
 		'tabel_employees',
 		'tabel_expenses',
 		'tabel_assets',
@@ -1642,6 +1869,23 @@ function saverow(div,target,modul){
 	}else if(div == 'grid_assign_loc_costobject'){
 		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_prm_id/"+$('#id_prm').val()+"/location_costobject/";
 		divtotcost = "total_location_costobject";
+		
+	}else if(div == 'grid_assign_costobject_cust'){
+		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_cust_id/"+$('#id_cust').val()+"/costobject_customer/";
+		divtotcost = "total_costobject_customer";
+		
+	}else if(div == 'grid_assign_location_cust'){
+		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_cust_id/"+$('#id_cust').val()+"/location_customer/";
+		divtotcost = "total_location_customer";
+		
+	}else if(div == 'grid_assign_costobject_location'){
+		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_location_id/"+$('#id_location').val()+"/costobject_location/";
+		divtotcost = "total_costobject_location";
+		
+	}else if(div == 'grid_assign_cust_location'){
+		url = host+"homex/getcost/echo/cost/tbl_ptp/tbl_location_id/"+$('#id_location').val()+"/customer_location/";
+		divtotcost = "total_customer_location";
+		
 	}
 	// Activity
 	
@@ -1681,7 +1925,7 @@ function saverow(div,target,modul){
 		
 	}
 	
-	if(div == 'grid_assign_act_costobject' || div == 'grid_assign_cust_costobject' || div == 'grid_assign_loc_costobject'){
+	if(div == 'grid_assign_act_costobject' || div == 'grid_assign_cust_costobject' || div == 'grid_assign_loc_costobject' || div == 'grid_assign_costobject_cust' || div == 'grid_assign_location_cust' || div == 'grid_assign_costobject_location' || div == 'grid_assign_cust_location' ){
 		if($('#'+div).datagrid('endEdit', getRowIndex(target))){
 			$('#'+div).datagrid('reload');
 			if( $.inArray(div, arraynya) > -1 ){
@@ -2735,6 +2979,69 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
 			]
 		break;			
+		
+		case "list_costobject_customer":
+			judulnya = "";
+			urlnya = "list_costobject_customer";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			param['id_cust'] = $('#id_cust').val();
+			param['month'] = $('#bulan_customer').val();
+			param['year'] = $('#tahun_customer').val();
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Cost Object ID',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Cost Object Name',width:250, halign:'center',align:'left'},
+			]
+		break;			
+		case "list_location_customer":
+			judulnya = "";
+			urlnya = "list_location_customer";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			param['id_cust'] = $('#id_cust').val();
+			param['month'] = $('#bulan_customer').val();
+			param['year'] = $('#tahun_customer').val();
+			kolom[modnya] = [	
+				{field:'location_id',title:'Location ID',width:200, halign:'center',align:'left'},
+				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
+			]
+		break;	
+		
+		case "list_costobject_location":
+			judulnya = "";
+			urlnya = "list_costobject_location";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			param['id_location'] = $('#id_location').val();
+			param['month'] = $('#bulan_location').val();
+			param['year'] = $('#tahun_location').val();
+			kolom[modnya] = [	
+				{field:'prod_id',title:'Cost Object ID',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Cost Object Name',width:250, halign:'center',align:'left'},
+			]
+		break;			
+		case "list_customer_location":
+			judulnya = "";
+			urlnya = "list_customer_location";
+			urlglobal = host+'homex/getdata/'+urlnya;
+			fitnya = true;
+			pagesizeboy = 50;
+			singleSelek = false;
+			param['id_location'] = $('#id_location').val();
+			param['month'] = $('#bulan_location').val();
+			param['year'] = $('#tahun_location').val();
+			kolom[modnya] = [	
+				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
+				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
+			]
+		break;			
+		
 		// END List Assignment - Cost Object
 		
 		//Cost Object
@@ -3180,7 +3487,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		
 		// Modul Cost Object
 		
-		//tabs Cost Object
+		//tabs Cost Object - Cost Object
 		case "cost_object":
 			table = 'tbl_prm';
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
@@ -3232,6 +3539,80 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			
 		break;
 		// End Modul Cost Object
+		
+		//tabs Customer - Cost Object
+		case "customer":
+			table = 'tbl_cust';
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assign_costobject_cust":
+			table = 'tbl_ptp';
+			id_tambahan = $('#id_cust').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Cost Object';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_ptp/tbl_cust_id/"+$('#id_cust').val()+"/costobject_customer/";
+			divtotcost = "total_costobject_customer";
+			divtotpercent = "";
+			divtxtpercent = "";			
+		break;		
+		case "assign_location_cust":
+			table = 'tbl_ptp';
+			id_tambahan = $('#id_cust').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Location';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_ptp/tbl_cust_id/"+$('#id_cust').val()+"/location_customer/";
+			divtotcost = "total_location_customer";
+			divtotpercent = "";
+			divtxtpercent = "";			
+		break;		
+		//End tabs Customer - Cost Object
+		
+		//tabs Location - Cost Object
+		case "location":
+			table = 'tbl_location';
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "assign_costobject_location":
+			table = 'tbl_ptp';
+			id_tambahan = $('#id_location').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Cost Object';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_ptp/tbl_location_id/"+$('#id_location').val()+"/costobject_location/";
+			divtotcost = "total_customer_costobject";
+			divtotpercent = "";
+			divtxtpercent = "";			
+		break;		
+		case "assign_cust_location":
+			table = 'tbl_ptp';
+			id_tambahan = $('#id_location').val();
+			stswindow = 'windowform';
+			lebar = getClientWidth()-800;
+			tinggi = getClientHeight()-250;
+			judulwindow = 'Map Location';
+			urldelete = host+'homex/simpansavedata/'+table;
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			
+			urltot = host+"homex/getcost/echo/cost/tbl_ptp/tbl_location_id/"+$('#id_location').val()+"/customer_location/";
+			divtotcost = "total_customer_costobject";
+			divtotpercent = "";
+			divtxtpercent = "";			
+		break;				
+		//End tabs Location - Cost Object
 	}
 	
 	switch(type){
@@ -3707,7 +4088,6 @@ function kumpulAction(type, p1, p2, p3){
 					if(type == 'list_activity_costobject'){
 						$('#grid_assign_act_costobject').datagrid('reload');
 					}else if(type == 'list_customer_costobject'){
-						//$('#grid_assign_exp_assets').datagrid('reload');
 						$('#grid_assign_cust_costobject').datagrid('reload');
 					}else if(type == 'list_location_costobject'){
 						$('#grid_assign_loc_costobject').datagrid('reload');
@@ -3718,6 +4098,71 @@ function kumpulAction(type, p1, p2, p3){
 				$.messager.alert('ABC System',"Select Row In Grid Data",'error');
 			}
 		break;
+		
+		case 'list_costobject_customer':
+		case 'list_location_customer':
+			var row = $("#grid_"+type).edatagrid('getSelections');
+			if(row){
+				var assignment = $('#jenis_assignment').val();
+				post_detil['tbl_cust_id'] = $('#hdn_'+type).val();
+				post_detil['editstatus'] = 'kontel';
+				post_detil['datanya'] = row;
+				post_detil['id'] = 'kontel';
+				post_detil['bulan']	= $('#bulan_customer').val();
+				post_detil['tahun']	= $('#tahun_customer').val();
+				
+				$.post(host+'homex/simpansavedata/'+type, post_detil, function(r){
+					if(r == 1){
+						$.messager.alert('ABC System',"Data Saved",'info');
+					}else{
+						$.messager.alert('ABC System', "Failed Saved -"+r, 'error');
+					}
+					closeWindow();
+					
+					if(type == 'list_costobject_customer'){
+						$('#grid_assign_costobject_cust').datagrid('reload');
+					}else if(type == 'list_location_customer'){
+						$('#grid_assign_location_cust').datagrid('reload');
+					}
+				});
+				
+			}else{
+				$.messager.alert('ABC System',"Select Row In Grid Data",'error');
+			}
+		break;
+		
+		case 'list_costobject_location':
+		case 'list_customer_location':
+			var row = $("#grid_"+type).edatagrid('getSelections');
+			if(row){
+				var assignment = $('#jenis_assignment').val();
+				post_detil['tbl_location_id'] = $('#hdn_'+type).val();
+				post_detil['editstatus'] = 'kontel';
+				post_detil['datanya'] = row;
+				post_detil['id'] = 'kontel';
+				post_detil['bulan']	= $('#bulan_location').val();
+				post_detil['tahun']	= $('#tahun_location').val();
+				
+				$.post(host+'homex/simpansavedata/'+type, post_detil, function(r){
+					if(r == 1){
+						$.messager.alert('ABC System',"Data Saved",'info');
+					}else{
+						$.messager.alert('ABC System', "Failed Saved -"+r, 'error');
+					}
+					closeWindow();
+					
+					if(type == 'list_costobject_location'){
+						$('#grid_assign_costobject_location').datagrid('reload');
+					}else if(type == 'list_customer_location'){
+						$('#grid_assign_cust_location').datagrid('reload');
+					}
+				});
+				
+			}else{
+				$.messager.alert('ABC System',"Select Row In Grid Data",'error');
+			}
+		break;
+		
 		// End Modul Cost Object
 		
 		//Modul Report
