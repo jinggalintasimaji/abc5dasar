@@ -18,7 +18,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							<select name="tbl_cdm_id" style='width:80%;padding:2px;'>
+							<select name="tbl_cdm_id" id="tbl_cdm_id" style='width:80%;padding:2px;'>
 								<option value=""> -- Choice -- </option>
 								{foreach from=$cdm item=i}
 								<option value="{$i.id}" {if $data.tbl_cdm_id eq $i.id}selected{/if}>{$i.descript}</option>
@@ -31,7 +31,7 @@
 						<td width='1%'>:</td>
 						<td >
 							<!--input type="text" value="{$data.activity_code|default:''}" name="activity_code" id="activity_code" style='width:80%;padding:2px;' maxlength="10" class="easyui-validatebox"-->
-							{$data.fixed_cost|default:'-'}
+							{$data_cost.fix_cost|number_format:2:'.':','|default:'-'}
 						</td>
 						<td >Actual Quantity</td>
 						<td width='1%'>:</td>
@@ -188,6 +188,13 @@
 	});
 	$('#simpan_{$main}').bind('click',function(){
 		//alert('aaa');
+		if($('#tbl_cdm_id').val()!=''){
+			console.log('aa');
+			if($('#quantity').val()==""){
+				$.messager.alert('ABC System',"Actual Quantity Not Null",'error');
+				return false;
+			}
+		}
 		submit_form('form_{$main}',function(r){
 			//console.log(r);
 			if(r==1){

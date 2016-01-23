@@ -5,17 +5,92 @@ class mhome extends CI_Model{
 		parent::__construct();
 		$this->auth = unserialize(base64_decode($this->session->userdata($this->config->item('user_data'))));
 	}
-	
+	function copy_act(){
+		$this->db->trans_begin();
+		$msg=1;
+		$bulan_req=$this->input->post('bulan');
+		$tahun_req=$this->input->post('tahun');
+		$period=$this->getdata('get_bulan_tahun_act');
+		
+		
+		
+		$sql_acm_ex="SELECT tbl_model_id,tbl_cdm_id,activity_code,
+					descript,quantity,value_add,costtype,fte,fte_cost,`level`,head_count,val_cost,
+					tbl_rdm_id,rd_tot_qty,note,".$bulan_req.",".$tahun_req.",budget,standart,capacity,target_quantity,
+					budget_type,cost_type,cl_segment_id,cl_center_id,cl_class_id,cl_improvment_id,
+					process_time,waiting_time,inspection_time,moving_time,nva_cost,tbl_process_id,
+					tbl_root_couses_id,quantity_process,inefficiency_cost
+					FROM tbl_acm WHERE tbl_model_id=".$this->modeling['id']." 
+					AND bulan=".$period['bulan']." AND tahun=".$period['tahun'];
+		$acm_ex=$this->db->query($sql_acm_ex)->result_array();
+		if(count($acm_ex)>0){
+			$sql="INSERT INTO tbl_acm (tbl_model_id,tbl_cdm_id,activity_code,
+					descript,quantity,value_add,costtype,fte,fte_cost,`level`,head_count,val_cost,
+					tbl_rdm_id,rd_tot_qty,note,bulan,tahun,budget,standart,capacity,target_quantity,
+					budget_type,cost_type,cl_segment_id,cl_center_id,cl_class_id,cl_improvment_id,
+					process_time,waiting_time,inspection_time,moving_time,nva_cost,tbl_process_id,
+					tbl_root_couses_id,quantity_process,inefficiency_cost) ".$sql_acm_ex;
+			if($this->db->query($sql)){
+				$sql="SELECT A.*,B.activity_code,B.descript  
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE A.bulan=".$period['bulan']." AND A.tahun=".$period['tahun']." 
+						AND B.bulan=".$period['bulan']." AND B.tahun=".$period['tahun']." 
+						AND B.tbl_model_id=".$this->modeling['id'];
+				$are_ex=$this->db->query($sql)->result_array();
+				foreach($are_ex as $v){
+					$sql="SELECT * FROM tbl_acm 
+						  WHERE bulan=".$bulan_req." AND tahun=".$tahun_req." 
+						  AND activity_code='".$v['activity_code']."' AND descript='".$v['descript']."'";
+					$acm_baru=$this->db->query($sql)->row_array();
+					if(isset($acm_baru['id'])){
+						$data=array('tbl_acm_id'=>$acm_baru['id'],
+									'tbl_emp_id'=>$v['tbl_emp_id'],
+									'tbl_exp_id'=>$v['tbl_exp_id'],
+									'tbl_assets_id'=>$v['tbl_assets_id'],
+									'tbl_acm_child_id'=>$v['tbl_acm_child_id'],
+									'bulan'=>$bulan_req,
+									'tahun'=>$tahun_req
+						);
+						$this->db->insert('tbl_are',$data);
+					}
+					else{
+						$this->db->trans_rollback();
+						echo $msg=3;exit;
+					}
+				}
+			}
+			
+		}
+		else{
+			$msg=2;
+		}
+		
+		
+		
+		if($this->db->trans_status() == false){
+			$this->db->trans_rollback();
+			return 0;
+		} else{
+			$this->db->trans_commit();
+			return $msg;
+		}
+		
+		
+		//print_r($bulan);exit;
+	}
 	function getdata($type="", $p1="", $p2="",$p3="",$p4=""){
 		$where = " WHERE 1=1 ";
 		$footer="";
 		$table="";
 		switch($type){
+			case "tbl_rdm":
+				$sql="SELECT * FROM tbl_rdm WHERE flag='A'";
+			break;
 			case "get_bulan_tahun":
 				$tahun=array();
 				$bulan=array();
-				$tahun['thn']=date('Y');
-				$bulan['bln']=date('m');
+				
 				$sql="SELECT max(A.tahun) as thn
 					  from tbl_are A LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id";
 				if (isset($this->modeling["id"]))$sql .=" WHERE B.tbl_model_id=".$this->modeling["id"];
@@ -26,8 +101,33 @@ class mhome extends CI_Model{
 					if (isset($this->modeling["id"]))$sql .=" WHERE B.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
 					$bulan=$this->db->query($sql)->row_array();
 				}
+				else{
+					$tahun['thn']=date('Y');
+					$bulan['bln']=date('m');
+				}
+				//echo $tahun['thn'].'->'.$bulan['bln'];
+				$data=array('tahun'=>$tahun['thn'],'bulan'=>$bulan['bln']);
+				return $data;
+			break;
+			case "get_bulan_tahun_act":
+				$tahun=array();
+				$bulan=array();
 				
-				
+				$sql="SELECT max(A.tahun) as thn
+					  from tbl_acm A ";
+				if (isset($this->modeling["id"]))$sql .=" WHERE A.tbl_model_id=".$this->modeling["id"];
+				$tahun=$this->db->query($sql)->row_array();
+				if(isset($tahun['thn'])){
+					$sql="SELECT max(A.bulan) as bln
+					  from tbl_acm A";
+					if (isset($this->modeling["id"]))$sql .=" WHERE A.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
+					$bulan=$this->db->query($sql)->row_array();
+				}
+				else{
+					$tahun['thn']=date('Y');
+					$bulan['bln']=date('m');
+				}
+				//echo $tahun['thn'].'->'.$bulan['bln'];
 				$data=array('tahun'=>$tahun['thn'],'bulan'=>$bulan['bln']);
 				return $data;
 			break;
@@ -79,6 +179,7 @@ class mhome extends CI_Model{
 				$bulan=$this->input->post('bulan');
 				$tahun=$this->input->post('tahun');
 				$sql="SELECT total_cost FROM tbl_acm_total_cost WHERE tbl_acm_id=".$id_cost_act." AND bulan=".$bulan." and tahun=".$tahun;
+				//echo $sql;
 				$cost=$this->db->query($sql)->row_array();
 				$data=$this->db->get_where('tbl_acm',array('id'=>$id_cost_act,'bulan'=>$bulan,'tahun'=>$tahun))->row_array();			
 				//print_r($data);
@@ -112,29 +213,61 @@ class mhome extends CI_Model{
 						WHERE A.tbl_acm_id=".$p1." AND tbl_emp_id IS NOT NULL AND A.bulan=".$bulan." 
 						AND A.tahun=".$tahun." AND B.tbl_model_id=".$this->modeling['id'];
 				$fte=$this->db->query($sql)->row_array();
-				$sql="SELECT SUM(A.total_cost)as variable_cost 
-						FROM tbl_are A
-						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
-						LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
-						
-						WHERE A.tbl_acm_id=".$p1." AND A.bulan=".$bulan." 
-						AND tbl_exp_id IS NOT NULL 
-						AND A.tahun=".$tahun." AND B.tbl_model_id=".$this->modeling['id']." 
-						AND C.budgettype='Variable'";
-				$variable=$this->db->query($sql)->row_array();
-				$data=array('fte'=>$fte['fte'],'variable_cost'=>$variable['variable_cost']);
+				
+				$emp_var=$this->getdata('get_cost_type','emp','variable');
+				$exp_var=$this->getdata('get_cost_type','exp','variable');
+				$asset_var=$this->getdata('get_cost_type','assets','variable');
+				$emp_fix=$this->getdata('get_cost_type','emp','fixed');
+				$exp_fix=$this->getdata('get_cost_type','exp','fixed');
+				$asset_fix=$this->getdata('get_cost_type','assets','fixed');
+				$tot_var=$emp_var['total']+$exp_var['total']+$asset_var['total'];
+				$tot_fix=$emp_fix['total']+$exp_fix['total']+$asset_fix['total'];
+				//
+				$data=array('fte'=>$fte['fte'],'variable_cost'=>$tot_var,'fix_cost'=>$tot_fix);
 				return $data;
+			break;
+			case "get_cost_type":
+				$bulan=$this->input->post('bulan');
+				$tahun=$this->input->post('tahun');
+				$join="";
+				$whr="";
+				if($p1=='emp'){
+					$join .=" LEFT JOIN tbl_emp C ON A.tbl_emp_id=C.id ";
+					$whr .=" AND tbl_emp_id IS NOT NULL ";
+				}
+				if($p1=='exp'){
+					$join .=" LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id ";
+					$whr .=" AND tbl_exp_id IS NOT NULL ";
+				}
+				if($p1=='assets'){
+					$join .=" LEFT JOIN tbl_assets C ON A.tbl_assets_id=C.id ";
+					$whr .=" AND tbl_assets_id IS NOT NULL ";
+				}
+				$sql="SELECT SUM(A.total_cost)as total 
+						FROM tbl_are A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id 
+						".$join."
+						WHERE A.tbl_acm_id=274 AND A.bulan=".$bulan." 
+						".$whr."
+						AND A.tahun=".$tahun." 
+						AND B.tbl_model_id=".$this->modeling['id']." 
+						AND C.cost_type='".$p2."'";
+				return $this->db->query($sql)->row_array();
 			break;
 			case "data_login":
 				$sql = "
-					SELECT *
-					FROM tbl_user
-					WHERE nama_user = '".$p1."'
+					SELECT A.*,B.group_user
+					FROM tbl_user A 
+					LEFT JOIN cl_user_group B ON A.cl_user_group_id=B.id
+					WHERE A.nama_user = '".$p1."'
 				";
 				//echo $sql;
 				return $this->result_query($sql,'row_array');
 			break;
 			case "tbl_model":
+				if($this->auth['cl_user_group_id']!=1){
+					$where .=" AND A.publis=1";
+				}
 				$sql = "
 					SELECT A.*,
 					CASE 
@@ -142,10 +275,11 @@ class mhome extends CI_Model{
 						ELSE 0
 					END AS flag
 					FROM tbl_model A				
-				";
+				".$where;
+				
 				if($p2!=""){
-					$where .=" AND A.id=".$p2;
-					$sql = $sql.$where;
+					$sql .=" AND A.id=".$p2;
+					//$sql = $where;
 					return $this->result_query($sql,'row_array');
 				}
 				
@@ -207,7 +341,7 @@ class mhome extends CI_Model{
 						LEFT JOIN tbl_rdm E ON A.tbl_rdm_id=E.id
 						LEFT JOIN(
 							SELECT * FROM tbl_acm_total_cost WHERE bulan=".$bulan." AND tahun=".$tahun."
-						)B ON B.tbl_acm_id=A.id ".$where;
+						)B ON B.tbl_acm_id=A.id ".$where." ORDER BY A.id ASC";
 				//..echo $sql;
 				//print_r($this->db->query($sql)->result_array());exit;
 				$sql_na="SELECT SUM(total_cost) as total from tbl_acm_total_cost  WHERE bulan=".$bulan." AND tahun=".$tahun;
@@ -463,8 +597,9 @@ class mhome extends CI_Model{
 			break;
 			case "get_cdm":
 				$bulan=$this->input->post('bulan');
-					$tahun=$this->input->post('tahun');
+				$tahun=$this->input->post('tahun');
 				$sql="SELECT * FROM tbl_cdm WHERE tbl_model_id=".$this->modeling['id']." AND bulan=".$bulan." AND tahun=".$tahun;
+				//echo $sql;
 				return $this->db->query($sql)->result_array();
 			break;
 			case "tbl_bpm":
@@ -609,6 +744,7 @@ class mhome extends CI_Model{
 					".$where." 
 					AND A.id NOT IN (
 						SELECT tbl_emp_id  FROM tbl_are WHERE tbl_emp_id IS NOT NULL AND tbl_acm_id=".$id_act."
+						AND bulan=".$bulan." AND tahun=".$tahun." 
 					)";
 				//echo $sql;
 			break;
@@ -1275,9 +1411,19 @@ class mhome extends CI_Model{
 					}
 				}
 			break;
+			case "tbl_model_pub":
+				//$id_model=$this->input->post('id');
+				//$sts=$this->input->post('status');
+				$table='tbl_model';
+				$data['publis_date']=date('Y-m-d H:i:s');
+				$data['publis_by']='Goyz';
+				$array_where=array('id'=>$this->input->post('id'));
+				//print_r($data);exit;
+			break;
 			case "tbl_model":
 				$data['create_date']=date('Y-m-d H:i:s');
 				$data['create_by']='Goyz';
+				$data['publis']=0;
 				if($sts_crud=='edit'){
 					//unset($data['id']);
 					$array_where=array('id'=>$this->input->post('id'));

@@ -11,6 +11,7 @@
 	<script type="text/javascript">
 		var host = '{$host}';
 		var model_id = '{$model.id}';
+		var group_id = {$auth.cl_user_group_id|default:0};
 	</script>
 	<link rel="stylesheet" type="text/css" href="{$host}__assets/css/main_style.css">	
 	<link rel="stylesheet" type="text/css" href="{$host}__assets/easyui/themes/gray/easyui.css">
@@ -65,3 +66,6 @@
 	
 </body>
 </html>
+<script>
+	loadUrl('', host+'home/modul/dashboard/main');
+</script>

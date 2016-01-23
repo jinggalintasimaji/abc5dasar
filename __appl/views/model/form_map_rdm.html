@@ -6,7 +6,7 @@
 	<input type='hidden' name='act_code' value="{$act_code|default:''}">
 	<input type='hidden' name='bulan' value="{$bulan|default:''}">
 	<input type='hidden' name='tahun' value="{$tahun|default:''}">
-	<fieldset>
+	<!--fieldset>
 		<table width='100%' >
 		
 			<tr>
@@ -26,7 +26,7 @@
 			
 			
 		</table>
-	</fieldset>
+	</fieldset-->
 	
 	<fieldset>
 		<input type='text' id='txtsearch_{$acak}' style='padding:3px;width:200px;margin-bottom:5px' placeholder='search data resource' >
@@ -76,14 +76,15 @@
         striped:true,
         pagination:true,
         remoteSort: false,
-        url: host+'homex/getdata/tbl_rdm',	
+        url: host+'home/getdata/tbl_rdm',	
 		nowrap: true,
         singleSelect:true,
 		pageSize:50,
 		pageList:[10,20,30,40,50,75,100,200],
 		queryParams:param,
 		columns:[[	
-			{ field:'resource',title:'Resource',width:200, halign:'center',align:'left' },
+			{ field:'resource',title:'Resource',width:150, halign:'center',align:'left' },
+			{ field:'descript',title:'Description',width:250, halign:'center',align:'left' },
 		]],
 		onClickRow:function(index, row){
 			$('#resource_{$acak}').html(row.resource);

@@ -2037,13 +2037,19 @@ function validasi_proportion(div,target,divtxtpercent){
 		$.messager.alert('ABC System', 'This Proportion More Than 100% , Residual Proportion of '+(100-persen), 'info');
 		return cancelrow(div,target);
 	}else{
-		if(total_act_pesen > 100){
-			$.messager.alert('ABC System',"Total Proportion More Than 100%",'info');
-			return cancelrow(div,target);
-		}else{
+		if(div != 'tabel_employees' && div != 'tabel_expenses' && div != 'tabel_assets' && div != 'tabel_act' && div != 'tabel_act_to'){
+			if(total_act_pesen > 100){
+				$.messager.alert('ABC System',"Total Proportion More Than 100%",'info');
+				return cancelrow(div,target);
+			}else{
+				$('#'+div).datagrid('endEdit', getRowIndex(target));
+				$('#'+div).datagrid('reload');
+				return 1;
+			}
+		}
+		else{
 			$('#'+div).datagrid('endEdit', getRowIndex(target));
 			$('#'+div).datagrid('reload');
-			
 			return 1;
 		}
 	}
@@ -2108,8 +2114,9 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			param['bulan']=$('#bulan').val();
 			param['tahun']=$('#tahun').val();
 			kolom[modnya] = [	
-				{field:'activity_code',title:'Activity',width:150, halign:'center',align:'left'},
-				{field:'descript',title:'Description',width:450, halign:'center',align:'left'},
+				{field:'activity_code',title:'Act.Code',width:80, halign:'center',align:'center'},
+				{field:'descript',title:'Description',width:350, halign:'center',align:'left'},
+				{field:'rdm_name',title:'Res. Driver',width:200, halign:'center',align:'left'},
 				{field:'rd_tot_qty',title:'Cost Driver',width:150, halign:'center',align:'right'},
 				{field:'total',title:'Cost',width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
@@ -2131,6 +2138,19 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			judulnya = "Model Activity";
 			urlnya = "tbl_model";
 			fitnya = true;
+			var a;
+			if(group_id==1){
+				a={field:'publis',title:'Publish',width:150, halign:'center',align:'center',
+						formatter:function(value,rowData,rowIndex){
+							if(value==0){
+								return '<a class="no" href="javascript:void(0)" onClick="set_publis(\''+rowData.id+'\',1)" style="">Set Publish</a>';
+							}
+							else{
+								return '<a class="yes" href="javascript:void(0)" onClick="set_publis(\''+rowData.id+'\',0)" style="">Set Non Publish</a>';
+							}
+						}
+					};
+			}
 			kolom[modnya] = [	
 				{field:'nama_model',title:'Model Name',width:250, halign:'center',align:'left'},
 				{field:'deskripsi',title:'Description',width:300, halign:'center',align:'left'},
@@ -2144,7 +2164,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 							return '<a class="yes" href="javascript:void(0)" onClick="aktif_non(\''+rowData.id+'\',\'N\')" style="">Set Non Aktif</a>';
 						}
 					}
-				},
+				},a
+				
 			];
 		break;
 		case "mst_employees":
@@ -3164,6 +3185,33 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
             kolom[modnya]
         ],
 		onLoadSuccess:function(d){
+			//console.log(d.total);
+			if(modnya=='list_act'){
+				if(d.total==0){
+					$.messager.confirm('ABC System','No Data In This Period, Do You Want To Get Data In First Period ?',function(r){
+						if(r){
+							loadingna();
+							$.post(host+'home/copy_act',{bulan:$('#bulan').val(),tahun:$('#tahun').val()},function(resp){
+								if(resp==1){
+									$.messager.alert('ABC System', "Data Was Copied", 'info');
+									winLoadingClose();
+									grid_nya.datagrid('reload');
+								}
+								else if(resp==2){
+									$.messager.alert('ABC System', "No Data In Last Period, Please Upload Or Insert Data Activity", 'error');
+									winLoadingClose();
+									console.log(resp);
+								}
+								else{
+									$.messager.alert('ABC System', "No Data Activity In New Period", 'error');
+									winLoadingClose();
+									console.log(resp);
+								}
+							});
+						}
+					});
+				}
+			}
 			//gridVRList.datagrid('selectRow', 0);
 			$('.yes').linkbutton({  
 					iconCls: 'icon-cancel'  
@@ -4361,6 +4409,20 @@ function aktif_non(id,sts){
 			//else{
 				//alert(r);winLoadingClose();	
 			//}
+		});
+}
+function set_publis(id,sts){
+	loadingna();
+		$.post(host+'home/simpansavedata/tbl_model_pub/edit',{id:id,publis:sts},function(r){
+			if(r==1){
+					$("#grid_100").datagrid('reload');
+					winLoadingClose();
+			}
+			else{
+				console.log(r);
+				winLoadingClose();
+				//alert(r);winLoadingClose();	
+			}
 		});
 }
 function NumberFormat(value) {

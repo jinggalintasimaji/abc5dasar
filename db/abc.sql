@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2015-12-29 22:16:20
+Date: 2016-01-23 22:10:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -210,20 +210,22 @@ CREATE TABLE `tbl_acm` (
   `tbl_root_couses_id` int(11) DEFAULT NULL,
   `quantity_process` float DEFAULT NULL,
   `inefficiency_cost` float DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=429 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_acm_id` (`id`),
+  KEY `idx_acm` (`tbl_model_id`,`tbl_cdm_id`,`activity_code`,`tbl_rdm_id`,`cl_segment_id`,`cl_center_id`,`cl_class_id`,`cl_improvment_id`,`tbl_process_id`,`tbl_root_couses_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1194 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm
 -- ----------------------------
-INSERT INTO `tbl_acm` VALUES ('274', null, '2', '1', '10100', 'KEHUMASAN & PROMOSI', null, null, null, null, null, null, null, null, '1', '10', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('274', null, '2', '13', '10100', 'KEHUMASAN & PROMOSI', null, null, null, null, null, null, null, null, '1', '10', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('275', '0', '2', '2', '10200', 'AKTIVITAS PPSA', null, null, null, null, null, null, null, null, '1', '10', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('276', '299', '2', '3', '10201', 'Menerima PPKB dan Kelengkapannya', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, 'Fixed', null, '1', null, null, '1', null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('277', '299', '2', '4', '10202', 'Entri Data PPKB yang Diterima', '20', '324', null, null, null, null, null, null, null, null, 'AAAA', '11', '2015', '200000', '200000', '10', null, 'Variable', 'Batch', '1', null, null, null, '34', '234', null, '34', null, '1', null, null, null);
-INSERT INTO `tbl_acm` VALUES ('278', null, '2', '5', '10203', 'Rapat Perencanaan Tambat & BM', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('279', null, '2', null, '10204', 'Rencana Penetapan Pel. Kapal & Barang', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('278', null, '2', '5', '10203', 'Rapat Perencanaan Tambat & BM', null, null, null, null, null, null, null, null, '2', '100', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('279', null, '2', null, '10204', 'Rencana Penetapan Pel. Kapal & Barang', null, null, null, null, null, null, null, null, '2', '40', null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('280', null, '2', null, '10205', 'Entri Data atas PPKB yg telah Ditetapkan', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tbl_acm` VALUES ('281', null, '2', null, '10206', 'Mendistribusikan PPKB ke Unit Operasi', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('281', null, '2', '2', '10206', 'Mendistribusikan PPKB ke Unit Operasi', '10', null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('282', null, '2', null, '10207', 'Memproses PPKB Kalimas', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('283', '0', '2', '3', '10300', 'PELAYANAN PROPERTI', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('284', null, '2', '2', '10301', 'Pelayanan Permohonan HPL', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -371,6 +373,155 @@ INSERT INTO `tbl_acm` VALUES ('425', null, '2', null, null, null, null, null, nu
 INSERT INTO `tbl_acm` VALUES ('426', null, '2', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '100000', '200000', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('427', null, '2', null, null, null, null, '234', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '100', '2', '3343', '34', '543', '1', null, '3', '2');
 INSERT INTO `tbl_acm` VALUES ('428', null, '2', null, null, null, null, '534', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '133', '23', '45', '234', '23', '1', null, null, null);
+INSERT INTO `tbl_acm` VALUES ('939', null, '2', '13', '10100', 'KEHUMASAN & PROMOSI', null, null, null, null, null, null, null, null, '1', '10', null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('940', null, '2', '2', '10200', 'AKTIVITAS PPSA', null, null, null, null, null, null, null, null, '1', '10', null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('941', null, '2', '3', '10201', 'Menerima PPKB dan Kelengkapannya', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, 'Fixed', null, '1', null, null, '1', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('942', null, '2', '4', '10202', 'Entri Data PPKB yang Diterima', '20', '324', null, null, null, null, null, null, null, null, 'AAAA', '1', '2016', '200000', '200000', '10', null, 'Variable', 'Batch', '1', null, null, null, '34', '234', null, '34', null, '1', null, null, null);
+INSERT INTO `tbl_acm` VALUES ('943', null, '2', '5', '10203', 'Rapat Perencanaan Tambat & BM', null, null, null, null, null, null, null, null, '2', '100', null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('944', null, '2', null, '10204', 'Rencana Penetapan Pel. Kapal & Barang', null, null, null, null, null, null, null, null, '2', '40', null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('945', null, '2', null, '10205', 'Entri Data atas PPKB yg telah Ditetapkan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('946', null, '2', '2', '10206', 'Mendistribusikan PPKB ke Unit Operasi', '10', null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('947', null, '2', null, '10207', 'Memproses PPKB Kalimas', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('948', null, '2', '3', '10300', 'PELAYANAN PROPERTI', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('949', null, '2', '2', '10301', 'Pelayanan Permohonan HPL', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('950', null, '2', '1', '10302', 'Pelayanan Permohonan Air Umum', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('951', null, '2', null, '10303', 'Pelayanan Permohonan Listrik', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('952', null, '2', null, '10304', 'Pelayanan Pengusahaan Iklan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('953', null, '2', null, '10305', 'Survey Lapangan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('954', null, '2', null, '10306', 'Pengurusan Izin Prinsip', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('955', null, '2', null, '10307', 'Menyusun RAB Instalasi Air', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('956', null, '2', null, '10308', 'Menyusun RAB Instalasi Listrik', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('957', null, '2', null, '10309', 'Pembuatan Kontrak Properti', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('958', null, '2', null, '10400', 'MELAYANI KELUHAN PELANGGAN', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('959', null, '2', null, '20100', 'Penyusunan Anggaran', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('960', null, '2', null, '20200', 'Pengendalian Anggaran', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('961', null, '2', null, '20301', 'Penyusunan Laporan Operasional', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('962', null, '2', null, '20302', 'Penyusunan Laporan Keuangan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('963', null, '2', null, '30101', 'Persiapan Operasi Pemanduan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('964', null, '2', null, '30102', 'MEMANDU KAPAL MASUK', '2000', null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, '1000', null, 'Fixed', 'Unit', null, '1', null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('965', null, '2', null, '30103', 'MEMANDU KAPAL PINDAH', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('966', null, '2', null, '30104', 'MEMANDU KAPAL KELUAR', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('967', null, '2', null, '30105', 'Mencatat & Entri Data Realisasi Pandu', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('968', null, '2', null, '30106', 'Antar Pandu Menuju ke Kapal (BUOY 5)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('969', null, '2', null, '30107', 'Antar Pandu Menuju ke Kapal (REDE)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('970', null, '2', null, '30108', 'Menjemput Pandu di Kapal (BUOY 5)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('971', null, '2', null, '30109', 'Menjemput Pandu di Kapal (REDE)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('972', null, '2', null, '30110', 'Mobilitas Pandu di Darat', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('973', null, '2', null, '30111', 'Komunikasi Radio VHF', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('974', null, '2', null, '30112', 'Aktivitas di Karang Jamuang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('975', null, '2', null, '30113', 'Menyiapkan Armada Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('976', null, '2', null, '30114', 'Pemanduan - MPI-S022', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('977', null, '2', null, '30115', 'Pemanduan - MPI-S044', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('978', null, '2', null, '30116', 'Pemanduan - MPI-S045', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('979', null, '2', null, '30117', 'Pemanduan - MPI-S046', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('980', null, '2', null, '30118', 'Pemanduan - MPI-S024', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('981', null, '2', null, '30119', 'Penundaan - KT ARTAMA III', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('982', null, '2', null, '30120', 'Penundaan - KT ANOMAN I', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('983', null, '2', null, '30121', 'Penundaan - KT ANOMAN II', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('984', null, '2', null, '30122', 'Penundaan - KT BIMA IV', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('985', null, '2', null, '30123', 'Penundaan - KT SUBALI II', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('986', null, '2', null, '30124', 'Penundaan - KT SELAT BALI', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('987', null, '2', null, '30125', 'Kepil - KP WANARA III', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('988', null, '2', null, '30126', 'Kepil - KP WANARA IV', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('989', null, '2', null, '30127', 'Kepil - KP WANARA V', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('990', null, '2', null, '30128', 'MELAKUKAN PENUNDAAN', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('991', null, '2', null, '30129', 'KT Menuju/Kembali ke/dari Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('992', null, '2', null, '30130', 'Melakukan Pengepilan Laut', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('993', null, '2', null, '30131', 'PELAYANAN LABUH', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('994', null, '2', null, '30132', 'Monitoring Kapal Berlabuh', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('995', null, '2', null, '30133', 'Membuat Jurnal Kapal (LT)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('996', null, '2', null, '30134', 'PELAYANAN TAMBAT', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('997', null, '2', null, '30135', 'Monitoring Kapal Tambat', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('998', null, '2', null, '30136', 'Updating Posisi Tambat Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('999', null, '2', null, '30137', 'Membuat dan Mendistribusikan 2A-2 (LT)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1000', null, '2', null, '30138', 'PELAYANAN AIR TONGKANG', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1001', null, '2', null, '30139', 'PELAYANAN AIR DERMAGA', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1002', null, '2', null, '30140', 'Persiapan Pelayanan Air Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1003', null, '2', null, '30171', 'Penundaan - KT PATRA TUNDA', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1004', null, '2', null, '30172', 'Penundaan - KT MAJU INDAH', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1005', null, '2', null, '30201', 'Pengawasan Bongkar/Muat', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1006', null, '2', null, '30202', 'Membuat KUB', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1007', null, '2', null, '30203', 'Mengesahkan LKBM', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1008', null, '2', null, '30204', 'Penumpukan Barang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1009', null, '2', null, '30205', 'Penumpukan Peti Kemas Konvensional', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1010', null, '2', null, '30207', 'PENGAWASAN B/M KALIMAS', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1011', null, '2', null, '30208', 'PAKET DERMAGA KALIMAS', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1012', null, '2', null, '30209', 'Membuat & Mendistribusikan Bentuk 2B', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1013', null, '2', null, '30260', 'USAHA TERMINAL', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1014', null, '2', null, '30261', 'Pelayanan Stevedoring', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1015', null, '2', null, '30262', 'Pelayanan Cargodoring', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1016', null, '2', null, '30264', 'Pelayanan Delivery Charges', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1017', null, '2', null, '30291', 'PELAYANAN DERMAGA (TON)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1018', null, '2', null, '30292', 'PELAYANAN DERMAGA (M3)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1019', null, '2', null, '30293', 'PELAYANAN DERMAGA (EKOR)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1020', null, '2', null, '30294', 'PELAYANAN PENUMPUKAN (TON)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1021', null, '2', null, '30295', 'PELAYANAN PENUMPUKAN (M3)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1022', null, '2', null, '30301', 'MONITORING PROPERTI', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1023', null, '2', null, '30302', 'Monitoring Docking Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1024', null, '2', null, '30303', 'Pemeriksaan Bahan Berbahaya', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1025', null, '2', null, '30304', 'PEMADAMAN KEBAKARAN', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1026', null, '2', null, '30305', 'Pengawasan Peralatan PMK', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1027', null, '2', null, '30306', 'Memasang Instalasi Air', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1028', null, '2', null, '30307', 'Pencatatan Pemakaian Air', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1029', null, '2', null, '30308', 'PELAYANAN AIR TRUK TANGKI', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1030', null, '2', null, '30309', 'PELAYANAN AIR SAMBUNGAN TETAP', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1031', null, '2', null, '30310', 'Memasang Instalasi Listrik', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1032', null, '2', null, '30311', 'OPERASI PENGUSAHAAN LISTRIK', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1033', null, '2', null, '30401', 'PENJUALAN PAS PENUMPANG', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1034', null, '2', null, '30402', 'Penjualan Pas Penumpang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1035', null, '2', null, '30403', 'RETRIBUSI ALAT', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1036', null, '2', null, '30404', 'RETRIBUSI PARKIR', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1037', null, '2', null, '30501', 'PELAYANAN TERMINAL RO-RO', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1038', null, '2', null, '30502', 'PELAYANAN TERMINAL PENUMPANG', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1039', null, '2', null, '30601', 'PENYEWAAN & PENGUSAHAAN ALAT', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1040', null, '2', null, '40101', 'Perencanaan Teknik', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1041', null, '2', null, '40102', 'Menyusun RAB & RKS', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1042', null, '2', null, '40103', 'Proses Pelelangan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1043', null, '2', null, '40104', 'Pengawasan Pekerjaan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1044', null, '2', null, '40201', 'Pemeliharaan & Kebersihan Terminal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1045', null, '2', null, '40202', 'Memelihara Armada (Preventif)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1046', null, '2', null, '40203', 'Memelihara Instalasi Listrik', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1047', null, '2', null, '40204', 'Memelihara Pompa Air', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1048', null, '2', null, '40205', 'Memelihara Instalasi Air', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1049', null, '2', null, '40206', 'Memelihara Tongkang Air & Tunda', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1050', null, '2', null, '40207', 'Memelihara Kolam Pelabuhan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1051', null, '2', null, '40208', 'Memelihara Fasilitas Tambatan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1052', null, '2', null, '40209', 'Memelihara Peralatan Telkom', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1053', null, '2', null, '40210', 'Memelihara Kendaraan Dinas', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1054', null, '2', null, '40211', 'Memelihara Bangunan, Jalan & Lainnya', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1055', null, '2', null, '40301', 'Perbaikan Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1056', null, '2', null, '40302', 'Perbaikan Peralatan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1057', null, '2', null, '40303', 'Perbaikan Instalasi Listrik & Air', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1058', null, '2', null, '40304', 'Perbaikan Fasilitas Pelabuhan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1059', null, '2', null, '40401', 'Penyajian Data & Statistik', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1060', null, '2', null, '40402', 'Pengelolaan Perangkat Keras', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1061', null, '2', null, '40403', 'Pengelolaan Perangkat Lunak', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1062', null, '2', null, '40500', 'Manajemen Mutu', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1063', null, '2', null, '40600', 'Penanganan Keamanan & Ketertiban', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1064', null, '2', null, '50101', 'Administrasi Nota Pandu', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1065', null, '2', null, '50102', 'Administrasi Nota Tunda', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1066', null, '2', null, '50103', 'Administrasi Nota Labuh/Tambat', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1067', null, '2', null, '50104', 'Administrasi Nota Air Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1068', null, '2', null, '50105', 'Administrasi Nota Barang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1069', null, '2', null, '50106', 'Administrasi Nota Dermaga Kalimas', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1070', null, '2', null, '50107', 'Administrasi Nota Properti', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1071', null, '2', null, '50108', 'Administrasi Pas Pelabuhan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1072', null, '2', null, '50109', 'Administrasi Pas Penumpang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1073', null, '2', null, '50110', 'Administrasi Retribusi', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1074', null, '2', null, '50200', 'Administrasi Pendapatan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1075', null, '2', null, '50201', 'Menerbitkan & Mendistribusikan Nota (A4)', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1076', null, '2', null, '50202', 'Mengadministrasikan Piutang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1077', null, '2', null, '50203', 'Menagih Piutang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1078', null, '2', null, '50301', 'Pengelolaan Kas', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1079', null, '2', null, '50302', 'Pengelolaan Barang Gudang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1080', null, '2', null, '50303', 'Pembukuan Transaksi', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1081', null, '2', null, '50401', 'Pengembangan Pegawai', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1082', null, '2', null, '50402', 'Administrasi Personalia dan Kesra', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1083', null, '2', null, '50403', 'Kesehatan & K3', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1084', null, '2', null, '50601', 'Administrasi Umum', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1085', null, '2', null, '50602', 'Mengelola Perlengkapan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1086', null, '2', null, '50603', 'Aktivitas Rumah Tangga', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1087', null, '2', null, '50604', 'Penanganan Hukum', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_acm_copy`
@@ -782,27 +933,16 @@ CREATE TABLE `tbl_acm_total_cost` (
   `bulan` smallint(6) DEFAULT NULL,
   `tahun` int(11) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_acm_tot_id` (`id`) USING BTREE,
+  KEY `idx_acm_tot` (`tbl_acm_id`,`bulan`,`tahun`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm_total_cost
 -- ----------------------------
-INSERT INTO `tbl_acm_total_cost` VALUES ('1', '263', '6', '2015', '9999999999');
-INSERT INTO `tbl_acm_total_cost` VALUES ('2', '266', '6', '2015', '59847590');
-INSERT INTO `tbl_acm_total_cost` VALUES ('3', '269', '6', '2015', '35562730');
-INSERT INTO `tbl_acm_total_cost` VALUES ('4', '424', '11', '2015', '150000');
-INSERT INTO `tbl_acm_total_cost` VALUES ('5', '277', '11', '2015', '1226744');
-INSERT INTO `tbl_acm_total_cost` VALUES ('6', '424', '6', '2015', '135353600');
-INSERT INTO `tbl_acm_total_cost` VALUES ('7', '0', null, null, '-6767679');
-INSERT INTO `tbl_acm_total_cost` VALUES ('8', '299', '11', '2015', '5009634886');
-INSERT INTO `tbl_acm_total_cost` VALUES ('9', '274', '11', '2015', '52809716');
-INSERT INTO `tbl_acm_total_cost` VALUES ('10', '275', '11', '2015', '49329262');
-INSERT INTO `tbl_acm_total_cost` VALUES ('11', '276', '11', '2015', '286068');
-INSERT INTO `tbl_acm_total_cost` VALUES ('12', '281', '11', '2015', '476780');
-INSERT INTO `tbl_acm_total_cost` VALUES ('13', '291', '11', '2015', '953560');
-INSERT INTO `tbl_acm_total_cost` VALUES ('14', '274', '6', '2015', '180000000');
-INSERT INTO `tbl_acm_total_cost` VALUES ('15', '275', '6', '2015', '40000000');
+INSERT INTO `tbl_acm_total_cost` VALUES ('17', '274', '11', '2015', '5296180');
+INSERT INTO `tbl_acm_total_cost` VALUES ('18', '939', '1', '2016', '13037426');
 
 -- ----------------------------
 -- Table structure for `tbl_act_to_act`
@@ -856,49 +996,19 @@ CREATE TABLE `tbl_are` (
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(100) DEFAULT NULL,
   `total_cost` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_are_id` (`id`),
+  KEY `idx_are` (`tbl_loc_id`,`tbl_acm_id`,`tbl_emp_id`,`tbl_exp_id`,`tbl_assets_id`,`tbl_acm_child_id`,`tbl_rdm_id`,`bulan`,`tahun`)
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_are
 -- ----------------------------
-INSERT INTO `tbl_are` VALUES ('15', null, '277', '3', null, null, null, null, '10', null, '559953', null, null, null, null, null, '11', '2015', '2015-11-20 12:29:26', 'Goyz', '559953');
-INSERT INTO `tbl_are` VALUES ('18', null, '299', null, null, null, '277', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
-INSERT INTO `tbl_are` VALUES ('23', null, '277', '4', null, null, null, null, '10', null, '459363', null, null, null, null, null, '11', '2015', '2015-11-26 08:38:01', 'Goyz', '459363');
-INSERT INTO `tbl_are` VALUES ('26', null, '277', null, '2', null, null, null, '50', null, '207428', null, null, null, null, null, '11', '2015', '2015-11-26 08:38:52', 'admin', '207428');
-INSERT INTO `tbl_are` VALUES ('27', null, '277', null, '3', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
-INSERT INTO `tbl_are` VALUES ('28', null, '277', null, '6', null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
-INSERT INTO `tbl_are` VALUES ('29', null, '299', null, null, null, '277', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
-INSERT INTO `tbl_are` VALUES ('30', null, '299', null, null, null, '276', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
-INSERT INTO `tbl_are` VALUES ('31', null, '299', null, null, null, '277', null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
-INSERT INTO `tbl_are` VALUES ('32', '0', '274', '1', '0', '0', '0', '', '60', '0', '40606080', '0', '0', '', '', '0', null, null, '2015-11-26 08:53:31', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('33', '0', '275', '1', '0', '0', '0', '', '40', '0', '27070720', '0', '0', '', '', '0', null, null, '2015-11-26 08:53:31', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('36', '0', '274', '6', '0', '0', '0', '', '50', '0', '2383900', '5', '1', '', '', '0', null, null, '2015-11-28 11:17:38', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('37', '0', '275', '6', '0', '0', '0', '', '40', '0', '1907120', '4', '1', '', '', '0', null, null, '2015-11-28 11:17:38', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('39', '0', '274', '0', '1', '0', '0', '', '60', '0', '3144816', '6', '1', '', '', '0', null, null, '2015-11-28 13:45:43', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('40', '0', '275', '0', '1', '0', '0', '', '20', '0', '1048272', '2', '1', '', '', '0', null, null, '2015-11-28 13:45:43', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('46', '0', '277', '6', '0', '0', '0', '', '5', '0', '238390', '0', '0', '', '', '0', null, null, '2015-12-09 06:31:04', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('51', '0', '282', '6', '0', '0', '0', '', '5', '0', '238390', '0', '0', '', '', '0', null, null, '2015-12-09 06:52:21', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('52', null, '277', '7', null, null, null, null, null, null, null, null, '0', null, null, null, null, null, '2015-12-09 07:10:11', 'Goyz Crotz', null);
-INSERT INTO `tbl_are` VALUES ('53', null, '275', '7', null, null, null, null, null, null, null, null, '1', null, null, null, null, null, '2015-12-09 07:15:11', 'Goyz Crotz', null);
-INSERT INTO `tbl_are` VALUES ('54', null, '282', '7', null, null, null, null, null, null, null, null, '0', null, null, null, null, null, '2015-12-09 07:15:33', 'Goyz Crotz', null);
-INSERT INTO `tbl_are` VALUES ('55', '0', '283', '0', '1', '0', '0', '', '10', '0', '524136', '0', '0', '', '', '0', null, null, '2015-12-09 18:00:05', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('56', '0', '282', '0', '1', '0', '0', '', '10', '0', '524136', '0', '0', '', '', '0', null, null, '2015-12-09 18:01:26', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('65', '0', '275', '0', '5', '0', '0', '', '50', '0', '1925000', '5', '1', '', '', '0', null, null, '2015-12-12 18:55:44', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('66', '0', '276', '0', '5', '0', '0', '', '25', '0', '962500', '0', '0', '', '', '0', null, null, '2015-12-12 18:55:44', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('70', '0', '288', '0', '5', '0', '0', '', '25', '0', '962500', '0', '0', '', '', '0', null, null, '2015-12-12 19:17:36', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('75', '0', '275', '0', '0', '1', '0', '', '60', '0', '120000000', '6', '1', '', '', '0', null, null, '2015-12-12 19:21:09', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('77', '0', '280', '0', '0', '1', '0', '', '15', '0', '30000000', '0', '0', '', '', '0', null, null, '2015-12-12 19:23:16', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('79', '0', '283', '0', '0', '1', '0', '', '10', '0', '20000000', '0', '0', '', '', '0', null, null, '2015-12-12 19:27:48', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('80', '0', '286', '0', '0', '1', '0', '', '15', '0', '30000000', '0', '0', '', '', '0', null, null, '2015-12-12 19:51:03', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('87', '0', '276', '5', '0', '0', '0', '', '10', '0', '524267', null, null, '', '', '0', null, null, '2015-12-20 14:10:14', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('88', '0', '277', '5', '0', '0', '0', '', '20', '0', '1048534', null, null, '', '', '0', null, null, '2015-12-20 14:10:14', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('89', '0', '278', '5', '0', '0', '0', '', '50', '0', '2621335', null, null, '', '', '0', null, null, '2015-12-20 14:10:14', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('90', '0', '274', '9', '0', '0', '0', '', '100', '0', '5082070', '10', '1', '', '', '0', null, null, '2015-12-20 14:29:55', 'Goyz Crotz', '0');
-INSERT INTO `tbl_are` VALUES ('91', null, '275', '9', null, null, null, null, null, null, null, null, '1', null, null, null, null, null, '2015-12-20 14:29:55', 'Goyz Crotz', null);
-INSERT INTO `tbl_are` VALUES ('92', null, '276', null, null, '3', null, null, null, null, null, null, '0', null, null, null, null, null, '2015-12-20 16:00:37', 'Goyz Crotz', null);
-INSERT INTO `tbl_are` VALUES ('93', null, '277', null, null, '3', null, null, null, null, null, null, '0', null, null, null, null, null, '2015-12-20 16:00:37', 'Goyz Crotz', null);
-INSERT INTO `tbl_are` VALUES ('94', null, '274', '2', null, null, null, null, null, null, null, null, null, null, null, null, '11', '2015', null, null, null);
+INSERT INTO `tbl_are` VALUES ('108', null, '274', '1', null, null, null, null, '20', null, '1735320', null, null, null, null, null, '11', '2015', '2016-01-23 21:36:39', 'Goyz', '1735320');
+INSERT INTO `tbl_are` VALUES ('109', null, '274', '2', null, null, null, null, '50', null, '3560860', null, null, null, null, null, '11', '2015', '2016-01-23 21:36:43', 'Goyz', '3560860');
+INSERT INTO `tbl_are` VALUES ('110', null, '939', '1', null, null, null, null, '68.18', null, '5915706', '15', null, null, null, null, '1', '2016', '2016-01-23 21:57:19', 'Goyz', '5915706');
+INSERT INTO `tbl_are` VALUES ('111', null, '939', '2', null, null, null, null, '100', null, '7121720', '25', null, null, null, null, '1', '2016', '2016-01-23 21:48:18', 'Goyz', '7121720');
+INSERT INTO `tbl_are` VALUES ('112', '0', '280', '1', '0', '0', '0', '', '12', '0', '1041192', null, null, '', '', '0', null, null, '2016-01-23 21:59:21', 'Goyz Crotz', '0');
 
 -- ----------------------------
 -- Table structure for `tbl_assets`
@@ -923,7 +1033,9 @@ CREATE TABLE `tbl_assets` (
   `tahun` int(11) DEFAULT NULL,
   `create_by` varchar(255) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_asset_id` (`id`),
+  KEY `idx_asset` (`tbl_model_id`,`tbl_loc_id`,`assets_id`,`tbl_rdm_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -982,7 +1094,9 @@ CREATE TABLE `tbl_bpd` (
   `text` varchar(100) DEFAULT NULL,
   `rootcost` float DEFAULT NULL,
   `rootpct` float DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_bpd_id` (`id`),
+  KEY `idx_bpd` (`tbl_bpm_id`,`tbl_acm_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1027,7 +1141,8 @@ CREATE TABLE `tbl_bpm` (
   `rootcost` float DEFAULT NULL,
   `rootpct` float DEFAULT NULL,
   `note` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_bpm_id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1056,38 +1171,40 @@ CREATE TABLE `tbl_cdm` (
   `constant` float DEFAULT NULL,
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_cdm_id` (`id`),
+  KEY `idx_cdm` (`tbl_model_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_cdm
 -- ----------------------------
-INSERT INTO `tbl_cdm` VALUES ('1', '2', '10100', 'Jumlah Marketing Media', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('2', '2', '30101', 'GT Pemanduan Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('3', '2', '30102', 'GT Pemanduan Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('4', '2', '30103', 'GT Pemanduan Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('5', '2', '10200', 'Jumlah PPKB', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('6', '2', '10907', 'Jumlah PPKB Kalimas', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('7', '2', '20100', 'Jumlah Cost Centre', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('8', '2', '30104', 'Total GT Pemanduan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('9', '2', '30105', 'Jumlah PPKB Pandu Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('10', '2', '30106', 'Jumlah PPKB Pandu Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('11', '2', '30107', 'Jumlah PPKB Pandu Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('12', '2', '30108', 'Headcount Pandu', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('13', '2', '10300', 'Jumlah Keluhan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '6', '2015');
-INSERT INTO `tbl_cdm` VALUES ('14', '2', '10100', 'Jumlah Marketing Media', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('15', '2', '30101', 'GT Pemanduan Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('16', '2', '30102', 'GT Pemanduan Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('17', '2', '30103', 'GT Pemanduan Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('18', '2', '10200', 'Jumlah PPKB', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('19', '2', '10907', 'Jumlah PPKB Kalimas', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('20', '2', '20100', 'Jumlah Cost Centre', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('21', '2', '30104', 'Total GT Pemanduan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('22', '2', '30105', 'Jumlah PPKB Pandu Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('23', '2', '30106', 'Jumlah PPKB Pandu Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('24', '2', '30107', 'Jumlah PPKB Pandu Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('25', '2', '30108', 'Headcount Pandu', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
-INSERT INTO `tbl_cdm` VALUES ('26', '2', '10300', 'Jumlah Keluhan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '7', '2015');
+INSERT INTO `tbl_cdm` VALUES ('1', '2', '10100', 'Jumlah Marketing Media', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('2', '2', '30101', 'GT Pemanduan Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('3', '2', '30102', 'GT Pemanduan Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('4', '2', '30103', 'GT Pemanduan Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('5', '2', '10200', 'Jumlah PPKB', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('6', '2', '10907', 'Jumlah PPKB Kalimas', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('7', '2', '20100', 'Jumlah Cost Centre', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('8', '2', '30104', 'Total GT Pemanduan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('9', '2', '30105', 'Jumlah PPKB Pandu Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('10', '2', '30106', 'Jumlah PPKB Pandu Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('11', '2', '30107', 'Jumlah PPKB Pandu Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('12', '2', '30108', 'Headcount Pandu', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('13', '2', '10300', 'Jumlah Keluhan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('14', '2', '10100', 'Jumlah Marketing Media', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('15', '2', '30101', 'GT Pemanduan Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('16', '2', '30102', 'GT Pemanduan Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('17', '2', '30103', 'GT Pemanduan Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('18', '2', '10200', 'Jumlah PPKB', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('19', '2', '10907', 'Jumlah PPKB Kalimas', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('20', '2', '20100', 'Jumlah Cost Centre', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('21', '2', '30104', 'Total GT Pemanduan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('22', '2', '30105', 'Jumlah PPKB Pandu Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('23', '2', '30106', 'Jumlah PPKB Pandu Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('24', '2', '30107', 'Jumlah PPKB Pandu Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('25', '2', '30108', 'Headcount Pandu', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('26', '2', '10300', 'Jumlah Keluhan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
 
 -- ----------------------------
 -- Table structure for `tbl_cust`
@@ -1133,7 +1250,9 @@ CREATE TABLE `tbl_efx` (
   `cost_type` varchar(100) DEFAULT NULL,
   `create_by` varchar(255) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_efx_id` (`id`),
+  KEY `idx_efx` (`tbl_exp_id`,`tbl_emp_id`,`tbl_assets_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1192,14 +1311,16 @@ CREATE TABLE `tbl_emp` (
   `cost_nbr` float DEFAULT NULL,
   `bulan` smallint(6) DEFAULT NULL,
   `tahun` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_emp_id` (`id`),
+  KEY `idx_emp` (`tbl_model_id`,`tbl_loc_id`,`employee_id`,`tbl_rdm_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_emp
 -- ----------------------------
 INSERT INTO `tbl_emp` VALUES ('1', '2', '3', '152092046', '', '', 'FERDY ANDREAS PIELOO', '', '6767600', '1000000', '909000', '8676600', '3', 'Pandu Madya I', '6000000', '0', '1', '1', '1', '22', 'fixed', 'batch', '1', '4', '11', '2015');
-INSERT INTO `tbl_emp` VALUES ('2', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '25', null, null, '1', '4', '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('2', '2', '3', '154092055', '', '', 'LELAN ANTONIUS', '', '7121720', '0', '0', '7121720', '3', 'Pandu Utama', '7121720', '0', '1', '1', '2', '25', 'variable', '0', '1', '4', '11', '2015');
 INSERT INTO `tbl_emp` VALUES ('3', '2', '261', '167111871', '', '', 'HASNA RIEF KAHARIYAH', '', '5599530', '0', '0', '5599530', '3', 'Asisten Manajer Hukum dan', '5599530', '0', '1', '1', '2', '0', null, null, '1', '4', '11', '2015');
 INSERT INTO `tbl_emp` VALUES ('4', '2', '33', '520101206', '', '', 'RISWANTO', '', '4593630', '0', '0', '4593630', '3', 'Staf Pelaksana Senior I', '4593630', '0', '1', '1', '4', '66', null, null, '1', '4', '11', '2015');
 INSERT INTO `tbl_emp` VALUES ('5', '2', '258', '520101215', '', '', 'SAROSA', '', '5242670', '0', '0', '5242670', '3', 'Staf Muda IV', '5242670', '0', '1', '1', '7', '22', null, null, '1', '4', '11', '2015');
@@ -1273,7 +1394,9 @@ CREATE TABLE `tbl_exp` (
   `budgetchg` varchar(100) DEFAULT NULL,
   `bulan` smallint(6) DEFAULT NULL,
   `tahun` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_exp_id` (`id`),
+  KEY `idx_exp` (`tbl_model_id`,`tbl_loc_id`,`tbl_rdm_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1316,7 +1439,9 @@ CREATE TABLE `tbl_loc` (
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
   `pid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_loc_id` (`id`),
+  KEY `idx_loc` (`tbl_model_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=312 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1645,7 +1770,9 @@ CREATE TABLE `tbl_location` (
   `location_name` varchar(255) DEFAULT NULL,
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_location_id` (`id`),
+  KEY `idx_location` (`tbl_model_id`,`location_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1735,15 +1862,19 @@ CREATE TABLE `tbl_model` (
   `deskripsi` text,
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `publis` smallint(6) DEFAULT NULL,
+  `publis_date` datetime DEFAULT NULL,
+  `publis_by` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_model` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_model
 -- ----------------------------
-INSERT INTO `tbl_model` VALUES ('1', 'Pelayanan Kapal', 'Testing Ajx', '2015-06-23 09:51:12', 'Goyz');
-INSERT INTO `tbl_model` VALUES ('2', 'Model Tester 2', 'Testing Kedua Coy xxx', '2015-05-22 06:20:21', 'Goyz');
-INSERT INTO `tbl_model` VALUES ('3', 'Model Percobaan 1', 'Model Untuk Testing Aplikasi Versi 1', '2015-11-22 17:20:27', 'Goyz');
+INSERT INTO `tbl_model` VALUES ('1', 'Pelayanan Kapal', 'Testing Ajx', '2015-06-23 09:51:12', 'Goyz', '0', '2016-01-23 18:28:18', 'Goyz');
+INSERT INTO `tbl_model` VALUES ('2', 'Model Tester 2', 'Testing Kedua Coy xxx', '2016-01-23 18:28:57', 'Goyz', '1', '2016-01-23 18:29:02', 'Goyz');
+INSERT INTO `tbl_model` VALUES ('3', 'Model Percobaan 1', 'Model Untuk Testing Aplikasi Versi 1', '2015-11-22 17:20:27', 'Goyz', '1', '2016-01-23 18:29:05', 'Goyz');
 
 -- ----------------------------
 -- Table structure for `tbl_prd`
@@ -1764,8 +1895,10 @@ CREATE TABLE `tbl_prd` (
   `create_by` varchar(255) DEFAULT NULL,
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_prd_id` (`id`),
+  KEY `idx_prd` (`tbl_model_id`,`tbl_prm_id`,`tbl_cdm_id`,`tbl_acm_id`,`bulan`,`tahun`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prd
@@ -1776,6 +1909,10 @@ INSERT INTO `tbl_prd` VALUES ('5', '2', '1', '4', '277', '10', '5000000', '50000
 INSERT INTO `tbl_prd` VALUES ('6', '2', '1', '2', '284', '10', '40000', '400000', '0', '0', '2015-12-21 08:24:01', 'Goyz Crotz', '11', '2015');
 INSERT INTO `tbl_prd` VALUES ('7', '2', '1', '1', '285', '60', '50000000', '3000000000', '0', '0', '2015-12-21 08:24:01', 'Goyz Crotz', '11', '2015');
 INSERT INTO `tbl_prd` VALUES ('8', '2', '1', '3', '283', '10', '5000000', '50000000', '0', '0', '2015-12-21 08:37:10', 'Goyz Crotz', '11', '2015');
+INSERT INTO `tbl_prd` VALUES ('9', null, '1', '3', '276', null, null, null, null, null, '2015-12-25 14:50:53', 'Goyz Crotz', null, null);
+INSERT INTO `tbl_prd` VALUES ('10', null, '7', '2', '275', null, null, null, null, null, '2015-12-25 14:51:26', 'Goyz Crotz', null, null);
+INSERT INTO `tbl_prd` VALUES ('11', null, '7', '4', '277', null, null, null, null, null, '2015-12-25 14:51:26', 'Goyz Crotz', null, null);
+INSERT INTO `tbl_prd` VALUES ('12', null, '7', '3', '283', null, null, null, null, null, '2015-12-25 14:51:26', 'Goyz Crotz', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_prev_group`
@@ -1844,7 +1981,9 @@ CREATE TABLE `tbl_prm` (
   `rlu_time` time DEFAULT NULL,
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_prm_id` (`id`),
+  KEY `idx_prm` (`tbl_model_id`,`prod_id`,`segment_id`,`service_group_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -1943,23 +2082,26 @@ CREATE TABLE `tbl_rdm` (
   `coefficient` float DEFAULT NULL,
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `flag` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_rdm_id` (`id`),
+  KEY `idx_rdm` (`tbl_model_id`,`bulan`,`tahun`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_rdm
 -- ----------------------------
-INSERT INTO `tbl_rdm` VALUES ('1', '2', 'XPND', 'Produksi Pandu', '13998770', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('2', '2', 'XJMP', 'Jam Operasi Motor Pandu', '948', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('3', '2', 'XJKT', 'Jam Operasi Tunda & Kepil', '1198', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('4', '2', 'XDEP03', 'Peny. Alat-Alat Faspel', '21304691', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('5', '2', 'XDEP01', 'Peny. Bangunan Faspel', '422042182', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('6', '2', 'XDEP09', 'Peny. Emplasemen', '44028027', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('7', '2', 'XDEP04', 'Peny. Instalasi Faspel', '18423864', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('8', '2', 'XDEP06', 'Peny. Jalan & Bangunan', '180944930', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('9', '2', 'XDEP02', 'Peny. Kapal', '75517417', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '1', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('10', '2', 'XDEP08', 'Peny. Kendaraan', '4501984', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
-INSERT INTO `tbl_rdm` VALUES ('11', '2', 'XDEP07', 'Peny. Peralatan Kantor', '19574954', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null);
+INSERT INTO `tbl_rdm` VALUES ('1', '2', 'XPND', 'Produksi Pandu', '13998770', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '', '0', '1', null, null, 'X');
+INSERT INTO `tbl_rdm` VALUES ('2', '2', 'XJMP', 'Jam Operasi Motor Pandu', '948', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '', '0', '1', null, null, 'X');
+INSERT INTO `tbl_rdm` VALUES ('3', '2', 'XJKT', 'Jam Operasi Tunda & Kepil', '1198', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '', '0', '1', null, null, 'X');
+INSERT INTO `tbl_rdm` VALUES ('4', '2', 'XDEP03', 'Peny. Alat-Alat Faspel', '21304691', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'A');
+INSERT INTO `tbl_rdm` VALUES ('5', '2', 'XDEP01', 'Peny. Bangunan Faspel', '422042182', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'A');
+INSERT INTO `tbl_rdm` VALUES ('6', '2', 'XDEP09', 'Peny. Emplasemen', '44028027', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'A');
+INSERT INTO `tbl_rdm` VALUES ('7', '2', 'XDEP04', 'Peny. Instalasi Faspel', '18423864', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'E');
+INSERT INTO `tbl_rdm` VALUES ('8', '2', 'XDEP06', 'Peny. Jalan & Bangunan', '180944930', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'E');
+INSERT INTO `tbl_rdm` VALUES ('9', '2', 'XDEP02', 'Peny. Kapal', '75517417', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '1', '1', null, null, 'E');
+INSERT INTO `tbl_rdm` VALUES ('10', '2', 'XDEP08', 'Peny. Kendaraan', '4501984', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'S');
+INSERT INTO `tbl_rdm` VALUES ('11', '2', 'XDEP07', 'Peny. Peralatan Kantor', '19574954', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'S');
 
 -- ----------------------------
 -- Table structure for `tbl_root_couses`

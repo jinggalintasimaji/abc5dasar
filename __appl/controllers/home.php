@@ -392,4 +392,8 @@ class home extends MY_Controller {
 		echo $this->mhome->get_cost($p1,$p2,$p3,$p4);
 	}
 	
+	function copy_act(){
+		echo $this->mhome->copy_act();
+	}
+	
 }
