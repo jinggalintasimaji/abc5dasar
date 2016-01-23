@@ -897,11 +897,12 @@ class mhome extends CI_Model{
 				$sql = $sql . " LIMIT $start,$limit";
 							
 				$data=$this->db->query($sql)->result_array();  
-						
+				$key=$this->input->post('key');		
 				if($data){
 				   $responce = new stdClass();
 				   $responce->rows= $data;
 				   $responce->total =$count;
+				   if($key){$responce->key =$key;}else{$responce->key='off';}
 					if($footer!=""){
 						$responce->footer =array($footer);
 					}
@@ -911,6 +912,7 @@ class mhome extends CI_Model{
 				   $responce = new stdClass();
 				   $responce->rows = 0;
 				   $responce->total = 0;
+				   if($key){$responce->key =$key;}else{$responce->key='off';}
 				   if($footer!=""){
 						$responce->footer =array($footer);
 					}

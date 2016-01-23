@@ -205,6 +205,9 @@ class home extends MY_Controller {
 				
 				break;
 				case "activity":
+					if(!isset($this->modeling['id'])){
+						echo '<fieldset style="width:95%"><center>SELECT OR ACTIVATE MODEL IN MENU MODELLING!!!!</center></fieldset>';exit;
+					}
 					$id_act=$this->input->post('id');
 					$bulan=$this->input->post('bulan');
 					$tahun=$this->input->post('tahun');
@@ -280,6 +283,9 @@ class home extends MY_Controller {
 					}
 				break;
 				case "report":
+					if(!isset($this->modeling['id'])){
+						echo '<fieldset style="width:95%"><center><b>SELECT OR ACTIVATE MODEL IN MENU MODELLING !!!!</b></center></fieldset>';exit;
+					}
 					switch($p2){
 						case "activity_master":
 						case "activity_resource":

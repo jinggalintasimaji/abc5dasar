@@ -2109,6 +2109,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			footer=true;
 			doble_klik=true;
+			//pagesizeboy = 150;
 			klik=true;
 			url_detil=host+"home/modul/activity/main_detil";
 			param['bulan']=$('#bulan').val();
@@ -3187,29 +3188,31 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		onLoadSuccess:function(d){
 			//console.log(d.total);
 			if(modnya=='list_act'){
-				if(d.total==0){
-					$.messager.confirm('ABC System','No Data In This Period, Do You Want To Get Data In First Period ?',function(r){
-						if(r){
-							loadingna();
-							$.post(host+'home/copy_act',{bulan:$('#bulan').val(),tahun:$('#tahun').val()},function(resp){
-								if(resp==1){
-									$.messager.alert('ABC System', "Data Was Copied", 'info');
-									winLoadingClose();
-									grid_nya.datagrid('reload');
-								}
-								else if(resp==2){
-									$.messager.alert('ABC System', "No Data In Last Period, Please Upload Or Insert Data Activity", 'error');
-									winLoadingClose();
-									console.log(resp);
-								}
-								else{
-									$.messager.alert('ABC System', "No Data Activity In New Period", 'error');
-									winLoadingClose();
-									console.log(resp);
-								}
-							});
-						}
-					});
+				if(d.key=='off'){
+					if(d.total==0){
+						$.messager.confirm('ABC System','No Data In This Period, Do You Want To Get Data In First Period ?',function(r){
+							if(r){
+								loadingna();
+								$.post(host+'home/copy_act',{bulan:$('#bulan').val(),tahun:$('#tahun').val()},function(resp){
+									if(resp==1){
+										$.messager.alert('ABC System', "Data Was Copied", 'info');
+										winLoadingClose();
+										grid_nya.datagrid('reload');
+									}
+									else if(resp==2){
+										$.messager.alert('ABC System', "No Data In Last Period, Please Upload Or Insert Data Activity", 'error');
+										winLoadingClose();
+										console.log(resp);
+									}
+									else{
+										$.messager.alert('ABC System', "No Data Activity In New Period", 'error');
+										winLoadingClose();
+										console.log(resp);
+									}
+								});
+							}
+						});
+					}
 				}
 			}
 			//gridVRList.datagrid('selectRow', 0);
