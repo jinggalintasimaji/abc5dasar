@@ -1,0 +1,47 @@
+
+<table width='100%'>
+	<thead style='background-color:#DCE6F1;font-size:13px;'>
+		<tr>
+			<th align='center' style='padding:10px;'>Segment & Activity</th>
+			<th align='center' style='padding:10px;'>Quantity</th>
+			<th align='center' style='padding:10px;'>Proportion</th>
+			<th align='center' style='padding:10px;'>Total Cost</th>
+		</tr>
+	</thead>
+	<tbody>
+	{assign var=tot_qty value=0}
+	{assign var=tot_persen value=0}
+	{assign var=tot_cost value=0}
+	{foreach from=$data item=i}
+	
+	<tr style='background-color:#E8F0F9;font-weight:bold;'>
+		<td style='padding-left:10px;' align='left' colspan="4">{$i.nama_segment|default:'-'}</td>
+	</tr>
+	{if !empty($i.are)}
+	{foreach from=$i.are item=x}
+	{assign var=tot_qty value=$tot_qty+$x.rd_qty}
+	{assign var=tot_persen value=$tot_persen+$x.percent}
+	{assign var=tot_cost value=$tot_cost+$x.total_cost}
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$x.nama|default:'-'}</td>
+		<td style='padding-left:10px;'align='right'>{$x.rd_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$x.percent|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$x.total_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
+	{/foreach}
+	{else}
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;' align='left' colspan="4">NO DATA ASSIGNMENT</td>
+	</tr>
+	{/if}
+	
+	{/foreach}
+	<tr style='background-color:#DCE6F1;font-weight:bold;font-size:13px;'>
+		<td style='padding-left:10px;' align='center'>GRAND TOTAL</td>
+		<td style='padding-left:10px;'align='right'>{$tot_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$tot_persen|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$tot_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
+	</tbody>
+	
+</table>
