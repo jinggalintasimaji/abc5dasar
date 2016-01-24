@@ -23,11 +23,13 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
+							{* {include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Activity Cost' class='duit' name='activity_cost' value={$data.budget_1|default:''} } *}
+							
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' class='duit' name='revenue' value={$data.revenue|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' class='duit' name='reduction' value={$data.reduction|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' class='duit' name='net_revenue' value={$data.net_revenue|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' class='duit' name='direct_cost' value={$data.direct_cost|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Activity Cost' class='duit' name='activity_cost' value={$data.budget_1|default:''} }
+							<label style='width:150px'>Activity Cost</label> : Rp. <span id='activity_cost'>{$total_cost_driver}</span> <br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' class='duit' name='abc_cost' value={$data.abc_cost|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' class='duit' name='profit_lost' value={$data.profit_lost|default:''} }
 						</td>

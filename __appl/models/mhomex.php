@@ -513,7 +513,10 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'act_to_cobj'){
-					$select = " A.*, B.descript as activity_name, C.descript as cost_driver_name ";
+					$select = " A.*, 
+						B.descript as activity_name, C.descript as cost_driver_name, 
+						( B.quantity * B.capacity ) as cost_rate2
+					";
 					$from = "tbl_prd";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
@@ -906,6 +909,13 @@ class mhomex extends CI_Model{
 		$bulan = $this->input->post('bulan');
 		$tahun = $this->input->post('tahun');
 		
+		if(!$bulan){
+			$bulan = date('m');
+		}
+		if(!$tahun){
+			$tahun = date('Y');
+		}
+		
 		switch($type){
 			case "profit_detail":
 				$sql1 = "
@@ -987,6 +997,55 @@ class mhomex extends CI_Model{
 				$array['grand_total']['grand_total_rev'] = number_format($grand_total_rev,0,",",".");		
 				$array['grand_total']['grand_total_abc'] = number_format($grand_total_abc,0,",",".");		
 				$array['grand_total']['grand_total_prof'] = number_format($grand_total_prof,0,",",".");		
+			break;
+			case "resource_employee":
+				$sql1 = "
+					SELECT * 
+					FROM tbl_emp
+					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				//echo $sql1;
+				//print_r($query1);exit;
+				
+				$grand_total_emp  = 0;
+				foreach($query1 as $k => $v){
+					$array['detail'][$k]['id'] = $v['id'];
+					$array['detail'][$k]['employee_id'] 	= $v['employee_id'];
+					$array['detail'][$k]['employee_name'] 	= $v['last'];
+					$array['detail'][$k]['total_cost'] 		= number_format($v['total'],0,",",".");
+					$array['detail'][$k]['assign_activity'] = array();
+					$array['detail'][$k]['assign_expense']  = array();
+					
+					$sql2 = "
+						SELECT B.descript, A.cost, A.percent
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+						WHERE tbl_emp_id = '".$v['id']."'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					foreach($query2 as $t => $y){
+						$array['detail'][$k]['assign_activity'][$t]['activity_name'] = $y['descript'];
+						$array['detail'][$k]['assign_activity'][$t]['percent'] = $y['percent'];
+						$array['detail'][$k]['assign_activity'][$t]['cost'] = number_format($y['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT B.descript, A.cost, A.percent
+						FROM tbl_efx A
+						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
+						WHERE tbl_emp_id = '".$v['id']."'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $x => $z){
+						$array['detail'][$k]['assign_expense'][$t]['expense_name'] = $z['descript'];
+						$array['detail'][$k]['assign_expense'][$t]['percent'] = $z['percent'];
+						$array['detail'][$k]['assign_expense'][$t]['cost'] = number_format($z['cost'],0,",",".");
+					}
+					
+					$grand_total_emp += $v['total'];
+				}
+				$array['grand_total']['grand_total_emp'] = number_format($grand_total_emp,0,",",".");
 			break;
 		}
 		
@@ -1842,6 +1901,10 @@ class mhomex extends CI_Model{
 			
 			case "tbl_prd_costobject":
 				$table = "tbl_prd";
+				$cost_rate = $data['cost_rate2'];
+				$data['cost_rate'] = $cost_rate;
+				
+				unset($data['cost_rate2']);
 				unset($data['activity_name']);
 				unset($data['cost_driver_name']);
 				unset($data['editing']);

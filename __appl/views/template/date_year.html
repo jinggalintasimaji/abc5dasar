@@ -1,7 +1,7 @@
-<div style='float:left;width:99%'>
+<div style='float:left;width:100%'>
 	<fieldset>
 	<label>Month</label>: 
-		<select  style="width:20%;padding:2px;margin-right:50px;" id="bulan" name="bulan_empMonth">
+		<select  style="width:20%;padding:2px;margin-right:50px;" id="bulan_{$main}" name="bulan_empMonth">
 			<option value="1">January</option>
 			<option value="2">February</option>
 			<option value="3">March</option>
@@ -17,7 +17,11 @@
 		</select>
 	
 	{* {html_select_date prefix='bulan_emp' start_year='+5' end_year='+5' month_extra='11' display_days=false display_years=false all_extra='id="bulan" style="width:20%;padding:2px;margin-right:50px;"'} *}
-	<label>Year</label>: {html_select_date prefix='tahun_emp' start_year='-5' end_year='+5' display_days=false display_months=false all_extra='id="tahun" style="width:20%;padding:2px;"'}
+	
+	{assign var=thnnyauy value="tahun_{$main}" }
+	
+	<label>Year</label>: {html_select_date prefix='tahun_emp' start_year='-5' end_year='+5' display_days=false display_months=false year_id=$thnnyauy all_extra='style="width:20%;padding:2px;"'}
+	
 	{if $buton|default:'no' eq 'ya'}
 	<label>
 		<a href="javascript:void(0)" style='' class="l-btn l-btn-small l-btn-plain go_report" group="" id="" onClick="">
@@ -28,6 +32,16 @@
 	</label>
 	{/if}
 	
+	{if $buton2|default:'no' eq 'ya'}
+	<label>
+	<a href="javascript:void(0)" style='' class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="kumpulAction('{$main}');">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Generate</span><span class="l-btn-icon icon-reload">&nbsp;</span>
+		</span>
+	</a>		
+	</label>
+	{/if}
+		
 	</fieldset>
 </div>
 <script>

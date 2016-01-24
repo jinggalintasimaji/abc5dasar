@@ -289,8 +289,8 @@ class homex extends MY_Controller {
 						
 						//Modul Report
 						case "profit":
-							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return') );
-							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return') );
+							$tahun = $this->mhome->getdata('get_bulan_tahun');
+							$this->smarty->assign('data_date', $tahun);
 						break;
 						case "profit_detail":
 							$data = $this->mhomex->getreport('profit_detail');
@@ -300,6 +300,14 @@ class homex extends MY_Controller {
 							$tahun = $this->mhome->getdata('get_bulan_tahun');
 							$this->smarty->assign('data_date', $tahun);
 							//print_r($tahun);
+						break;
+						case "resource":
+							$tahun = $this->mhome->getdata('get_bulan_tahun');
+							$this->smarty->assign('data_date', $tahun);
+						break;
+						case "resource_employee":
+							$data = $this->mhomex->getreport('resource_employee');
+							$this->smarty->assign('data', $data);
 						break;
 						//End Modul Report
 					}
