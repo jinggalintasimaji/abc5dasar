@@ -102,13 +102,13 @@
 	genGrid('list_act','grid_{$main}','','');
 	
 	$(".easyui-validatebox").validatebox({ required:true }); 
-	$('#bulan').off('change');
-	$('#bulan').on('change',function(){
-		$('#grid_{$main}').datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun').val() });
+	$('#bulan_main').off('change');
+	$('#bulan_main').on('change',function(){
+		$('#grid_{$main}').datagrid('reload',{ 'bulan':$(this).val(),'tahun':$('#tahun_main').val() });
 	});
-	$('#tahun').off('change');
-	$('#tahun').on('change',function(){
-		$('#bulan').trigger('change');
+	$('#tahun_main').off('change');
+	$('#tahun_main').on('change',function(){
+		$('#bulan_main').trigger('change');
 	})
 	$('#clear_act').bind('click',function(){
 		clear_form('form_{$main}');
@@ -118,7 +118,7 @@
 		$('#data').show();
 	});
 	$('#find_{$main}').bind('click',function(){
-		$('#grid_{$main}').datagrid('reload',{ key:$('#key_{$main}').val(),'bulan':$('#bulan').val(),'tahun':$('#tahun').val() });
+		$('#grid_{$main}').datagrid('reload',{ key:$('#key_{$main}').val(),'bulan':$('#bulan_main').val(),'tahun':$('#tahun_main').val() });
 	});
 	
 	$('#add_{$main}').bind('click',function(){

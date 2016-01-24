@@ -83,9 +83,109 @@ class mhome extends CI_Model{
 		$where = " WHERE 1=1 ";
 		$footer="";
 		$table="";
+		$bulan=$this->input->post('bulan');
+		$tahun=$this->input->post('tahun');
 		switch($type){
 			case "tbl_rdm":
 				$sql="SELECT * FROM tbl_rdm WHERE flag='A'";
+			break;
+			case "report_act_segment":
+				$data=array();
+				$sql="SELECT * FROM cl_segment";
+				$seg=$this->db->query($sql)->result_array();
+				foreach($seg as $x){
+					$data[$x['id']]=array();
+					$data[$x['id']]['nama_segment']=$x['segment'];
+					$data[$x['id']]['are']=array();
+					$sql_are="SELECT A.tbl_acm_id,B.descript,C.segment,sum(A.percent)as percent,sum(A.rd_qty)as qty,sum(total_cost)as total_cost 
+								FROM tbl_are A 
+								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+								LEFT JOIN cl_segment C ON B.cl_segment_id=C.id
+								WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+								AND B.tbl_model_id=".$this->modeling["id"]." AND B.cl_segment_id=".$x['id']."
+								GROUP BY A.tbl_acm_id,B.descript,C.segment ORDER BY B.cl_segment_id ASC";
+					$are=$this->db->query($sql_are)->result_array();
+					foreach($are as $z){
+						
+						$data[$x['id']]['are'][$z['tbl_acm_id']]=array();
+						$data[$x['id']]['are'][$z['tbl_acm_id']]['nama']=$z['descript'];
+						$data[$x['id']]['are'][$z['tbl_acm_id']]['percent']=$z['percent'];
+						$data[$x['id']]['are'][$z['tbl_acm_id']]['rd_qty']=$z['qty'];
+						$data[$x['id']]['are'][$z['tbl_acm_id']]['total_cost']=$z['total_cost'];
+					}
+				}
+				//echo "<pre>";print_r($data);echo "</pre>";
+				return $data;
+			break;
+			case "report_resource":
+				$data=array();
+				$sql="SELECT A.tbl_acm_id,B.descript,sum(A.percent)as percent,sum(A.rd_qty) as qty,sum(total_cost)as total_cost 
+						FROM tbl_are A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+						AND B.tbl_model_id=".$this->modeling["id"]."
+						GROUP BY A.tbl_acm_id,B.descript";
+				$act=$this->db->query($sql)->result_array();
+				foreach($act as $x=>$y){
+					$data[$y['tbl_acm_id']]=array();
+					$data[$y['tbl_acm_id']]['act']=$y['descript'];
+					$data[$y['tbl_acm_id']]['qty']=$y['qty'];
+					$data[$y['tbl_acm_id']]['percent']=$y['percent'];
+					$data[$y['tbl_acm_id']]['total_cost']=$y['total_cost'];
+					$data[$y['tbl_acm_id']]['emp']=array();
+					$data[$y['tbl_acm_id']]['exp']=array();
+					$data[$y['tbl_acm_id']]['asset']=array();
+					$sql_emp="SELECT A.tbl_acm_id,B.descript,A.tbl_emp_id,C.last,A.percent,A.rd_qty,A.total_cost  
+								FROM tbl_are A 
+								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+								LEFT JOIN tbl_emp C ON A.tbl_emp_id=C.id
+								WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+								AND B.tbl_model_id=".$this->modeling["id"]." 
+								AND A.tbl_emp_id IS NOT NULL AND A.tbl_acm_id=".$y['tbl_acm_id'];
+					$emp=$this->db->query($sql_emp)->result_array();
+					
+					$sql_exp="SELECT A.tbl_acm_id,B.descript,A.tbl_exp_id,C.descript as exp_name,A.percent,A.rd_qty,A.total_cost  
+								FROM tbl_are A 
+								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+								LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
+								WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+								AND B.tbl_model_id=".$this->modeling["id"]." 
+								AND A.tbl_exp_id IS NOT NULL AND A.tbl_acm_id=".$y['tbl_acm_id'];
+					$exp=$this->db->query($sql_exp)->result_array();
+					
+					$sql_asset="SELECT A.tbl_acm_id,B.descript,A.tbl_assets_id,C.assets_name,A.percent,A.rd_qty,A.total_cost  
+								FROM tbl_are A 
+								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+								LEFT JOIN tbl_assets C ON A.tbl_assets_id=C.id
+								WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+								AND B.tbl_model_id=".$this->modeling["id"]." 
+								AND A.tbl_assets_id IS NOT NULL AND A.tbl_acm_id=".$y['tbl_acm_id'];
+					$asset=$this->db->query($sql_asset)->result_array();
+					foreach($emp as $a=>$b){
+						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]=array();
+						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['nama']=$b['last'];
+						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['percent']=$b['percent'];
+						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['rd_qty']=$b['rd_qty'];
+						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['total_cost']=$b['total_cost'];
+					}
+					foreach($exp as $a=>$b){
+						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]=array();
+						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['nama']=$b['exp_name'];
+						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['percent']=$b['percent'];
+						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['rd_qty']=$b['rd_qty'];
+						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['total_cost']=$b['total_cost'];
+					}
+					foreach($asset as $a=>$b){
+						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]=array();
+						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['nama']=$b['assets_name'];
+						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['percent']=$b['percent'];
+						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['rd_qty']=$b['rd_qty'];
+						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['total_cost']=$b['total_cost'];
+					}
+				}
+				//echo "<pre>";print_r($data);echo "</pre>";
+				//exit;
+				return $data;
 			break;
 			case "get_bulan_tahun":
 				$tahun=array();
@@ -341,7 +441,7 @@ class mhome extends CI_Model{
 						LEFT JOIN tbl_rdm E ON A.tbl_rdm_id=E.id
 						LEFT JOIN(
 							SELECT * FROM tbl_acm_total_cost WHERE bulan=".$bulan." AND tahun=".$tahun."
-						)B ON B.tbl_acm_id=A.id ".$where." ORDER BY A.id ASC";
+						)B ON B.tbl_acm_id=A.id ".$where;
 				//..echo $sql;
 				//print_r($this->db->query($sql)->result_array());exit;
 				$sql_na="SELECT SUM(total_cost) as total from tbl_acm_total_cost  WHERE bulan=".$bulan." AND tahun=".$tahun;
@@ -356,6 +456,7 @@ class mhome extends CI_Model{
 					//$total_cost=
 					return $data;
 				}
+				$sql .=' ORDER BY A.id ASC';
 				//print_r($footer);exit;
 			break;
 			case "tbl_acm_tree":

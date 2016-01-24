@@ -1,4 +1,4 @@
-<table width='100%'>
+{*<table width='100%'>
 	<thead style='background-color:#DCE6F1;'>
 		<tr>
 			<th align='center'>Activity Code</th>
@@ -29,5 +29,83 @@
 			<td style='padding-right:10px;font-weight:bold;'align='right'>{$data.footer.total|number_format:2:',':'.'|default:'-'}</td>
 		</tr>
 	</tbody>
-</table>
+</table>*}
+
+<table width='100%'>
+	<thead style='background-color:#DCE6F1;font-size:13px;'>
+		<tr>
+			<th align='center' style='padding:10px;'>Activity & Assigment</th>
+			<th align='center' style='padding:10px;'>Quantity</th>
+			<th align='center' style='padding:10px;'>Proportion</th>
+			<th align='center' style='padding:10px;'>Total Cost</th>
+		</tr>
+	</thead>
+	<tbody>
+	{assign var=tot_qty value=0}
+	{assign var=tot_persen value=0}
+	{assign var=tot_cost value=0}
+	{foreach from=$data item=i}
+	{assign var=tot_qty value=$tot_qty+$i.qty}
+	{assign var=tot_persen value=$tot_persen+$i.percent}
+	{assign var=tot_cost value=$tot_cost+$i.total_cost}
+	<tr style='background-color:#E8F0F9;font-weight:bold;'>
+		<td style='padding-left:10px;' align='left'>{$i.act|default:'-'}</td>
+		<td style='padding-left:10px;'align='right'>{$i.qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$i.percent|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$i.total_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
 	
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;font-weight:bold;' align='left' colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;EMPLOYEES</td>
+		<!--td style='padding-left:10px;'align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$i.total|number_format:2:',':'.'|default:'-'}</td-->
+	</tr>
+	
+	{foreach from=$i.emp item=x}
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$x.nama|default:'-'}</td>
+		<td style='padding-left:10px;'align='right'>{$x.rd_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$x.percent|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$x.total_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
+	{/foreach}
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;font-weight:bold;' align='left' colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;EXPANSES</td>
+		<!--td style='padding-left:10px;'align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$i.total|number_format:2:',':'.'|default:'-'}</td-->
+	</tr>
+	{foreach from=$i.exp item=y}
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$y.nama|default:'-'}</td>
+		<td style='padding-left:10px;'align='right'>{$y.rd_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$y.percent|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$y.total_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
+	{/foreach}
+	
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;font-weight:bold;' align='left' colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;ASSETS</td>
+		<!--td style='padding-left:10px;'align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$i.rd_tot_qty|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$i.total|number_format:2:',':'.'|default:'-'}</td-->
+	</tr>
+	{foreach from=$i.asset item=z}
+	<tr style='background-color:#E8F0F9;'>
+		<td style='padding-left:10px;' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$z.nama|default:'-'}</td>
+		<td style='padding-left:10px;'align='right'>{$z.rd_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$z.percent|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$z.total_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
+	{/foreach}
+	{/foreach}
+	<tr style='background-color:#DCE6F1;font-weight:bold;font-size:13px;'>
+		<td style='padding-left:10px;' align='center'>GRAND TOTAL</td>
+		<td style='padding-left:10px;'align='right'>{$tot_qty|number_format:2:',':'.'|default:100}</td>
+		<td style='padding-right:10px;' align='right'>{$tot_persen|number_format:2:',':'.'|default:'-'}</td>
+		<td style='padding-right:10px;' align='right'>{$tot_cost|number_format:2:',':'.'|default:'-'}</td>
+	</tr>
+	</tbody>
+	
+</table>

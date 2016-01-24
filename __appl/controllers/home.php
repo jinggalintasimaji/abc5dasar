@@ -287,8 +287,15 @@ class home extends MY_Controller {
 						echo '<fieldset style="width:95%"><center><b>SELECT OR ACTIVATE MODEL IN MENU MODELLING !!!!</b></center></fieldset>';exit;
 					}
 					switch($p2){
-						case "activity_master":
+						case "activity_by_segment":
+							$data=$this->mhome->getdata('report_act_segment');
+							$this->smarty->assign('data' ,$data);
+						break;
 						case "activity_resource":
+							$data=$this->mhome->getdata('report_resource');
+							$this->smarty->assign('data' ,$data);
+						break;
+						case "activity_master":
 							$data=$this->mhome->getdata('tbl_acm_wizard','report',($p2=='activity_resource'?'resource':''));
 							$this->smarty->assign('data' ,$data);
 						break;

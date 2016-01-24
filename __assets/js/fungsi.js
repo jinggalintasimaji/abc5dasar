@@ -221,8 +221,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			urlnya = "tbl_asset_are/"+id_act;
 			fitnya = true;
 			//footer = true;
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			pagesizeboy=200;
 			paging=false;
 			kolom[modnya] = [	
@@ -292,8 +292,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			fitnya = true;
 			pagesizeboy=200;
 			paging=false;
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			kolom[modnya] = [	
 				
 				{field:'name_na',title:'Employee Name',width:180, halign:'center',align:'left'},
@@ -369,8 +369,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			judulnya = "";
 			urlnya = "tbl_are/"+id_act+"/exp";
 			fitnya = true;
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			pagesizeboy=200;
 			paging=false;
 			kolom[modnya] = [	
@@ -470,8 +470,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			judulnya = "";
 			urlnya = "tbl_act_to_act/"+id_act;
 			fitnya = true;
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			pagesizeboy=200;
 			paging=false;
 			kolom[modnya] = [	
@@ -574,8 +574,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			judulnya = "";
 			urlnya = "tbl_act_to_act2/"+id_act;
 			fitnya = true;
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			pagesizeboy=200;
 			paging=false;
 			kolom[modnya] = [	
@@ -1888,35 +1888,35 @@ function saverow(div,target,modul){
 	// Activity
 	
 	else if(div == 'tabel_employees'){
-		url = host+"home/getcost/emp/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		url = host+"home/getcost/emp/"+id_act+"/"+$('#bulan_main').val()+"/"+$('#tahun_main').val();
 		divtotcost = "total_cost_from_employees";
 		//divtotpercent = "cost_form_employees";
 		divtxtpercent = "total_persen_from_employees";
 		
 	}
 	else if(div == 'tabel_expenses'){
-		url = host+"home/getcost/exp/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		url = host+"home/getcost/exp/"+id_act+"/"+$('#bulan_main').val()+"/"+$('#tahun_main').val();
 		divtotcost = "total_cost_from_expanses";
 		//divtotpercent = "cost_form_employees";
 		divtxtpercent = "total_persen_from_expanses";
 		
 	}
 	else if(div == 'tabel_assets'){
-		url = host+"home/getcost/assets/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		url = host+"home/getcost/assets/"+id_act+"/"+$('#bulan_main').val()+"/"+$('#tahun_main').val();
 		divtotcost = "total_cost_from_assets";
 		//divtotpercent = "cost_form_employees";
 		divtxtpercent = "total_persen_from_assets";
 		
 	}
 	else if(div == 'tabel_act'){
-		url = host+"home/getcost/f_act/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		url = host+"home/getcost/f_act/"+id_act+"/"+$('#bulan_main').val()+"/"+$('#tahun_main').val();
 		divtotcost = "total_cost_from_activity";
 		//divtotpercent = "cost_form_employees";
 		divtxtpercent = "total_persen_from_activity";
 		
 	}
 	else if(div == 'tabel_act_to'){
-		url = host+"home/getcost/t_act/"+id_act+"/"+$('#bulan').val()+"/"+$('#tahun').val();
+		url = host+"home/getcost/t_act/"+id_act+"/"+$('#bulan_main').val()+"/"+$('#tahun_main').val();
 		divtotcost = "total_cost_to_activity";
 		//divtotpercent = "cost_form_employees";
 		divtxtpercent = "total_persen_to_activity";
@@ -2115,8 +2115,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			//pagesizeboy = 150;
 			klik=true;
 			url_detil=host+"home/modul/activity/main_detil";
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			kolom[modnya] = [	
 				{field:'activity_code',title:'Act.Code',width:80, halign:'center',align:'center'},
 				{field:'descript',title:'Description',width:350, halign:'center',align:'left'},
@@ -2175,8 +2175,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		case "mst_employees":
 			judulnya = "";
 			urlnya = "tbl_emp";
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			param['id_act']=id_act;
 			fitnya = false;
 			singleSelek = false;
@@ -2195,8 +2195,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		case "mst_asset":
 			judulnya = "";
 			urlnya = "tbl_assets";
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			param['id_act']=id_act;
 			fitnya = false;
 			singleSelek = false;
@@ -2218,8 +2218,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			if(modnya=="mst_act_to")urlnya = "tbl_acm_act_to";
 			else urlnya = "tbl_acm_act";
 			param['pid']=id_act;
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			fitnya = false;
 			singleSelek = false;
 			kolom[modnya] = [	
@@ -2237,8 +2237,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 		case "mst_expenses":
 			judulnya = "";
 			urlnya = "tbl_exp";
-			param['bulan']=$('#bulan').val();
-			param['tahun']=$('#tahun').val();
+			param['bulan']=$('#bulan_main').val();
+			param['tahun']=$('#tahun_main').val();
 			param['id_act']=id_act;
 			fitnya = false;
 			singleSelek = false;
@@ -3196,7 +3196,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 						$.messager.confirm('ABC System','No Data In This Period, Do You Want To Get Data In First Period ?',function(r){
 							if(r){
 								loadingna();
-								$.post(host+'home/copy_act',{bulan:$('#bulan').val(),tahun:$('#tahun').val()},function(resp){
+								$.post(host+'home/copy_act',{bulan:$('#bulan_main').val(),tahun:$('#tahun_main').val()},function(resp){
 									if(resp==1){
 										$.messager.alert('ABC System', "Data Was Copied", 'info');
 										winLoadingClose();
@@ -3881,8 +3881,8 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 					break;
 					case "activity":
 						if(typeof(id_act) != "undefined")par['id_act']=id_act;
-						par['bulan']=$('#bulan').val();
-						par['tahun']=$('#tahun').val();
+						par['bulan']=$('#bulan_main').val();
+						par['tahun']=$('#tahun_main').val();
 					break;
 					case "process_master":
 						par['par_1']=$('#par_1').val();
@@ -3902,8 +3902,8 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 							case "activity_by_segment":
 							case "activity_resource":
 								main_report=isi_tab.toLowerCase();
-								par['bulan']=$('#bulan').val();
-								par['tahun']=$('#tahun').val();
+								par['bulan']=$('#bulan_activity').val();
+								par['tahun']=$('#tahun_activity').val();
 								urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 							break;
 							case "resource_employee":
@@ -4294,8 +4294,8 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 					case "tbl_asset_are":
 						post['editstatus']='add';
 						post['tbl_acm_id']=id_act;
-						post['bulan']=$('#bulan').val();
-						post['tahun']=$('#tahun').val();
+						post['bulan']=$('#bulan_main').val();
+						post['tahun']=$('#tahun_main').val();
 						post['tbl_assets_id']=id_grid;
 					break;
 					case "tbl_are_asset":
@@ -4307,29 +4307,29 @@ function transfer_data(from,to,grid_id_from,grid_id_to, grid_id_destination,flag
 						post['editstatus']='add';
 						post['tbl_emp_id']=id_grid;
 						post['tbl_acm_id']=id_act;
-						post['bulan']=$('#bulan').val();
-						post['tahun']=$('#tahun').val();
+						post['bulan']=$('#bulan_main').val();
+						post['tahun']=$('#tahun_main').val();
 					break;
 					case "tbl_are_exp":
 						post['editstatus']='add';
 						post['tbl_exp_id']=id_grid;
 						post['tbl_acm_id']=id_act;
-						post['bulan']=$('#bulan').val();
-						post['tahun']=$('#tahun').val();
+						post['bulan']=$('#bulan_main').val();
+						post['tahun']=$('#tahun_main').val();
 					break;
 					case "tbl_act_to_act":
 						post['editstatus']='add';
 						post['tbl_acm_child_id']=id_grid;
 						post['tbl_acm_id']=id_act;
-						post['bulan']=$('#bulan').val();
-						post['tahun']=$('#tahun').val();
+						post['bulan']=$('#bulan_main').val();
+						post['tahun']=$('#tahun_main').val();
 					break;
 					case "tbl_act_to_act3":
 						post['editstatus']='add';
 						post['tbl_acm_child_id']=id_act;
 						post['tbl_acm_id']=id_grid;
-						post['bulan']=$('#bulan').val();
-						post['tahun']=$('#tahun').val();
+						post['bulan']=$('#bulan_main').val();
+						post['tahun']=$('#tahun_main').val();
 					break;
 					case "tbl_act_to_act2":
 						to="tbl_act_to_act";

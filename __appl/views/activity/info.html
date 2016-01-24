@@ -46,18 +46,18 @@
 	</div>
 </div>
 <script>
-	$('#bulan').off('change');
-	$('#bulan').on('change',function(){
+	$('#bulan_main').off('change');
+	$('#bulan_main').on('change',function(){
 		$('#info').html('').addClass('loading');
-		$.post(host+'home/modul/activity/info',{ 'bulan':$(this).val(),'tahun':$('#tahun').val() },function(r){
+		$.post(host+'home/modul/activity/info',{ 'bulan':$(this).val(),'tahun':$('#tahun_main').val() },function(r){
 			 //$('#'+isi_tab).html(isi_tab+' -> '+title);
 			$('#info').removeClass('loading').html(r);
 			//$('#'+isi_tab.toLowerCase()).html(r);
 		});
 	});
-	$('#tahun').off('change');
-	$('#tahun').on('change',function(){
-		$('#bulan').trigger('change');
+	$('#tahun_main').off('change');
+	$('#tahun_main').on('change',function(){
+		$('#bulan_main').trigger('change');
 	})
 </script>
 
