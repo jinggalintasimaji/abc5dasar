@@ -1342,10 +1342,8 @@ function genGridEditable(modnya, divnya, lebarnya, tingginya, crud_table, flagko
 			];
 			kolom[modnya] = [		
 				{field:'cost_driver_name',title:'Cost Driver', width:250, halign:'center',align:'left'},
-				{field:'cost_rate',title:'Cost Rate', width:150, halign:'center',align:'right',
-					editor:{type:'numberbox',options:{value:0,min:0,precision:0,groupSeparator:"."} },
+				{field:'cost_rate2',title:'Cost Rate', width:150, halign:'center',align:'right',
 					formatter:function(value,rowData,rowIndex){
-						//if(value)return NumberFormat(value);
 						if(value == null){
 							return '-';
 						}else if(value == 0){
@@ -1979,6 +1977,11 @@ function get_total_cost(url,divtotcost,divtotpercent,divtxtpercent){
 		$('#'+divtotcost).html(objnyaboi.total_cost);
 		$('#'+divtotpercent).val(objnyaboi.total_percent);
 		$('#'+divtxtpercent).html(objnyaboi.total_percent);
+		
+		
+		if(divtotcost == 'total_costdriver_costobject'){
+			$('#activity_cost').html(objnyaboi.total_cost);
+		}
 	});
 }
 
@@ -3902,6 +3905,12 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 								par['bulan']=$('#bulan').val();
 								par['tahun']=$('#tahun').val();
 								urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
+							break;
+							case "resource_employee":
+							case "resource_expense":
+							case "resource_assets":
+								main_report=isi_tab.toLowerCase();
+								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 							break;
 							default:
 								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
