@@ -260,7 +260,22 @@ class mhome extends CI_Model{
 						  count(A.tbl_emp_id)as head_count 
 						  FROM tbl_are A 
 						  LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id".$where." AND B.tbl_model_id=".$model;
+				//echo $sql_act;
 				$data_act=$this->db->query($sql_act)->row_array();
+				
+				$sql_seg="SELECT C.segment,sum(A.total_cost)as total_cost
+				FROM tbl_are A 
+				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id 
+				LEFT JOIN cl_segment C ON B.cl_segment_id=C.id
+				WHERE 1=1 AND A.tahun=2015 AND A.bulan=11 AND B.tbl_model_id=2
+				GROUP BY C.segment";
+				
+				$data_seg=$this->db->query($sql_seg)->result_array();
+				foreach($data_seg as $v){
+					$seg=str_replace(' ','_',$v['segment']);
+					$data[$seg]=$v['total_cost'];
+				}
+				
 				$sql_co="SELECT sum(A.revenue)as revenue,
 							SUM(A.reduction)as reduction,
 							SUM(A.net_revenue)as net_revenue,

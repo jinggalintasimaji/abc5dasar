@@ -59,23 +59,23 @@
 			</tr>
 			<tr>
 				<td align="left" style="padding-left:5px;">Operation</td>
-				<td align="right" style="padding-right:5px;">00.00</td>
+				<td align="right" style="padding-right:5px;">{$data.Operation|number_format:2:',':'.'|default:0}</td>
 			</tr>
 			<tr>
 				<td align="left" style="padding-left:5px;">Op. Support</td>
-				<td align="right" style="padding-right:5px;">00.00</td>
+				<td align="right" style="padding-right:5px;">{$data.Operation_Support|number_format:2:',':'.'|default:0}</td>
 			</tr>
 			<tr>
 				<td align="left" style="padding-left:5px;">Maintanance</td>
-				<td align="right" style="padding-right:5px;">00.00</td>
+				<td align="right" style="padding-right:5px;">{$data.Maintanance|number_format:2:',':'.'|default:0}</td>
 			</tr>
 			<tr>
 				<td align="left" style="padding-left:5px;">Office Sup.</td>
-				<td align="right" style="padding-right:5px;">00.00</td>
+				<td align="right" style="padding-right:5px;">{$data.Office_Support|number_format:2:',':'.'|default:0}</td>
 			</tr>
 			<tr>
 				<td align="left" style="padding-left:5px;">Other Cost</td>
-				<td align="right" style="padding-right:5px;">00.00</td>
+				<td align="right" style="padding-right:5px;">{$data.Other|number_format:2:',':'.'|default:0}</td>
 			</tr>
 		  </table>
 		  </div>
@@ -114,7 +114,7 @@
 					</tr>
 					<tr style="background:#DFEAF7;font-weight:bold;">
 						<td align="left" style="padding-left:5px;">Margin</td>
-						<td align="right" style="padding-right:5px;">{$data.co.margin|number_format:2:',':'.'|default:0}</td>
+						<td align="right" style="padding-right:5px;">{assign var=mar value=$data.co.net_revenue - $data.co.abc_cost}{$mar|number_format:2:',':'.'|default:0}</td>
 					</tr>
 					<tr>
 						<td></td>
