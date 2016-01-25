@@ -306,7 +306,9 @@ class homex extends MY_Controller {
 							$this->smarty->assign('data_date', $tahun);
 						break;
 						case "resource_employee":
-							$data = $this->mhomex->getreport('resource_employee');
+						case "resource_expense":
+						case "resource_assets":
+							$data = $this->mhomex->getreport($p2);
 							$this->smarty->assign('data', $data);
 						break;
 						//End Modul Report

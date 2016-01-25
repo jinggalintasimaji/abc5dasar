@@ -1,0 +1,103 @@
+<table width='100%' style='border:1px solid black;'>
+	<thead style='background-color:#DCE6F1;padding:10px;'>
+		<th align='center' width='20%' style='padding:10px;'>Expense Account</th>
+		<th align='center' width='60%' style='padding:10px;'>Expense Name</th>
+		<th align='center' width='20%' style='padding:10px;'>Total Cost</th>
+	</thead>
+	
+	<tbody>
+		{if isset($data.detail)}
+			{foreach from=$data.detail item=rows}
+				<tr style='background-color:#E8F0F9;'>
+					<td>{$rows.expense_id}</td>
+					<td><i>{$rows.expense_name}</i></td>
+					<td align='right'>{$rows.total_cost}</td>
+				</tr>
+				<tr style='background-color:#F9F9F9;'>
+					<td style='padding:10px;' colspan='3'>
+					{if $rows.assign_activity}
+						<b>Activity Assign</b>
+						<table width='100%'  style='border:1px solid black;'>
+							<thead style='background-color:#AFD1EA;'>
+								<th align='center' width='60%' >Activity Name</th>
+								<th align='center' width='20%' >Proportion</th>
+								<th align='center' width='20%' >Cost</th>
+							</thead>
+							<tbody>
+								{foreach from=$rows.assign_activity item=rowss}
+									<tr>
+										<td>{$rowss.activity_name}</td>
+										<td align='right'>{$rowss.percent}</td>
+										<td align='right'>{$rowss.cost}</td>
+									</tr>
+								{/foreach}
+								<tr style='background-color:#AFD1EA;font-weight:bold;'>
+									<td align='center'>Total</td>
+									<td align='right'></td>
+									<td align='right'></td>
+								</tr>
+							<tbody>
+						</table>
+						<br>
+					{/if}
+					{if $rows.assign_employee}
+						<b>Employee Assign</b>
+						<table width='100%'  style='border:1px solid black;'>
+							<thead style='background-color:#AFD1EA;'>
+								<th align='center' width='60%' >Employee Name</th>
+								<th align='center' width='20%' >Proportion</th>
+								<th align='center' width='20%' >Cost</th>
+							</thead>
+							<tbody>
+								{foreach from=$rows.assign_employee item=rowsss}
+									<tr>
+										<td>{$rowsss.employee_name}</td>
+										<td align='right'>{$rowsss.percent}</td>
+										<td align='right'>{$rowsss.cost}</td>
+									</tr>
+								{/foreach}
+								<tr style='background-color:#AFD1EA;font-weight:bold;'>
+									<td align='center'>Total</td>
+									<td align='right'></td>
+									<td align='right'></td>
+								</tr>
+							<tbody>
+						</table>
+						<br>
+					{/if}
+					{if $rows.assign_assets}
+						<b>Assets Assign</b>
+						<table width='100%'  style='border:1px solid black;'>
+							<thead style='background-color:#AFD1EA;'>
+								<th align='center' width='60%' >Employee Name</th>
+								<th align='center' width='20%' >Proportion</th>
+								<th align='center' width='20%' >Cost</th>
+							</thead>
+							<tbody>
+								{foreach from=$rows.assign_assets item=rowssss}
+									<tr>
+										<td>{$rowssss.assets_name}</td>
+										<td align='right'>{$rowssss.percent}</td>
+										<td align='right'>{$rowssss.cost}</td>
+									</tr>
+								{/foreach}
+								<tr style='background-color:#AFD1EA;font-weight:bold;'>
+									<td align='center'>Total</td>
+									<td align='right'></td>
+									<td align='right'></td>
+								</tr>
+							<tbody>
+						</table>
+						<br>
+					{/if}
+					</td>
+				</tr>
+			{/foreach}
+		{/if}
+		<tr style='background-color:#DCE6F1;font-weight:bold;'>
+			<td align='center' style='padding:10px;' colspan='2' >Grand Total</td>
+			<td align='right' style='padding:10px;'>{$data.grand_total.grand_total_exp}</td>
+		</tr>
+	</tbody>
+	
+</table>

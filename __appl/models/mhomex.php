@@ -1003,6 +1003,7 @@ class mhomex extends CI_Model{
 					SELECT * 
 					FROM tbl_emp
 					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+					AND tbl_model_id = '".$this->modeling['id']."'
 				";
 				$query1 = $this->db->query($sql1)->result_array();
 				//echo $sql1;
@@ -1038,14 +1039,127 @@ class mhomex extends CI_Model{
 					";
 					$query3 = $this->db->query($sql3)->result_array();
 					foreach($query3 as $x => $z){
-						$array['detail'][$k]['assign_expense'][$t]['expense_name'] = $z['descript'];
-						$array['detail'][$k]['assign_expense'][$t]['percent'] = $z['percent'];
-						$array['detail'][$k]['assign_expense'][$t]['cost'] = number_format($z['cost'],0,",",".");
+						$array['detail'][$k]['assign_expense'][$x]['expense_name'] = $z['descript'];
+						$array['detail'][$k]['assign_expense'][$x]['percent'] = $z['percent'];
+						$array['detail'][$k]['assign_expense'][$x]['cost'] = number_format($z['cost'],0,",",".");
 					}
 					
 					$grand_total_emp += $v['total'];
 				}
 				$array['grand_total']['grand_total_emp'] = number_format($grand_total_emp,0,",",".");
+			break;
+			case "resource_expense":
+				$sql1 = "
+					SELECT * 
+					FROM tbl_exp
+					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+					AND tbl_model_id = '".$this->modeling['id']."'
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				
+				$grand_total_exp  = 0;
+				foreach($query1 as $k => $v){
+					$array['detail'][$k]['id'] = $v['id'];
+					$array['detail'][$k]['expense_id'] 		= $v['account'];
+					$array['detail'][$k]['expense_name'] 	= $v['descript'];
+					$array['detail'][$k]['total_cost'] 		= number_format($v['amount'],0,",",".");
+					$array['detail'][$k]['assign_activity'] = array();
+					$array['detail'][$k]['assign_employee']  = array();
+					$array['detail'][$k]['assign_assets']  = array();
+					
+					$sql2 = "
+						SELECT B.descript, A.cost, A.percent
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+						WHERE tbl_exp_id = '".$v['id']."'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					foreach($query2 as $t => $y){
+						$array['detail'][$k]['assign_activity'][$t]['activity_name'] = $y['descript'];
+						$array['detail'][$k]['assign_activity'][$t]['percent'] = $y['percent'];
+						$array['detail'][$k]['assign_activity'][$t]['cost'] = number_format($y['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT B.last, A.cost, A.percent
+						FROM tbl_efx A
+						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id 
+						WHERE tbl_exp_id = '".$v['id']."'
+						AND tbl_emp_id IS NOT NULL AND tbl_emp_id <> '0'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $x => $z){
+						$array['detail'][$k]['assign_employee'][$x]['employee_name'] = $z['last'];
+						$array['detail'][$k]['assign_employee'][$x]['percent'] = $z['percent'];
+						$array['detail'][$k]['assign_employee'][$x]['cost'] = number_format($z['cost'],0,",",".");
+					}
+					
+					$sql4 = "
+						SELECT B.assets_name, A.cost, A.percent
+						FROM tbl_efx A
+						LEFT JOIN tbl_assets B ON B.id = A.tbl_assets_id 
+						WHERE tbl_exp_id = '".$v['id']."'
+						AND tbl_assets_id IS NOT NULL AND tbl_assets_id <> '0'
+					";
+					$query4 = $this->db->query($sql4)->result_array();
+					foreach($query4 as $j => $b){
+						$array['detail'][$k]['assign_assets'][$j]['assets_name'] 	= $b['assets_name'];
+						$array['detail'][$k]['assign_assets'][$j]['percent'] 		= $b['percent'];
+						$array['detail'][$k]['assign_assets'][$j]['cost'] 			= number_format($b['cost'],0,",",".");
+					}
+					
+					$grand_total_exp += $v['amount'];
+				}
+				
+				$array['grand_total']['grand_total_exp'] = number_format($grand_total_exp,0,",",".");
+			break;
+			case "resource_assets":
+				$sql1 = "
+					SELECT * 
+					FROM tbl_assets
+					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+					AND tbl_model_id = '".$this->modeling['id']."'
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				
+				$grand_total_assets  = 0;
+				foreach($query1 as $k => $v){
+					$array['detail'][$k]['id'] = $v['id'];
+					$array['detail'][$k]['assets_id'] 		= $v['assets_id'];
+					$array['detail'][$k]['assets_name'] 	= $v['assets_name'];
+					$array['detail'][$k]['total_cost'] 		= number_format($v['amount'],0,",",".");
+					$array['detail'][$k]['assign_activity'] = array();
+					$array['detail'][$k]['assign_expense']  = array();
+					
+					$sql2 = "
+						SELECT B.descript, A.cost, A.percent
+						FROM tbl_are A
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+						WHERE tbl_assets_id = '".$v['id']."'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					foreach($query2 as $t => $y){
+						$array['detail'][$k]['assign_activity'][$t]['activity_name'] = $y['descript'];
+						$array['detail'][$k]['assign_activity'][$t]['percent'] = $y['percent'];
+						$array['detail'][$k]['assign_activity'][$t]['cost'] = number_format($y['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT B.descript, A.cost, A.percent
+						FROM tbl_efx A
+						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
+						WHERE tbl_exp_id = '".$v['id']."'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $x => $z){
+						$array['detail'][$k]['assign_expense'][$x]['expense_name'] = $z['descript'];
+						$array['detail'][$k]['assign_expense'][$x]['percent'] = $z['percent'];
+						$array['detail'][$k]['assign_expense'][$x]['cost'] = number_format($z['cost'],0,",",".");
+					}
+					
+					$grand_total_assets += $v['amount'];
+				}
+				$array['grand_total']['grand_total_assets'] = number_format($grand_total_assets,0,",",".");
 			break;
 		}
 		
