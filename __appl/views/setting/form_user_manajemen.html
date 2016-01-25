@@ -1,0 +1,117 @@
+<form method='post' url="{$host}homex/simpansavedata/tbl_user" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+	
+	{if $editstatus eq 'add'}
+		{assign var=stsdisabled value=''}
+	{elseif $editstatus eq 'edit'}
+		{assign var=stsdisabled value='disabled'}
+	{/if}
+
+	<div style="width:100%;margin-right:5px;">
+		<fieldset>
+			<legend>Data User</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Nama Lengkap</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.nama_lengkap|default:''}" name='nama_lengkap' id='nama_lengkap' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%' valign='top'>Username</td>
+					<td width='1%' valign='top'>:</td>
+					<td width='65%'>
+						<input type='text' {$stsdisabled} value="{$data.nama_user|default:''}" name='nama_user' id='nama_user' class="easyui-validatebox" style='padding:2px; width:200px;'>
+						{* &nbsp;&nbsp; *}
+						<br/>
+						<span id='chkresult'></span>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Password</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='password' value="{$data.password|default:''}" name='password' id='password' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>User Group</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<select name='cl_user_group_id' id='cl_user_group_id' class="easyui-validatebox" style='padding:2px; width:150px;'>
+							{$cl_user_group_id}
+						</select>
+					</td>
+				</tr>				
+				<tr>
+					<td width='30%'>Email</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.email|default:''}" name='email' id='email' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Jenis Kelamin</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<select name='jenis_kelamin' id='jenis_kelamin' class="easyui-validatebox" style='padding:2px; width:100px;'>
+							{$jenis_kelamin}
+						</select>
+					</td>
+				</tr>				
+				<tr>
+					<td width='30%'>No Telp.</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.tlp|default:''}" name='tlp' id='tlp' class="easyui-validatebox" style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Status</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<select name='status' id='status' class="easyui-validatebox" style='padding:2px; width:100px;'>
+							{$status}
+						</select>
+					</td>
+				</tr>				
+			</table>
+		</fieldset>
+	</div>
+
+</form>
+
+<script>
+	$('#nama_user').on('change', function(){
+		$.post(host+'homex/modul/check_username', { 'username':$(this).val() }, function(resp){
+			if(resp == 1){
+				result = '<font color="green">User Available</font>';
+			}else{
+				result = '<font color="red">User Exist</font>';
+				$('#nama_user').val('');
+			}
+			
+			$('#chkresult').html(result);
+		});
+	});
+	
+	$(".easyui-validatebox").validatebox({ required:true }); 	
+	$('#btnSimpan').on('click',function(){
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			windowFormClosePanel();
+			$('#grid_701').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+	});
+	
+</script>
