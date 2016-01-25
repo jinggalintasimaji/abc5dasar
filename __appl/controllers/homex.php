@@ -311,6 +311,16 @@ class homex extends MY_Controller {
 							$data = $this->mhomex->getreport($p2);
 							$this->smarty->assign('data', $data);
 						break;
+						case "cost_object":
+							$tahun = $this->mhome->getdata('get_bulan_tahun');
+							$this->smarty->assign('data_date', $tahun);
+						break;
+						case "costobject_cost":
+						case "costobject_customer":
+						case "costobject_location":
+							$data = $this->mhomex->getreport($p2);
+							$this->smarty->assign('data', $data);
+						break;
 						//End Modul Report
 					}
 					

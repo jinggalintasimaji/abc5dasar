@@ -1,0 +1,23 @@
+<div id="panel_{$main}" style="padding:5px;">
+	<div style="width:100%;">
+		<center>
+		{include file="template/date_year.html" buton='ya' }
+		</center>
+	</div>
+	<div id="tab_{$main}"></div>
+</div>
+
+<script>
+	var tab_array=["CostObject Cost","CostObject Customer","CostObject Location"];
+	genTab('#tab_{$main}','{$mod}','{$main}',tab_array,'#panel_{$main}','Cost Object','',getClientHeight()-180,getClientHeight()-271,getClientWidth()-290,getClientWidth()-302);
+	$('.go_report').bind('click',function(){
+		console.log(main_report);
+		var post={};
+		post['bulan']=$('#bulan_{$main}').val();
+		post['tahun']=$('#tahun_{$main}').val();
+		$('#'+main_report).addClass('loading').html('');
+		$.post(host+'homex/modul/report/'+main_report,post,function(r){
+			$('#'+main_report).removeClass('loading').html(r);
+		});
+	});
+</script>

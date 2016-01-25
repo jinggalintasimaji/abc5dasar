@@ -1,0 +1,77 @@
+<table width='100%' style='border:1px solid black;'>
+	<thead style='background-color:#DCE6F1;padding:10px;'>
+		<th align='center' width='20%' style='padding:10px;'>Customer ID</th>
+		<th align='center' width='50%' style='padding:10px;'>Customer Name</th>
+	</thead>
+	<tbody>
+		{if isset($data.detail)}
+			{foreach from=$data.detail item=rows}
+				<tr style='background-color:#E8F0F9;'>
+					<td>{$rows.cust_id}</td>
+					<td><i>{$rows.cust_name}</i></td>
+				</tr>
+				<tr style='background-color:#F9F9F9;'>
+					<td style='padding:10px;' colspan='5'>		
+					{if $rows.assign_costobject}
+						<b>Cost Object Assign</b>
+						<table width='100%'  style='border:1px solid black;'>
+							<thead style='background-color:#AFD1EA;'>
+								<th align='center' width='40%' >Cost Object</th>
+								<th align='center' width='20%' >Quantity</th>
+								<th align='center' width='20%' >Sell Price</th>
+								<th align='center' width='20%' >Cost</th>
+							</thead>
+							<tbody>
+								{foreach from=$rows.assign_costobject item=rowsss}
+									<tr>
+										<td>{$rowsss.cost_object_name}</td>
+										<td align='right'>{$rowsss.quantity}</td>
+										<td align='right'>{$rowsss.sell_price}</td>
+										<td align='right'>{$rowsss.cost}</td>
+									</tr>
+								{/foreach}
+								<tr style='background-color:#AFD1EA;font-weight:bold;'>
+									<td align='center'>Total</td>
+									<td align='right'></td>
+									<td align='right'></td>
+									<td align='right'></td>
+								</tr>
+							<tbody>
+						</table>
+						<br>
+					{/if}
+					{if $rows.assign_location}
+						<b>Location Assign</b>
+						<table width='100%'  style='border:1px solid black;'>
+							<thead style='background-color:#AFD1EA;'>
+								<th align='center' width='40%' >Location</th>
+								<th align='center' width='20%' >Quantity</th>
+								<th align='center' width='20%' >Sell Price</th>
+								<th align='center' width='20%' >Cost</th>
+							</thead>
+							<tbody>
+								{foreach from=$rows.assign_location item=rowsss}
+									<tr>
+										<td>{$rowsss.location_name}</td>
+										<td align='right'>{$rowsss.quantity}</td>
+										<td align='right'>{$rowsss.sell_price}</td>
+										<td align='right'>{$rowsss.cost}</td>
+									</tr>
+								{/foreach}
+								<tr style='background-color:#AFD1EA;font-weight:bold;'>
+									<td align='center'>Total</td>
+									<td align='right'></td>
+									<td align='right'></td>
+									<td align='right'></td>
+								</tr>
+							<tbody>
+						</table>
+						<br>
+					{/if}
+					</td>
+				</tr>
+			{/foreach}
+		{/if}
+	</tbody>
+	
+</table>

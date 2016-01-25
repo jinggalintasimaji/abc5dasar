@@ -1161,6 +1161,178 @@ class mhomex extends CI_Model{
 				}
 				$array['grand_total']['grand_total_assets'] = number_format($grand_total_assets,0,",",".");
 			break;
+			case "costobject_cost":
+				$sql1 = "
+					SELECT * 
+					FROM tbl_prm
+					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+					AND tbl_model_id = '".$this->modeling['id']."'
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				
+				$grand_total_net_revenue  = 0;
+				$grand_total_revenue  = 0;
+				$grand_total_profitable  = 0;
+				foreach($query1 as $k => $v){
+					$array['detail'][$k]['id'] = $v['id'];
+					$array['detail'][$k]['prod_id'] 		= $v['prod_id'];
+					$array['detail'][$k]['prod_name'] 		= $v['descript'];
+					$array['detail'][$k]['net_revenue'] 	= number_format($v['net_revenue'],0,",",".");
+					$array['detail'][$k]['revenue'] 		= number_format($v['revenue'],0,",",".");
+					$array['detail'][$k]['profitable'] 		= number_format($v['profitable'],0,",",".");
+					$array['detail'][$k]['assign_activity'] = array();
+					$array['detail'][$k]['assign_customer'] = array();
+					$array['detail'][$k]['assign_location'] = array();
+					
+					$sql2 = "
+						SELECT A.*, B.descript as acm_desc, C.descript as cdm_desc,
+							(B.quantity * B.capacity) as costrate2
+						FROM tbl_prd A
+						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+						LEFT JOIN tbl_cdm C ON C.id = A.tbl_cdm_id
+						WHERE tbl_prm_id = '".$v['id']."'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					foreach($query2 as $t => $y){
+						$array['detail'][$k]['assign_activity'][$t]['activity_name'] 	= $y['acm_desc'];
+						$array['detail'][$k]['assign_activity'][$t]['cost_driver'] 		= $y['cdm_desc'];
+						$array['detail'][$k]['assign_activity'][$t]['cost_rate'] 		= number_format($y['costrate2'],0,",",".");
+						$array['detail'][$k]['assign_activity'][$t]['quantity'] 		= number_format($y['quantity'],0,",",".");
+						$array['detail'][$k]['assign_activity'][$t]['total_cost'] 		= number_format($y['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT A.*, B.customer_name
+						FROM tbl_ptp A
+						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id
+						WHERE A.tbl_prm_id = '".$v['id']."'
+						AND A.tbl_cust_id IS NOT NULL AND A.tbl_cust_id <> '0'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $x => $z){
+						$array['detail'][$k]['assign_customer'][$x]['customer_name'] = $z['customer_name'];
+						$array['detail'][$k]['assign_customer'][$x]['quantity'] = $z['quantity'];
+						$array['detail'][$k]['assign_customer'][$x]['sell_price'] = number_format($z['sell_price'],0,",",".");
+						$array['detail'][$k]['assign_customer'][$x]['cost'] = number_format($z['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT A.*, B.location_name
+						FROM tbl_ptp A
+						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id
+						WHERE A.tbl_prm_id = '".$v['id']."'
+						AND A.tbl_location_id IS NOT NULL AND A.tbl_location_id <> '0'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $o => $n){
+						$array['detail'][$k]['assign_location'][$o]['location_name'] = $n['location_name'];
+						$array['detail'][$k]['assign_location'][$o]['quantity'] = $n['quantity'];
+						$array['detail'][$k]['assign_location'][$o]['sell_price'] = number_format($n['sell_price'],0,",",".");
+						$array['detail'][$k]['assign_location'][$o]['cost'] = number_format($n['cost'],0,",",".");
+					}
+					
+					$grand_total_net_revenue += $v['net_revenue'];
+					$grand_total_revenue += $v['revenue'];
+					$grand_total_profitable += $v['profitable'];
+				}
+				
+				$array['grand_total']['grand_total_net_revenue'] = number_format($grand_total_net_revenue,0,",",".");
+				$array['grand_total']['grand_total_revenue'] = number_format($grand_total_revenue,0,",",".");
+				$array['grand_total']['grand_total_profitable'] = number_format($grand_total_profitable,0,",",".");
+			break;
+			case "costobject_customer":
+				$sql1 = "
+					SELECT * 
+					FROM tbl_cust
+					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+					AND tbl_model_id = '".$this->modeling['id']."'
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				foreach($query1 as $k => $v){
+					$array['detail'][$k]['id'] = $v['id'];
+					$array['detail'][$k]['cust_id'] 		= $v['customer_id'];
+					$array['detail'][$k]['cust_name'] 		= $v['customer_name'];
+					$array['detail'][$k]['assign_costobject'] = array();
+					$array['detail'][$k]['assign_location'] = array();
+					
+					$sql2 = "
+						SELECT A.*, B.descript
+						FROM tbl_ptp A 
+						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id
+						WHERE tbl_cust_id = '".$v['id']."'
+						AND A.tbl_prm_id IS NOT NULL AND A.tbl_prm_id <> '0'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					foreach($query2 as $t => $y){
+						$array['detail'][$k]['assign_costobject'][$t]['cost_object_name'] 	= $y['descript'];
+						$array['detail'][$k]['assign_costobject'][$t]['quantity'] 			= number_format($y['quantity'],0,",",".");
+						$array['detail'][$k]['assign_costobject'][$t]['sell_price'] 		= number_format($y['sell_price'],0,",",".");
+						$array['detail'][$k]['assign_costobject'][$t]['cost'] 				= number_format($y['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT A.*, B.location_name
+						FROM tbl_ptp A 
+						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id
+						WHERE tbl_cust_id = '".$v['id']."'
+						AND A.tbl_location_id IS NOT NULL AND A.tbl_location_id <> '0'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $x => $z){
+						$array['detail'][$k]['assign_location'][$x]['location_name'] 	= $z['location_name'];
+						$array['detail'][$k]['assign_location'][$x]['quantity'] 		= number_format($z['quantity'],0,",",".");
+						$array['detail'][$k]['assign_location'][$x]['sell_price'] 		= number_format($z['sell_price'],0,",",".");
+						$array['detail'][$k]['assign_location'][$x]['cost'] 			= number_format($z['cost'],0,",",".");
+					}
+				}
+			break;
+			case "costobject_location":
+				$sql1 = "
+					SELECT * 
+					FROM tbl_location
+					WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'
+					AND tbl_model_id = '".$this->modeling['id']."'
+				";
+				$query1 = $this->db->query($sql1)->result_array();
+				foreach($query1 as $k => $v){
+					$array['detail'][$k]['id'] = $v['id'];
+					$array['detail'][$k]['location_id'] 		= $v['location_id'];
+					$array['detail'][$k]['location_name'] 		= $v['location_name'];
+					$array['detail'][$k]['assign_costobject'] = array();
+					$array['detail'][$k]['assign_customer'] = array();
+					
+					$sql2 = "
+						SELECT A.*, B.descript
+						FROM tbl_ptp A 
+						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id
+						WHERE tbl_location_id = '".$v['id']."'
+						AND A.tbl_prm_id IS NOT NULL AND A.tbl_prm_id <> '0'
+					";
+					$query2 = $this->db->query($sql2)->result_array();
+					foreach($query2 as $t => $y){
+						$array['detail'][$k]['assign_costobject'][$t]['cost_object_name'] 	= $y['descript'];
+						$array['detail'][$k]['assign_costobject'][$t]['quantity'] 			= number_format($y['quantity'],0,",",".");
+						$array['detail'][$k]['assign_costobject'][$t]['sell_price'] 		= number_format($y['sell_price'],0,",",".");
+						$array['detail'][$k]['assign_costobject'][$t]['cost'] 				= number_format($y['cost'],0,",",".");
+					}
+					
+					$sql3 = "
+						SELECT A.*, B.customer_name
+						FROM tbl_ptp A 
+						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id
+						WHERE tbl_location_id = '".$v['id']."'
+						AND A.tbl_cust_id IS NOT NULL AND A.tbl_cust_id <> '0'
+					";
+					$query3 = $this->db->query($sql3)->result_array();
+					foreach($query3 as $x => $z){
+						$array['detail'][$k]['assign_location'][$x]['customer_name'] 	= $z['customer_name'];
+						$array['detail'][$k]['assign_location'][$x]['quantity'] 		= number_format($z['quantity'],0,",",".");
+						$array['detail'][$k]['assign_location'][$x]['sell_price'] 		= number_format($z['sell_price'],0,",",".");
+						$array['detail'][$k]['assign_location'][$x]['cost'] 			= number_format($z['cost'],0,",",".");
+					}
+					
+				}
+			break;
 		}
 		
 		/*
