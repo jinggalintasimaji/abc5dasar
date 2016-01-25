@@ -3284,8 +3284,9 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			var table="tbl_model";
 			urlpost = host+'home/modul/'+modulnya+'/'+submodulnya;
 		break;
+		
 		//Setting
-		case "701":
+		case "user_manajemen":
 			var lebar = getClientWidth()-800;
 			var tinggi = getClientHeight()-270;
 			var judulwindow = 'Form User Management';
@@ -3293,7 +3294,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
 			urldelete = host+'homex/simpansavedata/'+tabel;
 		break;
-		case "702":
+		case "user_group":
 			var lebar = getClientWidth()-800;
 			var tinggi = getClientHeight()-400;
 			var judulwindow = 'Form User Group';

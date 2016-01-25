@@ -833,6 +833,7 @@ class mhomex extends CI_Model{
 				$sql = "
 					SELECT max(bulan) as bln, max(tahun) as thn
 					FROM ".$p1."
+					WHERE tahun = '".date('Y')."'
 				";
 			break;
 			
@@ -1796,32 +1797,44 @@ class mhomex extends CI_Model{
 									"prod_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
 									"level"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
 									"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"udn_prm_1"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-									"udn_prm_2"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"udn_prm_3"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-									"udn_prm_4"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-									"udn_prm_5"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
-									"udn_prm_6"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-									"udf_prm_1"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-									"udf_prm_2"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-									"udf_prm_3"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-									"udf_prm_4"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-									"udf_prm_5"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
-									"udf_prm_6"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
-									"udf_prm_7"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
-									"udf_prm_8"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
-									"qtyproduce"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
-									"unit_cost"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
-									"abc_cost"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
-									"ovh_cost"=>$worksheet->getCell("U".$i)->getCalculatedValue(),
-									"revenue"=>$worksheet->getCell("V".$i)->getCalculatedValue(),
-									"profitable"=>$worksheet->getCell("W".$i)->getCalculatedValue(),
-									"abc_lower"=>$worksheet->getCell("X".$i)->getCalculatedValue(),
-									"ovh_lower"=>$worksheet->getCell("Y".$i)->getCalculatedValue(),
-									"abc_cost_r"=>$worksheet->getCell("Z".$i)->getCalculatedValue(),
-									"ovh_cost_r"=>$worksheet->getCell("AA".$i)->getCalculatedValue(),
-									"bulan"=>$worksheet->getCell("AB".$i)->getCalculatedValue(),
-									"tahun"=>$worksheet->getCell("AC".$i)->getCalculatedValue(),
+									"reduction"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+									"net_revenue"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+									"direct_cost"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+									"profit_lost"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+									"qtyproduce"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+									"uom"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+									"cost_rate"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+									"target_qty"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+									"abc_cost"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+									"revenue"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+									"profitable"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
+									"bulan"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+									"tahun"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
+									"rlu_date"=>date('d-m-Y')
+								);
+								array_push($array_batch_insert, $array_insert);	
+							}	
+						break;
+						case "tbl_cust":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$array_insert = array(
+									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+									"customer_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+									"customer_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+									"bulan"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									"tahun"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+								);
+								array_push($array_batch_insert, $array_insert);	
+							}	
+						break;
+						case "tbl_location":
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								$array_insert = array(
+									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+									"location_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+									"location_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+									"bulan"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+									"tahun"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
 								);
 								array_push($array_batch_insert, $array_insert);	
 							}	

@@ -322,6 +322,58 @@ class homex extends MY_Controller {
 							$this->smarty->assign('data', $data);
 						break;
 						//End Modul Report
+						
+						//Modul Setting
+						case "form_user_manajemen":
+							$this->smarty->assign('cl_user_group_id' ,$this->lib->fillcombo('cl_user_group', 'return', ($editstatus == 'edit' ? $data['cl_user_group_id'] : "" ) ));
+							$this->smarty->assign('jenis_kelamin' ,$this->lib->fillcombo('jenis_kelamin', 'return', ($editstatus == 'edit' ? $data['jenis_kelamin'] : "" ) ));
+							$this->smarty->assign('status' ,$this->lib->fillcombo('status', 'return', ($editstatus == 'edit' ? $data['status'] : "" ) ));							
+						break;
+						case "form_user_group":
+							$this->smarty->assign('status' ,$this->lib->fillcombo('status', 'return', ($editstatus == 'edit' ? $data['status'] : "" ) ));							
+						break;
+						case "form_user_role":
+							$id_role = $this->input->post('id');
+							$array = array();
+							$dataParent = $this->mhomex->getdata('menu_parent', 'result_array');
+							foreach($dataParent as $k=>$v){
+								$dataChild = $this->mhomex->getdata('menu_child', 'result_array', $v['id']);
+								$dataPrev = $this->mhomex->getdata('previliges_menu', 'row_array', $v['id'], $id_role);
+								
+								$array[$k]['id'] = $v['id'];
+								$array[$k]['nama_menu'] = $v['nama_menu'];
+								$array[$k]['id_prev'] = (isset($dataPrev['id']) ? $dataPrev['id'] : 0) ;
+								$array[$k]['buat'] = (isset($dataPrev['buat']) ? $dataPrev['buat'] : 0) ;
+								$array[$k]['baca'] = (isset($dataPrev['baca']) ? $dataPrev['baca'] : 0);
+								$array[$k]['ubah'] = (isset($dataPrev['ubah']) ? $dataPrev['ubah'] : 0);
+								$array[$k]['hapus'] = (isset($dataPrev['hapus']) ? $dataPrev['hapus'] : 0);
+								$array[$k]['child_menu'] = array();
+								$jml = 0;
+								foreach($dataChild as $y => $t){
+									$dataPrevChild = $this->mhomex->getdata('previliges_menu', 'row_array', $t['id'], $id_role);
+									$array[$k]['child_menu'][$y]['id_child'] = $t['id'];
+									$array[$k]['child_menu'][$y]['nama_menu_child'] = $t['nama_menu'];
+									$array[$k]['child_menu'][$y]['id_prev'] = (isset($dataPrevChild['id']) ? $dataPrevChild['id'] : 0) ;
+									$array[$k]['child_menu'][$y]['buat'] = (isset($dataPrevChild['buat']) ? $dataPrevChild['buat'] : 0) ;
+									$array[$k]['child_menu'][$y]['baca'] = (isset($dataPrevChild['baca']) ? $dataPrevChild['baca'] : 0) ;
+									$array[$k]['child_menu'][$y]['ubah'] = (isset($dataPrevChild['ubah']) ? $dataPrevChild['ubah'] : 0) ;
+									$array[$k]['child_menu'][$y]['hapus'] = (isset($dataPrevChild['hapus']) ? $dataPrevChild['hapus'] : 0) ;
+									$jml++;
+								}
+								$array[$k]['total_child'] = $jml;
+							}
+							
+							/*
+							echo "<pre>";
+							print_r($array);
+							exit;
+							//*/
+							
+							$this->smarty->assign('role', $array);
+							$this->smarty->assign('id_group', $id_role);
+						break;						
+						//End Modul Setting
+						
 					}
 					
 					$this->smarty->assign('mod',$mod);
@@ -392,7 +444,7 @@ class homex extends MY_Controller {
 	
 	function download($type=""){
 		$this->load->helper('download');
-		$data = file_get_contents("__repository/template_import/".$type.".xls");
+		$data = file_get_contents("__repository/template_import/".$type.".xlsx");
 		switch($type){
 			case "tbl_emp":
 			case "tbl_exp":
@@ -405,7 +457,8 @@ class homex extends MY_Controller {
 				
 				$i = 1;
 				foreach($dataloc as $k=>$v){
-					$dataexcell->setCellValue('A'.$i, $v['costcenter'])  ;
+					$dataexcell->setCellValue('A'.$i, $v['costcenter']);
+					$dataexcell->setCellValue('B'.$i, $v['loc_name']);
 					$i++;
 				}
 				
@@ -433,7 +486,7 @@ class homex extends MY_Controller {
 				exit;
 			break;
 			default:
-				$name = $type.".xls";
+				$name = $type.".xlsx";
 			break;
 		}
 		force_download($name, $data);

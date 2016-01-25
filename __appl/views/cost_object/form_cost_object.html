@@ -29,7 +29,7 @@
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' class='duit' name='reduction' value={$data.reduction|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' class='duit' name='net_revenue' value={$data.net_revenue|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' class='duit' name='direct_cost' value={$data.direct_cost|default:''} }
-							<label style='width:150px'>Activity Cost</label> : Rp. <span id='activity_cost'>{$total_cost_driver}</span> <br/>
+							<label style='width:150px'>Activity Cost</label> : Rp. <span id='activity_cost'>{$total_cost_driver|default:'0'}</span> <br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' class='duit' name='abc_cost' value={$data.abc_cost|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' class='duit' name='profit_lost' value={$data.profit_lost|default:''} }
 						</td>

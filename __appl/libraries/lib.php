@@ -195,9 +195,9 @@ class lib {
 			break;
 			case "import_cost_object":
 				$data = array(
-					'0' => array('id'=>'tbl_emp','txt'=>'Data Cost Object'),
-					'1' => array('id'=>'tbl_exp','txt'=>'Data Customer'),
-					'2' => array('id'=>'tbl_assets','txt'=>'Data Location'),
+					'0' => array('id'=>'tbl_prm','txt'=>'Data Cost Object'),
+					'1' => array('id'=>'tbl_cust','txt'=>'Data Customer'),
+					'2' => array('id'=>'tbl_location','txt'=>'Data Location'),
 				);
 			break;
 			case "jenis_kelamin":
