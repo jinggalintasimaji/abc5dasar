@@ -3912,6 +3912,12 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 								main_report=isi_tab.toLowerCase();
 								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 							break;
+							case "costobject_cost":
+							case "costobject_customer":
+							case "costobject_location":
+								main_report=isi_tab.toLowerCase();
+								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
+							break;
 							default:
 								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 							break;
