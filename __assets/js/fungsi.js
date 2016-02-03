@@ -2659,6 +2659,29 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},				
 			]
 		break;
+		case "cost_driver":
+			judulnya = "Cost Driver";
+			urlnya = "tbl_cdms";
+			fitnya = true;
+			urlglobal = host+'homex/getdata/'+urlnya;
+			param['month'] = $('#bulan_cost_driver').val();
+			param['year'] = $('#tahun_cost_driver').val();
+			kolom[modnya] = [	
+				{field:'cost_driver',title:'Cost Driver',width:200, halign:'center',align:'left'},
+				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
+				{field:'roundit',title:'Roundit',width:100, halign:'center',align:'right'},
+				{field:'sudn_cd',title:'SUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_cd',title:'MUDN Cost Driver',width:150, halign:'center',align:'right'},				
+				{field:'mudn_uom',title:'MUDN UOM',width:100, halign:'center',align:'right'},				
+				{field:'sweight',title:'Sweight',width:100, halign:'center',align:'right'},				
+				{field:'mweight',title:'Mweight',width:100, halign:'center',align:'right'},				
+				{field:'budgettype',title:'Budget Type',width:100, halign:'center',align:'right'},				
+				{field:'constant',title:'Constant',width:100, halign:'center',align:'right'},				
+				{field:'coefficient',title:'Coefficient',width:100, halign:'center',align:'right'},		
+				{field:'bulan',title:'Month',width:100, halign:'center',align:'right'},
+				{field:'tahun',title:'Years',width:100, halign:'center',align:'right'},	
+			]
+		break;		
 		//End Parameter
 		
 		//Data Reference --
@@ -3923,6 +3946,9 @@ function genTab(div,mod,sub_mod,tab_array,div_panel,judul_panel,mod_num, height_
 								urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 							break;
 						}
+					break;
+					case "parameter":
+						urlnya = host+'homex/modul/'+mod+'/'+isi_tab.toLowerCase();
 					break;
 					//default:urlnya = host+'home/modul/'+mod+'/'+isi_tab.toLowerCase();
 				}
