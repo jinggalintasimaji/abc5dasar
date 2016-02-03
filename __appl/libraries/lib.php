@@ -200,6 +200,13 @@ class lib {
 					'2' => array('id'=>'tbl_location','txt'=>'Data Location'),
 				);
 			break;
+			case "import_parameter":
+				$data = array(
+					'0' => array('id'=>'tbl_loc','txt'=>'Data Cost Center'),
+					'1' => array('id'=>'tbl_rdm','txt'=>'Data Resource Driver'),
+					'2' => array('id'=>'tbl_cdm','txt'=>'Data Cost Driver'),
+				);
+			break;
 			case "jenis_kelamin":
 				$data = array(
 					'0' => array('id'=>'L','txt'=>'Laki-Laki'),

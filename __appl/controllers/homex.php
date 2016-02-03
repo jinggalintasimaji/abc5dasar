@@ -325,11 +325,24 @@ class homex extends MY_Controller {
 						
 						//Modul Setting
 						case "form_user_manajemen":
+							if($editstatus == 'edit'){
+								$this->load->library('encrypt');
+								$id = $this->input->post('id');
+								$data = $this->db->get_where('tbl_user', array('id'=>$id) )->row_array();
+								$data['password'] = $this->encrypt->decode($data['password']);
+								$this->smarty->assign('data' ,$data);
+							}
+							
 							$this->smarty->assign('cl_user_group_id' ,$this->lib->fillcombo('cl_user_group', 'return', ($editstatus == 'edit' ? $data['cl_user_group_id'] : "" ) ));
 							$this->smarty->assign('jenis_kelamin' ,$this->lib->fillcombo('jenis_kelamin', 'return', ($editstatus == 'edit' ? $data['jenis_kelamin'] : "" ) ));
 							$this->smarty->assign('status' ,$this->lib->fillcombo('status', 'return', ($editstatus == 'edit' ? $data['status'] : "" ) ));							
 						break;
 						case "form_user_group":
+							if($editstatus == 'edit'){
+								$id = $this->input->post('id');
+								$data = $this->db->get_where('cl_user_group', array('id'=>$id) )->row_array();
+								$this->smarty->assign('data' ,$data);
+							}							
 							$this->smarty->assign('status' ,$this->lib->fillcombo('status', 'return', ($editstatus == 'edit' ? $data['status'] : "" ) ));							
 						break;
 						case "form_user_role":
@@ -373,6 +386,25 @@ class homex extends MY_Controller {
 							$this->smarty->assign('id_group', $id_role);
 						break;						
 						//End Modul Setting
+						
+						//Modul Parameter
+						case "cost_center":
+						case "resource_driver":
+						case "cost_driver":
+							if($p2 == 'cost_center'){
+								$tbl = 'tbl_loc';
+							}elseif($p2 == 'resource_driver'){
+								$tbl = 'tbl_rdm';
+							}elseif($p2 == 'cost_driver'){
+								$tbl = 'tbl_cdm';
+							}
+							$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
+
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
+
+						break;
+						//End Modul Parameter
 						
 					}
 					

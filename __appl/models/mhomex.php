@@ -97,13 +97,11 @@ class mhomex extends CI_Model{
 				";
 			break;
 			case "tbl_rdm":
-				/*
 					if($this->modeling){
 						$where .= " AND A.tbl_model_id = '".$this->modeling['id']."' ";
 					}else{
 						$where .= " AND A.tbl_model_id = '0' ";
 					}
-					
 					
 					$bulan = $this->input->post('bulan');
 					$tahun = $this->input->post('tahun');
@@ -111,7 +109,7 @@ class mhomex extends CI_Model{
 					if($bulan && $tahun){
 						$where .= " AND A.bulan = '".$bulan."' AND A.tahun = '".$tahun."' ";
 					}
-				*/
+				//*/
 				$sql = "
 					SELECT A.*
 					FROM tbl_rdm A
@@ -833,7 +831,7 @@ class mhomex extends CI_Model{
 				$sql = "
 					SELECT max(bulan) as bln, max(tahun) as thn
 					FROM ".$p1."
-					WHERE tahun = '".date('Y')."'
+					WHERE tbl_model_id = '".$this->modeling['id']."'
 				";
 			break;
 			
@@ -1496,298 +1494,522 @@ class mhomex extends CI_Model{
 					$array_batch_update = array();
 					
 					switch($type_import){
-						case "tbl_loc":
-							$fieldnya = 'costcenter';
-							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$cek_data = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
-																
-								if(empty($cek_data)){
-									$array_insert = array(
-										"location"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-										"costcenter"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-										"loc_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-										"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
-										"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
-									);
-									array_push($array_batch_insert, $array_insert);
-								}else{
-									$array_update = array(
-										"location"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-										"costcenter"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-										"loc_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-										"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
-										"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
-
-									);
-									array_push($array_batch_update, $array_update);
-								}
-							}
-							if($array_batch_update){
-								$this->db->update_batch($type_import, $array_batch_update, $fieldnya);
-							}			
-						break;
 						case "tbl_emp":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$arraynya = array(
-									'employee_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
-									'tbl_model_id'=>$this->modeling['id'], 
-									'bulan'=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
-									"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
-								);
-								$cek_data = $this->db->get_where('tbl_emp', $arraynya )->row_array();
-								$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
+								if($worksheet->getCell("B".$i)->getCalculatedValue() != "" || $worksheet->getCell("B".$i)->getCalculatedValue() != null){
 								
-								$arrayrdm = array(
-									'employee_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
-									'tbl_model_id'=>$this->modeling['id'], 
-									'bulan'=>((int)$worksheet->getCell("U".$i)->getCalculatedValue() - 1),
-									"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
-								);
-								$rdm = $this->db->get_where('tbl_emp', $arrayrdm )->row_array();
-								if(isset($rdm)){
-									if(!empty($rdm['tbl_rdm_id']) ){
-										$rdm_value = $rdm['tbl_rdm_id'];
-									}else{
-										$rdm_value = null;
-									}
-								}else{
-									$rdm_value = null;
-								}
-								
-								if(empty($cek_data)){
-									$array_insert = array(
-										"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
-										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-										"employee_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-										"ssn"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-										"first"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-										"last"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-										"mi"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-										"wages"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-										"ot_premium"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
-										"benefits"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-										"total"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-										"class"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-										"position"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-										"budget_1"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-										"budget_2"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue() ),
-										"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
-										"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
-										"tbl_rdm_id"=>$rdm_value,
-										"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
-										"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
-										"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
-										"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
-										"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
-									);
-									array_push($array_batch_insert, $array_insert);	
-								}else{
-									$array_update = array(
-										"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
-										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-										"employee_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-										"ssn"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-										"first"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-										"last"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-										"mi"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-										"wages"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-										"ot_premium"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
-										"benefits"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-										"total"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-										"class"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-										"position"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-										"budget_1"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-										"budget_2"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue() ),
-										"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
-										"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
-										//"tbl_rdm_id"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
-										"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
-										"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
-										"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
-										"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
-										"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
-									);
-									//array_push($array_batch_update, $array_update);	
-									
-									$array_where = array(
+									$arraynya = array(
 										'employee_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
 										'tbl_model_id'=>$this->modeling['id'], 
 										'bulan'=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
 										"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
 									);
-									$this->db->update('tbl_emp', $array_update, $array_where);
+									$cek_data = $this->db->get_where('tbl_emp', $arraynya )->row_array();
+									$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
 									
+									$arrayrdm = array(
+										'employee_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'], 
+										'bulan'=>((int)$worksheet->getCell("U".$i)->getCalculatedValue() - 1),
+										"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+									);
+									$rdm = $this->db->get_where('tbl_emp', $arrayrdm )->row_array();
+									if(isset($rdm)){
+										if(!empty($rdm['tbl_rdm_id']) ){
+											$rdm_value = $rdm['tbl_rdm_id'];
+										}else{
+											$rdm_value = null;
+										}
+										if(!empty($rdm['id']) ){
+											$emp_id = $rdm['id'];
+										}else{
+											$emp_id = null;
+										}
+									}else{
+										$sqlrdm = "
+											SELECT tbl_rdm_id, id, bulan, tahun
+												FROM tbl_emp
+											WHERE employee_id = '".$worksheet->getCell("B".$i)->getCalculatedValue()."' AND tbl_model_id = '".$this->modeling['id']."' 
+											AND bulan = (
+												SELECT max(bulan) as bulannya from tbl_emp where tbl_model_id = '".$this->modeling['id']."' AND tahun = (SELECT MAX(tahun) from tbl_emp WHERE tbl_model_id = '".$this->modeling['id']."')
+											) 
+											AND tahun = (
+												SELECT max(tahun) as tahunnya from tbl_emp where tbl_model_id = '".$this->modeling['id']."'
+											)
+										";
+										$qryrdm = $this->db->query($sqlrdm)->row_array();
+										
+										if(isset($qryrdm)){
+											if(!empty($qryrdm['tbl_rdm_id']) ){
+												$rdm_value = $qryrdm['tbl_rdm_id'];
+											}else{
+												$rdm_value = null;
+											}
+											
+											if(!empty($qryrdm['tbl_rdm_id']) ){
+												$emp_id = $qryrdm['id'];
+											}else{
+												$emp_id = null;
+											}
+										}else{
+											$rdm_value = null;
+											$emp_id = null;
+										}
+									}
+									
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"employee_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"ssn"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"first"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"last"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"mi"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"wages"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"ot_premium"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"benefits"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"total"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"class"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"position"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"budget_1"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"budget_2"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue() ),
+											"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+											"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
+											"tbl_rdm_id"=>$rdm_value,
+											"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+											"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
+											"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);	
+										
+										/*
+										$insert = $this->db->insert('tbl_emp', $array_insert);
+										if($insert){
+											if($emp_id != null){
+												$sql_are = "
+													SELECT tbl_acm_id, tbl_rdm_id
+													FROM tbl_are
+													WHERE tbl_emp_id = '".$emp_id."'
+												";
+												$qryare = $this->db->query($sql_are)->result_array();
+												
+												
+											}
+										}
+										*/
+										
+									}else{
+										$array_update = array(
+											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"employee_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"ssn"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"first"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"last"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"mi"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"wages"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"ot_premium"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"benefits"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"total"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"class"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"position"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"budget_1"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"budget_2"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue() ),
+											"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+											"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
+											//"tbl_rdm_id"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
+											"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+											"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
+											"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+										);
+										//array_push($array_batch_update, $array_update);	
+										
+										$array_where = array(
+											'employee_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+											'tbl_model_id'=>$this->modeling['id'], 
+											'bulan'=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_emp', $array_update, $array_where);
+										
+									}
+								
 								}
 							}									
 						break;
 						case "tbl_exp":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$arrayrdm = array(
-									'account'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
-									'tbl_model_id'=>$this->modeling['id'], 
-									'bulan'=>((int)$worksheet->getCell("L".$i)->getCalculatedValue() - 1),
-									"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
-								);
-								$rdm = $this->db->get_where('tbl_exp', $arrayrdm )->row_array();
-								if(isset($rdm)){
-									if(!empty($rdm['tbl_rdm_id']) ){
-										$rdm_value = $rdm['tbl_rdm_id'];
+								if($worksheet->getCell("B".$i)->getCalculatedValue() != "" || $worksheet->getCell("B".$i)->getCalculatedValue() != null){
+									$arraynya = array(
+										'account'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'], 
+										'bulan'=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_exp', $arraynya )->row_array();
+									$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
+									
+									$arrayrdm = array(
+										'account'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'], 
+										'bulan'=>((int)$worksheet->getCell("L".$i)->getCalculatedValue() - 1),
+										"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+									);
+									$rdm = $this->db->get_where('tbl_exp', $arrayrdm )->row_array();
+									if(isset($rdm)){
+										if(!empty($rdm['tbl_rdm_id']) ){
+											$rdm_value = $rdm['tbl_rdm_id'];
+										}else{
+											$rdm_value = null;
+										}
+										if(!empty($rdm['id']) ){
+											$exp_id = $rdm['id'];
+										}else{
+											$exp_id = null;
+										}
 									}else{
-										$rdm_value = null;
+										$sqlrdm = "
+											SELECT tbl_rdm_id, id, bulan, tahun
+												FROM tbl_exp
+											WHERE employee_id = '".$worksheet->getCell("B".$i)->getCalculatedValue()."' AND tbl_model_id = '".$this->modeling['id']."' 
+											AND bulan = (
+												SELECT max(bulan) as bulannya from tbl_exp where tbl_model_id = '".$this->modeling['id']."' AND tahun = (SELECT MAX(tahun) from tbl_exp WHERE tbl_model_id = '".$this->modeling['id']."')
+											) 
+											AND tahun = (
+												SELECT max(tahun) as tahunnya from tbl_exp where tbl_model_id = '".$this->modeling['id']."'
+											)
+										";
+										$qryrdm = $this->db->query($sqlrdm)->row_array();
+										
+										if(isset($qryrdm)){
+											if(!empty($qryrdm['tbl_rdm_id']) ){
+												$rdm_value = $qryrdm['tbl_rdm_id'];
+											}else{
+												$rdm_value = null;
+											}
+											
+											if(!empty($qryrdm['tbl_rdm_id']) ){
+												$exp_id = $qryrdm['id'];
+											}else{
+												$exp_id = null;
+											}
+										}else{
+											$rdm_value = null;
+											$exp_id = null;
+										}
 									}
-								}else{
-									$rdm_value = null;
+									
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"account"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"amount"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"budget_1"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"budget_2"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue() ),
+											"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"tbl_rdm_id"=>$rdm_value,
+											"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"budgettype"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"budgetchg"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);	
+									}else{
+										$array_update = array(
+											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"account"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"amount"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"budget_1"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"budget_2"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue() ),
+											"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"tbl_rdm_id"=>$rdm_value,
+											"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"budgettype"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"budgetchg"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+										);
+										
+										$this->db->update('tbl_exp', $array_update, $arraynya);
+									}
 								}
-								
-								$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
-								$array_insert = array(
-									"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
-									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-									"account"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-									"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"amount"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-									"budget_1"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"budget_2"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue() ),
-									"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-									"tbl_rdm_id"=>$rdm_value,
-									"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-									"budgettype"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-									"budgetchg"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-									"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-									"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
-								);
-								array_push($array_batch_insert, $array_insert);	
 							}	
 						break;
 						case "tbl_assets":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$arraynya = array(
-									'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
-									'tbl_model_id'=>$this->modeling['id'], 
-									'bulan'=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
-									"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-								);
-								$cek_data = $this->db->get_where('tbl_assets', $arraynya )->row_array();
-								$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
-								
-								$arrayrdm = array(
-									'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
-									'tbl_model_id'=>$this->modeling['id'], 
-									'bulan'=>((int)$worksheet->getCell("K".$i)->getCalculatedValue() - 1),
-									"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-								);
-								$rdm = $this->db->get_where('tbl_assets', $arrayrdm )->row_array();
-								if(isset($rdm)){
-									if(!empty($rdm['tbl_rdm_id']) ){
-										$rdm_value = $rdm['tbl_rdm_id'];
-									}else{
-										$rdm_value = null;
-									}
-								}else{
-									$rdm_value = null;
-								}
-								
-								if(empty($cek_data)){
-									$array_insert = array(
-										"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
-										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-										"assets_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-										"assets_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-										"assets_description"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-										"cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-										"amount"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-										"budget_1"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-										"budget_2"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue() ),
-										"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-										"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-										"tbl_rdm_id"=>$rdm_value,
-										"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
-										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-										"create_by"=>$this->auth['nama_lengkap'],
-										"create_date"=>date('Y-m-d H:i:s'),
-									);
-									array_push($array_batch_insert, $array_insert);	
-								}else{
-									$array_update = array(
-										"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
-										"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-										"assets_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-										"assets_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-										"assets_description"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-										"cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-										"amount"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-										"budget_1"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-										"budget_2"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue() ),
-										"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-										"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-										"tbl_rdm_id"=>$rdm_value,
-										"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
-										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-										"create_by"=>$this->auth['nama_lengkap'],
-										"create_date"=>date('Y-m-d H:i:s'),
-									);
-									//array_push($array_batch_update, $array_update);	
-									
-									$array_where = array(
+								if($worksheet->getCell("B".$i)->getCalculatedValue() != "" || $worksheet->getCell("B".$i)->getCalculatedValue() != null){								
+									$arraynya = array(
 										'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
 										'tbl_model_id'=>$this->modeling['id'], 
 										'bulan'=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
 										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
 									);
-									$this->db->update('tbl_assets', $array_update, $array_where);
+									$cek_data = $this->db->get_where('tbl_assets', $arraynya )->row_array();
+									$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
 									
+									$arrayrdm = array(
+										'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'], 
+										'bulan'=>((int)$worksheet->getCell("K".$i)->getCalculatedValue() - 1),
+										"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+									);
+									$rdm = $this->db->get_where('tbl_assets', $arrayrdm )->row_array();
+									if(isset($rdm)){
+										if(!empty($rdm['tbl_rdm_id']) ){
+											$rdm_value = $rdm['tbl_rdm_id'];
+										}else{
+											$rdm_value = null;
+										}
+										
+										if(!empty($rdm['id']) ){
+											$ass_id = $rdm['id'];
+										}else{
+											$ass_id = null;
+										}
+									}else{
+										$sqlrdm = "
+											SELECT tbl_rdm_id, id, bulan, tahun
+												FROM tbl_assets
+											WHERE assets_id = '".$worksheet->getCell("B".$i)->getCalculatedValue()."' AND tbl_model_id = '".$this->modeling['id']."' 
+											AND bulan = (
+												SELECT max(bulan) as bulannya from tbl_assets where tbl_model_id = '".$this->modeling['id']."' AND tahun = (SELECT MAX(tahun) from tbl_assets WHERE tbl_model_id = '".$this->modeling['id']."')
+											) 
+											AND tahun = (
+												SELECT max(tahun) as tahunnya from tbl_assets where tbl_model_id = '".$this->modeling['id']."'
+											)
+										";
+										$qryrdm = $this->db->query($sqlrdm)->row_array();
+										
+										if(isset($qryrdm)){
+											if(!empty($qryrdm['tbl_rdm_id']) ){
+												$rdm_value = $qryrdm['tbl_rdm_id'];
+											}else{
+												$rdm_value = null;
+											}
+											
+											if(!empty($qryrdm['tbl_rdm_id']) ){
+												$ass_id = $qryrdm['id'];
+											}else{
+												$ass_id = null;
+											}
+										}else{
+											$rdm_value = null;
+											$ass_id = null;
+										}
+									}
+									
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"assets_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"assets_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"assets_description"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"amount"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"budget_1"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"budget_2"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue() ),
+											"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"tbl_rdm_id"=>$rdm_value,
+											"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"create_by"=>$this->auth['nama_lengkap'],
+											"create_date"=>date('Y-m-d H:i:s'),
+										);
+										array_push($array_batch_insert, $array_insert);	
+									}else{
+										$array_update = array(
+											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"assets_id"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"assets_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"assets_description"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"cost"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"amount"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"budget_1"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"budget_2"=>($worksheet->getCell("H".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("H".$i)->getCalculatedValue() ),
+											"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"tbl_rdm_id"=>$rdm_value,
+											"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"create_by"=>$this->auth['nama_lengkap'],
+											"create_date"=>date('Y-m-d H:i:s'),
+										);
+										//array_push($array_batch_update, $array_update);	
+										
+										$this->db->update('tbl_assets', $array_update, $arraynya);
+										
+									}
 								}
-								
 							}
 						break;
+						case "tbl_loc":
+							$fieldnya = 'costcenter';
+							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
+								if($worksheet->getCell("B".$i)->getCalculatedValue() != "" || $worksheet->getCell("B".$i)->getCalculatedValue() != null){								
+								
+									$arraynya = array(
+										'costcenter'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'],
+										"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_loc', $arraynya)->row_array();					
+									if(empty($cek_data)){
+										$array_insert = array(
+											"location"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"costcenter"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"loc_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);
+									}else{
+										$array_update = array(
+											"location"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"costcenter"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"loc_name"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
+
+										);
+										//array_push($array_batch_update, $array_update);
+										
+										$this->db->update('tbl_loc', $array_update, $arraynya);
+									}
+								
+								}
+							}
+							/*
+							if($array_batch_update){
+								$this->db->update_batch($type_import, $array_batch_update, $fieldnya);
+							}
+							*/							
+						break;						
 						case "tbl_rdm":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$array_insert = array(
-									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-									"resource"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-									"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-									"rdm_qty"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"budtypeupe"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-									"costnbrupe"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"coeffupe"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-									"budtypeupx"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-									"costnbrupx"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
-									"coeffupx"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-									"bydtypeupa"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-									"costnbrupa"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-									"coeffupa"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-									"actorpro"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-									"batch"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
-									"note"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
-									"constant"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
-									"coefficient"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
-									//"bulan"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
-									//"tahun"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
-								);
-								array_push($array_batch_insert, $array_insert);	
+								if($worksheet->getCell("A".$i)->getCalculatedValue() != "" || $worksheet->getCell("A".$i)->getCalculatedValue() != null){																
+									$arraynya = array(
+										'resource'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'],
+										"bulan"=>(int)$worksheet->getCell("R".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("S".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_rdm', $arraynya)->row_array();					
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"resource"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"rdm_qty"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"budtypeupe"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"costnbrupe"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"coeffupe"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"budtypeupx"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"costnbrupx"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"coeffupx"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"bydtypeupa"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"costnbrupa"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"coeffupa"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"actorpro"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"batch"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
+											"note"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+											"constant"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
+											"coefficient"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);	
+									}else{
+										$array_update = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"resource"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"rdm_qty"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"budtypeupe"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"costnbrupe"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"coeffupe"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"budtypeupx"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"costnbrupx"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"coeffupx"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"bydtypeupa"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"costnbrupa"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"coeffupa"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"actorpro"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"batch"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
+											"note"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
+											"constant"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
+											"coefficient"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_rdm', $array_update, $arraynya);
+									}	
+								}	
 							}	
 						break;
 						case "tbl_cdm":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$array_insert = array(
-									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-									"cost_driver"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-									"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-									"roundit"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"sudn_cd"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-									"mudn_cd"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"mudn_uom"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-									"sweight"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-									"mweight"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
-									"budgettype"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-									"coefficient"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-									"constant"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-									"bulan"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-									"tahun"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-								);
-								array_push($array_batch_insert, $array_insert);	
+								if($worksheet->getCell("A".$i)->getCalculatedValue() != "" || $worksheet->getCell("A".$i)->getCalculatedValue() != null){																
+									$arraynya = array(
+										'cost_driver'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'],
+										"bulan"=>(int)$worksheet->getCell("R".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("S".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_cdm', $arraynya)->row_array();					
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"cost_driver"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"roundit"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"sudn_cd"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"mudn_cd"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"mudn_uom"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"sweight"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"mweight"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"budgettype"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"coefficient"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"constant"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);	
+									}else{
+										$array_update = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"cost_driver"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"roundit"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"sudn_cd"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"mudn_cd"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"mudn_uom"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"sweight"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"mweight"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"budgettype"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"coefficient"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"constant"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_cdm', $array_update, $arraynya);
+									}
+								}	
 							}	
 						break;
 						case "tbl_prm":
