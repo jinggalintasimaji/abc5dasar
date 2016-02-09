@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MysqlLocal
-Source Server Version : 50528
+Source Server         : Mysql - Localhost
+Source Server Version : 50516
 Source Host           : localhost:3306
-Source Database       : costing
+Source Database       : pelindo
 
 Target Server Type    : MYSQL
-Target Server Version : 50528
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2016-01-23 22:10:00
+Date: 2016-02-10 02:54:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,13 +84,14 @@ CREATE TABLE `cl_user_group` (
   `group_user` varchar(200) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of cl_user_group
 -- ----------------------------
 INSERT INTO `cl_user_group` VALUES ('1', 'Administrator', '1');
-INSERT INTO `cl_user_group` VALUES ('2', 'Guest', '1');
+INSERT INTO `cl_user_group` VALUES ('3', 'Modeler ABC', '1');
+INSERT INTO `cl_user_group` VALUES ('4', 'Viewer ABC', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_aa1`
@@ -213,7 +214,7 @@ CREATE TABLE `tbl_acm` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_acm_id` (`id`),
   KEY `idx_acm` (`tbl_model_id`,`tbl_cdm_id`,`activity_code`,`tbl_rdm_id`,`cl_segment_id`,`cl_center_id`,`cl_class_id`,`cl_improvment_id`,`tbl_process_id`,`tbl_root_couses_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1194 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1117 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_acm
@@ -522,6 +523,18 @@ INSERT INTO `tbl_acm` VALUES ('1084', null, '2', null, '50601', 'Administrasi Um
 INSERT INTO `tbl_acm` VALUES ('1085', null, '2', null, '50602', 'Mengelola Perlengkapan', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('1086', null, '2', null, '50603', 'Aktivitas Rumah Tangga', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tbl_acm` VALUES ('1087', null, '2', null, '50604', 'Penanganan Hukum', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1088', null, '4', null, '19100', 'Aktivitas Administrasi', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1090', null, '4', null, '18900', 'Aktivitas Perawatan Kapal Tunda', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1091', null, '4', null, '17700', 'Pencatatan Keluar Masuk Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1092', null, '4', null, '14400', 'Pembukuan Utang & Piutang', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1093', null, '4', null, '15500', 'Pengelolaan Kas Besar', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1094', null, '4', null, '16900', 'Perawatan Peralatan Navigasi Kapal', null, null, null, null, null, null, null, null, null, null, null, '1', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1111', null, '4', null, '14400', 'Pembukuan Utang & Piutang', null, null, null, null, null, null, null, null, null, null, null, '2', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1112', null, '4', null, '15500', 'Pengelolaan Kas Besar', null, null, null, null, null, null, null, null, null, null, null, '2', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1113', null, '4', null, '19100', 'Aktivitas Administrasi', null, null, null, null, null, null, null, null, null, null, null, '2', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1114', null, '4', null, '18900', 'Aktivitas Perawatan Kapal Tunda', null, null, null, null, null, null, null, null, null, null, null, '2', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1115', null, '4', null, '17700', 'Pencatatan Keluar Masuk Kapal', null, null, null, null, null, null, null, null, null, null, null, '2', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_acm` VALUES ('1116', null, '4', null, '16900', 'Perawatan Peralatan Navigasi Kapal', null, null, null, null, null, null, null, null, null, null, null, '2', '2016', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_acm_copy`
@@ -999,16 +1012,25 @@ CREATE TABLE `tbl_are` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_are_id` (`id`),
   KEY `idx_are` (`tbl_loc_id`,`tbl_acm_id`,`tbl_emp_id`,`tbl_exp_id`,`tbl_assets_id`,`tbl_acm_child_id`,`tbl_rdm_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_are
 -- ----------------------------
-INSERT INTO `tbl_are` VALUES ('108', null, '274', '1', null, null, null, null, '20', null, '1735320', null, null, null, null, null, '11', '2015', '2016-01-23 21:36:39', 'Goyz', '1735320');
-INSERT INTO `tbl_are` VALUES ('109', null, '274', '2', null, null, null, null, '50', null, '3560860', null, null, null, null, null, '11', '2015', '2016-01-23 21:36:43', 'Goyz', '3560860');
-INSERT INTO `tbl_are` VALUES ('110', null, '939', '1', null, null, null, null, '68.18', null, '5915706', '15', null, null, null, null, '1', '2016', '2016-01-23 21:57:19', 'Goyz', '5915706');
-INSERT INTO `tbl_are` VALUES ('111', null, '939', '2', null, null, null, null, '100', null, '7121720', '25', null, null, null, null, '1', '2016', '2016-01-23 21:48:18', 'Goyz', '7121720');
-INSERT INTO `tbl_are` VALUES ('112', '0', '280', '1', '0', '0', '0', '', '12', '0', '1041192', null, null, '', '', '0', null, null, '2016-01-23 21:59:21', 'Goyz Crotz', '0');
+INSERT INTO `tbl_are` VALUES ('1', null, '1092', '192', null, null, null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:39:00', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('2', null, '1093', '192', null, null, null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:39:00', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('3', null, '1094', '198', null, null, null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:39:30', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('4', null, '1091', '198', null, null, null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:39:30', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('5', null, '1090', '193', null, null, null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:40:00', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('6', null, '1088', '193', null, null, null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:40:00', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('7', null, '1111', '254', null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', '2016-02-09 20:40:34', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('8', null, '1112', '254', null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', '2016-02-09 20:40:34', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('9', null, '1113', '255', null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', '2016-02-09 20:40:34', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('10', null, '1114', '255', null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', '2016-02-09 20:40:34', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('11', null, '1115', '260', null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', '2016-02-09 20:40:34', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('12', null, '1116', '260', null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', '2016-02-09 20:40:34', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('13', null, '1092', null, null, '11', null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:42:06', 'Goyz Crotz', null);
+INSERT INTO `tbl_are` VALUES ('14', null, '1093', null, null, '12', null, null, null, null, null, null, '0', null, null, null, '1', '2016', '2016-02-09 20:42:32', 'Goyz Crotz', null);
 
 -- ----------------------------
 -- Table structure for `tbl_assets`
@@ -1036,7 +1058,7 @@ CREATE TABLE `tbl_assets` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_id` (`id`),
   KEY `idx_asset` (`tbl_model_id`,`tbl_loc_id`,`assets_id`,`tbl_rdm_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_assets
@@ -1050,6 +1072,12 @@ INSERT INTO `tbl_assets` VALUES ('6', '3', '0', '55556666', 'PC Dell', 'Personal
 INSERT INTO `tbl_assets` VALUES ('7', '3', '0', '77788888', 'Printer', 'Alat Cetak', null, '200000', '200000', '0', null, null, 'variable', 'facility', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
 INSERT INTO `tbl_assets` VALUES ('8', '3', '0', '666677777', 'Scanner', 'Scanning', null, '700000', '700000', '0', null, null, 'fixed', 'product', '11', '2015', 'Goyz Crotz', '2015-11-22 19:03:36');
 INSERT INTO `tbl_assets` VALUES ('10', '1', '17', '1726728', 'Laptop Toshiba', 'Laptop Merk Toshiba', '0', '5000000', '0', null, '7', '5', 'fixed', 'unit', '11', '2015', null, null);
+INSERT INTO `tbl_assets` VALUES ('11', '4', '285', 'ASSXX-1', 'Kapal Pandu', 'Desc Kapal Pandu', null, '2000000000', null, '0', null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-01-25 08:14:01');
+INSERT INTO `tbl_assets` VALUES ('12', '4', '309', 'ASSXX-2', 'Kapal Kepil', 'Desc Kapal Kepil', null, '5000000000', null, '0', null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-01-25 08:14:01');
+INSERT INTO `tbl_assets` VALUES ('13', '4', '3', 'ASSXX-3', 'GPS Tracking', 'Desc GPS Tracking', null, '60000000', null, '0', null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-01-25 08:14:01');
+INSERT INTO `tbl_assets` VALUES ('14', '4', '5', 'ASSXX-4', 'Kapal Motor', 'Desc Kapal Motor', null, '2400000000', null, '0', null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-01-25 08:14:01');
+INSERT INTO `tbl_assets` VALUES ('15', '4', '3', 'ASSXX-5', 'Komputer', 'Desc Komputer', null, '6000000', null, '0', null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-01-25 08:14:01');
+INSERT INTO `tbl_assets` VALUES ('16', '4', '202', 'ASSXX-6', 'Printer', 'Desc Printer', null, '500000', null, '0', null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-01-25 08:14:01');
 
 -- ----------------------------
 -- Table structure for `tbl_bpd`
@@ -1174,7 +1202,7 @@ CREATE TABLE `tbl_cdm` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_cdm_id` (`id`),
   KEY `idx_cdm` (`tbl_model_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_cdm
@@ -1205,6 +1233,10 @@ INSERT INTO `tbl_cdm` VALUES ('23', '2', '30106', 'Jumlah PPKB Pandu Pindah', '3
 INSERT INTO `tbl_cdm` VALUES ('24', '2', '30107', 'Jumlah PPKB Pandu Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
 INSERT INTO `tbl_cdm` VALUES ('25', '2', '30108', 'Headcount Pandu', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
 INSERT INTO `tbl_cdm` VALUES ('26', '2', '10300', 'Jumlah Keluhan', '3', '7', '6', '6', '1', '0', '1', '1', '0', '11', '2015');
+INSERT INTO `tbl_cdm` VALUES ('41', '4', '10100', 'Jumlah Marketing Media', '3', '7', '6', '6', '1', '0', '1', '1', '0', '1', '2016');
+INSERT INTO `tbl_cdm` VALUES ('42', '4', '30101', 'GT Pemanduan Masuk', '3', '7', '6', '6', '1', '0', '1', '1', '0', '1', '2016');
+INSERT INTO `tbl_cdm` VALUES ('43', '4', '30102', 'GT Pemanduan Pindah', '3', '7', '6', '6', '1', '0', '1', '1', '0', '1', '2016');
+INSERT INTO `tbl_cdm` VALUES ('44', '4', '30103', 'GT Pemanduan Keluar', '3', '7', '6', '6', '1', '0', '1', '1', '0', '1', '2016');
 
 -- ----------------------------
 -- Table structure for `tbl_cust`
@@ -1218,7 +1250,7 @@ CREATE TABLE `tbl_cust` (
   `bulan` int(5) DEFAULT NULL,
   `tahun` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_cust
@@ -1226,6 +1258,13 @@ CREATE TABLE `tbl_cust` (
 INSERT INTO `tbl_cust` VALUES ('1', '2', 'PT. Perikanan Terpadu', '0001', '11', '2015');
 INSERT INTO `tbl_cust` VALUES ('2', '2', 'PT. Nusantara', '0002', '11', '2015');
 INSERT INTO `tbl_cust` VALUES ('3', '2', 'PT. MXN', '0003', '11', '2015');
+INSERT INTO `tbl_cust` VALUES ('4', '4', 'PT. Bayer Leverkusen', 'Cust-001', '1', '2016');
+INSERT INTO `tbl_cust` VALUES ('5', '4', 'PT. Toba Samosir', 'Cust-002', '1', '2016');
+INSERT INTO `tbl_cust` VALUES ('6', '4', 'PT. Baywatch Bay', 'Cust-003', '1', '2016');
+INSERT INTO `tbl_cust` VALUES ('7', '4', 'PT. Bogasari', 'Cust-004', '1', '2016');
+INSERT INTO `tbl_cust` VALUES ('8', '4', 'PT. Logawa Utama', 'Cust-005', '1', '2016');
+INSERT INTO `tbl_cust` VALUES ('9', '4', 'KM Tiga Barsaudara', 'Cust-006', '1', '2016');
+INSERT INTO `tbl_cust` VALUES ('10', '4', 'KM Perintis Nusantara', 'Cust-007', '1', '2016');
 
 -- ----------------------------
 -- Table structure for `tbl_efx`
@@ -1248,37 +1287,34 @@ CREATE TABLE `tbl_efx` (
   `costcenter_desc` varchar(200) DEFAULT NULL,
   `budget_type` varchar(100) DEFAULT NULL,
   `cost_type` varchar(100) DEFAULT NULL,
+  `bulan` int(5) DEFAULT NULL,
+  `tahun` int(5) DEFAULT NULL,
   `create_by` varchar(255) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_efx_id` (`id`),
   KEY `idx_efx` (`tbl_exp_id`,`tbl_emp_id`,`tbl_assets_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_efx
 -- ----------------------------
-INSERT INTO `tbl_efx` VALUES ('1', '1', '2', '0', '40', '0', '10', '2848690', '0', '0', '0', '0', '0', '', '', '', '', '0000-00-00 00:00:00');
-INSERT INTO `tbl_efx` VALUES ('2', '2', '2', null, '0', '0', '344', '0', '0', '0', '0', '0', '0', '', '', '', null, null);
-INSERT INTO `tbl_efx` VALUES ('4', '5', '2', '0', '40', '0', '10', '2848690', '0', '0', '0', '0', '0', '', '', '', '', '0000-00-00 00:00:00');
-INSERT INTO `tbl_efx` VALUES ('16', '6', '0', '3', '0', '0', '20', '60531', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-15 13:35:44');
-INSERT INTO `tbl_efx` VALUES ('17', '9', '0', '3', '24', '0', '0', '9980400', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-15 13:35:44');
-INSERT INTO `tbl_efx` VALUES ('28', '1', '0', '3', '17', '0', '0', '255000000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:32:24');
-INSERT INTO `tbl_efx` VALUES ('29', '1', '0', '2', '33', '0', '1', '166667000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:52:39');
-INSERT INTO `tbl_efx` VALUES ('30', '6', '0', '2', '8.85', '0', '20', '60531', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:52:39');
-INSERT INTO `tbl_efx` VALUES ('31', '13', '0', '3', '50', '0', '0', '27000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-11-28 19:53:26');
-INSERT INTO `tbl_efx` VALUES ('35', '6', '7', '0', '44', '0', '100', '302655', '0', '0', '0', '0', '0', '', '', 'S', 'Goyz Crotz', '2015-12-09 07:45:43');
-INSERT INTO `tbl_efx` VALUES ('36', '12', '7', '0', '5', '0', '0', '72540', '0', '0', '0', '0', '0', '', '', 'OV', 'Goyz Crotz', '2015-12-09 08:07:28');
-INSERT INTO `tbl_efx` VALUES ('37', '1', '7', '0', '8', '0', '0', '405555', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-09 18:40:26');
-INSERT INTO `tbl_efx` VALUES ('38', '9', '0', '1', '5', '0', '0', '2079250', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-12 19:53:44');
-INSERT INTO `tbl_efx` VALUES ('40', '13', '0', '1', '20', '0', '0', '10800', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-12 19:53:44');
-INSERT INTO `tbl_efx` VALUES ('41', '4', '0', '1', '30', '0', '20', '215572', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-12 19:54:06');
-INSERT INTO `tbl_efx` VALUES ('42', '1', '6', '0', '9', '0', '60', '470781', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-13 02:35:18');
-INSERT INTO `tbl_efx` VALUES ('43', '5', '6', '0', '56', '0', '500', '2165350', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-13 02:35:18');
-INSERT INTO `tbl_efx` VALUES ('45', '13', '9', '0', '10', '0', null, '5400', '0', '0', '0', '0', '0', '', '', 'S', 'Goyz Crotz', '2015-12-20 14:42:01');
-INSERT INTO `tbl_efx` VALUES ('46', '1', '9', '0', '9', '0', '60', '470781', '0', '0', '0', '0', '0', '', '', 'B', 'Goyz Crotz', '2015-12-20 14:47:04');
-INSERT INTO `tbl_efx` VALUES ('47', '5', '0', '1', '50', '0', '1', '100000000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-20 15:45:35');
-INSERT INTO `tbl_efx` VALUES ('48', '5', '0', '3', '30', '0', '0', '450000000', '0', '0', '0', '0', '0', '', '', '', 'Goyz Crotz', '2015-12-20 15:45:35');
+INSERT INTO `tbl_efx` VALUES ('1', '27', '192', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:39:12');
+INSERT INTO `tbl_efx` VALUES ('2', '26', '192', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:39:12');
+INSERT INTO `tbl_efx` VALUES ('3', '24', '198', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:39:39');
+INSERT INTO `tbl_efx` VALUES ('4', '29', '198', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:39:39');
+INSERT INTO `tbl_efx` VALUES ('5', '25', '193', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:40:12');
+INSERT INTO `tbl_efx` VALUES ('6', '30', '193', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:40:12');
+INSERT INTO `tbl_efx` VALUES ('7', '28', '193', null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:40:12');
+INSERT INTO `tbl_efx` VALUES ('8', '57', '254', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('9', '58', '254', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('10', '59', '255', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('11', '60', '255', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('12', '61', '255', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('13', '62', '260', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('14', '63', '260', null, null, null, null, null, null, null, null, null, null, null, null, null, '2', '2016', 'Goyz Crotz', '2016-02-09 20:40:34');
+INSERT INTO `tbl_efx` VALUES ('15', '27', null, '11', null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:42:14');
+INSERT INTO `tbl_efx` VALUES ('16', '29', null, '12', null, null, null, null, null, null, null, null, null, null, null, null, '1', '2016', 'Goyz Crotz', '2016-02-09 20:42:42');
 
 -- ----------------------------
 -- Table structure for `tbl_emp`
@@ -1314,7 +1350,7 @@ CREATE TABLE `tbl_emp` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_emp_id` (`id`),
   KEY `idx_emp` (`tbl_model_id`,`tbl_loc_id`,`employee_id`,`tbl_rdm_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=261 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_emp
@@ -1347,6 +1383,20 @@ INSERT INTO `tbl_emp` VALUES ('123', '1', '4', '152092046', '', '', 'FERDY ANDRE
 INSERT INTO `tbl_emp` VALUES ('124', '1', '5', '154092055', '', '', 'LELAN ANTONIUS', '', '92973300', '0', '0', '92973300', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
 INSERT INTO `tbl_emp` VALUES ('125', '1', '6', '520303404', '', '', 'GASPAR ABISLONG', '', '17194000', '0', '0', '17194000', '', '', '0', '0', '1', '1', null, '0', null, null, '1', '4', '11', '2015');
 INSERT INTO `tbl_emp` VALUES ('126', '1', '17', '178989797', null, null, 'Tim Developer Sistem', null, '78900000', '700000', '0', '79600000', null, 'Programmer PHP', '0', null, '3', '1', '7', '5', null, null, null, null, '11', '2015');
+INSERT INTO `tbl_emp` VALUES ('192', '4', '312', '178798273', null, null, 'Sugiono', null, '6700000', null, null, '6700000', '3', 'Pandu Muda', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('193', '4', '313', '178798274', null, null, 'Pramesti', null, '5900000', null, null, '5900000', '3', 'Pandu Muda', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('194', '4', '314', '178798275', null, null, 'Nugroho', null, '5800000', null, null, '5800000', '3', 'Pandu Madya', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('195', '4', '314', '178798276', null, null, 'Nindita', null, '7000000', null, null, '7000000', '3', 'Staff Admin Muda', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('196', '4', '317', '178798277', null, null, 'Pramadita', null, '8000000', null, null, '8000000', '3', 'Staff TataLaksana', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('197', '4', '318', '178798278', null, null, 'Satya', null, '4500000', null, null, '4500000', '3', 'Staff Teknisi', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('198', '4', '312', '178798279', null, null, 'Winnie', null, '5000000', '0', '0', '5000000', '3', 'Pandu Madya', '7000000', '0', '1', '1', '0', '0', '0', '0', '1', '4', '1', '2016');
+INSERT INTO `tbl_emp` VALUES ('254', '4', '312', '178798273', null, null, 'Sugiono', null, '6700000', null, null, '6700000', '3', 'Pandu Muda', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
+INSERT INTO `tbl_emp` VALUES ('255', '4', '313', '178798274', null, null, 'Pramesti', null, '5900000', null, null, '5900000', '3', 'Pandu Muda', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
+INSERT INTO `tbl_emp` VALUES ('256', '4', '314', '178798275', null, null, 'Nugroho', null, '5800000', null, null, '5800000', '3', 'Pandu Madya', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
+INSERT INTO `tbl_emp` VALUES ('257', '4', '314', '178798276', null, null, 'Nindita', null, '7000000', null, null, '7000000', '3', 'Staff Admin Muda', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
+INSERT INTO `tbl_emp` VALUES ('258', '4', '317', '178798277', null, null, 'Pramadita', null, '8000000', null, null, '8000000', '3', 'Staff TataLaksana', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
+INSERT INTO `tbl_emp` VALUES ('259', '4', '318', '178798278', null, null, 'Satya', null, '4500000', null, null, '4500000', '3', 'Staff Teknisi', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
+INSERT INTO `tbl_emp` VALUES ('260', '4', '0', '178798279', null, null, 'Winnie', null, '5000000', null, null, '5000000', '3', 'Pandu Madya', '7000000', '0', '1', '1', null, null, null, null, '1', '4', '2', '2016');
 
 -- ----------------------------
 -- Table structure for `tbl_emp_act`
@@ -1397,7 +1447,7 @@ CREATE TABLE `tbl_exp` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_exp_id` (`id`),
   KEY `idx_exp` (`tbl_model_id`,`tbl_loc_id`,`tbl_rdm_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_exp
@@ -1425,6 +1475,23 @@ INSERT INTO `tbl_exp` VALUES ('20', '2', '55', '801.01.00', 'Biaya Penghasilan P
 INSERT INTO `tbl_exp` VALUES ('21', '2', '33', '801.01.00', 'Biaya Penghasilan Pegawai', '15678600', '327489000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
 INSERT INTO `tbl_exp` VALUES ('22', '2', '11', '801.01.00', 'Biaya Penghasilan Pegawai', '9460130', '148280000', '0', '1', '1', '0', null, null, '', '', '11', '2015');
 INSERT INTO `tbl_exp` VALUES ('23', '1', '12', '803.00.00', 'Biaya Perawatan Software', '6000000', '5000000', null, '1', '11', '2', null, null, null, null, '11', '2015');
+INSERT INTO `tbl_exp` VALUES ('24', '4', '5', 'ACC-EXP1', 'Biaya Penghasilan Pegawai', '6000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('25', '4', '7', 'ACC-EXP2', 'Biaya Tunjangan Jabatan', '80000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('26', '4', '4', 'ACC-EXP3', 'Biaya Kertas', '1000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('27', '4', '3', 'ACC-EXP4', 'Biaya Ganti Oli Mesin', '50000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('28', '4', '309', 'ACC-EXP5', 'Biaya BBM', '1000000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('29', '4', '5', 'ACC-EXP6', 'Biaya Perawatan Peralatan Mesin', '200000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('30', '4', '13', 'ACC-EXP7', 'Biaya Perawatan Komputer & Printer', '5000000', '100000000', '0', '1', null, null, null, null, null, null, '1', '2016');
+INSERT INTO `tbl_exp` VALUES ('54', '4', '312', 'ACC-EXP1', 'Biaya Penghasilan Pegawai', '6000000', '100000000', '0', '1', null, null, null, null, null, null, '4', '2016');
+INSERT INTO `tbl_exp` VALUES ('55', '4', '316', 'ACC-EXP6', 'Biaya Perawatan Peralatan Mesin', '200000000', '100000000', '0', '1', null, null, null, null, null, null, '4', '2016');
+INSERT INTO `tbl_exp` VALUES ('56', '4', '0', 'ACC-EXP7', 'Biaya Perawatan Komputer & Printer', '5000000', '100000000', '0', '1', null, null, null, null, null, null, '4', '2016');
+INSERT INTO `tbl_exp` VALUES ('57', '4', '4', 'ACC-EXP3', 'Biaya Kertas', '1000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
+INSERT INTO `tbl_exp` VALUES ('58', '4', '3', 'ACC-EXP4', 'Biaya Ganti Oli Mesin', '50000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
+INSERT INTO `tbl_exp` VALUES ('59', '4', '7', 'ACC-EXP2', 'Biaya Tunjangan Jabatan', '80000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
+INSERT INTO `tbl_exp` VALUES ('60', '4', '309', 'ACC-EXP5', 'Biaya BBM', '1000000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
+INSERT INTO `tbl_exp` VALUES ('61', '4', '13', 'ACC-EXP7', 'Biaya Perawatan Komputer & Printer', '5000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
+INSERT INTO `tbl_exp` VALUES ('62', '4', '5', 'ACC-EXP1', 'Biaya Penghasilan Pegawai', '6000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
+INSERT INTO `tbl_exp` VALUES ('63', '4', '5', 'ACC-EXP6', 'Biaya Perawatan Peralatan Mesin', '200000000', '100000000', '0', '1', null, null, null, null, null, null, '2', '2016');
 
 -- ----------------------------
 -- Table structure for `tbl_loc`
@@ -1442,322 +1509,329 @@ CREATE TABLE `tbl_loc` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_loc_id` (`id`),
   KEY `idx_loc` (`tbl_model_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=312 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_loc
 -- ----------------------------
-INSERT INTO `tbl_loc` VALUES ('1', '1', 'PRK', '801.00.00', 'SEGMEN PELY. KAPAL', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('2', '1', 'PRK', '801.01.00', 'Labuh', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('3', '1', 'PRK', '801.02.00', 'Pemanduan', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('4', '1', 'PRK', '801.03.00', 'Penundaan', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('5', '1', 'PRK', '801.04.00', 'Penambatan', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('6', '1', 'PRK', '801.05.00', 'Air Kapal', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('7', '1', 'PRK', '801.99.00', 'Pel. Kapal Lainnya', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('8', '1', 'PRK', '802.00.00', 'SEGMEN PELY. BARANG', '6', '2015', '1');
-INSERT INTO `tbl_loc` VALUES ('9', '1', 'PRK', '802.01.00', 'Dermaga', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('10', '1', 'PRK', '802.02.00', 'Gudang', '6', '2015', '9');
-INSERT INTO `tbl_loc` VALUES ('11', '1', 'PRK', '802.03.00', 'Lapangan Penumpukan', '6', '2015', '9');
-INSERT INTO `tbl_loc` VALUES ('12', '1', 'PRK', '803.00.00', 'SEGMEN PENGUSAHAAN ALAT-ALAT', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('13', '1', 'PRK', '803.01.00', 'Kran Darat', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('14', '1', 'PRK', '803.02.00', 'Kran Apung', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('15', '1', 'PRK', '803.03.00', 'Forklift', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('16', '1', 'PRK', '803.04.00', 'Head Truck', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('17', '1', 'PRK', '803.05.00', 'Chasis', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('18', '1', 'PRK', '803.06.00', 'Tongkang', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('19', '1', 'PRK', '803.07.00', 'BKMP', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('20', '1', 'PRK', '803.08.00', 'Towing Tractor', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('21', '1', 'PRK', '803.09.00', 'Timbangan', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('22', '1', 'PRK', '803.10.00', 'Pemadam Kebakaran', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('23', '1', 'PRK', '803.99.00', 'Pengusahaan Alat Lainnya', '6', '2015', '12');
-INSERT INTO `tbl_loc` VALUES ('24', '1', 'PRK', '804.00.00', 'SEGMEN PELY. USAHA B/M', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('25', '1', 'PRK', '804.01.00', 'Per Mata Rantai', '6', '2015', '24');
-INSERT INTO `tbl_loc` VALUES ('26', '1', 'PRK', '804.01.01', 'Stevedoring', '6', '2015', '25');
-INSERT INTO `tbl_loc` VALUES ('27', '1', 'PRK', '804.01.02', 'Cargodoring', '6', '2015', '25');
-INSERT INTO `tbl_loc` VALUES ('28', '1', 'PRK', '804.01.03', 'Overbrengen', '6', '2015', '25');
-INSERT INTO `tbl_loc` VALUES ('29', '1', 'PRK', '804.01.04', 'Delivery Charges', '6', '2015', '25');
-INSERT INTO `tbl_loc` VALUES ('30', '1', 'PRK', '804.02.00', 'Per Paket', '6', '2015', '24');
-INSERT INTO `tbl_loc` VALUES ('31', '1', 'PRK', '804.02.01', 'Barang', '6', '2015', '30');
-INSERT INTO `tbl_loc` VALUES ('32', '1', 'PRK', '804.02.02', 'Peti Kemas', '6', '2015', '30');
-INSERT INTO `tbl_loc` VALUES ('33', '1', 'PRK', '804.03.00', 'Ro-Ro', '6', '2015', '24');
-INSERT INTO `tbl_loc` VALUES ('34', '1', 'PRK', '804.03.01', 'Terminal B/M Kapal Ro-Ro', '6', '2015', '33');
-INSERT INTO `tbl_loc` VALUES ('35', '1', 'PRK', '804.03.02', 'Kesejahteraan TKBM Kapal Ro-Ro', '6', '2015', '33');
-INSERT INTO `tbl_loc` VALUES ('36', '1', 'PRK', '804.19.00', 'AMORTISASI BIAYA PENGERUKAN DAN ALUR PEL', '6', '2015', '24');
-INSERT INTO `tbl_loc` VALUES ('37', '1', 'PRK', '804.25.00', 'AMORT BIAYA PEMELIHARAAN AKTIVA TETAP YG', '6', '2015', '24');
-INSERT INTO `tbl_loc` VALUES ('38', '1', 'PRK', '804.99.00', 'Pengsh.Alat B/M Lainnya', '6', '2015', '24');
-INSERT INTO `tbl_loc` VALUES ('39', '1', 'PRK', '804.99.02', 'Pengusahaan Kapal Roro', '6', '2015', '38');
-INSERT INTO `tbl_loc` VALUES ('40', '1', 'PRK', '805.00.00', 'SEGMEN PELY. TERMINAL CURAH KERING', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('41', '1', 'PRK', '805.01.00', 'Biaya Bongkar Muat', '6', '2015', '40');
-INSERT INTO `tbl_loc` VALUES ('42', '1', 'PRK', '805.02.00', 'Biaya Penyimpanan (Silo)', '6', '2015', '40');
-INSERT INTO `tbl_loc` VALUES ('43', '1', 'PRK', '806.00.00', 'SEGMEN PELY. TERMINAL CURAH CAIR', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('44', '1', 'PRK', '806.01.00', 'Bongkar Muat', '6', '2015', '43');
-INSERT INTO `tbl_loc` VALUES ('45', '1', 'PRK', '806.02.00', 'Penyimpanan (Tangki)', '6', '2015', '43');
-INSERT INTO `tbl_loc` VALUES ('46', '1', 'PRK', '806.21.00', 'Kerjasama dengan Mitra Usaha', '6', '2015', '43');
-INSERT INTO `tbl_loc` VALUES ('47', '1', 'PRK', '807.00.00', 'SEGMEN PELY. KONSOLIDASI MUATAN', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('48', '1', 'PRK', '807.01.00', 'Stuffing/Stripping', '6', '2015', '47');
-INSERT INTO `tbl_loc` VALUES ('49', '1', 'PRK', '807.02.00', 'Unitasi/Paletisasi', '6', '2015', '47');
-INSERT INTO `tbl_loc` VALUES ('50', '1', 'PRK', '808.00.00', 'SEGMEN PENGUSAHAAN TBAL', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('51', '1', 'PRK', '808.01.00', 'Pengusahaan Tanah', '6', '2015', '50');
-INSERT INTO `tbl_loc` VALUES ('52', '1', 'PRK', '808.01.01', 'BPT Daratan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('53', '1', 'PRK', '808.01.02', 'BPT Perairan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('54', '1', 'PRK', '808.02.00', 'Biaya Pengusahaan Bangunan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('55', '1', 'PRK', '808.03.00', 'Biaya Pengusahaan Air Minum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('56', '1', 'PRK', '808.04.00', 'Biaya Pengusahaan Listrik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('57', '1', 'PRK', '808.06.00', 'Biaya diluar Usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('58', '1', 'PRK', '809.00.00', 'SEGMEN PELSUS / DERSUS', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('59', '1', 'PRK', '809.01.00', 'Labuh', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('60', '1', 'PRK', '809.02.00', 'Pemanduan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('61', '1', 'PRK', '809.03.00', 'Penundaan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('62', '1', 'PRK', '809.04.00', 'Penambatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('63', '1', 'PRK', '809.05.00', 'Dermaga', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('64', '1', 'PRK', '809.99.00', 'Lain-lain', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('65', '1', 'PRK', '810.00.00', 'SEGMEN KSO', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('66', '1', 'PRK', '810.01.00', 'KSO Bangunan Faspel', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('67', '1', 'PRK', '810.02.00', 'KSO Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('68', '1', 'PRK', '810.02.01', 'KSO Air Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('69', '1', 'PRK', '810.03.00', 'KSO Alat-alat Faspel', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('70', '1', 'PRK', '810.04.00', 'KSO Instalasi Faspel', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('71', '1', 'PRK', '810.04.01', 'KSO Instalasi Faspel Valas', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('72', '1', 'PRK', '810.05.00', 'KSO Tanah', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('73', '1', 'PRK', '810.06.00', 'KSO  Jalan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('74', '1', 'PRK', '810.07.00', 'KSO Peralatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('75', '1', 'PRK', '810.08.00', 'KSO Kendaraan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('76', '1', 'PRK', '810.09.00', 'KSO Emplasemen', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('77', '1', 'PRK', '811.00.00', 'SEGMEN RUPA-RUPA USAHA', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('78', '1', 'PRK', '811.01.00', 'Fasilitas Telepon', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('79', '1', 'PRK', '811.02.00', 'Pas Pelabuhan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('80', '1', 'PRK', '811.03.00', 'Retribusi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('81', '1', 'PRK', '811.04.00', 'Bengkel', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('82', '1', 'PRK', '811.05.00', 'Balai Pendidikan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('83', '1', 'PRK', '811.06.00', 'Handling Fee', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('84', '1', 'PRK', '811.99.00', 'Rupa-rupa Usaha Lainnya', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('85', '1', 'PRK', '811.99.09', 'Biaya Asset TPS', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('86', '1', 'PRK', '812.00.00', 'SEGMEN PELAYANAN UTPK', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('87', '1', 'PRK', '812.01.00', 'Biaya Pelayanan Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('88', '1', 'PRK', '812.01.01', 'Biaya Penambatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('89', '1', 'PRK', '812.01.02', 'Biaya Air Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('90', '1', 'PRK', '812.02.00', 'Biaya Pelayanan Barang', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('91', '1', 'PRK', '812.02.01', 'Biaya Dermaga', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('92', '1', 'PRK', '812.02.02', 'Biaya Penumpukan Container', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('93', '1', 'PRK', '812.02.03', 'Biaya Penumpukan Barang', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('94', '1', 'PRK', '812.03.00', 'Biaya Pengusahaan TBAL', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('95', '1', 'PRK', '812.03.02', 'Biaya Sewa Bangunan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('96', '1', 'PRK', '812.03.03', 'Biaya Pengusahaan Air Minum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('97', '1', 'PRK', '812.03.04', 'Biaya Pengusahaan Listrik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('98', '1', 'PRK', '812.04.00', 'Biaya Operasi Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('99', '1', 'PRK', '812.04.01', 'Biaya Bongkar Muat', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('100', '1', 'PRK', '812.04.02', 'Biaya Shifting/Stevedoring', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('101', '1', 'PRK', '812.04.03', 'Biaya Buka Tutup Palka', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('102', '1', 'PRK', '812.04.99', 'Biaya Operasi Kapal Lainnya', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('103', '1', 'PRK', '812.05.00', 'Biaya Operasi Lapangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('104', '1', 'PRK', '812.05.01', 'Biaya Lift Off/On Extra', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('105', '1', 'PRK', '812.05.02', 'Biaya Relokasi ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('106', '1', 'PRK', '812.05.99', 'Biaya Operasi Lapangan Lainnya', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('107', '1', 'PRK', '812.06.00', 'Biaya Operasi CFS', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('108', '1', 'PRK', '812.06.01', 'Biaya Receiving/Delivery', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('109', '1', 'PRK', '812.06.02', 'Biaya Stuff./Strip./Rbh.Status', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('110', '1', 'PRK', '812.06.99', 'Biaya Operasi CFS Lainnya', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('111', '1', 'PRK', '812.07.00', 'Biaya Operasi Lainnya', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('112', '1', 'PRK', '812.07.01', 'Biaya Repair Container', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('113', '1', 'PRK', '812.07.02', 'Biaya Cleaning Container', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('114', '1', 'PRK', '812.08.00', 'Biaya Rupa -rupa Usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('115', '1', 'PRK', '812.08.01', 'Biaya Pas Pelabuhan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('116', '1', 'PRK', '812.08.02', 'Biaya Retribusi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('117', '1', 'PRK', '812.08.03', 'Biaya Monitoring/Reefer Plug', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('118', '1', 'PRK', '812.08.04', 'Biaya PMK', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('119', '1', 'PRK', '812.08.05', 'Biaya Batal Muat/Alih Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('120', '1', 'PRK', '812.08.06', 'Biaya Trucking', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('121', '1', 'PRK', '812.08.99', 'Biaya Rupa-rupa Lainnya', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('122', '1', 'PRK', '825.00.00', 'BIAYA RUMAH SAKIT PELABUHAN', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('123', '1', 'PRK', '825.01.00', 'Biaya Usaha Pelayanan Medis', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('124', '1', 'PRK', '825.01.01', 'Biaya Klinik Umum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('125', '1', 'PRK', '825.01.02', 'Biaya Klinik UGD', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('126', '1', 'PRK', '825.01.03', 'Biaya Klinik BKIA', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('127', '1', 'PRK', '825.01.04', 'Biaya Klinik Ambulance/Krt.Jenasah', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('128', '1', 'PRK', '825.01.05', 'Biaya Klinik Luar', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('129', '1', 'PRK', '825.01.06', 'Biaya Klinik Check Up', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('130', '1', 'PRK', '825.01.07', 'Biaya Klinik Gizi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('131', '1', 'PRK', '825.01.08', 'Biaya Klinik Anak', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('132', '1', 'PRK', '825.01.09', 'Biaya Klinik Gigi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('133', '1', 'PRK', '825.01.10', 'Biaya Klinik Jantung', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('134', '1', 'PRK', '825.01.11', 'Biaya Klinik Kandungan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('135', '1', 'PRK', '825.01.12', 'Biaya Klinik Mata', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('136', '1', 'PRK', '825.01.13', 'Biaya Klinik THT', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('137', '1', 'PRK', '825.01.14', 'Biaya Klinik Kulit/Kelamin', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('138', '1', 'PRK', '825.01.15', 'Biaya Specialis Paru', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('139', '1', 'PRK', '825.01.16', 'Biaya Specialis Bedah', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('140', '1', 'PRK', '825.01.17', 'Biaya Specialis Syaraf', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('141', '1', 'PRK', '825.01.18', 'Biaya Specialis Jiwa', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('142', '1', 'PRK', '825.01.19', 'Biaya Specialis Anak', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('143', '1', 'PRK', '825.01.20', 'Biaya Specialis Penyakit Dalam', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('144', '1', 'PRK', '825.01.21', 'Biaya Specialis Psikologi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('145', '1', 'PRK', '825.01.22', 'Biaya Specialis Alergi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('146', '1', 'PRK', '825.01.23', 'Biaya Treat mill', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('147', '1', 'PRK', '825.01.24', 'Biaya Specialis Rehab Medik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('148', '1', 'PRK', '825.02.00', 'Biaya Usaha Perawatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('149', '1', 'PRK', '825.02.01', 'Biaya Ruang Rawat Tinggal I', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('150', '1', 'PRK', '825.02.02', 'Biaya Ruang Rawat Tinggal II', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('151', '1', 'PRK', '825.02.03', 'Biaya Ruang Rawat OK', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('152', '1', 'PRK', '825.03.00', 'Biaya Penunjang Medis', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('153', '1', 'PRK', '825.03.01', 'Biaya Laboratorium', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('154', '1', 'PRK', '825.03.02', 'Biaya Radiologi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('155', '1', 'PRK', '825.03.03', 'Biaya Ultrasonografi/USG', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('156', '1', 'PRK', '825.03.04', 'Biaya Instalasi Farmasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('157', '1', 'PRK', '825.04.00', 'Biaya Rupa-rupa Usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('158', '1', 'PRK', '825.04.01', 'Biaya Pelayanan Kesht.Sekolah', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('159', '1', 'PRK', '825.04.02', 'Biaya Cuci Pakaian', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('160', '1', 'PRK', '825.04.03', 'Biaya Parkir', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('161', '1', 'PRK', '825.04.04', 'Biaya Sewa Bangunan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('162', '1', 'PRK', '850.00.00', 'Biaya OTL Div/Dinas Terminal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('163', '1', 'PRK', '850.01.00', 'Biaya Kadiv/Kadin Jasa/usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('164', '1', 'PRK', '850.01.01', 'Biaya ManajerTerminal Jamrud', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('165', '1', 'PRK', '850.01.02', 'Biaya ManajerTerminal Mirah,Berlian & Ni', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('166', '1', 'PRK', '850.01.03', 'Biaya Manajer Terminal Kalimas', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('167', '1', 'PRK', '850.02.00', 'Biaya Kadin Kawasan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('168', '1', 'PRK', '850.03.00', 'Biaya Din.Aneka Ush.Um.', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('169', '1', 'PRK', '850.04.00', 'Biaya Din.Perenc.Operasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('170', '1', 'PRK', '850.05.00', 'Biaya Dinas Pangkalan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('171', '1', 'PRK', '850.05.01', 'Dinas Terminal Jamrud', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('172', '1', 'PRK', '850.05.02', 'Dinas Terminal Mirah, Berlian & Nilam', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('173', '1', 'PRK', '850.05.03', 'Dinas Terminal Kalimas', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('174', '1', 'PRK', '850.06.00', 'Biaya Din.Pengush.Air Tehnik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('175', '1', 'PRK', '850.07.00', 'Biaya Din.Bina Pelanggan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('176', '1', 'PRK', '850.50.00', null, '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('177', '1', 'PRK', '850.52.00', 'Dinas Pemeliharaan dan Admin', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('178', '1', 'PRK', '850.57.00', null, '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('179', '1', 'PRK', '851.00.00', 'BIAYA OTL DIV/DIN PELAYANAN KAPAL', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('180', '1', 'PRK', '851.01.00', 'Biaya Kadiv/Kadin Pelayanan Kapal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('181', '1', 'PRK', '851.02.00', 'Biaya Dinas Pemanduan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('182', '1', 'PRK', '851.03.00', 'Biaya Din.Armada', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('183', '1', 'PRK', '851.04.00', 'Biaya Dinas Administrasi Kepanduan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('184', '1', 'PRK', '851.05.00', 'Biaya Dinas Telekomunikasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('185', '1', 'PRK', '851.06.00', 'Biaya Dinas Administrasi Pemanduan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('186', '1', 'PRK', '851.07.00', 'Biaya Dinas Telkom', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('187', '1', 'PRK', '852.00.00', 'BIAYA OTL DIV/DIN ANEKA USAHA&PROPERTI', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('188', '1', 'PRK', '852.01.00', 'Biaya Kdv/Kdn.Aneka Usaha ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('189', '1', 'PRK', '852.02.00', 'Biaya Dinas Operasi Terminal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('190', '1', 'PRK', '852.03.00', 'Biaya Dinas Pengsh.Peralatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('191', '1', 'PRK', '852.04.00', 'Biaya Din.Properti,Pengamanan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('192', '1', 'PRK', '852.05.00', 'Biaya Din.Term.Penump.Umum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('193', '1', 'PRK', '852.06.00', 'Biaya Dinas Adms.Aneka Usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('194', '1', 'PRK', '852.07.00', 'Biaya Din.Bina Pelngn.', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('195', '1', 'PRK', '852.08.00', 'Biaya Dinas PBK, Depo & Parkir', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('196', '1', 'PRK', '852.50.00', 'Dinas Pangkalan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('197', '1', 'PRK', '853.00.00', 'BIAYA OTL DIV/DIN USH.TRM.SRB.GUNA', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('198', '1', 'PRK', '853.01.00', 'Biaya Kdv./Kdn.Usaha Term.Srb.Guna', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('199', '1', 'PRK', '853.02.00', 'Biaya Dinas Operasi Terminal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('200', '1', 'PRK', '853.03.00', 'Biaya Dinas Operasi Peti Kemas', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('201', '1', 'PRK', '853.04.00', 'Biaya Dinas Pengusahaan Alat', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('202', '1', 'PRK', '853.05.00', 'Biaya Dinas Adms. Usaha Terminal', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('203', '1', 'PRK', '854.00.00', 'BI.OTL DIV/DIN UTPK (KONVENSIONAL)', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('204', '1', 'PRK', '854.01.00', 'Biaya Kadiv/Kadin Usaha TPK', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('205', '1', 'PRK', '854.02.00', 'Bi.Din.Perenc.Oprs.P.K', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('206', '1', 'PRK', '854.03.00', 'Biaya Dinas Operasi Penumpukan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('207', '1', 'PRK', '854.04.00', 'Biaya Dinas Op.Terminal Batu Bara', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('208', '1', 'PRK', '854.05.00', 'Biaya Dinas Op.Terml.Konvensional', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('209', '1', 'PRK', '854.06.00', 'Biaya Dinas Operasi Peti Kemas', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('210', '1', 'PRK', '854.07.00', 'Biaya Dinas Peralatan Peti Kemas', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('211', '1', 'PRK', '854.08.00', 'Biaya Dinas Administrasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('212', '1', 'PRK', '854.09.00', 'Biaya Dinas Pengush.Peralatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('213', '1', 'PRK', '854.10.00', 'Biaya Dinas Bina Pelanggan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('214', '1', 'PRK', '855.00.00', 'BIAYA OTL UNIT TERMINAL PETI KEMAS', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('215', '1', 'PRK', '855.01.00', 'Biaya OTL Operasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('216', '1', 'PRK', '855.01.01', 'Biaya Kadiv Operasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('217', '1', 'PRK', '855.01.02', 'Biaya Dinas Perencanaan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('218', '1', 'PRK', '855.01.03', 'Biaya Dinas Operasi TPK II', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('219', '1', 'PRK', '855.01.04', 'Biaya Din.Op.Lap.  TPK II', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('220', '1', 'PRK', '855.01.05', 'Biaya Din.Op.Gudang TPK II', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('221', '1', 'PRK', '855.01.06', 'Biaya Din.Op.TPK.I/Antar Pulau', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('222', '1', 'PRK', '855.02.00', 'Biaya OTL Divisi Aneka Usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('223', '1', 'PRK', '855.02.01', 'Biaya Kadiv Aneka Usaha', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('224', '1', 'PRK', '855.02.02', 'Biaya Dinas Usaha Pely. Multimoda', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('225', '1', 'PRK', '855.02.03', 'Biaya Din.Pely.Umum ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('226', '1', 'PRK', '856.00.00', 'Biaya OTL Divisi / Dinas Komersial/PPSA', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('227', '1', 'PRK', '856.01.00', 'Biaya Kadiv Komersial/PPSA', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('228', '1', 'PRK', '856.01.01', 'Biaya Dinas Pelayanan Medis', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('229', '1', 'PRK', '856.01.02', 'Biaya Subdin Pelyn.Medis I', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('230', '1', 'PRK', '856.01.03', 'Biaya Subdin Pelyn. Medis II', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('231', '1', 'PRK', '856.02.00', 'Biaya Dinas Perencanaan Operasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('232', '1', 'PRK', '856.02.01', 'Biaya Dinas Perawatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('233', '1', 'PRK', '856.02.02', 'Biaya Subdin Perawatan I', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('234', '1', 'PRK', '856.02.03', 'Biaya Subdin Perawatan II', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('235', '1', 'PRK', '856.03.00', 'Biaya Dinas Analisa & Evaluasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('236', '1', 'PRK', '856.04.00', 'Biaya Dinas Pemasaran', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('237', '1', 'PRK', '857.00.00', 'Biaya OTL Deputy General Manajer', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('238', '1', 'PRK', '857.01.00', 'Biaya Deputy General Manajer', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('239', '1', 'PRK', '860.00.00', 'BIAYA P.O. DIVISI/DINAS TEHNIK', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('240', '1', 'PRK', '860.01.00', 'Biaya Kadiv/Kadin Tehnik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('241', '1', 'PRK', '860.02.00', 'Biaya Dinas Bangunan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('242', '1', 'PRK', '860.03.00', 'Biaya Dinas Peralatan Pelabuhan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('243', '1', 'PRK', '860.04.00', 'Biaya Dinas Pengusahaan Listrik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('244', '1', 'PRK', '860.05.00', 'Biaya Dinas Perenc. Tehnik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('245', '1', 'PRK', '860.06.00', 'Biaya Dinas Alat Apung ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('246', '1', 'PRK', '860.07.00', 'Biaya Dinas Umum ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('247', '1', 'PRK', '860.08.00', 'Biaya Dinas Sis.Infor.Hukum ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('248', '1', 'PRK', '861.00.00', 'BIAYA P.O. DIVISI/DINAS KEUANGAN', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('249', '1', 'PRK', '861.01.00', 'Biaya Kdv/Kdn Keuangan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('250', '1', 'PRK', '861.02.00', 'Biaya Dinas Akuntansi Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('251', '1', 'PRK', '861.03.00', 'Biaya Dinas Akuntansi Manajemen', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('252', '1', 'PRK', '861.04.00', 'Biaya Dinas Perbendaharaan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('253', '1', 'PRK', '861.05.00', 'Biaya Dinas Administrasi Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('254', '1', 'PRK', '861.06.00', 'Biaya Dinas Anggaran', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('255', '1', 'PRK', '862.00.00', 'BIAYA P.O. KACAB  UMUM', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('256', '1', 'PRK', '862.01.00', 'Biaya Kepala Cabang', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('257', '1', 'PRK', '862.02.00', 'Biaya Kadiv/Kadin Umum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('258', '1', 'PRK', '862.03.00', 'Biaya Dinas Personalia', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('259', '1', 'PRK', '862.04.00', 'Biaya Tata Usaha Tangga', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('260', '1', 'PRK', '862.05.00', 'Biaya Sistem Informasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('261', '1', 'PRK', '862.06.00', 'Biaya Din.Hkm,Hms.Pelanggan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('262', '1', 'PRK', '863.00.00', 'BIAYA P.O. UNIT TERMINAL PETI KEMAS', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('263', '1', 'PRK', '863.01.00', 'Biaya PO Divisi Peralatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('264', '1', 'PRK', '863.01.01', 'Biaya Kadiv Peralatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('265', '1', 'PRK', '863.01.02', 'Biaya Din.Prlt.Gent.Crane ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('266', '1', 'PRK', '863.01.03', 'Biaya Din.Perlt.Head Truck ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('267', '1', 'PRK', '863.01.04', 'Biaya Din.Fasilitas Tehnik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('268', '1', 'PRK', '863.02.00', 'Biaya PO Divisi Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('269', '1', 'PRK', '863.02.01', 'Biaya Kadiv Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('270', '1', 'PRK', '863.02.02', 'Biaya Dinas Akuntansi Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('271', '1', 'PRK', '863.02.03', 'Biaya Dinas Akuntansi Manajemen', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('272', '1', 'PRK', '863.02.04', 'Biaya Dinas Administrasi Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('273', '1', 'PRK', '863.02.05', 'Biaya Dinas Perbendaharaan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('274', '1', 'PRK', '863.03.00', 'Biaya PO Kepala Unit  Umum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('275', '1', 'PRK', '863.03.01', 'Biaya Kepala Unit', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('276', '1', 'PRK', '863.03.02', 'Biaya Kadiv Umum', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('277', '1', 'PRK', '863.03.03', 'Biaya Dinas Personalia', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('278', '1', 'PRK', '863.03.04', 'Biaya Dinas TU ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('279', '1', 'PRK', '863.03.05', 'Biaya Dinas Sistem Informasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('280', '1', 'PRK', '863.03.06', 'Biaya Hukum,Humas Pelanggan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('281', '1', 'PRK', '864.00.00', 'BIAYA PO TEKNOLOGI INFORMASI', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('282', '1', 'PRK', '864.01.00', 'BIAYA KADIV TEKNOLOGI INFORMASI', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('283', '1', 'PRK', '864.01.01', 'Biaya Kepala Dinas Penunjang Medis', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('284', '1', 'PRK', '864.01.02', 'Baiya Subdin Instalasi Farmasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('285', '1', 'PRK', '864.01.03', 'Biaya Subdin Penunj.Diagnostik', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('286', '1', 'PRK', '864.01.04', 'Biaya Subdin Penunjang', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('287', '1', 'PRK', '864.01.05', 'Biaya Subdin Pemeliharaan Sarana', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('288', '1', 'PRK', '864.02.00', 'BIAYA DINAS JARINGAN DAN STATISTIK', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('289', '1', 'PRK', '864.02.01', 'Biaya Kadin Keuangan ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('290', '1', 'PRK', '864.02.02', 'Biaya Subdin Keuangan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('291', '1', 'PRK', '864.02.03', 'Biaya Subdin TU/RT ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('292', '1', 'PRK', '864.02.04', 'Biaya Subdin Pengl.Sis.Inf.', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('293', '1', 'PRK', '864.03.00', 'BIAYA DINAS PENGOP.APLIKASI DAN DUK.PENG', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('294', '1', 'PRK', '864.03.01', 'Biaya Kepala Rumah Sakit', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('295', '1', 'PRK', '865.00.00', 'BIAYA KASATPAMPEL', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('296', '1', 'PRK', '865.01.00', 'Biaya KasatPamPel', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('297', '1', 'PRK', '865.02.00', 'Biaya Koord. Pam. Dalam Ring Bewaking', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('298', '1', 'PRK', '865.03.00', 'Biaya Koord. Pam. Luar Ring Bewaking', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('299', '1', 'PRK', '880.00.00', 'BIAYA DILUAR USAHA', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('300', '1', 'PRK', '880.01.00', 'Biaya Puskespel/Unit Kesehatan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('301', '1', 'PRK', '880.02.00', 'Biaya Jasa Bank', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('302', '1', 'PRK', '880.03.00', 'Biaya Bunga Deposito', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('303', '1', 'PRK', '880.04.00', 'Biaya Bunga Obligasi', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('304', '1', 'PRK', '880.05.00', 'Biaya Denda ', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('305', '1', 'PRK', '880.06.00', 'Rugi Selisih Kurs', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('306', '1', 'PRK', '880.07.00', 'Rugi Penjualan Surat Berharga', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('307', '1', 'PRK', '880.08.00', 'Rugi Penghapusan Aktiva Tetap', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('308', '1', 'PRK', '880.09.00', 'Rugi Penjualan Barang Persediaan', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('309', '1', 'PRK', '880.10.00', 'Koreksi Laba/Rugi Tahun Lalu', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('310', '1', 'PRK', '880.13.00', 'Biaya Denda Pajak', '6', '2015', null);
-INSERT INTO `tbl_loc` VALUES ('311', '1', 'PRK', '880.99.00', 'Biaya Diluar Usaha Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('1', '2', 'PRK', '801.00.00', 'SEGMEN PELY. KAPAL', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('2', '2', 'PRK', '801.01.00', 'Labuh', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('3', '2', 'PRK', '801.02.00', 'Pemanduan', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('4', '2', 'PRK', '801.03.00', 'Penundaan', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('5', '2', 'PRK', '801.04.00', 'Penambatan', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('6', '2', 'PRK', '801.05.00', 'Air Kapal', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('7', '2', 'PRK', '801.99.00', 'Pel. Kapal Lainnya', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('8', '2', 'PRK', '802.00.00', 'SEGMEN PELY. BARANG', '6', '2015', '1');
+INSERT INTO `tbl_loc` VALUES ('9', '2', 'PRK', '802.01.00', 'Dermaga', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('10', '2', 'PRK', '802.02.00', 'Gudang', '6', '2015', '9');
+INSERT INTO `tbl_loc` VALUES ('11', '2', 'PRK', '802.03.00', 'Lapangan Penumpukan', '6', '2015', '9');
+INSERT INTO `tbl_loc` VALUES ('12', '2', 'PRK', '803.00.00', 'SEGMEN PENGUSAHAAN ALAT-ALAT', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('13', '2', 'PRK', '803.01.00', 'Kran Darat', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('14', '2', 'PRK', '803.02.00', 'Kran Apung', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('15', '2', 'PRK', '803.03.00', 'Forklift', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('16', '2', 'PRK', '803.04.00', 'Head Truck', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('17', '2', 'PRK', '803.05.00', 'Chasis', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('18', '2', 'PRK', '803.06.00', 'Tongkang', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('19', '2', 'PRK', '803.07.00', 'BKMP', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('20', '2', 'PRK', '803.08.00', 'Towing Tractor', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('21', '2', 'PRK', '803.09.00', 'Timbangan', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('22', '2', 'PRK', '803.10.00', 'Pemadam Kebakaran', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('23', '2', 'PRK', '803.99.00', 'Pengusahaan Alat Lainnya', '6', '2015', '12');
+INSERT INTO `tbl_loc` VALUES ('24', '2', 'PRK', '804.00.00', 'SEGMEN PELY. USAHA B/M', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('25', '2', 'PRK', '804.01.00', 'Per Mata Rantai', '6', '2015', '24');
+INSERT INTO `tbl_loc` VALUES ('26', '2', 'PRK', '804.01.01', 'Stevedoring', '6', '2015', '25');
+INSERT INTO `tbl_loc` VALUES ('27', '2', 'PRK', '804.01.02', 'Cargodoring', '6', '2015', '25');
+INSERT INTO `tbl_loc` VALUES ('28', '2', 'PRK', '804.01.03', 'Overbrengen', '6', '2015', '25');
+INSERT INTO `tbl_loc` VALUES ('29', '2', 'PRK', '804.01.04', 'Delivery Charges', '6', '2015', '25');
+INSERT INTO `tbl_loc` VALUES ('30', '2', 'PRK', '804.02.00', 'Per Paket', '6', '2015', '24');
+INSERT INTO `tbl_loc` VALUES ('31', '2', 'PRK', '804.02.01', 'Barang', '6', '2015', '30');
+INSERT INTO `tbl_loc` VALUES ('32', '2', 'PRK', '804.02.02', 'Peti Kemas', '6', '2015', '30');
+INSERT INTO `tbl_loc` VALUES ('33', '2', 'PRK', '804.03.00', 'Ro-Ro', '6', '2015', '24');
+INSERT INTO `tbl_loc` VALUES ('34', '2', 'PRK', '804.03.01', 'Terminal B/M Kapal Ro-Ro', '6', '2015', '33');
+INSERT INTO `tbl_loc` VALUES ('35', '2', 'PRK', '804.03.02', 'Kesejahteraan TKBM Kapal Ro-Ro', '6', '2015', '33');
+INSERT INTO `tbl_loc` VALUES ('36', '2', 'PRK', '804.19.00', 'AMORTISASI BIAYA PENGERUKAN DAN ALUR PEL', '6', '2015', '24');
+INSERT INTO `tbl_loc` VALUES ('37', '2', 'PRK', '804.25.00', 'AMORT BIAYA PEMELIHARAAN AKTIVA TETAP YG', '6', '2015', '24');
+INSERT INTO `tbl_loc` VALUES ('38', '2', 'PRK', '804.99.00', 'Pengsh.Alat B/M Lainnya', '6', '2015', '24');
+INSERT INTO `tbl_loc` VALUES ('39', '2', 'PRK', '804.99.02', 'Pengusahaan Kapal Roro', '6', '2015', '38');
+INSERT INTO `tbl_loc` VALUES ('40', '2', 'PRK', '805.00.00', 'SEGMEN PELY. TERMINAL CURAH KERING', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('41', '2', 'PRK', '805.01.00', 'Biaya Bongkar Muat', '6', '2015', '40');
+INSERT INTO `tbl_loc` VALUES ('42', '2', 'PRK', '805.02.00', 'Biaya Penyimpanan (Silo)', '6', '2015', '40');
+INSERT INTO `tbl_loc` VALUES ('43', '2', 'PRK', '806.00.00', 'SEGMEN PELY. TERMINAL CURAH CAIR', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('44', '2', 'PRK', '806.01.00', 'Bongkar Muat', '6', '2015', '43');
+INSERT INTO `tbl_loc` VALUES ('45', '2', 'PRK', '806.02.00', 'Penyimpanan (Tangki)', '6', '2015', '43');
+INSERT INTO `tbl_loc` VALUES ('46', '2', 'PRK', '806.21.00', 'Kerjasama dengan Mitra Usaha', '6', '2015', '43');
+INSERT INTO `tbl_loc` VALUES ('47', '2', 'PRK', '807.00.00', 'SEGMEN PELY. KONSOLIDASI MUATAN', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('48', '2', 'PRK', '807.01.00', 'Stuffing/Stripping', '6', '2015', '47');
+INSERT INTO `tbl_loc` VALUES ('49', '2', 'PRK', '807.02.00', 'Unitasi/Paletisasi', '6', '2015', '47');
+INSERT INTO `tbl_loc` VALUES ('50', '2', 'PRK', '808.00.00', 'SEGMEN PENGUSAHAAN TBAL', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('51', '2', 'PRK', '808.01.00', 'Pengusahaan Tanah', '6', '2015', '50');
+INSERT INTO `tbl_loc` VALUES ('52', '2', 'PRK', '808.01.01', 'BPT Daratan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('53', '2', 'PRK', '808.01.02', 'BPT Perairan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('54', '2', 'PRK', '808.02.00', 'Biaya Pengusahaan Bangunan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('55', '2', 'PRK', '808.03.00', 'Biaya Pengusahaan Air Minum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('56', '2', 'PRK', '808.04.00', 'Biaya Pengusahaan Listrik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('57', '2', 'PRK', '808.06.00', 'Biaya diluar Usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('58', '2', 'PRK', '809.00.00', 'SEGMEN PELSUS / DERSUS', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('59', '2', 'PRK', '809.01.00', 'Labuh', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('60', '2', 'PRK', '809.02.00', 'Pemanduan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('61', '2', 'PRK', '809.03.00', 'Penundaan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('62', '2', 'PRK', '809.04.00', 'Penambatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('63', '2', 'PRK', '809.05.00', 'Dermaga', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('64', '2', 'PRK', '809.99.00', 'Lain-lain', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('65', '2', 'PRK', '810.00.00', 'SEGMEN KSO', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('66', '2', 'PRK', '810.01.00', 'KSO Bangunan Faspel', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('67', '2', 'PRK', '810.02.00', 'KSO Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('68', '2', 'PRK', '810.02.01', 'KSO Air Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('69', '2', 'PRK', '810.03.00', 'KSO Alat-alat Faspel', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('70', '2', 'PRK', '810.04.00', 'KSO Instalasi Faspel', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('71', '2', 'PRK', '810.04.01', 'KSO Instalasi Faspel Valas', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('72', '2', 'PRK', '810.05.00', 'KSO Tanah', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('73', '2', 'PRK', '810.06.00', 'KSO  Jalan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('74', '2', 'PRK', '810.07.00', 'KSO Peralatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('75', '2', 'PRK', '810.08.00', 'KSO Kendaraan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('76', '2', 'PRK', '810.09.00', 'KSO Emplasemen', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('77', '2', 'PRK', '811.00.00', 'SEGMEN RUPA-RUPA USAHA', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('78', '2', 'PRK', '811.01.00', 'Fasilitas Telepon', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('79', '2', 'PRK', '811.02.00', 'Pas Pelabuhan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('80', '2', 'PRK', '811.03.00', 'Retribusi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('81', '2', 'PRK', '811.04.00', 'Bengkel', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('82', '2', 'PRK', '811.05.00', 'Balai Pendidikan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('83', '2', 'PRK', '811.06.00', 'Handling Fee', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('84', '2', 'PRK', '811.99.00', 'Rupa-rupa Usaha Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('85', '2', 'PRK', '811.99.09', 'Biaya Asset TPS', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('86', '2', 'PRK', '812.00.00', 'SEGMEN PELAYANAN UTPK', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('87', '2', 'PRK', '812.01.00', 'Biaya Pelayanan Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('88', '2', 'PRK', '812.01.01', 'Biaya Penambatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('89', '2', 'PRK', '812.01.02', 'Biaya Air Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('90', '2', 'PRK', '812.02.00', 'Biaya Pelayanan Barang', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('91', '2', 'PRK', '812.02.01', 'Biaya Dermaga', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('92', '2', 'PRK', '812.02.02', 'Biaya Penumpukan Container', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('93', '2', 'PRK', '812.02.03', 'Biaya Penumpukan Barang', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('94', '2', 'PRK', '812.03.00', 'Biaya Pengusahaan TBAL', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('95', '2', 'PRK', '812.03.02', 'Biaya Sewa Bangunan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('96', '2', 'PRK', '812.03.03', 'Biaya Pengusahaan Air Minum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('97', '2', 'PRK', '812.03.04', 'Biaya Pengusahaan Listrik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('98', '2', 'PRK', '812.04.00', 'Biaya Operasi Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('99', '2', 'PRK', '812.04.01', 'Biaya Bongkar Muat', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('100', '2', 'PRK', '812.04.02', 'Biaya Shifting/Stevedoring', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('101', '2', 'PRK', '812.04.03', 'Biaya Buka Tutup Palka', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('102', '2', 'PRK', '812.04.99', 'Biaya Operasi Kapal Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('103', '2', 'PRK', '812.05.00', 'Biaya Operasi Lapangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('104', '2', 'PRK', '812.05.01', 'Biaya Lift Off/On Extra', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('105', '2', 'PRK', '812.05.02', 'Biaya Relokasi ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('106', '2', 'PRK', '812.05.99', 'Biaya Operasi Lapangan Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('107', '2', 'PRK', '812.06.00', 'Biaya Operasi CFS', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('108', '2', 'PRK', '812.06.01', 'Biaya Receiving/Delivery', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('109', '2', 'PRK', '812.06.02', 'Biaya Stuff./Strip./Rbh.Status', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('110', '2', 'PRK', '812.06.99', 'Biaya Operasi CFS Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('111', '2', 'PRK', '812.07.00', 'Biaya Operasi Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('112', '2', 'PRK', '812.07.01', 'Biaya Repair Container', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('113', '2', 'PRK', '812.07.02', 'Biaya Cleaning Container', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('114', '2', 'PRK', '812.08.00', 'Biaya Rupa -rupa Usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('115', '2', 'PRK', '812.08.01', 'Biaya Pas Pelabuhan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('116', '2', 'PRK', '812.08.02', 'Biaya Retribusi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('117', '2', 'PRK', '812.08.03', 'Biaya Monitoring/Reefer Plug', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('118', '2', 'PRK', '812.08.04', 'Biaya PMK', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('119', '2', 'PRK', '812.08.05', 'Biaya Batal Muat/Alih Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('120', '2', 'PRK', '812.08.06', 'Biaya Trucking', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('121', '2', 'PRK', '812.08.99', 'Biaya Rupa-rupa Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('122', '2', 'PRK', '825.00.00', 'BIAYA RUMAH SAKIT PELABUHAN', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('123', '2', 'PRK', '825.01.00', 'Biaya Usaha Pelayanan Medis', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('124', '2', 'PRK', '825.01.01', 'Biaya Klinik Umum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('125', '2', 'PRK', '825.01.02', 'Biaya Klinik UGD', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('126', '2', 'PRK', '825.01.03', 'Biaya Klinik BKIA', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('127', '2', 'PRK', '825.01.04', 'Biaya Klinik Ambulance/Krt.Jenasah', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('128', '2', 'PRK', '825.01.05', 'Biaya Klinik Luar', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('129', '2', 'PRK', '825.01.06', 'Biaya Klinik Check Up', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('130', '2', 'PRK', '825.01.07', 'Biaya Klinik Gizi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('131', '2', 'PRK', '825.01.08', 'Biaya Klinik Anak', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('132', '2', 'PRK', '825.01.09', 'Biaya Klinik Gigi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('133', '2', 'PRK', '825.01.10', 'Biaya Klinik Jantung', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('134', '2', 'PRK', '825.01.11', 'Biaya Klinik Kandungan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('135', '2', 'PRK', '825.01.12', 'Biaya Klinik Mata', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('136', '2', 'PRK', '825.01.13', 'Biaya Klinik THT', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('137', '2', 'PRK', '825.01.14', 'Biaya Klinik Kulit/Kelamin', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('138', '2', 'PRK', '825.01.15', 'Biaya Specialis Paru', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('139', '2', 'PRK', '825.01.16', 'Biaya Specialis Bedah', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('140', '2', 'PRK', '825.01.17', 'Biaya Specialis Syaraf', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('141', '2', 'PRK', '825.01.18', 'Biaya Specialis Jiwa', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('142', '2', 'PRK', '825.01.19', 'Biaya Specialis Anak', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('143', '2', 'PRK', '825.01.20', 'Biaya Specialis Penyakit Dalam', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('144', '2', 'PRK', '825.01.21', 'Biaya Specialis Psikologi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('145', '2', 'PRK', '825.01.22', 'Biaya Specialis Alergi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('146', '2', 'PRK', '825.01.23', 'Biaya Treat mill', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('147', '2', 'PRK', '825.01.24', 'Biaya Specialis Rehab Medik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('148', '2', 'PRK', '825.02.00', 'Biaya Usaha Perawatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('149', '2', 'PRK', '825.02.01', 'Biaya Ruang Rawat Tinggal I', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('150', '2', 'PRK', '825.02.02', 'Biaya Ruang Rawat Tinggal II', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('151', '2', 'PRK', '825.02.03', 'Biaya Ruang Rawat OK', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('152', '2', 'PRK', '825.03.00', 'Biaya Penunjang Medis', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('153', '2', 'PRK', '825.03.01', 'Biaya Laboratorium', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('154', '2', 'PRK', '825.03.02', 'Biaya Radiologi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('155', '2', 'PRK', '825.03.03', 'Biaya Ultrasonografi/USG', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('156', '2', 'PRK', '825.03.04', 'Biaya Instalasi Farmasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('157', '2', 'PRK', '825.04.00', 'Biaya Rupa-rupa Usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('158', '2', 'PRK', '825.04.01', 'Biaya Pelayanan Kesht.Sekolah', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('159', '2', 'PRK', '825.04.02', 'Biaya Cuci Pakaian', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('160', '2', 'PRK', '825.04.03', 'Biaya Parkir', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('161', '2', 'PRK', '825.04.04', 'Biaya Sewa Bangunan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('162', '2', 'PRK', '850.00.00', 'Biaya OTL Div/Dinas Terminal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('163', '2', 'PRK', '850.01.00', 'Biaya Kadiv/Kadin Jasa/usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('164', '2', 'PRK', '850.01.01', 'Biaya ManajerTerminal Jamrud', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('165', '2', 'PRK', '850.01.02', 'Biaya ManajerTerminal Mirah,Berlian & Ni', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('166', '2', 'PRK', '850.01.03', 'Biaya Manajer Terminal Kalimas', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('167', '2', 'PRK', '850.02.00', 'Biaya Kadin Kawasan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('168', '2', 'PRK', '850.03.00', 'Biaya Din.Aneka Ush.Um.', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('169', '2', 'PRK', '850.04.00', 'Biaya Din.Perenc.Operasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('170', '2', 'PRK', '850.05.00', 'Biaya Dinas Pangkalan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('171', '2', 'PRK', '850.05.01', 'Dinas Terminal Jamrud', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('172', '2', 'PRK', '850.05.02', 'Dinas Terminal Mirah, Berlian & Nilam', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('173', '2', 'PRK', '850.05.03', 'Dinas Terminal Kalimas', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('174', '2', 'PRK', '850.06.00', 'Biaya Din.Pengush.Air Tehnik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('175', '2', 'PRK', '850.07.00', 'Biaya Din.Bina Pelanggan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('176', '2', 'PRK', '850.50.00', null, '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('177', '2', 'PRK', '850.52.00', 'Dinas Pemeliharaan dan Admin', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('178', '2', 'PRK', '850.57.00', null, '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('179', '2', 'PRK', '851.00.00', 'BIAYA OTL DIV/DIN PELAYANAN KAPAL', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('180', '2', 'PRK', '851.01.00', 'Biaya Kadiv/Kadin Pelayanan Kapal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('181', '2', 'PRK', '851.02.00', 'Biaya Dinas Pemanduan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('182', '2', 'PRK', '851.03.00', 'Biaya Din.Armada', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('183', '2', 'PRK', '851.04.00', 'Biaya Dinas Administrasi Kepanduan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('184', '2', 'PRK', '851.05.00', 'Biaya Dinas Telekomunikasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('185', '2', 'PRK', '851.06.00', 'Biaya Dinas Administrasi Pemanduan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('186', '2', 'PRK', '851.07.00', 'Biaya Dinas Telkom', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('187', '2', 'PRK', '852.00.00', 'BIAYA OTL DIV/DIN ANEKA USAHA&PROPERTI', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('188', '2', 'PRK', '852.01.00', 'Biaya Kdv/Kdn.Aneka Usaha ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('189', '2', 'PRK', '852.02.00', 'Biaya Dinas Operasi Terminal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('190', '2', 'PRK', '852.03.00', 'Biaya Dinas Pengsh.Peralatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('191', '2', 'PRK', '852.04.00', 'Biaya Din.Properti,Pengamanan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('192', '2', 'PRK', '852.05.00', 'Biaya Din.Term.Penump.Umum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('193', '2', 'PRK', '852.06.00', 'Biaya Dinas Adms.Aneka Usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('194', '2', 'PRK', '852.07.00', 'Biaya Din.Bina Pelngn.', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('195', '2', 'PRK', '852.08.00', 'Biaya Dinas PBK, Depo & Parkir', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('196', '2', 'PRK', '852.50.00', 'Dinas Pangkalan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('197', '2', 'PRK', '853.00.00', 'BIAYA OTL DIV/DIN USH.TRM.SRB.GUNA', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('198', '2', 'PRK', '853.01.00', 'Biaya Kdv./Kdn.Usaha Term.Srb.Guna', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('199', '2', 'PRK', '853.02.00', 'Biaya Dinas Operasi Terminal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('200', '2', 'PRK', '853.03.00', 'Biaya Dinas Operasi Peti Kemas', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('201', '2', 'PRK', '853.04.00', 'Biaya Dinas Pengusahaan Alat', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('202', '2', 'PRK', '853.05.00', 'Biaya Dinas Adms. Usaha Terminal', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('203', '2', 'PRK', '854.00.00', 'BI.OTL DIV/DIN UTPK (KONVENSIONAL)', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('204', '2', 'PRK', '854.01.00', 'Biaya Kadiv/Kadin Usaha TPK', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('205', '2', 'PRK', '854.02.00', 'Bi.Din.Perenc.Oprs.P.K', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('206', '2', 'PRK', '854.03.00', 'Biaya Dinas Operasi Penumpukan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('207', '2', 'PRK', '854.04.00', 'Biaya Dinas Op.Terminal Batu Bara', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('208', '2', 'PRK', '854.05.00', 'Biaya Dinas Op.Terml.Konvensional', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('209', '2', 'PRK', '854.06.00', 'Biaya Dinas Operasi Peti Kemas', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('210', '2', 'PRK', '854.07.00', 'Biaya Dinas Peralatan Peti Kemas', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('211', '2', 'PRK', '854.08.00', 'Biaya Dinas Administrasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('212', '2', 'PRK', '854.09.00', 'Biaya Dinas Pengush.Peralatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('213', '2', 'PRK', '854.10.00', 'Biaya Dinas Bina Pelanggan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('214', '2', 'PRK', '855.00.00', 'BIAYA OTL UNIT TERMINAL PETI KEMAS', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('215', '2', 'PRK', '855.01.00', 'Biaya OTL Operasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('216', '2', 'PRK', '855.01.01', 'Biaya Kadiv Operasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('217', '2', 'PRK', '855.01.02', 'Biaya Dinas Perencanaan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('218', '2', 'PRK', '855.01.03', 'Biaya Dinas Operasi TPK II', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('219', '2', 'PRK', '855.01.04', 'Biaya Din.Op.Lap.  TPK II', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('220', '2', 'PRK', '855.01.05', 'Biaya Din.Op.Gudang TPK II', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('221', '2', 'PRK', '855.01.06', 'Biaya Din.Op.TPK.I/Antar Pulau', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('222', '2', 'PRK', '855.02.00', 'Biaya OTL Divisi Aneka Usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('223', '2', 'PRK', '855.02.01', 'Biaya Kadiv Aneka Usaha', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('224', '2', 'PRK', '855.02.02', 'Biaya Dinas Usaha Pely. Multimoda', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('225', '2', 'PRK', '855.02.03', 'Biaya Din.Pely.Umum ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('226', '2', 'PRK', '856.00.00', 'Biaya OTL Divisi / Dinas Komersial/PPSA', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('227', '2', 'PRK', '856.01.00', 'Biaya Kadiv Komersial/PPSA', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('228', '2', 'PRK', '856.01.01', 'Biaya Dinas Pelayanan Medis', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('229', '2', 'PRK', '856.01.02', 'Biaya Subdin Pelyn.Medis I', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('230', '2', 'PRK', '856.01.03', 'Biaya Subdin Pelyn. Medis II', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('231', '2', 'PRK', '856.02.00', 'Biaya Dinas Perencanaan Operasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('232', '2', 'PRK', '856.02.01', 'Biaya Dinas Perawatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('233', '2', 'PRK', '856.02.02', 'Biaya Subdin Perawatan I', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('234', '2', 'PRK', '856.02.03', 'Biaya Subdin Perawatan II', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('235', '2', 'PRK', '856.03.00', 'Biaya Dinas Analisa & Evaluasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('236', '2', 'PRK', '856.04.00', 'Biaya Dinas Pemasaran', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('237', '2', 'PRK', '857.00.00', 'Biaya OTL Deputy General Manajer', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('238', '2', 'PRK', '857.01.00', 'Biaya Deputy General Manajer', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('239', '2', 'PRK', '860.00.00', 'BIAYA P.O. DIVISI/DINAS TEHNIK', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('240', '2', 'PRK', '860.01.00', 'Biaya Kadiv/Kadin Tehnik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('241', '2', 'PRK', '860.02.00', 'Biaya Dinas Bangunan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('242', '2', 'PRK', '860.03.00', 'Biaya Dinas Peralatan Pelabuhan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('243', '2', 'PRK', '860.04.00', 'Biaya Dinas Pengusahaan Listrik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('244', '2', 'PRK', '860.05.00', 'Biaya Dinas Perenc. Tehnik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('245', '2', 'PRK', '860.06.00', 'Biaya Dinas Alat Apung ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('246', '2', 'PRK', '860.07.00', 'Biaya Dinas Umum ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('247', '2', 'PRK', '860.08.00', 'Biaya Dinas Sis.Infor.Hukum ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('248', '2', 'PRK', '861.00.00', 'BIAYA P.O. DIVISI/DINAS KEUANGAN', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('249', '2', 'PRK', '861.01.00', 'Biaya Kdv/Kdn Keuangan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('250', '2', 'PRK', '861.02.00', 'Biaya Dinas Akuntansi Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('251', '2', 'PRK', '861.03.00', 'Biaya Dinas Akuntansi Manajemen', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('252', '2', 'PRK', '861.04.00', 'Biaya Dinas Perbendaharaan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('253', '2', 'PRK', '861.05.00', 'Biaya Dinas Administrasi Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('254', '2', 'PRK', '861.06.00', 'Biaya Dinas Anggaran', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('255', '2', 'PRK', '862.00.00', 'BIAYA P.O. KACAB  UMUM', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('256', '2', 'PRK', '862.01.00', 'Biaya Kepala Cabang', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('257', '2', 'PRK', '862.02.00', 'Biaya Kadiv/Kadin Umum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('258', '2', 'PRK', '862.03.00', 'Biaya Dinas Personalia', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('259', '2', 'PRK', '862.04.00', 'Biaya Tata Usaha Tangga', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('260', '2', 'PRK', '862.05.00', 'Biaya Sistem Informasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('261', '2', 'PRK', '862.06.00', 'Biaya Din.Hkm,Hms.Pelanggan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('262', '2', 'PRK', '863.00.00', 'BIAYA P.O. UNIT TERMINAL PETI KEMAS', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('263', '2', 'PRK', '863.01.00', 'Biaya PO Divisi Peralatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('264', '2', 'PRK', '863.01.01', 'Biaya Kadiv Peralatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('265', '2', 'PRK', '863.01.02', 'Biaya Din.Prlt.Gent.Crane ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('266', '2', 'PRK', '863.01.03', 'Biaya Din.Perlt.Head Truck ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('267', '2', 'PRK', '863.01.04', 'Biaya Din.Fasilitas Tehnik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('268', '2', 'PRK', '863.02.00', 'Biaya PO Divisi Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('269', '2', 'PRK', '863.02.01', 'Biaya Kadiv Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('270', '2', 'PRK', '863.02.02', 'Biaya Dinas Akuntansi Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('271', '2', 'PRK', '863.02.03', 'Biaya Dinas Akuntansi Manajemen', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('272', '2', 'PRK', '863.02.04', 'Biaya Dinas Administrasi Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('273', '2', 'PRK', '863.02.05', 'Biaya Dinas Perbendaharaan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('274', '2', 'PRK', '863.03.00', 'Biaya PO Kepala Unit  Umum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('275', '2', 'PRK', '863.03.01', 'Biaya Kepala Unit', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('276', '2', 'PRK', '863.03.02', 'Biaya Kadiv Umum', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('277', '2', 'PRK', '863.03.03', 'Biaya Dinas Personalia', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('278', '2', 'PRK', '863.03.04', 'Biaya Dinas TU ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('279', '2', 'PRK', '863.03.05', 'Biaya Dinas Sistem Informasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('280', '2', 'PRK', '863.03.06', 'Biaya Hukum,Humas Pelanggan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('281', '2', 'PRK', '864.00.00', 'BIAYA PO TEKNOLOGI INFORMASI', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('282', '2', 'PRK', '864.01.00', 'BIAYA KADIV TEKNOLOGI INFORMASI', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('283', '2', 'PRK', '864.01.01', 'Biaya Kepala Dinas Penunjang Medis', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('284', '2', 'PRK', '864.01.02', 'Baiya Subdin Instalasi Farmasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('285', '2', 'PRK', '864.01.03', 'Biaya Subdin Penunj.Diagnostik', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('286', '2', 'PRK', '864.01.04', 'Biaya Subdin Penunjang', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('287', '2', 'PRK', '864.01.05', 'Biaya Subdin Pemeliharaan Sarana', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('288', '2', 'PRK', '864.02.00', 'BIAYA DINAS JARINGAN DAN STATISTIK', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('289', '2', 'PRK', '864.02.01', 'Biaya Kadin Keuangan ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('290', '2', 'PRK', '864.02.02', 'Biaya Subdin Keuangan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('291', '2', 'PRK', '864.02.03', 'Biaya Subdin TU/RT ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('292', '2', 'PRK', '864.02.04', 'Biaya Subdin Pengl.Sis.Inf.', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('293', '2', 'PRK', '864.03.00', 'BIAYA DINAS PENGOP.APLIKASI DAN DUK.PENG', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('294', '2', 'PRK', '864.03.01', 'Biaya Kepala Rumah Sakit', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('295', '2', 'PRK', '865.00.00', 'BIAYA KASATPAMPEL', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('296', '2', 'PRK', '865.01.00', 'Biaya KasatPamPel', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('297', '2', 'PRK', '865.02.00', 'Biaya Koord. Pam. Dalam Ring Bewaking', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('298', '2', 'PRK', '865.03.00', 'Biaya Koord. Pam. Luar Ring Bewaking', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('299', '2', 'PRK', '880.00.00', 'BIAYA DILUAR USAHA', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('300', '2', 'PRK', '880.01.00', 'Biaya Puskespel/Unit Kesehatan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('301', '2', 'PRK', '880.02.00', 'Biaya Jasa Bank', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('302', '2', 'PRK', '880.03.00', 'Biaya Bunga Deposito', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('303', '2', 'PRK', '880.04.00', 'Biaya Bunga Obligasi', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('304', '2', 'PRK', '880.05.00', 'Biaya Denda ', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('305', '2', 'PRK', '880.06.00', 'Rugi Selisih Kurs', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('306', '2', 'PRK', '880.07.00', 'Rugi Penjualan Surat Berharga', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('307', '2', 'PRK', '880.08.00', 'Rugi Penghapusan Aktiva Tetap', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('308', '2', 'PRK', '880.09.00', 'Rugi Penjualan Barang Persediaan', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('309', '2', 'PRK', '880.10.00', 'Koreksi Laba/Rugi Tahun Lalu', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('310', '2', 'PRK', '880.13.00', 'Biaya Denda Pajak', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('311', '2', 'PRK', '880.99.00', 'Biaya Diluar Usaha Lainnya', '6', '2015', null);
+INSERT INTO `tbl_loc` VALUES ('312', '4', 'PRK', '801.00.00', 'SEGMEN PELY. KAPAL', '1', '2016', null);
+INSERT INTO `tbl_loc` VALUES ('313', '4', 'PRK', '801.01.00', 'Labuh', '1', '2016', null);
+INSERT INTO `tbl_loc` VALUES ('314', '4', 'PRK', '801.02.00', 'Pemanduan', '1', '2016', null);
+INSERT INTO `tbl_loc` VALUES ('315', '4', 'PRK', '801.03.00', 'Penundaan', '1', '2016', null);
+INSERT INTO `tbl_loc` VALUES ('316', '4', 'PRK', '801.04.00', 'Penambatan', '1', '2016', null);
+INSERT INTO `tbl_loc` VALUES ('317', '4', 'PRK', '801.05.00', 'Air Kapal', '1', '2016', null);
+INSERT INTO `tbl_loc` VALUES ('318', '4', 'PRK', '801.99.00', 'Pel. Kapal Lainnya', '1', '2016', null);
 
 -- ----------------------------
 -- Table structure for `tbl_location`
@@ -1773,7 +1847,7 @@ CREATE TABLE `tbl_location` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_location_id` (`id`),
   KEY `idx_location` (`tbl_model_id`,`location_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_location
@@ -1781,6 +1855,13 @@ CREATE TABLE `tbl_location` (
 INSERT INTO `tbl_location` VALUES ('1', '2', '0001', 'Kalimas', '11', '2015');
 INSERT INTO `tbl_location` VALUES ('2', '2', '0002', 'Pelabuhan Tj. Mas', '11', '2015');
 INSERT INTO `tbl_location` VALUES ('3', '2', '0003', 'Pelabuhan Tj. Perak', '11', '2015');
+INSERT INTO `tbl_location` VALUES ('4', '4', 'LKS-001', 'Seberang Kali Mas 2', '1', '2016');
+INSERT INTO `tbl_location` VALUES ('5', '4', 'LKS-002', 'Dermaga Utama Tj. Perak', '1', '2016');
+INSERT INTO `tbl_location` VALUES ('6', '4', 'LKS-003', 'Dermaga Landing Tj. Mas', '1', '2016');
+INSERT INTO `tbl_location` VALUES ('7', '4', 'LKS-004', 'Dermaga Umum Kali Mas 3', '1', '2016');
+INSERT INTO `tbl_location` VALUES ('8', '4', 'LKS-005', 'Kali Mas 1', '1', '2016');
+INSERT INTO `tbl_location` VALUES ('9', '4', 'LKS-006', 'Dermaga Utama Tj. Perak 3', '1', '2016');
+INSERT INTO `tbl_location` VALUES ('10', '4', 'LKS-007', 'Kali Mas 2', '1', '2016');
 
 -- ----------------------------
 -- Table structure for `tbl_menu`
@@ -1801,15 +1882,15 @@ CREATE TABLE `tbl_menu` (
 -- ----------------------------
 -- Records of tbl_menu
 -- ----------------------------
-INSERT INTO `tbl_menu` VALUES ('0', null, null, null, null, 'icon-group', '1', null);
-INSERT INTO `tbl_menu` VALUES ('1', null, null, 'Home', 'home/modul/dashboard/main', 'home_chart', '1', null);
-INSERT INTO `tbl_menu` VALUES ('2', null, null, 'Modelling', 'home/modul/model/main/100', 'modelling', '1', null);
-INSERT INTO `tbl_menu` VALUES ('3', null, null, 'Resources', 'home/modul/resource/main/', 'resource', '1', null);
-INSERT INTO `tbl_menu` VALUES ('4', null, null, 'Activities', 'home/modul/activity/main/', 'activity', '1', null);
-INSERT INTO `tbl_menu` VALUES ('5', null, null, 'Cost Object', 'homex/modul/cost_object/main/', 'cost_object', '1', null);
-INSERT INTO `tbl_menu` VALUES ('6', null, null, 'Report', 'homex/modul/report/main/', 'report', '1', null);
-INSERT INTO `tbl_menu` VALUES ('7', null, null, 'Setting', 'home/modul/setting/main/', 'data_proses', '1', null);
-INSERT INTO `tbl_menu` VALUES ('8', null, null, 'Parameter', 'home/modul/parameter/main/', 'database', '1', null);
+INSERT INTO `tbl_menu` VALUES ('0', null, null, null, null, 'icon-group', '0', null);
+INSERT INTO `tbl_menu` VALUES ('1', null, 'p', 'Home', 'home/modul/dashboard/main', 'home_chart', '1', null);
+INSERT INTO `tbl_menu` VALUES ('2', null, 'p', 'Modelling', 'home/modul/model/main/100', 'modelling', '1', null);
+INSERT INTO `tbl_menu` VALUES ('3', null, 'p', 'Parameter', 'homex/modul/parameter/main/', 'database', '1', null);
+INSERT INTO `tbl_menu` VALUES ('4', null, 'p', 'Resources', 'home/modul/resource/main/', 'resource', '1', null);
+INSERT INTO `tbl_menu` VALUES ('5', null, 'p', 'Activities', 'home/modul/activity/main/', 'activity', '1', null);
+INSERT INTO `tbl_menu` VALUES ('6', null, 'p', 'Cost Object', 'homex/modul/cost_object/main/', 'cost_object', '1', null);
+INSERT INTO `tbl_menu` VALUES ('7', null, 'p', 'Report', 'homex/modul/report/main/', 'report', '1', null);
+INSERT INTO `tbl_menu` VALUES ('8', null, 'p', 'Setting', 'home/modul/setting/main/', 'data_proses', '1', null);
 
 -- ----------------------------
 -- Table structure for `tbl_menu_copy`
@@ -1867,7 +1948,7 @@ CREATE TABLE `tbl_model` (
   `publis_by` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_model` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_model
@@ -1875,6 +1956,7 @@ CREATE TABLE `tbl_model` (
 INSERT INTO `tbl_model` VALUES ('1', 'Pelayanan Kapal', 'Testing Ajx', '2015-06-23 09:51:12', 'Goyz', '0', '2016-01-23 18:28:18', 'Goyz');
 INSERT INTO `tbl_model` VALUES ('2', 'Model Tester 2', 'Testing Kedua Coy xxx', '2016-01-23 18:28:57', 'Goyz', '1', '2016-01-23 18:29:02', 'Goyz');
 INSERT INTO `tbl_model` VALUES ('3', 'Model Percobaan 1', 'Model Untuk Testing Aplikasi Versi 1', '2015-11-22 17:20:27', 'Goyz', '1', '2016-01-23 18:29:05', 'Goyz');
+INSERT INTO `tbl_model` VALUES ('4', 'Pelayanan Pandu Kapal', 'Testing Model Pelayanan Pandu Kapal', '2016-01-25 07:25:04', 'Goyz', '0', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_prd`
@@ -1898,21 +1980,15 @@ CREATE TABLE `tbl_prd` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_prd_id` (`id`),
   KEY `idx_prd` (`tbl_model_id`,`tbl_prm_id`,`tbl_cdm_id`,`tbl_acm_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prd
 -- ----------------------------
-INSERT INTO `tbl_prd` VALUES ('3', '2', '1', '1', '274', '5', '200000', '1000000', '0', '0', '2015-12-01 12:13:29', 'Goyz Crotz', '11', '2015');
-INSERT INTO `tbl_prd` VALUES ('4', '2', '1', '2', '275', '6', '20000', '120000', '0', '0', '2015-12-01 12:13:29', 'Goyz Crotz', '11', '2015');
-INSERT INTO `tbl_prd` VALUES ('5', '2', '1', '4', '277', '10', '5000000', '50000000', '0', '0', '2015-12-13 09:03:11', 'Goyz Crotz', '11', '2015');
-INSERT INTO `tbl_prd` VALUES ('6', '2', '1', '2', '284', '10', '40000', '400000', '0', '0', '2015-12-21 08:24:01', 'Goyz Crotz', '11', '2015');
-INSERT INTO `tbl_prd` VALUES ('7', '2', '1', '1', '285', '60', '50000000', '3000000000', '0', '0', '2015-12-21 08:24:01', 'Goyz Crotz', '11', '2015');
-INSERT INTO `tbl_prd` VALUES ('8', '2', '1', '3', '283', '10', '5000000', '50000000', '0', '0', '2015-12-21 08:37:10', 'Goyz Crotz', '11', '2015');
-INSERT INTO `tbl_prd` VALUES ('9', null, '1', '3', '276', null, null, null, null, null, '2015-12-25 14:50:53', 'Goyz Crotz', null, null);
 INSERT INTO `tbl_prd` VALUES ('10', null, '7', '2', '275', null, null, null, null, null, '2015-12-25 14:51:26', 'Goyz Crotz', null, null);
 INSERT INTO `tbl_prd` VALUES ('11', null, '7', '4', '277', null, null, null, null, null, '2015-12-25 14:51:26', 'Goyz Crotz', null, null);
 INSERT INTO `tbl_prd` VALUES ('12', null, '7', '3', '283', null, null, null, null, null, '2015-12-25 14:51:26', 'Goyz Crotz', null, null);
+INSERT INTO `tbl_prd` VALUES ('14', '0', '1', '4', '277', '200', '200', '40000', '0', '0', '2016-01-24 06:55:40', 'Goyz Crotz', '0', '0');
 
 -- ----------------------------
 -- Table structure for `tbl_prev_group`
@@ -1927,7 +2003,7 @@ CREATE TABLE `tbl_prev_group` (
   `ubah` smallint(6) DEFAULT NULL,
   `hapus` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prev_group
@@ -1944,6 +2020,15 @@ INSERT INTO `tbl_prev_group` VALUES ('69', '1', '5', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('70', '1', '6', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('71', '1', '7', '1', '1', '1', '1');
 INSERT INTO `tbl_prev_group` VALUES ('72', '1', '8', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('81', '4', '1', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('82', '4', '6', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('83', '3', '1', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('84', '3', '2', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('85', '3', '3', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('86', '3', '4', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('87', '3', '5', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('88', '3', '6', '1', '1', '1', '1');
+INSERT INTO `tbl_prev_group` VALUES ('89', '3', '8', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_prm`
@@ -1984,7 +2069,7 @@ CREATE TABLE `tbl_prm` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_prm_id` (`id`),
   KEY `idx_prm` (`tbl_model_id`,`prod_id`,`segment_id`,`service_group_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_prm
@@ -2011,6 +2096,12 @@ INSERT INTO `tbl_prm` VALUES ('19', '2', 'GUD11200', '1', 'GUDANG USAHA (M3)', '
 INSERT INTO `tbl_prm` VALUES ('20', '2', 'LAP11100', '1', 'LAPANGAN (TON)', '94', '0', null, '0', null, '0', null, '0', null, null, null, null, '18341800', '1.34203', '24615200', '24615200', '33252200', '8637080', '0', '0', '24615200', '24615200', null, null, '12', '2015');
 INSERT INTO `tbl_prm` VALUES ('21', '2', 'LAP11200', '1', 'LAPANGAN (M3)', '109', '0', null, '0', null, '0', null, '0', null, null, null, null, '16467900', '1.1882', '19567200', '19567200', '27201600', '7634490', '0', '0', '19567200', '19567200', null, null, '12', '2015');
 INSERT INTO `tbl_prm` VALUES ('22', '2', 'LIS1B1TR', '1', 'LISTRIK USAHA KECIL', '0', '0', null, '0', null, '0', null, '0', null, null, null, null, '19335', '66.9462', '1294410', '1294410', '14104000', '12809600', '0', '0', '1294410', '1294410', null, null, '12', '2015');
+INSERT INTO `tbl_prm` VALUES ('23', '4', 'PRD-001', '1', 'Air Kapal Tongkang', '20', '805077000', null, '20000', '600000', null, null, '40000', null, null, '275000', null, '5000', null, '70080000', null, '6700000', '6700000', null, null, null, null, '0000-00-00', null, '1', '2016');
+INSERT INTO `tbl_prm` VALUES ('24', '4', 'PRD-002', '1', 'Air Kapal Pipa', '20', '89001000000', null, '20000', '600000', null, null, '40000', null, null, '275000', null, '3200', null, '8900000', null, '8700000', '8700000', null, null, null, null, '0000-00-00', null, '1', '2016');
+INSERT INTO `tbl_prm` VALUES ('25', '4', 'PRD-003', '1', 'Dermaga Umum', '20', '8000010000', null, '20000', '600000', null, null, '40000', null, null, '275000', null, '65000', null, '3400000', null, '12000000', '12000000', null, null, null, null, '0000-00-00', null, '1', '2016');
+INSERT INTO `tbl_prm` VALUES ('26', '4', 'PRD-004', '1', 'Gudang Usaha', '20', '56000000', null, '20000', '600000', null, null, '40000', null, null, '275000', null, '4500', null, '1200000', null, '560000', '560000', null, null, null, null, '0000-00-00', null, '1', '2016');
+INSERT INTO `tbl_prm` VALUES ('27', '4', 'PRD-005', '1', 'Listrik Usaha Kecil', '20', '6700000', null, '20000', '600000', null, null, '40000', null, null, '275000', null, '8900', null, '4500000', null, '560000', '560000', null, null, null, null, '0000-00-00', null, '1', '2016');
+INSERT INTO `tbl_prm` VALUES ('28', '4', 'PRD-006', '1', 'Alat Pemadam Kebakaran', '20', '6800000', null, '20000', '600000', null, null, '40000', null, null, '275000', null, '1200', null, '45600000', null, '650000', '650000', null, null, null, null, '0000-00-00', null, '1', '2016');
 
 -- ----------------------------
 -- Table structure for `tbl_process`
@@ -2086,7 +2177,7 @@ CREATE TABLE `tbl_rdm` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_rdm_id` (`id`),
   KEY `idx_rdm` (`tbl_model_id`,`bulan`,`tahun`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_rdm
@@ -2102,6 +2193,11 @@ INSERT INTO `tbl_rdm` VALUES ('8', '2', 'XDEP06', 'Peny. Jalan & Bangunan', '180
 INSERT INTO `tbl_rdm` VALUES ('9', '2', 'XDEP02', 'Peny. Kapal', '75517417', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '1', '1', null, null, 'E');
 INSERT INTO `tbl_rdm` VALUES ('10', '2', 'XDEP08', 'Peny. Kendaraan', '4501984', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'S');
 INSERT INTO `tbl_rdm` VALUES ('11', '2', 'XDEP07', 'Peny. Peralatan Kantor', '19574954', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '1', null, null, 'S');
+INSERT INTO `tbl_rdm` VALUES ('26', '4', 'XXPP', 'Produksi Pandu', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', null, '0', '1', null, '1', '2016', null);
+INSERT INTO `tbl_rdm` VALUES ('27', '4', 'XXJOMP', 'Jam Operasi Motor Pandu', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', null, '0', '1', null, '1', '2016', null);
+INSERT INTO `tbl_rdm` VALUES ('28', '4', 'XXOTK', 'Jam Operasi Tunda & Kepil', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', null, '0', '1', null, '1', '2016', null);
+INSERT INTO `tbl_rdm` VALUES ('29', '4', 'XXPAAF', 'Peny. Alat-Alat Faspel', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0', '1', null, '1', '2016', null);
+INSERT INTO `tbl_rdm` VALUES ('30', '4', 'XXPBF', 'Peny. Bangunan Faspel', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '0', '1', null, '1', '2016', null);
 
 -- ----------------------------
 -- Table structure for `tbl_root_couses`
@@ -2156,10 +2252,11 @@ CREATE TABLE `tbl_user` (
   `tlp` varchar(15) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'goyz', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
-INSERT INTO `tbl_user` VALUES ('2', 'user', 'eRuaCnTE754NHKNbPkeCHItt1ViJh/Nz5coPwx9K80khBoaRJLozwWlVKYpt1DIEjklv65vK83gTrxkwvHZKgw', '2', 'User Guest', null, 'L', null, '1');
+INSERT INTO `tbl_user` VALUES ('1', 'admin', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
+INSERT INTO `tbl_user` VALUES ('5', 'modeler1', 'M4mVsz5i0hWxnamD5D1Etr9KTQQznHy2UUpi/fdHKr2jH6rfn7lPTCgrqjkNV3jtJEs6/tV24JPL+syRyV0AbA==', '3', 'Modeler ABC 1', 'modeler@abc.com', 'L', '08909928928', '1');
+INSERT INTO `tbl_user` VALUES ('6', 'viewer1', '5QZetLH9Ut2JPzFrojEHeMQ5XrvDkcvbja7Ca+DkTqwvfXyGWpfZ1L1lGx2O2BfcoezwhVysQEtzR8TBgnfezQ==', '4', 'Viewer 1', 'viewer@gmail.com', 'P', '08909928928', '1');
