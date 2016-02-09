@@ -1508,12 +1508,15 @@ class mhomex extends CI_Model{
 									$get_loc = $this->db->get_where('tbl_loc', array('costcenter'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 'tbl_model_id'=>$this->modeling['id']) )->row_array();
 									
 									$arrayrdm = array(
-										'employee_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
-										'tbl_model_id'=>$this->modeling['id'], 
-										'bulan'=>((int)$worksheet->getCell("U".$i)->getCalculatedValue() - 1),
-										"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+										'employee_id'=> $worksheet->getCell("B".$i)->getCalculatedValue(), 
+										'tbl_model_id'=> $this->modeling['id'], 
+										'bulan'=> ((int)$worksheet->getCell("U".$i)->getCalculatedValue() - 1),
+										"tahun"=> (int)$worksheet->getCell("V".$i)->getCalculatedValue(),
 									);
 									$rdm = $this->db->get_where('tbl_emp', $arrayrdm )->row_array();
+									
+									//print_r($rdm);exit;
+									
 									if(isset($rdm)){
 										if(!empty($rdm['tbl_rdm_id']) ){
 											$rdm_value = $rdm['tbl_rdm_id'];
@@ -1557,6 +1560,8 @@ class mhomex extends CI_Model{
 										}
 									}
 									
+									//echo $emp_id;exit;
+									
 									if(empty($cek_data)){
 										$array_insert = array(
 											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
@@ -1583,23 +1588,144 @@ class mhomex extends CI_Model{
 											"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
 											"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
 										);
-										array_push($array_batch_insert, $array_insert);	
+										//array_push($array_batch_insert, $array_insert);	
 										
-										/*
+										$employee_id = (int)$worksheet->getCell("B".$i)->getCalculatedValue();
+										$bulan = (int)$worksheet->getCell("U".$i)->getCalculatedValue();
+										$tahun = (int)$worksheet->getCell("V".$i)->getCalculatedValue();
 										$insert = $this->db->insert('tbl_emp', $array_insert);
+										
 										if($insert){
 											if($emp_id != null){
+												$array_emp_new = array(
+													'employee_id' => $employee_id,
+													'bulan' => $bulan,
+													'tahun' => $tahun,
+												);
+												$emp_new = $this->db->get_where('tbl_emp', $array_emp_new )->row_array();
+											
 												$sql_are = "
 													SELECT tbl_acm_id, tbl_rdm_id
 													FROM tbl_are
 													WHERE tbl_emp_id = '".$emp_id."'
 												";
 												$qryare = $this->db->query($sql_are)->result_array();
+												if($qryare){
+													foreach($qryare as $q => $r){
+														$sql_get_acm = "
+															SELECT tbl_model_id, activity_code, descript
+															FROM tbl_acm
+															WHERE id = '".$r['tbl_acm_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+														";
+														$qry_get_acm = $this->db->query($sql_get_acm)->row_array();
+														$array_acm = array(
+															'tbl_model_id' => $qry_get_acm['tbl_model_id'],
+															'activity_code' => $qry_get_acm['activity_code'],
+															'descript' => $qry_get_acm['descript'],
+															'bulan' => $bulan,
+															'tahun' => $tahun,
+														);
+														$cek_acm = $this->db->get_where('tbl_acm', $array_acm)->row_array();
+														if(!$cek_acm){
+															$insert_acm = $this->db->insert('tbl_acm', $array_acm);
+															if($insert_acm){
+																$array_acm_new = array(
+																	'activity_code' => $qry_get_acm['activity_code'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$acm_new = $this->db->get_where('tbl_acm', $array_acm_new )->row_array();
+															}else{
+																$acm_new = $cek_acm;
+															}
+														}else{
+															$acm_new = $cek_acm;
+														}
+														
+														$array_new_are = array(
+															'tbl_acm_id' => $acm_new['id'],
+															'tbl_emp_id' => $emp_new['id'],
+															'bulan' => $bulan,
+															'tahun' => $tahun,
+															"create_date" => date('Y-m-d H:i:s'),
+															"create_by" => $this->auth['nama_lengkap'],
+														);
+														$this->db->insert('tbl_are', $array_new_are);														
+													
+													}
+													
+												}
+												
+												$sql_efx = "
+													SELECT tbl_exp_id
+													FROM tbl_efx
+													WHERE tbl_emp_id = '".$emp_id."'
+												";
+												$qryefx = $this->db->query($sql_efx)->result_array();
+												if($qryefx){
+													foreach($qryefx as $w => $h){
+														
+														if($h['tbl_exp_id'] != null || $h['tbl_exp_id'] != 0){
+															$sql_get_exp = "
+																SELECT *
+																FROM tbl_exp
+																WHERE id = '".$h['tbl_exp_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+															";
+															$qry_get_exp = $this->db->query($sql_get_exp)->row_array();
+															$array_exp = array(
+																'tbl_model_id' => $qry_get_exp['tbl_model_id'],
+																'account' => $qry_get_exp['account'],
+																'descript' => $qry_get_exp['descript'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+															);
+															$cek_exp = $this->db->get_where('tbl_exp', $array_exp)->row_array();
+															if(!$cek_exp){
+																$array_exp_new = array(
+																	'tbl_model_id' => $qry_get_exp['tbl_model_id'],
+																	'tbl_loc_id' => $qry_get_exp['tbl_loc_id'],
+																	'account' => $qry_get_exp['account'],
+																	'descript' => $qry_get_exp['descript'],
+																	'amount' => $qry_get_exp['amount'],
+																	'budget_1' => $qry_get_exp['budget_1'],
+																	'budget_2' => $qry_get_exp['budget_2'],
+																	'exp_level' => $qry_get_exp['exp_level'],
+																	'tbl_rdm_id' => $qry_get_exp['tbl_rdm_id'],
+																	'rd_tot_qty' => $qry_get_exp['rd_tot_qty'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$insert_exp = $this->db->insert('tbl_exp', $array_exp_new);
+																if($insert_exp){
+																	$exp_new = $this->db->get_where('tbl_exp', $array_exp )->row_array();
+																}else{
+																	$exp_new = $cek_exp;
+																}
+															}else{
+																$exp_new = $cek_exp;
+															}
+															
+															$array_new_efx_exp = array(
+																'tbl_exp_id' => $exp_new['id'],
+																'tbl_emp_id' => $emp_new['id'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+																"create_date" => date('Y-m-d H:i:s'),
+																"create_by" => $this->auth['nama_lengkap'],
+															);
+															$this->db->insert('tbl_efx', $array_new_efx_exp);
+															
+														}
+														
+													}
+													
+													
+												}
 												
 												
 											}
 										}
-										*/
+										
 										
 									}else{
 										$array_update = array(
@@ -1721,7 +1847,207 @@ class mhomex extends CI_Model{
 											"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
 											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
 										);
-										array_push($array_batch_insert, $array_insert);	
+										//array_push($array_batch_insert, $array_insert);	
+										
+										$account = (int)$worksheet->getCell("B".$i)->getCalculatedValue();
+										$bulan = (int)$worksheet->getCell("L".$i)->getCalculatedValue();
+										$tahun = (int)$worksheet->getCell("M".$i)->getCalculatedValue();
+										$insert = $this->db->insert('tbl_exp', $array_insert);
+										
+										if($insert){
+											if($exp_id != null){
+												$array_exp_new = array(
+													'account' => $account,
+													'bulan' => $bulan,
+													'tahun' => $tahun,
+													'tbl_model_id' => $this->modeling['id']
+												);
+												$exp_new = $this->db->get_where('tbl_exp', $array_exp_new )->row_array();
+												
+												$sql_are = "
+													SELECT tbl_acm_id, tbl_rdm_id
+													FROM tbl_are
+													WHERE tbl_exp_id = '".$exp_id."'
+												";
+												$qryare = $this->db->query($sql_are)->result_array();
+												if($qryare){
+													foreach($qryare as $q => $r){
+														$sql_get_acm = "
+															SELECT tbl_model_id, activity_code, descript
+															FROM tbl_acm
+															WHERE id = '".$r['tbl_acm_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+														";
+														$qry_get_acm = $this->db->query($sql_get_acm)->row_array();
+														$array_acm = array(
+															'tbl_model_id' => $qry_get_acm['tbl_model_id'],
+															'activity_code' => $qry_get_acm['activity_code'],
+															'descript' => $qry_get_acm['descript'],
+															'bulan' => $bulan,
+															'tahun' => $tahun,
+														);
+														$cek_acm = $this->db->get_where('tbl_acm', $array_acm)->row_array();
+														if(!$cek_acm){
+															$insert_acm = $this->db->insert('tbl_acm', $array_acm);
+															if($insert_acm){
+																$array_acm_new = array(
+																	'activity_code' => $qry_get_acm['activity_code'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$acm_new = $this->db->get_where('tbl_acm', $array_acm_new )->row_array();
+															}else{
+																$acm_new = $cek_acm;
+															}
+														}else{
+															$acm_new = $cek_acm;
+														}
+														
+														$array_new_are = array(
+															'tbl_acm_id' => $acm_new['id'],
+															'tbl_exp_id' => $exp_new['id'],
+															'bulan' => $bulan,
+															'tahun' => $tahun,
+															"create_date" => date('Y-m-d H:i:s'),
+															"create_by" => $this->auth['nama_lengkap'],
+														);
+														$this->db->insert('tbl_are', $array_new_are);	
+													
+													}
+												}
+												
+												$sql_efx = "
+													SELECT tbl_emp_id, tbl_assets_id
+													FROM tbl_efx
+													WHERE tbl_exp_id = '".$exp_id."'
+												";
+												$qryefx = $this->db->query($sql_efx)->result_array();
+												if($qryefx){
+													foreach($qryefx as $w => $h){
+														
+														if($h['tbl_emp_id'] != null || $h['tbl_emp_id'] != 0){
+															$sql_get_emp = "
+																SELECT *
+																FROM tbl_emp
+																WHERE id = '".$h['tbl_emp_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+															";
+															
+															$qry_get_emp = $this->db->query($sql_get_emp)->row_array();
+															$array_emp = array(
+																'tbl_model_id' => $qry_get_emp['tbl_model_id'],
+																'employee_id' => $qry_get_emp['employee_id'],
+																'last' => $qry_get_emp['last'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+															);
+															$cek_emp = $this->db->get_where('tbl_emp', $array_emp)->row_array();
+															if(!$cek_emp){
+																$array_emp_new = array(
+																	'tbl_model_id' => $qry_get_emp['tbl_model_id'],
+																	'tbl_loc_id' => $qry_get_emp['tbl_loc_id'],
+																	'employee_id' => $qry_get_emp['employee_id'],
+																	'last' => $qry_get_emp['last'],
+																	'wages' => $qry_get_emp['wages'],
+																	'ot_premium' => $qry_get_emp['ot_premium'],
+																	'benefits' => $qry_get_emp['benefits'],
+																	'total' => $qry_get_emp['total'],
+																	'class' => $qry_get_emp['class'],
+																	'position' => $qry_get_emp['position'],
+																	'budget_1' => $qry_get_emp['budget_1'],
+																	'budget_2' => $qry_get_emp['budget_2'],
+																	'head_count' => $qry_get_emp['head_count'],
+																	'fte_count' => $qry_get_emp['fte_count'],
+																	'tbl_rdm_id' => $qry_get_emp['tbl_rdm_id'],
+																	'rd_tot_qty' => $qry_get_emp['rd_tot_qty'],
+																	'cost_type' => $qry_get_emp['cost_type'],
+																	'cost_bucket' => $qry_get_emp['cost_bucket'],
+																	'bugettype' => $qry_get_emp['bugettype'],
+																	'cost_nbr' => $qry_get_emp['cost_nbr'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$insert_emp = $this->db->insert('tbl_emp', $array_emp_new);
+																if($insert_emp){
+																	$emp_new = $this->db->get_where('tbl_emp', $array_emp )->row_array();
+																}else{
+																	$emp_new = $cek_emp;
+																}
+															}else{
+																$emp_new = $cek_emp;
+															}
+															
+															$array_new_efx_emp = array(
+																'tbl_exp_id' => $exp_new['id'],
+																'tbl_emp_id' => $emp_new['id'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+																"create_date" => date('Y-m-d H:i:s'),
+																"create_by" => $this->auth['nama_lengkap'],
+															);
+															$this->db->insert('tbl_efx', $array_new_efx_emp);
+														}
+														
+														if($h['tbl_assets_id'] != null || $h['tbl_assets_id'] != 0){
+															$sql_get_assets = "
+																SELECT *
+																FROM tbl_assets
+																WHERE id = '".$h['tbl_assets_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+															";
+															$qry_get_assets = $this->db->query($sql_get_assets)->row_array();
+															$array_assets = array(
+																'tbl_model_id' => $qry_get_assets['tbl_model_id'],
+																'assets_id' => $qry_get_assets['assets_id'],
+																'assets_name' => $qry_get_assets['assets_name'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+															);
+															$cek_assets = $this->db->get_where('tbl_assets', $array_assets)->row_array();
+															if(!$cek_assets){
+																$array_assets_new = array(
+																	'tbl_model_id' => $qry_get_assets['tbl_model_id'],
+																	'tbl_loc_id' => $qry_get_assets['tbl_loc_id'],
+																	'assets_id' => $qry_get_assets['assets_id'],
+																	'assets_name' => $qry_get_assets['assets_name'],
+																	'assets_description' => $qry_get_assets['assets_description'],
+																	'cost' => $qry_get_assets['cost'],
+																	'amount' => $qry_get_assets['amount'],
+																	'budget_1' => $qry_get_assets['budget_1'],
+																	'budget_2' => $qry_get_assets['budget_2'],
+																	'tbl_rdm_id' => $qry_get_assets['tbl_rdm_id'],
+																	'rd_tot_qty' => $qry_get_assets['rd_tot_qty'],
+																	'cost_type' => $qry_get_assets['cost_type'],
+																	'cost_bucket' => $qry_get_assets['cost_bucket'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$insert_assets = $this->db->insert('tbl_assets', $array_assets_new);
+																if($insert_assets){
+																	$assets_new = $this->db->get_where('tbl_assets', $array_assets )->row_array();
+																}else{
+																	$assets_new = $cek_assets;
+																}
+															}else{
+																$assets_new = $cek_assets;
+															}
+															
+															$array_new_efx_assets = array(
+																'tbl_exp_id' => $exp_new['id'],
+																'tbl_assets_id' => $assets_new['id'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+																"create_date" => date('Y-m-d H:i:s'),
+																"create_by" => $this->auth['nama_lengkap'],
+															);
+															$this->db->insert('tbl_efx', $array_new_efx_assets);
+														
+														}
+														
+													}
+												}
+												
+												
+											}
+										}										
+										
 									}else{
 										$array_update = array(
 											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
@@ -1740,7 +2066,14 @@ class mhomex extends CI_Model{
 											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
 										);
 										
-										$this->db->update('tbl_exp', $array_update, $arraynya);
+										$array_where = array(
+											'account'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+											'tbl_model_id'=>$this->modeling['id'], 
+											'bulan'=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_exp', $array_update, $array_where);
+										
 									}
 								}
 							}	
@@ -1827,7 +2160,142 @@ class mhomex extends CI_Model{
 											"create_by"=>$this->auth['nama_lengkap'],
 											"create_date"=>date('Y-m-d H:i:s'),
 										);
-										array_push($array_batch_insert, $array_insert);	
+										
+										$assets_id = (int)$worksheet->getCell("B".$i)->getCalculatedValue();
+										$bulan = (int)$worksheet->getCell("K".$i)->getCalculatedValue();
+										$tahun = (int)$worksheet->getCell("L".$i)->getCalculatedValue();
+										$insert = $this->db->insert('tbl_assets', $array_insert);
+										
+										if($insert){
+											if($ass_id != null){
+												$array_ass_new = array(
+													'assets_id' => $assets_id,
+													'bulan' => $bulan,
+													'tahun' => $tahun,
+													'tbl_model_id' => $this->modeling['id']
+												);
+												$ass_new = $this->db->get_where('tbl_assets', $array_ass_new )->row_array();
+												
+												$sql_are = "
+													SELECT tbl_acm_id, tbl_rdm_id
+													FROM tbl_are
+													WHERE tbl_assets_id = '".$ass_id."'
+												";
+												$qryare = $this->db->query($sql_are)->result_array();
+												if($qryare){
+													foreach($qryare as $q => $r){
+														$sql_get_acm = "
+															SELECT tbl_model_id, activity_code, descript
+															FROM tbl_acm
+															WHERE id = '".$r['tbl_acm_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+														";
+														$qry_get_acm = $this->db->query($sql_get_acm)->row_array();
+														$array_acm = array(
+															'tbl_model_id' => $qry_get_acm['tbl_model_id'],
+															'activity_code' => $qry_get_acm['activity_code'],
+															'descript' => $qry_get_acm['descript'],
+															'bulan' => $bulan,
+															'tahun' => $tahun,
+														);
+														$cek_acm = $this->db->get_where('tbl_acm', $array_acm)->row_array();
+														if(!$cek_acm){
+															$insert_acm = $this->db->insert('tbl_acm', $array_acm);
+															if($insert_acm){
+																$array_acm_new = array(
+																	'activity_code' => $qry_get_acm['activity_code'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$acm_new = $this->db->get_where('tbl_acm', $array_acm_new )->row_array();
+															}else{
+																$acm_new = $cek_acm;
+															}
+														}else{
+															$acm_new = $cek_acm;
+														}
+														
+														$array_new_are = array(
+															'tbl_acm_id' => $acm_new['id'],
+															'tbl_assets_id' => $ass_new['id'],
+															'bulan' => $bulan,
+															'tahun' => $tahun,
+															"create_date" => date('Y-m-d H:i:s'),
+															"create_by" => $this->auth['nama_lengkap'],
+														);
+														$this->db->insert('tbl_are', $array_new_are);	
+													
+													}
+												}
+												
+												$sql_efx = "
+													SELECT tbl_exp_id
+													FROM tbl_efx
+													WHERE tbl_assets_id = '".$ass_id."'
+												";
+												$qryefx = $this->db->query($sql_efx)->result_array();
+												if($qryefx){
+													foreach($qryefx as $w => $h){
+														
+														if($h['tbl_exp_id'] != null || $h['tbl_exp_id'] != 0){
+															$sql_get_exp = "
+																SELECT *
+																FROM tbl_exp
+																WHERE id = '".$h['tbl_exp_id']."' AND tbl_model_id = '".$this->modeling['id']."'
+															";
+															
+															$qry_get_exp = $this->db->query($sql_get_exp)->row_array();
+															$array_exp = array(
+																'tbl_model_id' => $qry_get_exp['tbl_model_id'],
+																'account' => $qry_get_exp['account'],
+																'descript' => $qry_get_exp['descript'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+															);
+															$cek_exp = $this->db->get_where('tbl_exp', $array_exp)->row_array();
+															if(!$cek_exp){
+																$array_exp_new = array(
+																	'tbl_model_id' => $qry_get_exp['tbl_model_id'],
+																	'tbl_loc_id' => $qry_get_exp['tbl_loc_id'],
+																	'account' => $qry_get_exp['account'],
+																	'descript' => $qry_get_exp['descript'],
+																	'amount' => $qry_get_exp['amount'],
+																	'budget_1' => $qry_get_exp['budget_1'],
+																	'budget_2' => $qry_get_exp['budget_2'],
+																	'exp_level' => $qry_get_exp['exp_level'],
+																	'tbl_rdm_id' => $qry_get_exp['tbl_rdm_id'],
+																	'rd_tot_qty' => $qry_get_exp['rd_tot_qty'],
+																	'bulan' => $bulan,
+																	'tahun' => $tahun,
+																);
+																$insert_exp = $this->db->insert('tbl_exp', $array_exp_new);
+																if($insert_exp){
+																	$exp_new = $this->db->get_where('tbl_exp', $array_exp )->row_array();
+																}else{
+																	$exp_new = $cek_exp;
+																}
+															}else{
+																$exp_new = $cek_exp;
+															}
+															
+															$array_new_efx_exp = array(
+																'tbl_assets_id' => $ass_new['id'],
+																'tbl_exp_id' => $exp_new['id'],
+																'bulan' => $bulan,
+																'tahun' => $tahun,
+																"create_date" => date('Y-m-d H:i:s'),
+																"create_by" => $this->auth['nama_lengkap'],
+															);
+															$this->db->insert('tbl_efx', $array_new_efx_exp);
+														}
+													
+													}
+												}
+												
+												
+											}
+										}
+										
+										
 									}else{
 										$array_update = array(
 											"tbl_loc_id"=>(isset($get_loc['id']) ? $get_loc['id'] : 0),
@@ -1847,9 +2315,14 @@ class mhomex extends CI_Model{
 											"create_by"=>$this->auth['nama_lengkap'],
 											"create_date"=>date('Y-m-d H:i:s'),
 										);
-										//array_push($array_batch_update, $array_update);	
 										
-										$this->db->update('tbl_assets', $array_update, $arraynya);
+										$array_where = array(
+											'assets_id'=>$worksheet->getCell("B".$i)->getCalculatedValue(), 
+											'tbl_model_id'=>$this->modeling['id'], 
+											'bulan'=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_assets', $array_update, $array_where);
 										
 									}
 								}
@@ -2082,6 +2555,8 @@ class mhomex extends CI_Model{
 						"tbl_emp_id" => $data['tbl_emp_id'],
 						"tbl_acm_id" => $data['datanya'][$i]['id'],
 						"tbl_rdm_id" => $data['datanya'][$i]['tbl_rdm_id'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -2177,6 +2652,8 @@ class mhomex extends CI_Model{
 					$array_insert = array(
 						"tbl_emp_id" => $data['tbl_emp_id'],
 						"tbl_exp_id" => $data['datanya'][$i]['id'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -2251,6 +2728,8 @@ class mhomex extends CI_Model{
 						"tbl_exp_id" => $data['tbl_exp_id'],
 						"tbl_acm_id" => $data['datanya'][$i]['id'],
 						"tbl_rdm_id" => $data['datanya'][$i]['tbl_rdm_id'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -2271,6 +2750,8 @@ class mhomex extends CI_Model{
 					$array_insert = array(
 						"tbl_exp_id" => $data['tbl_exp_id'],
 						"tbl_emp_id" => $data['datanya'][$i]['id'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -2342,6 +2823,8 @@ class mhomex extends CI_Model{
 					$array_insert = array(
 						"tbl_exp_id" => $data['tbl_exp_id'],
 						"tbl_assets_id" => $data['datanya'][$i]['id'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -2366,6 +2849,8 @@ class mhomex extends CI_Model{
 						"tbl_assets_id" => $data['tbl_assets_id'],
 						"tbl_acm_id" => $data['datanya'][$i]['id'],
 						"tbl_rdm_id" => $data['datanya'][$i]['tbl_rdm_id'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
@@ -2387,6 +2872,8 @@ class mhomex extends CI_Model{
 						"tbl_assets_id" => $data['tbl_assets_id'],
 						"tbl_exp_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 						"create_by" => $this->auth['nama_lengkap'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
