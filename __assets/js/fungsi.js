@@ -2970,7 +2970,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			fitnya = true;
 			pagesizeboy = 50;
 			singleSelek = false;
-			
+			param['month'] = $('#bulan_assets').val();
+			param['year'] = $('#tahun_assets').val();
 			kolom[modnya] = [	
 				{field:'account',title:'Accoount',width:120, halign:'center',align:'left'},
 				{field:'descript',title:'Expense Desc',width:200, halign:'center',align:'left'},
@@ -4132,8 +4133,8 @@ function kumpulAction(type, p1, p2, p3){
 				post_detil['editstatus'] = 'kontel';
 				post_detil['datanya'] = row;
 				post_detil['id'] = 'kontel';
-				post_detil['bulan']	= $('#bulan_expense').val();
-				post_detil['tahun']	= $('#tahun_expense').val();
+				post_detil['bulan']	= $('#bulan_assets').val();
+				post_detil['tahun']	= $('#tahun_assets').val();
 				
 				$.post(host+'homex/simpansavedata/'+type, post_detil, function(r){
 					if(r == 1){
