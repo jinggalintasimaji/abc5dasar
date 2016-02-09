@@ -35,17 +35,7 @@
 				
 			</fieldset>
 			</div>
-			<div id="upload" style='float:left;width:100%;display:none;'>
-					<fieldset>
-					<legend>Upload (Defined Activity)</legend>
-					<form method='post' url="{$host}home/import_data/upload/acm/file_acm/temp_acm" id="form2_{$main}" enctype="multipart/form-data">
-					<label>Upload Activity</label>: <input type="file" name="file_acm" id="file_acm"><br><br>
-					</form>
-					{include file='template/button.html' id='upload_acm' text='Upload' icon='save' click='' style="float:right;"}
-					{include file='template/button.html' id='download_acm' text='Download Template' icon='download' href='home/download_na/temp_acm' target="_blank" style="float:right;"}
-					</fieldset>
-					
-			</div>
+			
 			
 			<div id="data" style='float:left;width:100%'>
 			<fieldset>
@@ -53,7 +43,7 @@
 				<div id="grid_nya_{$main}">
 					<div id="tb_list_act">
 					<div style="margin-top:2px;margin-left:10px; width:100%; font-family:Arial, Helvetica, sans-serif;">
-						Find Activity : <input type="text" value="" placeholder="Keyword To Find Activity" name="key_{$main}" id="key_{$main}" style='width:40%;padding:2px;' maxlength="10" class="easyui-validatebox">
+						Find Activity : <input type="text" value="" placeholder="Keyword To Find Activity" name="key_{$main}" id="key_{$main}" style='width:20%;padding:2px;' maxlength="10" class="easyui-validatebox">
 						
 						<a href="javascript:void(0)" class="l-btn l-btn-plain " group="" id="find_{$main}" onClick="" >
 							<span class="l-btn-left l-btn-icon-left">
@@ -85,6 +75,12 @@
 								<span class="l-btn-text">Map To RDM</span><span class="l-btn-icon icon-ok">&nbsp;</span>
 							</span>
 						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="" 
+						onClick="$('#upload_{$acak}').show();$('#upload_{$acak}').window({ width:500,height:250,modal:true });">
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Upload Activity</span><span class="l-btn-icon arrow_up">&nbsp;</span>
+							</span>
+						</a>
 					</div>
 				</div>
 					<div id='grid_{$main}'></div>
@@ -93,6 +89,21 @@
 			</div>
 	</div>
 	<div id="detil_grid" style="display:none;">
+	</div>
+	<div id="upload_{$acak}" style="display:none;">
+		<div style="padding:15px;">
+					<fieldset>
+					<legend>Upload (Defined Activity)</legend>
+					<form method='post' url="{$host}home/import_data/upload/acm/file_acm/temp_acm" id="form2_{$main}_{$acak}" enctype="multipart/form-data">
+					<input type="hidden" name="bulan_upl" id="bulan_upl_{$acak}">
+					<input type="hidden" name="tahun_upl" id="tahun_upl_{$acak}" >
+					<label>Upload Activity</label>: <input type="file" name="file_acm" id="file_acm_{$acak}"><br><br>
+					</form>
+					{include file='template/button.html' id='upload_acm' text='Upload' icon='save' click='' style="float:right;"}
+					{include file='template/button.html' id='download_acm' text='Download Template' icon='download' href='home/download_na/temp_acm' target="_blank" style="float:right;"}
+					</fieldset>
+					
+		</div>	
 	</div>
 </body>
 </html>
@@ -164,6 +175,7 @@
 		}
 			else{
 			if ($('#form_{$main}').form('validate')){
+				
 				loadingna();
 				submit_form('form_{$main}',function(r){
 					if(r==1){
@@ -204,12 +216,17 @@
 			$.messager.alert('ABC System',"Please Activate Your Model!!!",'error');
 		}
 		else{
-			if($('#file_acm').val()!=''){
+			if($('#file_acm_{$acak}').val()!=''){
+				$('#bulan_upl_{$acak}').val($('#bulan_main').val());
+				$('#tahun_upl_{$acak}').val($('#tahun_main').val());
+				console.log($('#bulan_upl_{$acak}').val());
 				loadingna();
-				submit_form('form2_{$main}',function(r){
+				submit_form('form2_{$main}_{$acak}',function(r){
 					if(r==1){
+						
 						winLoadingClose();
 						$.messager.alert('ABC System', "Data Was Saved", 'info');
+						$('#upload_{$acak}').window('close');
 						$("#grid_{$main}").datagrid('reload');
 						
 					}else{

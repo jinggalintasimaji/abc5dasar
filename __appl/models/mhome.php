@@ -39,6 +39,9 @@ class mhome extends CI_Model{
 						AND B.tbl_model_id=".$this->modeling['id'];
 				$are_ex=$this->db->query($sql)->result_array();
 				foreach($are_ex as $v){
+					//INSERT EMP,EXP DAN ASSET BARU bloman
+					
+					
 					$sql="SELECT * FROM tbl_acm 
 						  WHERE bulan=".$bulan_req." AND tahun=".$tahun_req." 
 						  AND activity_code='".$v['activity_code']."' AND descript='".$v['descript']."'";
@@ -1897,8 +1900,8 @@ class mhome extends CI_Model{
 				}
 			break;
 			case "act":
-				$bulan=$this->input->post('bulan_actMonth');
-				$tahun=$this->input->post('tahun_actYear');
+				$bulan=$this->input->post('bulan_upl');
+				$tahun=$this->input->post('tahun_upl');
 				$act_id=$this->input->post('act_id_act');
 				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
 					$get_acm=$this->db->get_where('tbl_acm',array('activity_code'=>$worksheet->getCell("C".$i)->getCalculatedValue(),'tbl_model_id'=>$this->modeling['id']))->row_array();
@@ -1943,14 +1946,20 @@ class mhome extends CI_Model{
 			break;
 			
 			case "acm":
+				$bulan=$this->input->post('bulan_upl');
+				$tahun=$this->input->post('tahun_upl');
+				//print_r($_POST);exit;
+			//	echo $bulan;exit;
 				for($i=5; $i <= $worksheet->getHighestRow(); $i++){
 					$array_na = array(
+								"bulan"=>$bulan,
+								"tahun"=>$tahun,
 								"activity_code"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
 								"descript"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
 								"tbl_model_id"=>$this->modeling['id']
 						);
 					
-					$cek_data = $this->db->get_where('tbl_acm', array('activity_code'=>$worksheet->getCell("C".$i)->getCalculatedValue(),'tbl_model_id'=>$this->modeling['id']))->row_array();						
+					$cek_data = $this->db->get_where('tbl_acm', array('activity_code'=>$worksheet->getCell("C".$i)->getCalculatedValue(),'tbl_model_id'=>$this->modeling['id'],'bulan'=>$bulan,'tahun'=>$tahun))->row_array();						
 					if(empty($cek_data)){
 						$this->db->insert('tbl_acm',$array_na);
 					}else{
@@ -2105,6 +2114,7 @@ class mhome extends CI_Model{
 						$this->db->query($sql);
 					break;
 					case "costing":
+						//GET EMP FROM ARE
 						$sql_emp="SELECT A.tbl_acm_id,B.activity_code,B.descript,A.tbl_emp_id,C.employee_id,
 							C.`last`,A.percent,A.cost,A.rd_qty,A.bulan,A.tahun,A.create_date,A.create_by,A.total_cost 
 							FROM tbl_are A
@@ -2113,6 +2123,31 @@ class mhome extends CI_Model{
 							WHERE B.tbl_model_id=".$id_model_ex." AND tbl_emp_id IS NOT NULL";
 							//echo $sql_emp;exit;
 							$ex_emp=$this->db->query($sql_emp)->result_array();
+						//GET EMP FROM EFX
+						$sql_emp_efx="SELECT A.*,B.employee_id,C.account,C.descript,C.amount
+							FROM tbl_efx A
+							LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+							LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
+							WHERE (B.tbl_model_id=".$id_model_ex." AND C.tbl_model_id=".$id_model_ex.") 
+							AND A.tbl_emp_id <> 0 ";
+							
+							//echo $sql_emp;exit;
+							$ex_emp_efx=$this->db->query($sql_emp_efx)->result_array();
+						//GET ASSET FROM EFX	
+						$sql_asset_efx="SELECT A.*,B.assets_id,B.assets_name,C.account,C.descript,C.amount
+							FROM tbl_efx A
+							LEFT JOIN tbl_assets B ON A.tbl_assets_id=B.id
+							LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
+							WHERE (B.tbl_model_id=".$id_model_ex." AND C.tbl_model_id=".$id_model_ex.") 
+							AND A.tbl_assets_id <> 0 ";
+							
+							//echo $sql_emp;exit;
+							$ex_asset_efx=$this->db->query($sql_asset_efx)->result_array();
+							
+							
+							
+							
+							//INSERT ARE ID BARU EMP
 							foreach($ex_emp as $x){
 								$sql="SELECT * FROM tbl_acm WHERE activity_code='".$x['activity_code']."' AND descript='".$x['descript']."' AND tbl_model_id=".$id_baru;
 								$act_id=$this->db->query($sql)->row_array();
@@ -2131,6 +2166,66 @@ class mhome extends CI_Model{
 														'total_cost'=>$x['total_cost']
 									);
 									$this->db->insert('tbl_are',$data_are_emp);
+								}
+							}
+							
+							
+							//INSERT EFX ID BARU EMP
+							foreach($ex_emp_efx as $x){
+								$sql="SELECT * FROM tbl_exp WHERE account='".$x['account']."' AND descript='".$x['descript']."' AND amount='".$x['amount']."'  AND tbl_model_id=".$id_baru;
+								$exp_id=$this->db->query($sql)->row_array();
+								//$sql="SELECT * FROM tbl_acm WHERE activity_code='".$x['activity_code']."' AND descript='".$x['descript']."' AND tbl_model_id=".$id_baru;
+								//$act_id=$this->db->query($sql)->row_array();
+								$sql="SELECT * FROM tbl_emp WHERE employee_id='".$x['employee_id']."' AND tbl_model_id=".$id_baru;
+								$emp_id=$this->db->query($sql)->row_array();
+								if(count($exp_id)>0){
+									$data_efx_emp=array('tbl_exp_id'=>$exp_id['id'],
+														'tbl_emp_id'=>$emp_id['id'],
+														'tbl_assets_id'=>0,
+														'percent'=>($x['percent']!="" ? $x['percent'] : 0),
+														'cost_nbr'=>($x['cost_nbr']!="" ? $x['cost_nbr'] : 0),
+														'rd_qty'=>($x['rd_qty']!="" ? $x['rd_qty'] : 0),
+														'cost'=>($x['cost']!="" ? $x['cost'] : 0),
+														'coeffisient'=>($x['coeffisient']!="" ? $x['coeffisient'] : 0),
+														'budgettime'=>($x['budgettime']!="" ? $x['budgettime'] : 0),
+														'budgetchg'=>($x['budgetchg']!="" ? $x['budgetchg'] : 0),
+														'input_rate'=>($x['input_rate']!="" ? $x['input_rate'] : 0),
+														'output_rate'=>($x['output_rate']!="" ? $x['output_rate'] : 0),
+														'cost_type'=>$x['cost_type'],
+														'create_date'=>date('Y-m-d H:i:s'),
+														'create_by'=>$this->auth["nama_user"]
+														
+									);
+									$this->db->insert('tbl_efx',$data_efx_emp);
+								}
+							}
+							//INSERT EFX ID BARU ASSET
+							foreach($ex_asset_efx as $x){
+								$sql="SELECT * FROM tbl_exp WHERE account='".$x['account']."' AND descript='".$x['descript']."' AND amount='".$x['amount']."'  AND tbl_model_id=".$id_baru;
+								$exp_id=$this->db->query($sql)->row_array();
+								//$sql="SELECT * FROM tbl_acm WHERE activity_code='".$x['activity_code']."' AND descript='".$x['descript']."' AND tbl_model_id=".$id_baru;
+								//$act_id=$this->db->query($sql)->row_array();
+								$sql="SELECT * FROM tbl_assets WHERE assets_id='".$x['assets_id']."' AND assets_name='".$x['assets_name']."' AND tbl_model_id=".$id_baru;
+								$asset_id=$this->db->query($sql)->row_array();
+								if(count($exp_id)>0){
+									$data_efx_asset=array('tbl_exp_id'=>$exp_id['id'],
+														'tbl_emp_id'=>0,
+														'tbl_assets_id'=>$asset_id['id'],
+														'percent'=>($x['percent']!="" ? $x['percent'] : 0),
+														'cost_nbr'=>($x['cost_nbr']!="" ? $x['cost_nbr'] : 0),
+														'rd_qty'=>($x['rd_qty']!="" ? $x['rd_qty'] : 0),
+														'cost'=>($x['cost']!="" ? $x['cost'] : 0),
+														'coeffisient'=>($x['coeffisient']!="" ? $x['coeffisient'] : 0),
+														'budgettime'=>($x['budgettime']!="" ? $x['budgettime'] : 0),
+														'budgetchg'=>($x['budgetchg']!="" ? $x['budgetchg'] : 0),
+														'input_rate'=>($x['input_rate']!="" ? $x['input_rate'] : 0),
+														'output_rate'=>($x['output_rate']!="" ? $x['output_rate'] : 0),
+														'cost_type'=>$x['cost_type'],
+														'create_date'=>date('Y-m-d H:i:s'),
+														'create_by'=>$this->auth["nama_user"]
+														
+									);
+									$this->db->insert('tbl_efx',$data_efx_asset);
 								}
 							}
 							
@@ -2259,6 +2354,53 @@ class mhome extends CI_Model{
 								}
 							}
 							
+					break;
+					case "cost_object":
+						$sql="INSERT tbl_prm (
+							tbl_model_id,prod_id,`level`,descript,reduction,net_revenue,
+							activity_cost,direct_cost,profit_lost,uom,prod_qty,target_qty,segment_id,
+							service_group_id,cost_rate,target_rate,qtyproduce,unit_cost,abc_cost,
+							ovh_cost,revenue,profitable,abc_lower,ovh_lower,abc_cost_r,ovh_cost_r,rlu_date,rlu_time,bulan,tahun
+						)
+							SELECT ".$id_baru.",prod_id,`level`,descript,reduction,net_revenue,
+							activity_cost,direct_cost,profit_lost,uom,prod_qty,target_qty,segment_id,
+							service_group_id,cost_rate,target_rate,qtyproduce,unit_cost,abc_cost,
+							ovh_cost,revenue,profitable,abc_lower,ovh_lower,abc_cost_r,ovh_cost_r,rlu_date,rlu_time,bulan,tahun
+							FROM tbl_prm WHERE tbl_model_id=".$id_model_ex;
+							
+						$this->db->query($sql);
+						
+						$sql="SELECT A.*,B.prod_id,B.descript as desc_prm,C.activity_code,C.descript as desc_act
+								FROM tbl_prd A
+								LEFT JOIN tbl_prm B ON A.tbl_prm_id=B.id
+								LEFT JOIN tbl_acm C ON A.tbl_acm_id=C.id
+								WHERE A.tbl_model_id=".$id_model_ex;
+						$ex_prd=$this->db->query($sql)->result_array();
+						
+						foreach($ex_prd as $x){
+								$sql="SELECT * FROM tbl_prm WHERE prod_id='".$x['prod_id']."' AND descript='".$x['desc_prm']."' AND tbl_model_id=".$id_baru;
+								$prm_id=$this->db->query($sql)->row_array();
+								$sql="SELECT * FROM tbl_acm WHERE activity_code='".$x['activity_code']."' AND descript='".$x['desc_act']."' AND tbl_model_id=".$id_baru;
+								$act_id=$this->db->query($sql)->row_array();
+								if(count($prm_id)>0){
+									$data_prd=array('tbl_model_id'=>$id_baru,
+														'tbl_prm_id'=>$prm_id['id'],
+														'tbl_cdm_id'=>$x['tbl_cdm_id'],
+														'tbl_acm_id'=>$act_id['id'],
+														'quantity'=>($x['quantity']!="" ? $x['quantity'] : 0),
+														'cost_rate'=>($x['cost_rate']!="" ? $x['cost_rate'] : 0),
+														'cost'=>($x['cost']!="" ? $x['cost'] : 0),
+														'weight'=>($x['weight']!="" ? $x['weight'] : 0),
+														'unweight'=>($x['unweight']!="" ? $x['unweight'] : 0),
+														'bulan'=>$x['bulan'],
+														'tahun'=>$x['tahun'],
+														'create_date'=>date('Y-m-d H:i:s'),
+														'create_by'=>$this->auth["nama_user"]		
+									);
+									$this->db->insert('tbl_prd',$data_prd);
+								}
+							}
+						
 					break;
 				}
 				
