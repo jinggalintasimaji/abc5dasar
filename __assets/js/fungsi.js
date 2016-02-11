@@ -3399,6 +3399,9 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		case "employees":
 			table="tbl_emp";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			bulan_dup = $('#bulan_employees').val();
+			tahun_dup = $('#tahun_employees').val();
+			module_dup = "Employee";
 		break;
 		case "assign_act_employee":
 			if(type == 'add'){
@@ -3512,12 +3515,18 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		case "expenses":
 			table="tbl_exp";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			bulan_dup = $('#bulan_expenses').val();
+			tahun_dup = $('#tahun_employees').val();
+			module_dup = "Expense";
 		break;
 		
 		//tabs assets
 		case "assets":
 			table="tbl_assets";
 			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+			bulan_dup = $('#bulan_assets').val();
+			tahun_dup = $('#tahun_assets').val();
+			module_dup = "Assets";
 		break;
 		case "assign_act_assets":
 			if(type == 'add'){
@@ -3769,15 +3778,24 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 						});	
 					}
 				}
-				else{
+				else if(type=='copy_model'){
 					$.post(host+'home/modul/'+modulnya+'/copy_model', { id:row.id }, function(resp){
 						windowForm(resp, judulwindow, (getClientWidth()-500), (getClientHeight()-280));
 					});
-				}
+				}	
 			}
 			else{
 				$.messager.alert('ABC System',"Select Row In Grid",'error');
 			}
+		break;
+		case "duplicate_costing":
+			$.post(host+'homex/modul/'+modulnya+'/duplicate_costing/'+submodulnya+'/', { 'editstatus':'edit', 'bulan':bulan_dup, 'tahun':tahun_dup }, function(resp){
+				if(resp == 0){
+					$.messager.alert('ABC System',"Data "+module_dup+" Empty", 'error');
+				}else{
+					windowForm(resp, 'Duplicate Costing', (getClientWidth()-500), (getClientHeight()-350));
+				}
+			});
 		break;
 		case "map_rdm_form":
 			var row = $("#grid_"+tabel).datagrid('getSelected');

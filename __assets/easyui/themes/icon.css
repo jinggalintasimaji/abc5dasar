@@ -207,6 +207,9 @@
 .report{
 	background:url('icons/report.png') no-repeat center center;
 }
+.duplicate{
+	background:url('icons/duplicate.png') no-repeat center center;
+}
 
 
 
