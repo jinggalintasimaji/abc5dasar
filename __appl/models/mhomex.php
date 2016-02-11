@@ -513,12 +513,14 @@ class mhomex extends CI_Model{
 				if($type == 'act_to_cobj'){
 					$select = " A.*, 
 						B.descript as activity_name, C.descript as cost_driver_name, 
-						( B.quantity * B.capacity ) as cost_rate2
+						( D.total_cost / B.quantity ) as cost_rate2
 					";
 					$from = "tbl_prd";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 						LEFT JOIN tbl_cdm C ON C.id = A.tbl_cdm_id
+						LEFT JOIN tbl_acm_total_cost D ON D.tbl_acm_id = B.id
+						
 					";
 				}elseif($type == 'cust_to_cobj'){
 					$select = " A.*, B.customer_name ";
@@ -1520,9 +1522,12 @@ class mhomex extends CI_Model{
 									if(isset($rdm)){
 										if(!empty($rdm['tbl_rdm_id']) ){
 											$rdm_value = $rdm['tbl_rdm_id'];
+											$rdm_qty = $rdm['rd_tot_qty'];
 										}else{
 											$rdm_value = null;
+											$rdm_qty = null;
 										}
+										
 										if(!empty($rdm['id']) ){
 											$emp_id = $rdm['id'];
 										}else{
@@ -1530,7 +1535,7 @@ class mhomex extends CI_Model{
 										}
 									}else{
 										$sqlrdm = "
-											SELECT tbl_rdm_id, id, bulan, tahun
+											SELECT tbl_rdm_id, rd_tot_qty, id, bulan, tahun
 												FROM tbl_emp
 											WHERE employee_id = '".$worksheet->getCell("B".$i)->getCalculatedValue()."' AND tbl_model_id = '".$this->modeling['id']."' 
 											AND bulan = (
@@ -1545,8 +1550,10 @@ class mhomex extends CI_Model{
 										if(isset($qryrdm)){
 											if(!empty($qryrdm['tbl_rdm_id']) ){
 												$rdm_value = $qryrdm['tbl_rdm_id'];
+												$rdm_qty = $qryrdm['rd_tot_qty'];
 											}else{
 												$rdm_value = null;
+												$rdm_qty = null;
 											}
 											
 											if(!empty($qryrdm['tbl_rdm_id']) ){
@@ -1556,6 +1563,7 @@ class mhomex extends CI_Model{
 											}
 										}else{
 											$rdm_value = null;
+											$rdm_qty = null;
 											$emp_id = null;
 										}
 									}
@@ -1582,14 +1590,15 @@ class mhomex extends CI_Model{
 											"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
 											"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
 											"tbl_rdm_id"=>$rdm_value,
-											"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
-											"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
-											"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
-											"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
-											"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+											"rd_tot_qty"=>$rdm_qty,
+											"bugettype"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
+											"cost_nbr"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("S".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("T".$i)->getCalculatedValue(),
 										);
-										//array_push($array_batch_insert, $array_insert);	
+										array_push($array_batch_insert, $array_insert);	
 										
+										/*
 										$employee_id = (int)$worksheet->getCell("B".$i)->getCalculatedValue();
 										$bulan = (int)$worksheet->getCell("U".$i)->getCalculatedValue();
 										$tahun = (int)$worksheet->getCell("V".$i)->getCalculatedValue();
@@ -1725,7 +1734,7 @@ class mhomex extends CI_Model{
 												
 											}
 										}
-										
+										*/
 										
 									}else{
 										$array_update = array(
@@ -1746,12 +1755,12 @@ class mhomex extends CI_Model{
 											"budget_2"=>($worksheet->getCell("N".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("N".$i)->getCalculatedValue() ),
 											"head_count"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
 											"fte_count"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
-											//"tbl_rdm_id"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
-											"rd_tot_qty"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
-											"bugettype"=>$worksheet->getCell("S".$i)->getCalculatedValue(),
-											"cost_nbr"=>$worksheet->getCell("T".$i)->getCalculatedValue(),
-											"bulan"=>(int)$worksheet->getCell("U".$i)->getCalculatedValue(),
-											"tahun"=>(int)$worksheet->getCell("V".$i)->getCalculatedValue(),
+											"tbl_rdm_id"=>$rdm_value,
+											"rd_tot_qty"=>$rdm_qty,
+											"bugettype"=>$worksheet->getCell("Q".$i)->getCalculatedValue(),
+											"cost_nbr"=>$worksheet->getCell("R".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("S".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("T".$i)->getCalculatedValue(),
 										);
 										//array_push($array_batch_update, $array_update);	
 										
@@ -1790,8 +1799,10 @@ class mhomex extends CI_Model{
 									if(isset($rdm)){
 										if(!empty($rdm['tbl_rdm_id']) ){
 											$rdm_value = $rdm['tbl_rdm_id'];
+											$rdm_qty = $rdm['rd_tot_qty'];
 										}else{
 											$rdm_value = null;
+											$rdm_qty = null;
 										}
 										if(!empty($rdm['id']) ){
 											$exp_id = $rdm['id'];
@@ -1800,7 +1811,7 @@ class mhomex extends CI_Model{
 										}
 									}else{
 										$sqlrdm = "
-											SELECT tbl_rdm_id, id, bulan, tahun
+											SELECT tbl_rdm_id, rd_tot_qty, id, bulan, tahun
 												FROM tbl_exp
 											WHERE employee_id = '".$worksheet->getCell("B".$i)->getCalculatedValue()."' AND tbl_model_id = '".$this->modeling['id']."' 
 											AND bulan = (
@@ -1815,8 +1826,10 @@ class mhomex extends CI_Model{
 										if(isset($qryrdm)){
 											if(!empty($qryrdm['tbl_rdm_id']) ){
 												$rdm_value = $qryrdm['tbl_rdm_id'];
+												$rdm_qty = $qryrdm['rd_tot_qty'];
 											}else{
 												$rdm_value = null;
+												$rdm_qty = null;
 											}
 											
 											if(!empty($qryrdm['tbl_rdm_id']) ){
@@ -1826,6 +1839,7 @@ class mhomex extends CI_Model{
 											}
 										}else{
 											$rdm_value = null;
+											$rdm_qty = null;
 											$exp_id = null;
 										}
 									}
@@ -1841,14 +1855,15 @@ class mhomex extends CI_Model{
 											"budget_2"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue() ),
 											"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
 											"tbl_rdm_id"=>$rdm_value,
-											"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-											"budgettype"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-											"budgetchg"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-											"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"rd_tot_qty"=>$rdm_qty,
+											"budgettype"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"budgetchg"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
 										);
-										//array_push($array_batch_insert, $array_insert);	
+										array_push($array_batch_insert, $array_insert);	
 										
+										/*
 										$account = (int)$worksheet->getCell("B".$i)->getCalculatedValue();
 										$bulan = (int)$worksheet->getCell("L".$i)->getCalculatedValue();
 										$tahun = (int)$worksheet->getCell("M".$i)->getCalculatedValue();
@@ -2047,6 +2062,8 @@ class mhomex extends CI_Model{
 												
 											}
 										}										
+										*/
+										
 										
 									}else{
 										$array_update = array(
@@ -2059,11 +2076,11 @@ class mhomex extends CI_Model{
 											"budget_2"=>($worksheet->getCell("F".$i)->getCalculatedValue()=='' ? 0 : $worksheet->getCell("F".$i)->getCalculatedValue() ),
 											"exp_level"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
 											"tbl_rdm_id"=>$rdm_value,
-											"rd_tot_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-											"budgettype"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-											"budgetchg"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-											"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
-											"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"rd_tot_qty"=>$rdm_qty,
+											"budgettype"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"budgetchg"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"bulan"=>(int)$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"tahun"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
 										);
 										
 										$array_where = array(
@@ -2100,8 +2117,10 @@ class mhomex extends CI_Model{
 									if(isset($rdm)){
 										if(!empty($rdm['tbl_rdm_id']) ){
 											$rdm_value = $rdm['tbl_rdm_id'];
+											$rdm_qty = $rdm['rd_tot_qty'];
 										}else{
 											$rdm_value = null;
+											$rdm_qty = null;
 										}
 										
 										if(!empty($rdm['id']) ){
@@ -2111,7 +2130,7 @@ class mhomex extends CI_Model{
 										}
 									}else{
 										$sqlrdm = "
-											SELECT tbl_rdm_id, id, bulan, tahun
+											SELECT tbl_rdm_id, rd_tot_qty, id, bulan, tahun
 												FROM tbl_assets
 											WHERE assets_id = '".$worksheet->getCell("B".$i)->getCalculatedValue()."' AND tbl_model_id = '".$this->modeling['id']."' 
 											AND bulan = (
@@ -2126,8 +2145,10 @@ class mhomex extends CI_Model{
 										if(isset($qryrdm)){
 											if(!empty($qryrdm['tbl_rdm_id']) ){
 												$rdm_value = $qryrdm['tbl_rdm_id'];
+												$rdm_qty = $qryrdm['rd_tot_qty'];
 											}else{
 												$rdm_value = null;
+												$rdm_qty = null;
 											}
 											
 											if(!empty($qryrdm['tbl_rdm_id']) ){
@@ -2155,12 +2176,15 @@ class mhomex extends CI_Model{
 											"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
 											"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
 											"tbl_rdm_id"=>$rdm_value,
+											"rd_tot_qty"=>$rdm_qty,
 											"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
 											"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
 											"create_by"=>$this->auth['nama_lengkap'],
 											"create_date"=>date('Y-m-d H:i:s'),
 										);
+										array_push($array_batch_insert, $array_insert);	
 										
+										/*
 										$assets_id = (int)$worksheet->getCell("B".$i)->getCalculatedValue();
 										$bulan = (int)$worksheet->getCell("K".$i)->getCalculatedValue();
 										$tahun = (int)$worksheet->getCell("L".$i)->getCalculatedValue();
@@ -2294,7 +2318,7 @@ class mhomex extends CI_Model{
 												
 											}
 										}
-										
+										*/
 										
 									}else{
 										$array_update = array(
@@ -2310,6 +2334,7 @@ class mhomex extends CI_Model{
 											"cost_type"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
 											"cost_bucket"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
 											"tbl_rdm_id"=>$rdm_value,
+											"rd_tot_qty"=>$rdm_qty,
 											"bulan"=>(int)$worksheet->getCell("K".$i)->getCalculatedValue(),
 											"tahun"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
 											"create_by"=>$this->auth['nama_lengkap'],
@@ -3087,8 +3112,140 @@ class mhomex extends CI_Model{
 				$cost = ($data['sell_price'] * $data['quantity']);
 				$data['cost'] = $cost;
 			break;
-			
 			// End Modul Cost Object
+			
+			//Duplicate Costing
+			case "duplicate_costing":
+				$costing = $data['costing'];
+				$array = array(
+					'tbl_model_id' => $this->modeling['id'],
+					'bulan' => $data['bulan'],
+					'tahun' => $data['tahun'],
+				);
+				if(count($costing)>0){
+					foreach($costing as $v){
+						switch($v){
+							case "act_emp":
+								$get_emp = $this->db->get_where('tbl_emp', $array)->result_array();
+								foreach($get_emp as $k => $h){
+									$sqlact = "
+										SELECT A.*, B.activity_code, B.descript
+										FROM tbl_are A
+										LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+										WHERE A.tbl_emp_id = '".$h['id']."'
+									";
+									$qryact = $this->db->query($sqlact)->result_array();
+									if($qryact){
+										foreach($qryact as $t => $u){
+											$array_det_act = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'activity_code' => $u['activity_code'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_act = $this->db->get_where('tbl_acm', $array_det_act)->row_array();
+											if($data_det_act){
+												$array_emp_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'employee_id' => $h['employee_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_emp_skg = $this->db->get_where('tbl_emp', $array_emp_bulan_skg)->row_array();
+												if($data_emp_skg){
+													$array_insert_are = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_emp_id' => $data_emp_skg['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'tbl_rdm_id' => $u['tbl_rdm_id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_are = array(
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_emp_id' => $data_emp_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+													);
+													$cek_are = $this->db->get_where('tbl_are', $array_cek_are)->row_array();
+													if(!$cek_are){
+														$this->db->insert('tbl_are', $array_insert_are);
+													}
+												}
+											}
+										}
+									}
+								}
+							break;
+							case "exp_emp":
+								$get_emp = $this->db->get_where('tbl_emp', $array)->result_array();
+								foreach($get_emp as $k => $h){
+									$sqlefx = "
+										SELECT A.*, B.account, B.descript
+										FROM tbl_efx A
+										LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id
+										WHERE A.tbl_emp_id = '".$h['id']."'
+									";
+									$qryefx = $this->db->query($sqlefx)->result_array();
+									if($qryefx){
+										foreach($qryefx as $t => $u){
+											$array_det_exp = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'account' => $u['account'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_exp = $this->db->get_where('tbl_exp', $array_det_exp)->row_array();
+											if($data_det_exp){
+												$array_emp_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'employee_id' => $h['employee_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_emp_skg = $this->db->get_where('tbl_emp', $array_emp_bulan_skg)->row_array();
+												if($data_emp_skg){
+													$array_insert_efx = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_exp_id' => $data_det_exp['id'],
+														'tbl_emp_id' => $data_emp_skg['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_efx = array(
+														'tbl_exp_id' => $data_det_exp['id'],
+														'tbl_emp_id' => $data_emp_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+													);
+													$cek_efx = $this->db->get_where('tbl_efx', $array_cek_efx)->row_array();
+													if(!$cek_efx){
+														$this->db->insert('tbl_efx', $array_insert_efx);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+						}
+					}
+				}
+			break;
+			//End Duplicate Costing
 			
 		}
 		

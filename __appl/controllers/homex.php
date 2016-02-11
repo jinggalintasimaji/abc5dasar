@@ -35,6 +35,7 @@ class homex extends MY_Controller {
 						echo 1;
 					}
 				break;
+				break;
 				default:
 					$editstatus = $this->input->post('editstatus');		
 					if($editstatus){
@@ -406,11 +407,68 @@ class homex extends MY_Controller {
 						break;
 						//End Modul Parameter
 						
+						//Duplicate Costing
+						case "duplicate_costing":
+							$bulan = $this->input->post('bulan');
+							$tahun = $this->input->post('tahun');
+							$bulan_kurang = ($bulan-1);
+							$tahun_kurang = $tahun;
+							if($bulan == 0){
+								$bulan_kurang = 12;
+								$tahun_kurang = ($tahun-1);
+							}
+							
+							$status = "";
+							$status_html = "";
+							if($p3 == 'employees'){
+								$tbl = 'tbl_emp';
+								$array = array(
+									'tbl_model_id' => $this->modeling['id'],
+									'bulan' => $bulan,
+									'tahun' => $tahun,
+								);
+								$data_emp = $this->db->get_where('tbl_emp', $array)->result_array();
+								
+								if($data_emp){
+									$data_activity = $this->db->get_where('tbl_acm', $array)->result_array();
+									if($data_activity){
+										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> &nbsp;&nbsp; <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> &nbsp;&nbsp";
+									}
+									
+									$data_expense = $this->db->get_where('tbl_exp', $array)->result_array();
+									if($data_expense){
+										$status_html .= "<font color=green>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> ";
+									}else{
+										$status_html .= "<font color=red>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font>";
+									}
+								}else{
+									echo 0;
+									exit;
+								}
+								
+							}elseif($p3 == 'expenses'){
+								$tbl = 'tbl_exp';
+							}elseif($p3 == 'assets'){
+								$tbl = 'tbl_assets';
+							}
+						
+							$this->smarty->assign('bulan_sekarang', $bulan );
+							$this->smarty->assign('tahun_sekarang', $tahun );
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', $bulan_kurang ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', $tahun_kurang ) );
+							$this->smarty->assign('status_html', $status_html);
+
+						break;
+						//End Duplicate Costing
+						
 					}
 					
 					$this->smarty->assign('mod',$mod);
 					$this->smarty->assign('main',$p2);
 					$this->smarty->assign('sub_mod',$p3);
+					
 					if($form_default == 'def'){
 						if(!file_exists($this->config->item('appl').APPPATH.'views/'.$mod.'/'.$p2.'.html')){$this->smarty->display('konstruksi.html');}
 						else{$this->smarty->display($mod.'/'.$p2.'.html');}
