@@ -5,71 +5,199 @@ class mhome extends CI_Model{
 		parent::__construct();
 		$this->auth = unserialize(base64_decode($this->session->userdata($this->config->item('user_data'))));
 	}
-	function copy_act(){
+	function copy_act($p1=""){
 		$this->db->trans_begin();
 		$msg=1;
 		$bulan_req=$this->input->post('bulan');
 		$tahun_req=$this->input->post('tahun');
 		$period=$this->getdata('get_bulan_tahun_act');
+		$period_cost=$this->getdata('get_bulan_tahun');
+		//print_r($period);
+		if($p1!='costing'){
 		
-		
-		
-		$sql_acm_ex="SELECT tbl_model_id,tbl_cdm_id,activity_code,
-					descript,quantity,value_add,costtype,fte,fte_cost,`level`,head_count,val_cost,
-					tbl_rdm_id,rd_tot_qty,note,".$bulan_req.",".$tahun_req.",budget,standart,capacity,target_quantity,
-					budget_type,cost_type,cl_segment_id,cl_center_id,cl_class_id,cl_improvment_id,
-					process_time,waiting_time,inspection_time,moving_time,nva_cost,tbl_process_id,
-					tbl_root_couses_id,quantity_process,inefficiency_cost
-					FROM tbl_acm WHERE tbl_model_id=".$this->modeling['id']." 
-					AND bulan=".$period['bulan']." AND tahun=".$period['tahun'];
-		$acm_ex=$this->db->query($sql_acm_ex)->result_array();
-		if(count($acm_ex)>0){
-			$sql="INSERT INTO tbl_acm (tbl_model_id,tbl_cdm_id,activity_code,
-					descript,quantity,value_add,costtype,fte,fte_cost,`level`,head_count,val_cost,
-					tbl_rdm_id,rd_tot_qty,note,bulan,tahun,budget,standart,capacity,target_quantity,
-					budget_type,cost_type,cl_segment_id,cl_center_id,cl_class_id,cl_improvment_id,
-					process_time,waiting_time,inspection_time,moving_time,nva_cost,tbl_process_id,
-					tbl_root_couses_id,quantity_process,inefficiency_cost) ".$sql_acm_ex;
-			if($this->db->query($sql)){
-				$sql="SELECT A.*,B.activity_code,B.descript  
-						FROM tbl_are A
-						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
-						WHERE A.bulan=".$period['bulan']." AND A.tahun=".$period['tahun']." 
-						AND B.bulan=".$period['bulan']." AND B.tahun=".$period['tahun']." 
-						AND B.tbl_model_id=".$this->modeling['id'];
-				$are_ex=$this->db->query($sql)->result_array();
-				foreach($are_ex as $v){
-					//INSERT EMP,EXP DAN ASSET BARU bloman
-					
-					
-					$sql="SELECT * FROM tbl_acm 
-						  WHERE bulan=".$bulan_req." AND tahun=".$tahun_req." 
-						  AND activity_code='".$v['activity_code']."' AND descript='".$v['descript']."'";
-					$acm_baru=$this->db->query($sql)->row_array();
-					if(isset($acm_baru['id'])){
-						$data=array('tbl_acm_id'=>$acm_baru['id'],
-									'tbl_emp_id'=>$v['tbl_emp_id'],
-									'tbl_exp_id'=>$v['tbl_exp_id'],
-									'tbl_assets_id'=>$v['tbl_assets_id'],
-									'tbl_acm_child_id'=>$v['tbl_acm_child_id'],
-									'bulan'=>$bulan_req,
-									'tahun'=>$tahun_req
-						);
-						$this->db->insert('tbl_are',$data);
+			$sql_acm_ex="SELECT tbl_model_id,tbl_cdm_id,activity_code,
+						descript,quantity,value_add,costtype,fte,fte_cost,`level`,head_count,val_cost,
+						tbl_rdm_id,rd_tot_qty,note,".$bulan_req.",".$tahun_req.",budget,standart,capacity,target_quantity,
+						budget_type,cost_type,cl_segment_id,cl_center_id,cl_class_id,cl_improvment_id,
+						process_time,waiting_time,inspection_time,moving_time,nva_cost,tbl_process_id,
+						tbl_root_couses_id,quantity_process,inefficiency_cost
+						FROM tbl_acm WHERE tbl_model_id=".$this->modeling['id']." 
+						AND bulan=".$period['bulan']." AND tahun=".$period['tahun'];
+			$acm_ex=$this->db->query($sql_acm_ex)->result_array();
+			if(count($acm_ex)>0){
+				$sql="INSERT INTO tbl_acm (tbl_model_id,tbl_cdm_id,activity_code,
+						descript,quantity,value_add,costtype,fte,fte_cost,`level`,head_count,val_cost,
+						tbl_rdm_id,rd_tot_qty,note,bulan,tahun,budget,standart,capacity,target_quantity,
+						budget_type,cost_type,cl_segment_id,cl_center_id,cl_class_id,cl_improvment_id,
+						process_time,waiting_time,inspection_time,moving_time,nva_cost,tbl_process_id,
+						tbl_root_couses_id,quantity_process,inefficiency_cost) ".$sql_acm_ex;
+				$this->db->query($sql);
+				/*if($this->db->query($sql)){
+					$sql="SELECT A.*,B.activity_code,B.descript  
+							FROM tbl_are A
+							LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+							WHERE A.bulan=".$period['bulan']." AND A.tahun=".$period['tahun']." 
+							AND B.bulan=".$period['bulan']." AND B.tahun=".$period['tahun']." 
+							AND B.tbl_model_id=".$this->modeling['id'];
+					$are_ex=$this->db->query($sql)->result_array();
+					foreach($are_ex as $v){
+						//INSERT EMP,EXP DAN ASSET BARU bloman
+						
+						
+						$sql="SELECT * FROM tbl_acm 
+							  WHERE bulan=".$bulan_req." AND tahun=".$tahun_req." 
+							  AND activity_code='".$v['activity_code']."' AND descript='".$v['descript']."'";
+						$acm_baru=$this->db->query($sql)->row_array();
+						if(isset($acm_baru['id'])){
+							$data=array('tbl_acm_id'=>$acm_baru['id'],
+										'tbl_emp_id'=>$v['tbl_emp_id'],
+										'tbl_exp_id'=>$v['tbl_exp_id'],
+										'tbl_assets_id'=>$v['tbl_assets_id'],
+										'tbl_acm_child_id'=>$v['tbl_acm_child_id'],
+										'bulan'=>$bulan_req,
+										'tahun'=>$tahun_req
+							);
+							$this->db->insert('tbl_are',$data);
+						}
+						else{
+							$this->db->trans_rollback();
+							echo $msg=3;exit;
+						}
 					}
-					else{
-						$this->db->trans_rollback();
-						echo $msg=3;exit;
-					}
-				}
+					
+				}*/
+				
 			}
-			
+			else{
+				$msg=2;
+			}
+		
 		}
 		else{
-			$msg=2;
+			$sql="SELECT A.*,B.activity_code,B.descript,C.last,C.employee_id,
+					D.account,D.descript as axp_des,E.assets_id,E.assets_name,
+					F.activity_code as act_code_child,F.descript as act_child_desc					
+					FROM tbl_are A
+					LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+					LEFT JOIN tbl_emp C ON A.tbl_emp_id=C.id
+					LEFT JOIN tbl_exp D ON A.tbl_exp_id=D.id
+					LEFT JOIN tbl_assets E ON A.tbl_assets_id=E.id
+					LEFT JOIN tbl_acm F ON A.tbl_acm_child_id=F.id
+					WHERE A.bulan=".$period_cost['bulan']." AND A.tahun=".$period_cost['tahun']."
+					AND B.tbl_model_id=".$this->modeling['id']." ORDER BY A.tbl_acm_id ASC";
+			//echo $sql;
+			$are_ex=$this->db->query($sql)->result_array();
+			/*$sql_tot="SELECT tbl_acm_id FROM tbl_acm_total_cost A 
+						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
+						WHERE B.tbl_model_id=".$this->modeling['id']." 
+						AND B.bulan=".$period_cost['bulan']." 
+						AND B.tahun=".$period_cost['tahun'];
+			$tot_cost=$this->db->query($sql_tot)->result_array();
+			*/
+			
+			$id_acm=0;
+			foreach($are_ex as $v){
+				if($id_acm!=$v['tbl_acm_id']){
+					$id_acm=$v['tbl_acm_id'];
+					$total_cost=0;
+				}
+				$sql="SELECT * FROM tbl_acm 
+							WHERE activity_code='".$v['activity_code']."' 
+							AND descript='".$v['descript']."' 
+							AND tbl_model_id=".$this->modeling['id']." AND bulan=".$bulan_req." AND tahun=".$tahun_req;
+					//echo $sql;exit;
+				$act_id=$this->db->query($sql)->row_array();
+				if(isset($act_id['id'])){
+					$data_cost=array('tbl_acm_id'=>$act_id['id'],
+									'percent'=>($v['percent']!="" ? $v['percent'] : 0),
+									'cost'=>$v['cost'],
+									'rd_qty'=>$v['rd_qty'],
+									'bulan'=>$bulan_req,
+									'tahun'=>$tahun_req,
+									'create_date'=>date('Y-m-d H:i:s'),
+									'create_by'=>$this->auth["nama_user"],
+									'total_cost'=>$v['total_cost']
+					);
+					
+					
+					if($v['tbl_emp_id']!=""){
+						
+						$sql="SELECT * FROM tbl_emp 
+								WHERE employee_id='".$v['employee_id']."' 
+								AND tbl_model_id=".$this->modeling['id']." 
+								AND bulan=".$bulan_req." AND tahun=".$tahun_req;
+						//echo $sql;exit;
+						$emp_id=$this->db->query($sql)->row_array();
+						if(isset($emp_id['id'])){
+							$total_cost=($total_cost+(float)$v['total_cost']);
+							$data_cost['tbl_emp_id']=$emp_id['id'];
+							$this->db->insert('tbl_are',$data_cost);
+						}
+					}
+					if($v['tbl_exp_id']!=""){
+						
+						$sql="SELECT * FROM tbl_exp 
+								WHERE account='".$v['account']."'
+								AND descript='".$v['axp_des']."'
+								AND tbl_model_id=".$this->modeling['id']." 
+								AND bulan=".$bulan_req." AND tahun=".$tahun_req;
+						//echo $sql;exit;
+						$exp_id=$this->db->query($sql)->row_array();
+						if(isset($exp_id['id'])){
+							$total_cost=($total_cost+(float)$v['total_cost']);
+							$data_cost['tbl_exp_id']=$exp_id['id'];
+							$this->db->insert('tbl_are',$data_cost);
+						}
+					}
+					if($v['tbl_assets_id']!=""){
+						
+						$sql="SELECT * FROM tbl_assets 
+								WHERE assets_id='".$v['assets_id']."'
+								AND assets_name='".$v['assets_name']."'
+								AND tbl_model_id=".$this->modeling['id']." 
+								AND bulan=".$bulan_req." AND tahun=".$tahun_req;
+						//echo $sql;exit;
+						$asset_id=$this->db->query($sql)->row_array();
+						//echo $asset_id['id'];exit;
+						if(isset($asset_id['id'])){
+							$total_cost=($total_cost+(float)$v['total_cost']);
+							$data_cost['tbl_assets_id']=$asset_id['id'];
+							$this->db->insert('tbl_are',$data_cost);
+						}
+					}
+					if($v['tbl_acm_child_id']!=""){
+						
+						$sql="SELECT * FROM tbl_acm
+								WHERE activity_code='".$v['act_code_child']."'
+								AND descript='".$v['act_child_desc']."'
+								AND tbl_model_id=".$this->modeling['id']." 
+								AND bulan=".$bulan_req." AND tahun=".$tahun_req;
+						//echo $sql;exit;
+						$act_child_id=$this->db->query($sql)->row_array();
+						//echo $asset_id['id'];exit;
+						if(isset($act_child_id['id'])){
+							$total_cost=($total_cost+(float)$v['total_cost']);
+							$data_cost['tbl_acm_child_id']=$act_child_id['id'];
+							$this->db->insert('tbl_are',$data_cost);
+						}
+					}
+					
+					/*$ex_tot=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$v['tbl_acm_id'],'bulan'=>$period_cost['bulan'],'tahun'=>$period_cost['tahun']))->row_array();
+					if(isset($ex_tot['tbl_acm_id'])){
+						
+					}
+					*/
+					$new_tot=$this->db->get_where('tbl_acm_total_cost',array('tbl_acm_id'=>$act_id['id'],'bulan'=>$bulan_req,'tahun'=>$tahun_req))->row_array();
+					if(isset($new_tot['tbl_acm_id'])){
+						$sql="UPDATE tbl_acm_total_cost SET total_cost=".$total_cost." WHERE tbl_acm_id=".$act_id['id'];
+					}else{
+						$sql="INSERT INTO tbl_acm_total_cost values('',".$act_id['id'].",".$bulan_req.",".$tahun_req.",".$total_cost.")";
+					}
+					$this->db->query($sql);
+				}
+			}
+			//print_r($are_ex);exit;
 		}
-		
-		
 		
 		if($this->db->trans_status() == false){
 			$this->db->trans_rollback();
@@ -91,6 +219,48 @@ class mhome extends CI_Model{
 		switch($type){
 			case "tbl_rdm":
 				$sql="SELECT * FROM tbl_rdm WHERE flag='A'";
+			break;
+			case "cek_resource":
+				$sql_emp="SELECT count(id)as jml FROM tbl_emp WHERE bulan=".$bulan." AND tahun=".$tahun." AND tbl_model_id=".$this->modeling['id'];
+				$sql_exp="SELECT count(id)as jml FROM tbl_exp WHERE bulan=".$bulan." AND tahun=".$tahun." AND tbl_model_id=".$this->modeling['id'];
+				$sql_asset="SELECT count(id)as jml FROM tbl_assets WHERE bulan=".$bulan." AND tahun=".$tahun." AND tbl_model_id=".$this->modeling['id'];
+				$period_last=$this->getdata('get_bulan_tahun');
+				$sql_are_last="SELECT count(A.id)as jml,
+							MONTHNAME('".$period_last['tahun']."-".$period_last['bulan']."-25')AS bulan ,
+							YEAR('".$period_last['tahun']."-".$period_last['bulan']."-25')AS tahun  
+							FROM tbl_are A
+							LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+							LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
+							LEFT JOIN tbl_assets D ON A.tbl_assets_id=D.id
+							WHERE A.bulan=".$period_last['bulan']." AND A.tahun=".$period_last['tahun']." 
+							AND (B.tbl_model_id=".$this->modeling['id']." OR C.tbl_model_id=".$this->modeling['id']." OR D.tbl_model_id=".$this->modeling['id'].")";
+				$sql_are="SELECT count(A.id)as jml 
+							FROM tbl_are A
+							LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id
+							LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
+							LEFT JOIN tbl_assets D ON A.tbl_assets_id=D.id
+							WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
+							AND (B.tbl_model_id=".$this->modeling['id']." OR C.tbl_model_id=".$this->modeling['id']." OR D.tbl_model_id=".$this->modeling['id'].")";
+				$sql_cost="SELECT count(id)as jml FROM tbl_prd WHERE bulan=".$bulan." AND tahun=".$tahun." AND tbl_model_id=".$this->modeling['id'];
+				$data=array();
+				$data['jml_emp']=$this->db->query($sql_emp)->row('jml');
+				$data['jml_exp']=$this->db->query($sql_exp)->row('jml');
+				$data['jml_asset']=$this->db->query($sql_asset)->row('jml');
+				$data['jml_are_last']=$this->db->query($sql_are_last)->row_array();
+				$data['jml_are']=$this->db->query($sql_are)->row('jml');
+				$data['jml_cost']=$this->db->query($sql_cost)->row('jml');
+				$data['msg']='ok';
+				if($data['jml_emp']==0){
+					$data['msg']='No Data Employess In This Period Please Input/Upload Data Employess In Module Resource';
+				}
+				if($data['jml_exp']==0){
+					$data['msg']='No Data Expanses In This Period Please Input/Upload Data Expanses In Module Resource';
+				}
+				if($data['jml_asset']==0){
+					$data['msg']='No Data Assets In This Period Please Input/Upload Data Assets In Module Resource';
+				}
+				return $data;
+				
 			break;
 			case "report_act_segment":
 				$data=array();
@@ -224,6 +394,7 @@ class mhome extends CI_Model{
 					$sql="SELECT max(A.bulan) as bln
 					  from tbl_acm A";
 					if (isset($this->modeling["id"]))$sql .=" WHERE A.tbl_model_id=".$this->modeling["id"]." AND A.tahun=".$tahun['thn'];
+					//echo $sql;
 					$bulan=$this->db->query($sql)->row_array();
 				}
 				else{
@@ -784,7 +955,7 @@ class mhome extends CI_Model{
 				
 				if($p2=='emp'){
 						$where .=" AND A.tbl_emp_id IS NOT NULL ";
-						$select .=" B.employee_id,CONCAT(B.first,B.last)as name_na,B.total,E.rdm_qty,B.rd_tot_qty,
+						$select .=" B.employee_id,CONCAT(B.last)as name_na,B.total,E.rdm_qty,B.rd_tot_qty,
 									A.total_cost ";
 						$join .="LEFT JOIN tbl_emp B ON A.tbl_emp_id=B.id ";
 						$join .="LEFT JOIN tbl_rdm E ON B.tbl_rdm_id=E.id ";

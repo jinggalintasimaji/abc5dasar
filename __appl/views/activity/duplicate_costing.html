@@ -1,0 +1,103 @@
+<div id="" style="float:left;width:100%">
+	<fieldset >
+		<legend>Duplicate Data Costing Activity</legend>
+		
+		<form method='post' url="{$host}home/simpansavedata/tbl_acm_master" id="form_{$main}" enctype="multipart/form-data">
+		<input type="hidden" name="editstatus" id="editstatus" value='edit'>
+		<input type="hidden" name="id" id="id4" value='{$data.id|default:''}'>
+		<table width='100%' style='margin-bottom:20px;'>
+			<tr>
+				<td colspan="3"><span id="judul_act_{$acak}" style="font-weight:bold;"></span></td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td width='40%'>Data Employees</td>
+				<td width='1%'>:</td>
+				<td >
+					Count Data Employees <span id="dat_emp">{$data.jml_emp|default:'-'}</span> Data&nbsp;&nbsp;&nbsp; <span style="{if $data.jml_emp > 0}color:#1FAA12;{else}color:red;{/if}">Status : &nbsp;{if $data.jml_emp > 0}Ready{else}Not Ready{/if}</span>
+				</td>
+				
+			</tr>
+			<tr>
+				<td >Data Expanses</td>
+				<td width='1%'>:</td>
+				<td >
+					Count Data Expanses <span id="dat_exp">{$data.jml_exp|default:'-'}</span> Data&nbsp;&nbsp;&nbsp;<span style="{if $data.jml_exp > 0}color:#1FAA12;{else}color:red;{/if}">Status : &nbsp;{if $data.jml_exp > 0}Ready{else}Not Ready{/if}</span>
+				</td>
+			</tr>
+			<tr>
+				<td >Data Assets</td>
+				<td width='1%'>:</td>
+				<td valign="center">
+					Count Data Assets <span id="dat_asset">{$data.jml_asset|default:'-'}</span> Data&nbsp;&nbsp;&nbsp;<span style="{if $data.jml_asset > 0}color:#1FAA12;{else}color:red;{/if}">Status : &nbsp;{if $data.jml_asset > 0}Ready{else}Not Ready{/if}</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="3"><span id="judul_costing_{$acak}" style="font-weight:bold;"></span></td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td >Data Costing (ARE)</td>
+				<td width='1%'>:</td>
+				<td valign="center">
+					Count Data Costing (ARE) <span id="dat_asset">{$data.jml_are|default:'-'}</span> Data&nbsp;&nbsp;&nbsp;<span style="{if $data.jml_are_last.jml > 0}color:#1FAA12;{else}color:red;{/if}">Status : &nbsp;{if $data.jml_are_last.jml > 0}Ready Data In Period {$data.jml_are_last.bulan|default:''} {$data.jml_are_last.tahun|default:''} {else}Not Ready{/if}</span>
+				</td>
+			</tr>
+			<!--tr>
+				<td >Data Costing Cost Object</td>
+				<td width='1%'>:</td>
+				<td valign="center">
+					Count Data Cost Object <span id="dat_asset">{$data.jml_cost|default:'-'}</span> Data&nbsp;&nbsp;&nbsp;<span style="{if $data.jml_cost > 0}color:#1FAA12;{else}color:red;{/if}">Status : &nbsp;{if $data.jml_cost > 0}Ready{else}Not Ready{/if}</span>
+				</td>
+			</tr-->
+		</table>
+			
+				{include file='template/button.html' id=$acak text='Duplicate' icon='save' click=''}
+		</form>
+		
+	</fieldset>
+</div>
+<script>
+$(function(){
+	$('#judul_act_{$acak}').html('Duplicate Data Resource From Period '+$("#bulan_main :selected").text()+' '+$("#tahun_main :selected").text())
+	$('#judul_costing_{$acak}').html('Duplicate Data Costing To Period '+$("#bulan_main :selected").text()+' '+$("#tahun_main :selected").text())
+	
+	$('#{$acak}').bind('click',function(){
+		//alert('aaa');
+		var jml_are={$data.jml_are|default:0};
+		var msg='{$data.msg|default:''}';
+		if(jml_are > 0){
+			$.messager.alert('ABC System', "Data Was Existing In This Period", 'error');
+		}else{
+			if(msg=='ok'){
+				$.messager.confirm('ABC System','Do You Want To Duplicate Data In Last Period ?',function(r){
+					if(r){
+						$.post(host+'home/copy_act/costing',{ bulan:$('#bulan_main').val(),tahun:$('#tahun_main').val() },function(resp){
+							if(resp==1){
+								closeWindow();
+								$.messager.alert('ABC System', "Duplicate Data Success In This Period", 'info');
+								grid_nya.datagrid('reload');
+							}else{
+								$.messager.alert('ABC System', "Failed Duplicate Data In This Period", 'error');
+								console.log(resp);
+							}
+						});
+					}
+				});
+			}
+			else{
+				$.messager.alert('ABC System', msg, 'error');
+			}
+		}
+	});
+});
+	
+	
+</script>

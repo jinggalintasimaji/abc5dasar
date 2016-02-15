@@ -60,16 +60,17 @@
 								<span class="l-btn-text">Edit</span><span class="l-btn-icon icon-edit">&nbsp;</span>
 							</span>
 						</a>
-						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="detil_{$main}" >
-							<span class="l-btn-left l-btn-icon-left">
-								<span class="l-btn-text">View Detail & Assigments</span><span class="l-btn-icon cost_object">&nbsp;</span>
-							</span>
-						</a>
 						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="del_{$main}" >
 							<span class="l-btn-left l-btn-icon-left">
 								<span class="l-btn-text">Delete</span><span class="l-btn-icon icon-remove">&nbsp;</span>
 							</span>
 						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="detil_{$main}" >
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">View Assigments</span><span class="l-btn-icon cost_object">&nbsp;</span>
+							</span>
+						</a>
+						
 						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="genform('map_rdm_form', 'acm', 'map_rdm_acm', 'windowpanel', '{$main}');">
 							<span class="l-btn-left l-btn-icon-left">
 								<span class="l-btn-text">Map To RDM</span><span class="l-btn-icon icon-ok">&nbsp;</span>
@@ -78,7 +79,12 @@
 						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="" 
 						onClick="$('#upload_{$acak}').show();$('#upload_{$acak}').window({ width:500,height:250,modal:true });">
 							<span class="l-btn-left l-btn-icon-left">
-								<span class="l-btn-text">Upload Activity</span><span class="l-btn-icon arrow_up">&nbsp;</span>
+								<span class="l-btn-text">Upload</span><span class="l-btn-icon arrow_up">&nbsp;</span>
+							</span>
+						</a>
+						<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="dup_act_{$acak}" onClick="">
+							<span class="l-btn-left l-btn-icon-left">
+								<span class="l-btn-text">Duplicate Costing</span><span class="l-btn-icon kabupaten">&nbsp;</span>
 							</span>
 						</a>
 					</div>
@@ -136,6 +142,36 @@
 		$('#input').show();
 		$('#upload').hide();
 		$('#data').hide();
+	});
+	$('#dup_act_{$acak}').bind('click',function(){
+		var total=grid_nya.datagrid('getData');
+		if(total.total > 0){
+			genform('duplicate_costing_act','activity','duplicate_costing');
+		}
+		else{
+			$.messager.confirm('ABC System','No Data In This Period, Do You Want To Get Data In First Period ?',function(r){
+				if(r){
+					loadingna();
+					$.post(host+'home/copy_act',{ bulan:$('#bulan_main').val(),tahun:$('#tahun_main').val() },function(resp){
+						if(resp==1){
+							$.messager.alert('ABC System', "Data Was Copied", 'info');
+							winLoadingClose();
+							grid_nya.datagrid('reload');
+						}
+						else if(resp==2){
+							$.messager.alert('ABC System', "No Data In Last Period, Please Upload Or Insert Data Activity", 'error');
+							winLoadingClose();
+							console.log(resp);
+						}
+						else{
+							$.messager.alert('ABC System', "No Data Activity In New Period", 'error');
+							winLoadingClose();
+							console.log(resp);
+						}
+					});
+				}
+			});
+		}
 	});
 	$('#edit_{$main}').bind('click',function(){
 		var row = $('#grid_{$main}').datagrid('getSelected');

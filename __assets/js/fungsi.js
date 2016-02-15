@@ -3812,6 +3812,15 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 				}
 			});
 		break;
+		case "duplicate_costing_act":
+			$.post(host+'home/modul/'+modulnya+'/'+submodulnya, { 'editstatus':'edit', 'bulan':$('#bulan_main').val(), 'tahun':$('#tahun_main').val() }, function(resp){
+				if(resp == 0){
+					$.messager.alert('ABC System',"Data "+module_dup+" Empty", 'error');
+				}else{
+					windowForm(resp, 'Duplicate Costing', (getClientWidth()-500), (getClientHeight()-300));
+				}
+			});
+		break;
 		case "map_rdm_form":
 			var row = $("#grid_"+tabel).datagrid('getSelected');
 			var posting={};

@@ -280,6 +280,10 @@ class home extends MY_Controller {
 							$data=$this->mhome->getdata('rekap_act');
 							$this->smarty->assign('data' ,$data);
 						break;
+						case "duplicate_costing":
+							$data=$this->mhome->getdata('cek_resource');
+							$this->smarty->assign('data' ,$data);
+						break;
 					}
 				break;
 				case "report":
@@ -405,8 +409,8 @@ class home extends MY_Controller {
 		echo $this->mhome->get_cost($p1,$p2,$p3,$p4);
 	}
 	
-	function copy_act(){
-		echo $this->mhome->copy_act();
+	function copy_act($p1=""){
+		echo $this->mhome->copy_act($p1);
 	}
 	
 }
