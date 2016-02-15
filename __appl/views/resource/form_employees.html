@@ -25,19 +25,19 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Salary' class='duit' name='wages' value={$data.wages|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Benefits' class='duit' name='benefits' value={$data.benefits|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Overtime' class='duit' name='ot_premium' value={$data.ot_premium|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Other Cost' class='duit' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Salary' class='duit' align='right' name='wages' value={$data.wages|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Benefits' class='duit' align='right' name='benefits' value={$data.benefits|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Overtime' class='duit' align='right' name='ot_premium' value={$data.ot_premium|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Other Cost' class='duit' align='right' name='budget_1' value={$data.budget_1|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$data.budget_1|default:''} }
 						</td>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Head Count' name='head_count' value={$data.head_count|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Full Time Equivalent (FTE)' name='fte_count' value={$data.fte_count|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Head Count' name='head_count' align='right' value={$data.head_count|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Full Time Equivalent (FTE)' align='right' name='fte_count' value={$data.fte_count|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' align='right' value={$data.rd_tot_qty|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Bucket' name='cost_bucket' option={$cost_bucket} } 														
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' value={$data.budget_1|default:''} }
@@ -175,6 +175,23 @@
 	});
 	
 	$('#btnSimpan_employee').on('click',function(){
+		if($('#employee_id').val() == ''){
+			$.messager.alert('ABC System', "Employee ID Can't Empty!", 'error');
+			return false;
+		}
+		if($('#last').val() == ''){
+			$.messager.alert('ABC System', "Employee Fullname Can't Empty!", 'error');
+			return false;
+		}
+		if($('#bulan').val() == ''){
+			$.messager.alert('ABC System', "Month Can't Empty!", 'error');
+			return false;
+		}
+		if($('#tahun').val() == ''){
+			$.messager.alert('ABC System', "Year Can't Empty!", 'error');
+			return false;
+		}
+		
 		loadingna();
 		submit_form('form_{$main}_{$acak}',function(r){
 			if(r==1){

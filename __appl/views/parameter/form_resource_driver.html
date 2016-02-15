@@ -1,0 +1,206 @@
+<form method='post' url="{$host}homex/simpansavedata/tbl_rdm" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
+	<input type='hidden' name='id' value="{$data.id|default:''}">
+	<input type='hidden' name='editstatus' value="{$editstatus}">
+
+	<div style="width:100%;margin-right:5px;">
+		<fieldset>
+			<legend>Resource Driver</legend>
+			<table width='100%' style='margin-bottom:20px;'>
+				<tr>
+					<td width='30%'>Resource</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.resource|default:''}" name='resource' id='resource' style='padding:2px; width:200px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Description</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.descript|default:''}" name='descript' id='descript' style='padding:2px; width:250px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Quantity</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.rdm_qty|default:''}" name='rdm_qty' id='rdm_qty' class="angka" style='padding:2px; width:50px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type UPE</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.budtypeupe|default:''}" name='budtypeupe' id='budtypeupe' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR UPE</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.costnbrupe|default:''}" name='costnbrupe' class='angka' id='costnbrupe' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient UPE</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coeffupe|default:''}" name='coeffupe' id='coeffupe' class='angka' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type UPX</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.budtypeupx|default:''}" name='budtypeupx' id='budtypeupx' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR UPX</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.costnbrupx|default:''}" name='costnbrupx' class='angka' id='costnbrupx' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient UPX</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coeffupx|default:''}" name='coeffupx' class='angka' id='coeffupx' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Budget Type UPA</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.bydtypeupa|default:''}" name='bydtypeupa' id='bydtypeupa' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Cost NBR UPA</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.costnbrupa|default:''}" name='costnbrupa' class='angka' id='costnbrupa' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient UPA</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coeffupa|default:''}" name='coeffupa' class='angka' id='coeffupa' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Actor Pro.</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.actorpro|default:''}" name='actorpro' class='angka' id='actorpro' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Batch</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.batch|default:''}" name='batch' id='batch' class='angka' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Constant</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.constant|default:''}" name='constant' class='angka' id='constant' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Coefficient</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						<input type='text' value="{$data.coefficient|default:''}" name='coefficient' class='angka' id='coefficient' style='padding:2px; width:150px;'>
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Month</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						{include file='template/input_form.html' size='sedang' type='select' name='bulan' option={$bulan_form} } 
+					</td>
+				</tr>
+				<tr>
+					<td width='30%'>Years</td>
+					<td width='1%'>:</td>
+					<td width='65%'>
+						{include file='template/input_form.html' size='sedang' type='select' name='tahun' option={$tahun_form} } 						
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+</form>
+<div style='margin-top:5px;'>
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnCancel_resourcedriver" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Back To List</span><span class="l-btn-icon icon-remove">&nbsp;</span>
+		</span>
+	</a>	
+	&nbsp;&nbsp;&nbsp;			
+	<a href="javascript:void(0)" style='float:right;' class="l-btn l-btn-small l-btn-plain" group="" id="btnSimpan_resourcedriver" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">Save Data</span><span class="l-btn-icon icon-save">&nbsp;</span>
+		</span>
+	</a>
+</div>
+
+
+<script>
+	//$(".easyui-validatebox").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:0
+	});	
+
+	$('#btnSimpan_resourcedriver').on('click',function(){
+		if($('#resource').val() == ''){
+			$.messager.alert('ABC System', "Resource Can't Empty!", 'error');
+			return false;
+		}
+		if($('#descript').val() == ''){
+			$.messager.alert('ABC System', "Descript Can't Empty!", 'error');
+			return false;
+		}
+		if($('#bulan').val() == ''){
+			$.messager.alert('ABC System', "Month Can't Empty!", 'error');
+			return false;
+		}
+		if($('#tahun').val() == ''){
+			$.messager.alert('ABC System', "Year Can't Empty!", 'error');
+			return false;
+		}		
+		
+		loadingna();
+		submit_form('form_{$main}_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('ABC System', "Data Was Saved", 'info');
+			}else{
+				$.messager.alert('ABC System', "Data Not Saved", 'error');
+			}
+			
+			$('#detil_nya_resource_driver').html('');
+			$('#detil_nya_resource_driver').hide();
+			$('#grid_nya_resource_driver').show();
+			$('#grid_resource_driver').datagrid('reload');
+		});
+		winLoadingClose();
+		return false;
+		//*/
+	});
+	
+	$('#btnCancel_resourcedriver').on('click',function(){
+		$('#detil_nya_resource_driver').html('');
+		$('#detil_nya_resource_driver').hide();
+		$('#grid_nya_resource_driver').show();
+		$('#grid_resource_driver').datagrid('reload');
+		return false;
+	});
+
+	
+</script>

@@ -1,5 +1,11 @@
-<div id="tabs_{$main}" style="width:500px;height:248px;">
-    <div title="Detail" style="padding:10px;">
+{if $editstatus eq 'add'}
+	{assign var="tinggi_tab" value='280px'}
+{else}
+	{assign var="tinggi_tab" value='248px'}
+{/if}
+
+<div id="tabs_{$main}" style="width:500px;height:{$tinggi_tab};">
+    <div title="Detail" style="overflow:auto;padding:10px;">
 		<form method='post' url="{$host}homex/simpansavedata/tbl_exp" id="form_{$main}_{$acak}" enctype="multipart/form-data">			
 			<input type='hidden' id='id_expense' name='id' value="{$data.id|default:''}">
 			<input type='hidden' name='editstatus' value="{$editstatus}">
@@ -8,7 +14,6 @@
 			
 			<fieldset>
 			<legend>Expenses Detail</legend>
-				{* {include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Account Name' name='last' value={$data.last|default:''} } *}
 				<table width='100%'>
 					<tr>
 						<td width='50%'>
@@ -26,15 +31,15 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' class='duit' label='Amount' name='amount' value={$data.amount|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' class='duit' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' class='duit' align='right' label='Amount' name='amount' value={$data.amount|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' class='duit' align='right' label='Budget' name='budget_1' value={$data.budget_1|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$amount|default:''}}
 						</td>
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' align='right' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Bucket' name='cost_bucket' option={$cost_bucket} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='' }
@@ -248,6 +253,23 @@
 	});
 	
 	$('#btnSimpan_expenses').on('click',function(){
+		if($('#account').val() == ''){
+			$.messager.alert('ABC System', "Account Can't Empty!", 'error');
+			return false;
+		}
+		if($('#descript').val() == ''){
+			$.messager.alert('ABC System', "Descript Can't Empty!", 'error');
+			return false;
+		}
+		if($('#bulan').val() == ''){
+			$.messager.alert('ABC System', "Month Can't Empty!", 'error');
+			return false;
+		}
+		if($('#tahun').val() == ''){
+			$.messager.alert('ABC System', "Year Can't Empty!", 'error');
+			return false;
+		}
+	
 		loadingna();
 		submit_form('form_{$main}_{$acak}',function(r){
 			if(r==1){

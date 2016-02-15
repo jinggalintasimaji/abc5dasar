@@ -954,20 +954,23 @@ class mhome extends CI_Model{
 		switch($p1){
 			case "tbl_loc":
 				$sql = "
-					SELECT id, costcenter as txt
+					SELECT id, CONCAT(costcenter,' - ',loc_name) as txt
 					FROM tbl_loc
+					WHERE tbl_model_id = '".$this->modeling['id']."'
 				";
 			break;
 			case "tbl_rdm":
 				$sql = "
-					SELECT id, resource as txt
+					SELECT id, CONCAT(resource,' - ',descript) as txt
 					FROM tbl_rdm
+					WHERE tbl_model_id = '".$this->modeling['id']."'
 				";
 			break;
 			case "tbl_cdm":
 				$sql = "
 					SELECT id, cost_driver as txt
 					FROM tbl_cdm
+					WHERE tbl_model_id = '".$this->modeling['id']."'
 				";
 			break;
 			case "cl_user_group":

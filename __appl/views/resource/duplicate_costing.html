@@ -7,7 +7,6 @@
 	<fieldset>
 		<legend>Form Duplicate Costing</legend>
 		<table width='100%'>
-		{if $sub_mod eq 'employees'}
 			<tr>
 				<td width='20%'>
 					<label>Module</label>
@@ -16,7 +15,7 @@
 					:
 				</td>
 				<td width='50%'>
-					Employee
+					{$module}
 				</td>
 			</tr>
 			<tr>
@@ -27,8 +26,10 @@
 					:
 				</td>			
 				<td>
-					<input type="checkbox" name="costing[]" class="cek_list" value="act_emp" >&nbsp;&nbsp;To Activity&nbsp;&nbsp;
-					<input type="checkbox" name="costing[]" class="cek_list" value="exp_emp" >&nbsp;&nbsp;To Expense&nbsp;&nbsp;
+					{foreach from=$array_list item=rows}
+						<input type="checkbox" name="costing[]" class="cek_list" value="{$rows.id}" >&nbsp;&nbsp;{$rows.txt}&nbsp;&nbsp;
+					{/foreach}
+										
 				</td>
 			</tr>
 			<tr>
@@ -59,7 +60,6 @@
 					<span id='status_data'>{$status_html}</span>
 				</td>
 			</tr>
-		{/if}
 		</table>
 	</fieldset>
 </form>

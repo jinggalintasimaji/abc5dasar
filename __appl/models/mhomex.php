@@ -49,6 +49,7 @@ class mhomex extends CI_Model{
 					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
 					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
 					$where
+					ORDER BY A.employee_id ASC
 				";
 			break;
 			case "tbl_exp":
@@ -64,6 +65,7 @@ class mhomex extends CI_Model{
 					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
 					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
 					$where
+					ORDER BY A.account ASC
 				";
 			break;
 			case "tbl_assets":
@@ -79,6 +81,7 @@ class mhomex extends CI_Model{
 					LEFT JOIN tbl_loc B ON B.id = A.tbl_loc_id
 					LEFT JOIN tbl_rdm C ON C.id = A.tbl_rdm_id
 					$where 
+					ORDER BY A.assets_id ASC
 				";
 			break;
 			//End Modul Resource
@@ -3171,8 +3174,8 @@ class mhomex extends CI_Model{
 														'tbl_emp_id' => $data_emp_skg['id'],
 														'bulan' => $data['bulan_sekarang'],
 														'tahun' => $data['tahun_sekarang'],
-														"create_date" => date('Y-m-d H:i:s'),
 													);
+													
 													$cek_are = $this->db->get_where('tbl_are', $array_cek_are)->row_array();
 													if(!$cek_are){
 														$this->db->insert('tbl_are', $array_insert_are);
@@ -3228,7 +3231,295 @@ class mhomex extends CI_Model{
 														'tbl_emp_id' => $data_emp_skg['id'],
 														'bulan' => $data['bulan_sekarang'],
 														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_efx = $this->db->get_where('tbl_efx', $array_cek_efx)->row_array();
+													if(!$cek_efx){
+														$this->db->insert('tbl_efx', $array_insert_efx);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							
+							case "act_exp":
+								$get_exp = $this->db->get_where('tbl_exp', $array)->result_array();
+								foreach($get_exp as $k => $h){
+									$sqlact = "
+										SELECT A.*, B.activity_code, B.descript
+										FROM tbl_are A
+										LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+										WHERE A.tbl_exp_id = '".$h['id']."'
+									";
+									$qryact = $this->db->query($sqlact)->result_array();
+									if($qryact){
+										foreach($qryact as $t => $u){
+											$array_det_act = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'activity_code' => $u['activity_code'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_act = $this->db->get_where('tbl_acm', $array_det_act)->row_array();
+											if($data_det_act){
+												$array_exp_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'account' => $h['account'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_exp_skg = $this->db->get_where('tbl_exp', $array_exp_bulan_skg)->row_array();
+												if($data_exp_skg){
+													$array_insert_are = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_exp_id' => $data_exp_skg['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'tbl_rdm_id' => $u['tbl_rdm_id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
 														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_are = array(
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_exp_id' => $data_exp_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_are = $this->db->get_where('tbl_are', $array_cek_are)->row_array();
+													if(!$cek_are){
+														$this->db->insert('tbl_are', $array_insert_are);
+													}
+												}
+											}
+										}
+									}
+								}
+							break;
+							case "emp_exp":
+								$get_exp = $this->db->get_where('tbl_exp', $array)->result_array();
+								foreach($get_exp as $k => $h){
+									$sqlefx = "
+										SELECT A.*, B.employee_id, B.last
+										FROM tbl_efx A
+										LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id
+										WHERE A.tbl_exp_id = '".$h['id']."' 
+										AND A.tbl_emp_id IS NOT NULL  
+									";
+									$qryefx = $this->db->query($sqlefx)->result_array();
+									if($qryefx){
+										foreach($qryefx as $t => $u){
+											$array_det_emp = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'employee_id' => $u['employee_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_emp = $this->db->get_where('tbl_emp', $array_det_emp)->row_array();
+											if($data_det_emp){
+												$array_exp_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'account' => $h['account'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_exp_skg = $this->db->get_where('tbl_exp', $array_exp_bulan_skg)->row_array();
+												if($data_exp_skg){
+													$array_insert_efx = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_emp_id' => $data_det_emp['id'],
+														'tbl_exp_id' => $data_exp_skg['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_efx = array(
+														'tbl_emp_id' => $data_det_emp['id'],
+														'tbl_exp_id' => $data_exp_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_efx = $this->db->get_where('tbl_efx', $array_cek_efx)->row_array();
+													if(!$cek_efx){
+														$this->db->insert('tbl_efx', $array_insert_efx);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							case "ass_exp":
+								$get_exp = $this->db->get_where('tbl_exp', $array)->result_array();
+								foreach($get_exp as $k => $h){
+									$sqlefx = "
+										SELECT A.*, B.assets_id, B.assets_name
+										FROM tbl_efx A
+										LEFT JOIN tbl_assets B ON B.id = A.tbl_assets_id
+										WHERE A.tbl_exp_id = '".$h['id']."' 
+										AND A.tbl_assets_id IS NOT NULL
+									";
+									$qryefx = $this->db->query($sqlefx)->result_array();
+									if($qryefx){
+										foreach($qryefx as $t => $u){
+											$array_det_ass = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'assets_id' => $u['assets_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_ass = $this->db->get_where('tbl_assets', $array_det_ass)->row_array();
+											if($data_det_ass){
+												$array_exp_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'account' => $h['account'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_exp_skg = $this->db->get_where('tbl_exp', $array_exp_bulan_skg)->row_array();
+												if($data_exp_skg){
+													$array_insert_efx = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_assets_id' => $data_det_ass['id'],
+														'tbl_exp_id' => $data_exp_skg['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_efx = array(
+														'tbl_assets_id' => $data_det_ass['id'],
+														'tbl_exp_id' => $data_exp_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_efx = $this->db->get_where('tbl_efx', $array_cek_efx)->row_array();
+													if(!$cek_efx){
+														$this->db->insert('tbl_efx', $array_insert_efx);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							
+							case "act_ass":
+								$get_ass = $this->db->get_where('tbl_assets', $array)->result_array();
+								foreach($get_ass as $k => $h){
+									$sqlact = "
+										SELECT A.*, B.activity_code, B.descript
+										FROM tbl_are A
+										LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+										WHERE A.tbl_assets_id = '".$h['id']."'
+									";
+									$qryact = $this->db->query($sqlact)->result_array();
+									if($qryact){
+										foreach($qryact as $t => $u){
+											$array_det_act = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'activity_code' => $u['activity_code'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_act = $this->db->get_where('tbl_acm', $array_det_act)->row_array();
+											if($data_det_act){
+												$array_ass_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'assets_id' => $h['assets_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_ass_skg = $this->db->get_where('tbl_assets', $array_ass_bulan_skg)->row_array();
+												if($data_ass_skg){
+													$array_insert_are = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_assets_id' => $data_ass_skg['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'tbl_rdm_id' => $u['tbl_rdm_id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_are = array(
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_assets_id' => $data_ass_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_are = $this->db->get_where('tbl_are', $array_cek_are)->row_array();
+													if(!$cek_are){
+														$this->db->insert('tbl_are', $array_insert_are);
+													}
+												}
+											}
+										}
+									}
+								}
+							break;
+							case "exp_ass":
+								$get_ass = $this->db->get_where('tbl_assets', $array)->result_array();
+								foreach($get_ass as $k => $h){
+									$sqlefx = "
+										SELECT A.*, B.account, B.descript
+										FROM tbl_efx A
+										LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id
+										WHERE A.tbl_assets_id = '".$h['id']."'
+									";
+									$qryefx = $this->db->query($sqlefx)->result_array();
+									if($qryefx){
+										foreach($qryefx as $t => $u){
+											$array_det_exp = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'account' => $u['account'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_exp = $this->db->get_where('tbl_exp', $array_det_exp)->row_array();
+											if($data_det_exp){
+												$array_ass_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'assets_id' => $h['assets_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_ass_skg = $this->db->get_where('tbl_assets', $array_ass_bulan_skg)->row_array();
+												if($data_ass_skg){
+													$array_insert_efx = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_assets_id' => $data_ass_skg['id'],
+														'tbl_exp_id' => $data_det_exp['id'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'rd_qty' => $u['rd_qty'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_efx = array(
+														'tbl_assets_id' => $data_ass_skg['id'],
+														'tbl_exp_id' => $data_det_exp['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
 													);
 													$cek_efx = $this->db->get_where('tbl_efx', $array_cek_efx)->row_array();
 													if(!$cek_efx){

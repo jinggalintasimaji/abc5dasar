@@ -25,15 +25,15 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' class='duit' name='amount' value={$data.amount|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' class='duit' name='budget_1' value={$data.budget_1|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Amount' class='duit' align='right' name='amount' value={$data.amount|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Budget' class='duit' align='right' name='budget_1' value={$data.budget_1|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Type' name='cost_type' option={$cost_type} } 
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Total Cost' readonly='readonly' name='' value={$amount|default:''} }
 						</td>
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Resource Driver' name='tbl_rdm_id' option={$option_resourcedriver} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity' align='right' name='rd_tot_qty' value={$data.rd_tot_qty|default:''} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Cost Bucket' name='cost_bucket' option={$cost_bucket} } 							
 							<br/>
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' readonly='readonly' name='cost' value={$data.cost|default:''} }
@@ -170,6 +170,23 @@
 	});
 	
 	$('#btnSimpan_assets').on('click',function(){
+		if($('#assets_id').val() == ''){
+			$.messager.alert('ABC System', "Assets ID Can't Empty!", 'error');
+			return false;
+		}
+		if($('#assets_name').val() == ''){
+			$.messager.alert('ABC System', "Assets Name Can't Empty!", 'error');
+			return false;
+		}
+		if($('#bulan').val() == ''){
+			$.messager.alert('ABC System', "Month Can't Empty!", 'error');
+			return false;
+		}
+		if($('#tahun').val() == ''){
+			$.messager.alert('ABC System', "Year Can't Empty!", 'error');
+			return false;
+		}
+		
 		loadingna();
 		submit_form('form_{$main}_{$acak}',function(r){
 			if(r==1){

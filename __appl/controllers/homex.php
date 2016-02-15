@@ -403,8 +403,22 @@ class homex extends MY_Controller {
 
 							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
 							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
-
 						break;
+						case "form_cost_center": 
+						case "form_resource_driver":
+						case "form_cost_driver":
+							$tabel = $this->input->post('tabel');
+							if($editstatus == 'edit'){
+								$id = $this->input->post('id');
+								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();								
+								$this->smarty->assign('data', $data );
+							}
+							
+							$this->smarty->assign('bulan_form', $this->lib->fillcombo('bulan', 'return', ($editstatus == 'edit' ? $data['bulan'] : "") ) );
+							$this->smarty->assign('tahun_form', $this->lib->fillcombo('tahun', 'return', ($editstatus == 'edit' ? $data['tahun'] : "") ) );
+							$this->smarty->assign('submodul', $this->input->post('submodul') );
+						break;
+						
 						//End Modul Parameter
 						
 						//Duplicate Costing
@@ -422,6 +436,12 @@ class homex extends MY_Controller {
 							$status_html = "";
 							if($p3 == 'employees'){
 								$tbl = 'tbl_emp';
+								$module = 'Employee';
+								$array_list = array(
+									'0' => array('id'=>'act_emp','txt'=>'To Activity'),
+									'1' => array('id'=>'exp_emp','txt'=>'To Expense'),
+								);
+																
 								$array = array(
 									'tbl_model_id' => $this->modeling['id'],
 									'bulan' => $bulan,
@@ -432,16 +452,16 @@ class homex extends MY_Controller {
 								if($data_emp){
 									$data_activity = $this->db->get_where('tbl_acm', $array)->result_array();
 									if($data_activity){
-										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> &nbsp;&nbsp; <br/>";
+										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
 									}else{
-										$status_html .= "<font color=red>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> &nbsp;&nbsp";
+										$status_html .= "<font color=red>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
 									}
 									
 									$data_expense = $this->db->get_where('tbl_exp', $array)->result_array();
 									if($data_expense){
-										$status_html .= "<font color=green>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> ";
+										$status_html .= "<font color=green>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
 									}else{
-										$status_html .= "<font color=red>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font>";
+										$status_html .= "<font color=red>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
 									}
 								}else{
 									echo 0;
@@ -450,14 +470,86 @@ class homex extends MY_Controller {
 								
 							}elseif($p3 == 'expenses'){
 								$tbl = 'tbl_exp';
+								$module = 'Expense';
+								$array_list = array(
+									'0' => array('id'=>'act_exp','txt'=>'To Activity'),
+									'1' => array('id'=>'emp_exp','txt'=>'To Employee'),
+									'2' => array('id'=>'ass_exp','txt'=>'To Assets'),
+								);
+								
+								$array = array(
+									'tbl_model_id' => $this->modeling['id'],
+									'bulan' => $bulan,
+									'tahun' => $tahun,
+								);
+								$data_exp = $this->db->get_where('tbl_exp', $array)->result_array();
+								if($data_exp){
+									$data_activity = $this->db->get_where('tbl_acm', $array)->result_array();
+									if($data_activity){
+										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_employee = $this->db->get_where('tbl_emp', $array)->result_array();
+									if($data_employee){
+										$status_html .= "<font color=green>Data Employee ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br>";
+									}else{
+										$status_html .= "<font color=red>Data Employee ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_assets = $this->db->get_where('tbl_assets', $array)->result_array();
+									if($data_assets){
+										$status_html .= "<font color=green>Data Assets ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br>";
+									}else{
+										$status_html .= "<font color=red>Data Assets ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+								}else{
+									echo 0;
+									exit;
+								}
+								
 							}elseif($p3 == 'assets'){
 								$tbl = 'tbl_assets';
+								$module = 'Assets';
+								$array_list = array(
+									'0' => array('id'=>'act_ass','txt'=>'To Activity'),
+									'1' => array('id'=>'exp_ass','txt'=>'To Expense'),
+								);
+								
+								$array = array(
+									'tbl_model_id' => $this->modeling['id'],
+									'bulan' => $bulan,
+									'tahun' => $tahun,
+								);
+								$data_ass = $this->db->get_where('tbl_assets', $array)->result_array();
+								if($data_ass){
+									$data_activity = $this->db->get_where('tbl_acm', $array)->result_array();
+									if($data_activity){
+										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_expense = $this->db->get_where('tbl_exp', $array)->result_array();
+									if($data_expense){
+										$status_html .= "<font color=green>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Expense ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+								}else{
+									echo 0;
+									exit;
+								}
+
 							}
 						
 							$this->smarty->assign('bulan_sekarang', $bulan );
 							$this->smarty->assign('tahun_sekarang', $tahun );
 							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', $bulan_kurang ) );
 							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', $tahun_kurang ) );
+							$this->smarty->assign('module', $module);
+							$this->smarty->assign('array_list', $array_list);
 							$this->smarty->assign('status_html', $status_html);
 
 						break;

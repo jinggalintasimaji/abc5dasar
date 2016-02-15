@@ -7,18 +7,17 @@
 {/if}
 
 {if $type eq 'select'}
-	{if $tampilan eq 'label'}
+	{if $tampilan|default:'' eq 'label'}
 		<label style='width:150px'>{$label}</label> :
-		<select name='{$name}' id='{$name}' style='padding:3px;width:{$width}'>
-			{$option}
-		</select>
-		
 	{/if}
+	<select name='{$name}' id='{$name}' style='padding:3px;width:{$width}'>
+		{$option}
+	</select>
 {elseif $type eq 'text'}
-	{if $tampilan eq 'label'}
+	{if $tampilan|default:'' eq 'label'}
 		<label style='width:150px'>{$label}</label> :
-		<input {$readonly|default:''} type="text" name="{$name|default:''}" class="{$class|default:''}" id="{$name|default:''}" value="{$value|default:''}" style="padding:3px;width:{$width}">
 	{/if}
+	<input {$readonly|default:''} type="text" name="{$name|default:''}" class="{$class|default:''}" id="{$name|default:''}" value="{$value|default:''}" style="padding:3px;width:{$width}; text-align:{$align|default:'left'};" />
 {/if}
 
 <br/>
