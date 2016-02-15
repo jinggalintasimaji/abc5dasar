@@ -3394,6 +3394,21 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 		break;
 		//Data Reference
 		
+		//Paramater
+		case "cost_center":
+			table="tbl_loc";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "resource_driver":
+			table="tbl_rdm";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		case "cost_driver":
+			table="tbl_cdm";
+			urlpost = host+'homex/modul/'+modulnya+'/form_'+submodulnya;
+		break;
+		//End Parameter
+		
 		// Resource
 		//tabs employee
 		case "employees":
