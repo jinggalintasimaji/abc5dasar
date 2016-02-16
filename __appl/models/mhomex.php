@@ -296,19 +296,20 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'emp_to_act'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.total as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.descript as activity_name, C.total as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
 					$from = "tbl_are";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 						LEFT JOIN tbl_emp C ON C.id = A.tbl_emp_id
-						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id
+						LEFT JOIN tbl_rdm D ON C.tbl_rdm_id = D.id
 					";
 				}elseif($type == 'exp_to_emp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun, C.descript AS resource_name ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun, D.descript AS resource_name ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
-						LEFT JOIN tbl_rdm C ON B.tbl_rdm_id = C.id
+						LEFT JOIN tbl_emp C ON C.id = A.tbl_emp_id
+						LEFT JOIN tbl_rdm D ON C.tbl_rdm_id = D.id
 					";
 				}
 				
@@ -333,7 +334,7 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'exp_to_act'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
 					$from = "tbl_are";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
@@ -342,20 +343,22 @@ class mhomex extends CI_Model{
 					";
 					
 				}elseif($type == 'emp_to_exp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.last as employee_name, B.wages as amount, B.bulan, B.tahun, C.descript AS resource_name ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.last as employee_name, B.wages as amount, B.bulan, B.tahun, D.descript AS resource_name ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id
-						LEFT JOIN tbl_rdm C ON B.tbl_rdm_id = C.id						
+						LEFT JOIN tbl_exp C ON C.id = A.tbl_exp_id
+						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id						
 					";
 					$where .= " AND A.tbl_emp_id IS NOT NULL AND A.tbl_emp_id <> '0'";
 					
 				}elseif($type == 'ass_to_exp'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.assets_name, B.amount, B.bulan, B.tahun, C.descript AS resource_name  ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.assets_name, B.amount, B.bulan, B.tahun, D.descript AS resource_name  ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_assets B ON B.id = A.tbl_assets_id 
-						LEFT JOIN tbl_rdm C ON B.tbl_rdm_id = C.id	
+						LEFT JOIN tbl_exp C ON C.id = A.tbl_exp_id
+						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id	
 					";
 					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
 					
@@ -381,7 +384,7 @@ class mhomex extends CI_Model{
 				}
 				
 				if($type == 'ass_to_act'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.descript as activity_name, C.amount as gaji, C.bulan, C.tahun, D.descript AS resource_name ";
 					$from = "tbl_are";
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
@@ -391,11 +394,12 @@ class mhomex extends CI_Model{
 					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
 					
 				}elseif($type == 'exp_to_ass'){
-					$select = " A.*, B.tbl_rdm_id, B.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun, C.descript AS resource_name ";
+					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun, D.descript AS resource_name ";
 					$from = "tbl_efx";
 					$join = "
 						LEFT JOIN tbl_exp B ON B.id = A.tbl_exp_id 
-						LEFT JOIN tbl_rdm C ON C.id = B.tbl_rdm_id
+						LEFT JOIN tbl_assets C ON C.id = A.tbl_assets_id
+						LEFT JOIN tbl_rdm D ON D.id = B.tbl_rdm_id
 					";
 					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
 				}
@@ -648,14 +652,14 @@ class mhomex extends CI_Model{
 					$join = "
 						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id 
 					";
-					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+					$where .= " AND (tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0') ";
 				}elseif($type == 'cust_to_location'){
 					$select = " A.*, B.customer_name ";
 					$from = "tbl_ptp";
 					$join = "
 						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id 
 					";
-					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+					$where .= " AND (tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0') ";
 				}
 				
 				$sql = "
@@ -3007,6 +3011,8 @@ class mhomex extends CI_Model{
 						"tbl_cdm_id" => $data['datanya'][$i]['tbl_cdm_id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3041,6 +3047,8 @@ class mhomex extends CI_Model{
 						"tbl_cust_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3075,6 +3083,8 @@ class mhomex extends CI_Model{
 						"tbl_location_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3095,6 +3105,8 @@ class mhomex extends CI_Model{
 						"tbl_prm_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3124,6 +3136,8 @@ class mhomex extends CI_Model{
 						"tbl_location_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3153,6 +3167,8 @@ class mhomex extends CI_Model{
 						"tbl_prm_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3182,6 +3198,8 @@ class mhomex extends CI_Model{
 						"tbl_cust_id" => $data['datanya'][$i]['id'],
 						"create_date" => date('Y-m-d H:i:s'),
 						"create_by" => $this->auth['nama_lengkap'],
+						"bulan" => $data['bulan'],
+						"tahun" => $data['tahun'],
 					);	
 					array_push($array_batch_insert, $array_insert);						
 				}
@@ -3608,6 +3626,420 @@ class mhomex extends CI_Model{
 													$cek_efx = $this->db->get_where('tbl_efx', $array_cek_efx)->row_array();
 													if(!$cek_efx){
 														$this->db->insert('tbl_efx', $array_insert_efx);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							
+							case "act_cobj":
+								$get_prm = $this->db->get_where('tbl_prm', $array)->result_array();
+								foreach($get_prm as $k => $h){
+									$sqlact = "
+										SELECT A.*, B.activity_code, B.descript
+										FROM tbl_prd A
+										LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id
+										WHERE A.tbl_prm_id = '".$h['id']."'
+									";
+									$qryact = $this->db->query($sqlact)->result_array();
+									if($qryact){
+										foreach($qryact as $t => $u){
+											$array_det_act = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'activity_code' => $u['activity_code'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_act = $this->db->get_where('tbl_acm', $array_det_act)->row_array();
+											if($data_det_act){
+												$array_prm_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'prod_id' => $h['prod_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_prm_skg = $this->db->get_where('tbl_prm', $array_prm_bulan_skg)->row_array();
+												if($data_prm_skg){
+													$array_insert_prd = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_prm_id' => $data_prm_skg['id'],
+														'tbl_cdm_id' => $u['tbl_cdm_id'],
+														'quantity' => $u['quantity'],
+														'cost_rate' => $u['cost_rate'],
+														'cost' => $u['cost'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_prd = array(
+														'tbl_acm_id' => $data_det_act['id'],
+														'tbl_prm_id' => $data_prm_skg['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_prd = $this->db->get_where('tbl_prd', $array_cek_prd)->row_array();
+													if(!$cek_prd){
+														$this->db->insert('tbl_prd', $array_insert_prd);
+													}
+												}
+											}
+										}
+									}
+								}
+							break;
+							case "cust_cobj":
+								$get_prm = $this->db->get_where('tbl_prm', $array)->result_array();
+								foreach($get_prm as $k => $h){
+									$sqlptp = "
+										SELECT A.*, B.customer_id, B.customer_name
+										FROM tbl_ptp A
+										LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id
+										WHERE A.tbl_prm_id = '".$h['id']."'
+										AND (A.tbl_cust_id IS NOT NULL AND A.tbl_cust_id <> 0)
+									";
+									$qryptp = $this->db->query($sqlptp)->result_array();
+									if($qryptp){
+										foreach($qryptp as $t => $u){
+											$array_det_cust = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'customer_id' => $u['customer_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_cust = $this->db->get_where('tbl_cust', $array_det_cust)->row_array();
+											if($data_det_cust){
+												$array_prm_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'prod_id' => $h['prod_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_prm_skg = $this->db->get_where('tbl_prm', $array_prm_bulan_skg)->row_array();
+												if($data_prm_skg){
+													$array_insert_ptp = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_prm_id' => $data_prm_skg['id'],
+														'tbl_cust_id' => $data_det_cust['id'],
+														'quantity' => $u['quantity'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'revenue' => $u['revenue'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_ptp = array(
+														'tbl_prm_id' => $data_prm_skg['id'],
+														'tbl_cust_id' => $data_det_cust['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_ptp = $this->db->get_where('tbl_ptp', $array_cek_ptp)->row_array();
+													if(!$cek_ptp){
+														$this->db->insert('tbl_ptp', $array_insert_ptp);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							case "loc_cobj":
+								$get_prm = $this->db->get_where('tbl_prm', $array)->result_array();
+								foreach($get_prm as $k => $h){
+									$sqlptp = "
+										SELECT A.*, B.location_id, B.location_name
+										FROM tbl_ptp A
+										LEFT JOIN tbl_location B ON B.id = A.tbl_location_id
+										WHERE A.tbl_prm_id = '".$h['id']."'
+										AND (A.tbl_location_id IS NOT NULL AND A.tbl_location_id <> 0)
+									";
+									$qryptp = $this->db->query($sqlptp)->result_array();
+									if($qryptp){
+										foreach($qryptp as $t => $u){
+											$array_det_loc = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'location_id' => $u['location_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_loc = $this->db->get_where('tbl_location', $array_det_loc)->row_array();
+											if($data_det_loc){
+												$array_prm_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'prod_id' => $h['prod_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_prm_skg = $this->db->get_where('tbl_prm', $array_prm_bulan_skg)->row_array();
+												if($data_prm_skg){
+													$array_insert_ptp = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_prm_id' => $data_prm_skg['id'],
+														'tbl_location_id' => $data_det_loc['id'],
+														'quantity' => $u['quantity'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'revenue' => $u['revenue'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_ptp = array(
+														'tbl_prm_id' => $data_prm_skg['id'],
+														'tbl_location_id' => $data_det_loc['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_ptp = $this->db->get_where('tbl_ptp', $array_cek_ptp)->row_array();
+													if(!$cek_ptp){
+														$this->db->insert('tbl_ptp', $array_insert_ptp);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							
+							case "cobj_cust":
+								$get_cust = $this->db->get_where('tbl_cust', $array)->result_array();
+								foreach($get_cust as $k => $h){
+									$sqlptp = "
+										SELECT A.*, B.prod_id, B.descript
+										FROM tbl_ptp A
+										LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id
+										WHERE A.tbl_cust_id = '".$h['id']."'
+										AND (A.tbl_prm_id IS NOT NULL AND A.tbl_prm_id <> 0)
+									";
+									$qryptp = $this->db->query($sqlptp)->result_array();
+									if($qryptp){
+										foreach($qryptp as $t => $u){
+											$array_det_prm = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'prod_id' => $u['prod_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_prm = $this->db->get_where('tbl_prm', $array_det_prm)->row_array();
+											if($data_det_prm){
+												$array_cust_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'customer_id' => $h['customer_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_cust_skg = $this->db->get_where('tbl_cust', $array_cust_bulan_skg)->row_array();
+												if($data_cust_skg){
+													$array_insert_ptp = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_cust_id' => $data_cust_skg['id'],
+														'tbl_prm_id' => $data_det_prm['id'],
+														'quantity' => $u['quantity'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'revenue' => $u['revenue'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_ptp = array(
+														'tbl_cust_id' => $data_cust_skg['id'],
+														'tbl_prm_id' => $data_det_prm['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_ptp = $this->db->get_where('tbl_ptp', $array_cek_ptp)->row_array();
+													if(!$cek_ptp){
+														$this->db->insert('tbl_ptp', $array_insert_ptp);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							case "loc_cust":
+								$get_cust = $this->db->get_where('tbl_cust', $array)->result_array();
+								foreach($get_cust as $k => $h){
+									$sqlptp = "
+										SELECT A.*, B.location_id, B.location_name
+										FROM tbl_ptp A
+										LEFT JOIN tbl_location B ON B.id = A.tbl_location_id
+										WHERE A.tbl_cust_id = '".$h['id']."'
+										AND (A.tbl_location_id IS NOT NULL AND A.tbl_location_id <> 0)
+									";
+									$qryptp = $this->db->query($sqlptp)->result_array();
+									if($qryptp){
+										foreach($qryptp as $t => $u){
+											$array_det_loc = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'location_id' => $u['location_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_loc = $this->db->get_where('tbl_location', $array_det_loc)->row_array();
+											if($data_det_loc){
+												$array_cust_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'customer_id' => $h['customer_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_cust_skg = $this->db->get_where('tbl_cust', $array_cust_bulan_skg)->row_array();
+												if($data_cust_skg){
+													$array_insert_ptp = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_cust_id' => $data_cust_skg['id'],
+														'tbl_location_id' => $data_det_loc['id'],
+														'quantity' => $u['quantity'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'revenue' => $u['revenue'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_ptp = array(
+														'tbl_cust_id' => $data_cust_skg['id'],
+														'tbl_location_id' => $data_det_loc['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_ptp = $this->db->get_where('tbl_ptp', $array_cek_ptp)->row_array();
+													if(!$cek_ptp){
+														$this->db->insert('tbl_ptp', $array_insert_ptp);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							
+							case "cobj_loc":
+								$get_location = $this->db->get_where('tbl_location', $array)->result_array();
+								foreach($get_location as $k => $h){
+									$sqlptp = "
+										SELECT A.*, B.prod_id, B.descript
+										FROM tbl_ptp A
+										LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id
+										WHERE A.tbl_location_id = '".$h['id']."'
+										AND (A.tbl_prm_id IS NOT NULL AND A.tbl_prm_id <> 0)
+									";
+									$qryptp = $this->db->query($sqlptp)->result_array();
+									if($qryptp){
+										foreach($qryptp as $t => $u){
+											$array_det_prm = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'prod_id' => $u['prod_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_prm = $this->db->get_where('tbl_prm', $array_det_prm)->row_array();
+											if($data_det_prm){
+												$array_loc_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'location_id' => $h['location_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_loc_skg = $this->db->get_where('tbl_location', $array_loc_bulan_skg)->row_array();
+												if($data_loc_skg){
+													$array_insert_ptp = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_location_id' => $data_loc_skg['id'],
+														'tbl_prm_id' => $data_det_prm['id'],
+														'quantity' => $u['quantity'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'revenue' => $u['revenue'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_ptp = array(
+														'tbl_location_id' => $data_loc_skg['id'],
+														'tbl_prm_id' => $data_det_prm['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_ptp = $this->db->get_where('tbl_ptp', $array_cek_ptp)->row_array();
+													if(!$cek_ptp){
+														$this->db->insert('tbl_ptp', $array_insert_ptp);
+													}
+												}
+												
+											}
+										}
+									}
+								}
+							break;
+							case "cust_loc":
+								$get_location = $this->db->get_where('tbl_location', $array)->result_array();
+								foreach($get_location as $k => $h){
+									$sqlptp = "
+										SELECT A.*, B.customer_id, B.customer_name
+										FROM tbl_ptp A
+										LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id
+										WHERE A.tbl_location_id = '".$h['id']."'
+										AND (A.tbl_cust_id IS NOT NULL AND A.tbl_cust_id <> 0)
+									";
+									$qryptp = $this->db->query($sqlptp)->result_array();
+									if($qryptp){
+										foreach($qryptp as $t => $u){
+											$array_det_cust = array(
+												'tbl_model_id' => $this->modeling['id'],
+												'customer_id' => $u['customer_id'],
+												'bulan' => $data['bulan_sekarang'],
+												'tahun' => $data['tahun_sekarang'],
+											);
+											$data_det_cust = $this->db->get_where('tbl_cust', $array_det_cust)->row_array();
+											if($data_det_cust){
+												$array_loc_bulan_skg = array(
+													'tbl_model_id' => $this->modeling['id'],
+													'location_id' => $h['location_id'],
+													'bulan' => $data['bulan_sekarang'],
+													'tahun' => $data['tahun_sekarang'],
+												);
+												$data_loc_skg = $this->db->get_where('tbl_location', $array_loc_bulan_skg)->row_array();
+												if($data_loc_skg){
+													$array_insert_ptp = array(
+														//'tbl_model_id' =>  $this->modeling['id'],
+														'tbl_location_id' => $data_loc_skg['id'],
+														'tbl_cust_id' => $data_det_cust['id'],
+														'quantity' => $u['quantity'],
+														'percent' => $u['percent'],
+														'cost' => $u['cost'],
+														'revenue' => $u['revenue'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+														"create_date" => date('Y-m-d H:i:s'),
+														"create_by" => $this->auth['nama_lengkap'],
+													);
+													$array_cek_ptp = array(
+														'tbl_location_id' => $data_loc_skg['id'],
+														'tbl_cust_id' => $data_det_cust['id'],
+														'bulan' => $data['bulan_sekarang'],
+														'tahun' => $data['tahun_sekarang'],
+													);
+													$cek_ptp = $this->db->get_where('tbl_ptp', $array_cek_ptp)->row_array();
+													if(!$cek_ptp){
+														$this->db->insert('tbl_ptp', $array_insert_ptp);
 													}
 												}
 												

@@ -569,6 +569,7 @@ class homex extends MY_Controller {
 										AND tbl_cdm_id IS NOT NULL
 									";
 									$data_activity = $this->db->query($sqlact)->result_array();
+									
 									if($data_activity){
 										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
 									}else{
