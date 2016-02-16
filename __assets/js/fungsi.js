@@ -3183,7 +3183,9 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlnya = "tbl_cust";
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
-			pagesizeboy = 50;			
+			pagesizeboy = 50;		
+			param['month'] = $('#bulan_customer').val();
+			param['year'] = $('#tahun_customer').val();
 			kolom[modnya] = [	
 				{field:'customer_id',title:'Customer ID',width:200, halign:'center',align:'left'},
 				{field:'customer_name',title:'Customer Name',width:250, halign:'center',align:'left'},
@@ -3201,6 +3203,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
+			param['month'] = $('#bulan_location').val();
+			param['year'] = $('#tahun_location').val();			
 			kolom[modnya] = [	
 				{field:'location_id',title:'Location ID',width:200, halign:'center',align:'left'},
 				{field:'location_name',title:'Location Name',width:250, halign:'center',align:'left'},
