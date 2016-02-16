@@ -205,6 +205,10 @@ class homex extends MY_Controller {
 								$data = $this->db->get_where($tabel, array('id'=>$id) )->row_array();
 								
 								if($p2 == 'form_cost_object'){
+									$data['net_revenue_bener'] = $data['net_revenue'];		
+									$data['direct_cost_bener'] = $data['direct_cost'];	
+									$data['prod_qty_bener'] = $data['prod_qty'];	
+									$data['target_qty_bener'] = $data['target_qty'];
 									$data['revenue'] = number_format($data['revenue'],0,",",".");
 									$data['reduction'] = number_format($data['reduction'],0,",",".");									
 									$data['net_revenue'] = number_format($data['net_revenue'],0,",",".");									
@@ -212,8 +216,7 @@ class homex extends MY_Controller {
 									$data['activity_cost'] = number_format($data['activity_cost'],0,",",".");									
 									$data['abc_cost'] = number_format($data['abc_cost'],0,",",".");									
 									$data['profit_lost'] = number_format($data['profit_lost'],0,",",".");									
-									$data['prod_qty'] = number_format($data['prod_qty'],0,",",".");									
-									$data['uom'] = number_format($data['uom'],0,",",".");									
+									$data['prod_qty'] = number_format($data['prod_qty'],0,",",".");															
 									$data['cost_rate'] = number_format($data['cost_rate'],0,",",".");									
 									$data['target_qty'] = number_format($data['target_qty'],0,",",".");									
 									$data['target_rate'] = number_format($data['target_rate'],0,",",".");		
@@ -223,6 +226,7 @@ class homex extends MY_Controller {
 									$total_location = $this->getcost('return', 'cost', 'tbl_ptp', 'tbl_prm_id', $id, 'location_costobject');
 																		
 									$this->smarty->assign('total_cost_driver', $total_cost_driver['total_cost']);
+									$this->smarty->assign('total_cost_driver_bener', $total_cost_driver['total_cost_beneran']);
 									$this->smarty->assign('total_customer', $total_customer['total_cost']);
 									$this->smarty->assign('total_location', $total_location['total_cost']);
 								}elseif($p2 == "form_customer"){
@@ -541,7 +545,117 @@ class homex extends MY_Controller {
 									echo 0;
 									exit;
 								}
-
+							}elseif($p3 == 'cost_object'){
+								$tbl = 'tbl_prm';
+								$module = 'Cost Object';
+								$array_list = array(
+									'0' => array('id'=>'act_cobj','txt'=>'To Activity'),
+									'1' => array('id'=>'cust_cobj','txt'=>'To Customer'),
+									'2' => array('id'=>'loc_cobj','txt'=>'To Location'),
+								);
+								
+								$array = array(
+									'tbl_model_id' => $this->modeling['id'],
+									'bulan' => $bulan,
+									'tahun' => $tahun,
+								);
+								$data_cobj = $this->db->get_where('tbl_prm', $array)->result_array();
+								if($data_cobj){
+									$sqlact = "
+										SELECT *
+										FROM tbl_acm
+										WHERE tbl_model_id = '".$this->modeling['id']."'
+										AND bulan = '".$bulan."' AND tahun = '".$tahun."'
+										AND tbl_cdm_id IS NOT NULL
+									";
+									$data_activity = $this->db->query($sqlact)->result_array();
+									if($data_activity){
+										$status_html .= "<font color=green>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Activity ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_cust = $this->db->get_where('tbl_cust', $array)->result_array();
+									if($data_cust){
+										$status_html .= "<font color=green>Data Customer ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Customer ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_location = $this->db->get_where('tbl_location', $array)->result_array();
+									if($data_location){
+										$status_html .= "<font color=green>Data Location ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Location ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+								}else{
+									echo 0;
+									exit;
+								}
+							}elseif($p3 == 'customer'){
+								$tbl = 'tbl_cust';
+								$module = 'Customer';
+								$array_list = array(
+									'0' => array('id'=>'cobj_cust','txt'=>'To Cost Object'),
+									'1' => array('id'=>'loc_cust','txt'=>'To Location'),
+								);
+								
+								$array = array(
+									'tbl_model_id' => $this->modeling['id'],
+									'bulan' => $bulan,
+									'tahun' => $tahun,
+								);
+								$data_cust = $this->db->get_where('tbl_cust', $array)->result_array();
+								if($data_cust){
+									$data_cobj = $this->db->get_where('tbl_prm', $array)->result_array();
+									if($data_cobj){
+										$status_html .= "<font color=green>Data Cost Object ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Cost Object ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_location = $this->db->get_where('tbl_location', $array)->result_array();
+									if($data_cobj){
+										$status_html .= "<font color=green>Data location ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Location ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+								}else{
+									echo 0;
+									exit;
+								}
+								
+							}elseif($p3 == 'location'){
+								$tbl = 'tbl_location';
+								$module = 'Location';
+								$array_list = array(
+									'0' => array('id'=>'cobj_loc','txt'=>'To Cost Object'),
+									'1' => array('id'=>'cust_loc','txt'=>'To Customer'),
+								);
+								$array = array(
+									'tbl_model_id' => $this->modeling['id'],
+									'bulan' => $bulan,
+									'tahun' => $tahun,
+								);
+								$data_location = $this->db->get_where('tbl_location', $array)->result_array();
+								if($data_location){
+									$data_cobj = $this->db->get_where('tbl_prm', $array)->result_array();
+									if($data_cobj){
+										$status_html .= "<font color=green>Data Cost Object ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Cost Object ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+									
+									$data_cust = $this->db->get_where('tbl_cust', $array)->result_array();
+									if($data_cust){
+										$status_html .= "<font color=green>Data Customer ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Ready</font> <br/>";
+									}else{
+										$status_html .= "<font color=red>Data Customer ".$this->lib->konversi_bulan($bulan)." ".$tahun." - Empty</font> <br/>";
+									}
+								}else{
+									echo 0;
+									exit;
+								}
 							}
 						
 							$this->smarty->assign('bulan_sekarang', $bulan );
@@ -593,7 +707,8 @@ class homex extends MY_Controller {
 			);
 		}else{
 			$array = array(
-				'total_cost' => number_format($data['total_cost'],2,",","."),
+				'total_cost' => number_format($data['total_cost'],0,",","."),
+				'total_cost_beneran' => $data['total_cost'],
 			);
 		}
 		
@@ -643,21 +758,49 @@ class homex extends MY_Controller {
 					$dataexcell->setCellValue('B'.$i, $v['loc_name']);
 					$i++;
 				}
+								
+				ob_end_clean(); 
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');  
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); 
+				header('Content-Disposition: attachment;filename="'.$type.'.xlsx"'); 
+				header('Cache-Control: max-age=0'); 
+				$objWriter->save('php://output');  
+				exit;
+			break;
+			case "tbl_prm":
+				$this->load->library("PHPExcel");
+				$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+				$objPHPExcel = $objReader->load("__repository/template_import/".$type.".xlsx");
+				$dataexcell = $objPHPExcel->setActiveSheetIndex(1);
+				$datasegment = $this->db->get_where('tbl_seg_servicegroup', array('pid'=>null) )->result_array();
 				
-				/*
-				$objValidation = $dataexcell->getCell('A1')->getDataValidation();
-				$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_LIST );
-				$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_INFORMATION );
-				$objValidation->setAllowBlank(false);
-				$objValidation->setShowInputMessage(true);
-				$objValidation->setShowErrorMessage(true);
-				$objValidation->setShowDropDown(true);
-				$objValidation->setErrorTitle('Input error');
-				$objValidation->setError('Value is not in list.');
-				$objValidation->setPromptTitle('Pick from list');
-				$objValidation->setPrompt('Please pick a value from the drop-down list.');
-				$objValidation->setFormula1('"=lookup!$A:$A"');  // Make sure to put the list items between " and "  !!!
-				*/
+				$sqlservice = "
+					SELECT *
+					FROM tbl_seg_servicegroup
+					WHERE pid IS NOT NULL
+				";
+				$dataservice = $this->db->query($sqlservice)->result_array();
+				
+				$dataexcell->setCellValue('A1', 'Segment');
+				$dataexcell->setCellValue('A2', 'ID Segment');
+				$dataexcell->setCellValue('B2', 'Segment');
+				
+				$i = 3;
+				foreach($datasegment as $k=>$v){
+					$dataexcell->setCellValue('A'.$i, $v['id']);
+					$dataexcell->setCellValue('B'.$i, $v['seg_servicegroup_name']);
+					$i++;
+				}
+				
+				$dataexcell->setCellValue('D1', 'Service Group');
+				$dataexcell->setCellValue('D2', 'ID Service Group');
+				$dataexcell->setCellValue('E2', 'Service Group');
+				$ii = 3;
+				foreach($dataservice as $s=>$p){
+					$dataexcell->setCellValue('D'.$ii, $p['id']);
+					$dataexcell->setCellValue('E'.$ii, $p['seg_servicegroup_name']);
+					$ii++;
+				}
 				
 				ob_end_clean(); 
 				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');  
@@ -674,5 +817,9 @@ class homex extends MY_Controller {
 		force_download($name, $data);
 	}
 	
+	function tester(){
+		echo "<pre>";
+		print_r($dataservice);exit;
+	}
 	
 }

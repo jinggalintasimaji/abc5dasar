@@ -5,6 +5,11 @@
 			<input type='hidden' name='editstatus' value="{$editstatus}">
 			<input type='hidden' id='bulan_costobject' value="{$bulan}">
 			<input type='hidden' id='tahun_costobject' value="{$tahun}">
+			<input type='hidden' id='net_revenue_bener' value="{$data.net_revenue_bener|default:''}">
+			<input type='hidden' id='direct_cost_bener' value="{$data.direct_cost_bener|default:''}">
+			<input type='hidden' id='prod_qty_bener' value="{$data.prod_qty_bener|default:''}">
+			<input type='hidden' id='target_qty_bener' value="{$data.target_qty_bener|default:''}">
+			<input type='hidden' id='activity_cost_bener' value="{$data.total_cost_driver_bener|default:''}">
 			
 			<fieldset>
 			<legend>Profit Detail</legend>
@@ -22,9 +27,7 @@
 				</table>
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
-						<td width='50%'>
-							{* {include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Activity Cost' class='duit' name='activity_cost' value={$data.budget_1|default:''} } *}
-							
+						<td width='50%'>							
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' class='duit' name='revenue' value={$data.revenue|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' class='duit' name='reduction' value={$data.reduction|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' class='duit' name='net_revenue' value={$data.net_revenue|default:''} }
@@ -37,7 +40,7 @@
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Segment' name='segment_id' option={$segment_id} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Service Group' name='service_group_id' option={$service_group_id} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' class='duit' name='prod_qty' value={$data.prod_qty|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' class='duit' name='uom' value={$data.uom|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' name='uom' value={$data.uom|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' class='duit' name='cost_rate' value={$data.cost_rate|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Quantity' class='duit' name='target_qty' value={$data.target_qty|default:''} }
 							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Rate' class='duit' name='target_rate' value={$data.target_rate|default:''} }
@@ -172,7 +175,7 @@
 <script>
 	$(document).ready(function() {
 		$(".duit").maskMoney( 'mask' );
-		$(".duit").maskMoney( { precision:0, thousands:'.' } );
+		$(".duit").maskMoney( { precision:0, thousands:'.', allowNegative:true } );
 	} );
 
 	$('.monthhsss').html($('#bulan option:selected').text());

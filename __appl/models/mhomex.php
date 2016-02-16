@@ -214,6 +214,7 @@ class mhomex extends CI_Model{
 					SELECT A.*
 					FROM tbl_prm A
 					$where
+					ORDER BY A.prod_id ASC
 				";
 			break;
 			case "tbl_cdms":
@@ -526,17 +527,19 @@ class mhomex extends CI_Model{
 						
 					";
 				}elseif($type == 'cust_to_cobj'){
-					$select = " A.*, B.customer_name ";
+					$select = " A.*, B.customer_name, B.revenue, C.cost_rate, (B.revenue - A.cost) as profit";
 					$from = "tbl_ptp";
 					$join = "
 						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id 
+						LEFT JOIN tbl_prm C ON C.id = A.tbl_prm_id
 					";
 					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
 				}elseif($type == 'loc_to_cobj'){
-					$select = " A.*, B.location_name ";
+					$select = " A.*, B.location_name, B.revenue, C.cost_rate, (B.revenue - A.cost) as profit ";
 					$from = "tbl_ptp";
 					$join = "
 						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id 
+						LEFT JOIN tbl_prm C ON C.id = A.tbl_prm_id
 					";
 					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
 				}
@@ -569,6 +572,7 @@ class mhomex extends CI_Model{
 					SELECT A.*
 					FROM tbl_cust A
 					$where
+					ORDER BY A.customer_id ASC
 				";
 			break;
 			case "cobj_to_cust":
@@ -626,6 +630,7 @@ class mhomex extends CI_Model{
 					SELECT A.*
 					FROM tbl_location A
 					$where
+					ORDER BY A.location_id ASC
 				";
 			break;
 			case "cobj_to_location":
@@ -1398,7 +1403,7 @@ class mhomex extends CI_Model{
 					$data['reduction'] = str_replace(".", "", $data['reduction']);
 					$data['net_revenue'] = str_replace(".", "", $data['net_revenue']);
 					$data['direct_cost'] = str_replace(".", "", $data['direct_cost']);
-					$data['activity_cost'] = str_replace(".", "", $data['activity_cost']);
+					//$data['activity_cost'] = str_replace(".", "", $data['activity_cost']);
 					$data['abc_cost'] = str_replace(".", "", $data['abc_cost']);
 					$data['profit_lost'] = str_replace(".", "", $data['profit_lost']);
 					
@@ -2515,51 +2520,127 @@ class mhomex extends CI_Model{
 						break;
 						case "tbl_prm":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$array_insert = array(
-									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-									"prod_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-									"level"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-									"descript"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"reduction"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-									"net_revenue"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
-									"direct_cost"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
-									"profit_lost"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
-									"qtyproduce"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
-									"uom"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
-									"cost_rate"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
-									"target_qty"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
-									"abc_cost"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
-									"revenue"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
-									"profitable"=>$worksheet->getCell("N".$i)->getCalculatedValue(),
-									"bulan"=>$worksheet->getCell("O".$i)->getCalculatedValue(),
-									"tahun"=>$worksheet->getCell("P".$i)->getCalculatedValue(),
-									"rlu_date"=>date('d-m-Y')
-								);
-								array_push($array_batch_insert, $array_insert);	
+								if($worksheet->getCell("A".$i)->getCalculatedValue() != "" || $worksheet->getCell("A".$i)->getCalculatedValue() != null){																
+									$arraynya = array(
+										'prod_id'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'],
+										"bulan"=>(int)$worksheet->getCell("L".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("M".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_prm', $arraynya)->row_array();
+									$net_revenue = ( (int)$worksheet->getCell("D".$i)->getCalculatedValue() - (int)$worksheet->getCell("E".$i)->getCalculatedValue() );
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"prod_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"level"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"revenue"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"reduction"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"net_revenue"=>$net_revenue,
+											"direct_cost"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"segment_id"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"service_group_id"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"prod_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"uom"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"target_qty"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"rlu_date"=>date('d-m-Y'),
+											"create_by"=>$this->auth['nama_lengkap'],
+										);
+										array_push($array_batch_insert, $array_insert);	
+									}else{
+										$array_update = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"prod_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"descript"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"level"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"revenue"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"reduction"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+											"net_revenue"=>$net_revenue,
+											"direct_cost"=>$worksheet->getCell("F".$i)->getCalculatedValue(),
+											"segment_id"=>$worksheet->getCell("G".$i)->getCalculatedValue(),
+											"service_group_id"=>$worksheet->getCell("H".$i)->getCalculatedValue(),
+											"prod_qty"=>$worksheet->getCell("I".$i)->getCalculatedValue(),
+											"uom"=>$worksheet->getCell("J".$i)->getCalculatedValue(),
+											"target_qty"=>$worksheet->getCell("K".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("L".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("M".$i)->getCalculatedValue(),
+											"rlu_date"=>date('d-m-Y'),
+											"create_by"=>$this->auth['nama_lengkap'],
+										);
+										$this->db->update('tbl_prm', $array_update, $arraynya);
+									}
+								}
 							}	
 						break;
 						case "tbl_cust":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$array_insert = array(
-									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-									"customer_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-									"customer_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-									"bulan"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"tahun"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-								);
-								array_push($array_batch_insert, $array_insert);	
+								if($worksheet->getCell("A".$i)->getCalculatedValue() != "" || $worksheet->getCell("A".$i)->getCalculatedValue() != null){																
+									$arraynya = array(
+										'customer_id'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'],
+										"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_cust', $arraynya)->row_array();
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"customer_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"customer_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"revenue"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);
+									}else{
+										$array_update = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"customer_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"customer_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"revenue"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_cust', $array_update, $arraynya);
+									}
+								}								
 							}	
 						break;
 						case "tbl_location":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
-								$array_insert = array(
-									"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
-									"location_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
-									"location_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
-									"bulan"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
-									"tahun"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
-								);
-								array_push($array_batch_insert, $array_insert);	
+								if($worksheet->getCell("A".$i)->getCalculatedValue() != "" || $worksheet->getCell("A".$i)->getCalculatedValue() != null){																
+									$arraynya = array(
+										'location_id'=>$worksheet->getCell("A".$i)->getCalculatedValue(), 
+										'tbl_model_id'=>$this->modeling['id'],
+										"bulan"=>(int)$worksheet->getCell("D".$i)->getCalculatedValue(),
+										"tahun"=>(int)$worksheet->getCell("E".$i)->getCalculatedValue(),
+									);
+									$cek_data = $this->db->get_where('tbl_location', $arraynya)->row_array();
+									if(empty($cek_data)){
+										$array_insert = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"location_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"location_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"revenue"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+										);
+										array_push($array_batch_insert, $array_insert);	
+									}else{
+										$array_update = array(
+											"tbl_model_id"=> (isset($this->modeling['id']) ? $this->modeling['id'] : 0),
+											"location_id"=>$worksheet->getCell("A".$i)->getCalculatedValue(),
+											"location_name"=>$worksheet->getCell("B".$i)->getCalculatedValue(),
+											"revenue"=>$worksheet->getCell("C".$i)->getCalculatedValue(),
+											"bulan"=>$worksheet->getCell("D".$i)->getCalculatedValue(),
+											"tahun"=>$worksheet->getCell("E".$i)->getCalculatedValue(),
+										);
+										$this->db->update('tbl_location', $array_update, $arraynya);
+									}
+								}
 							}	
 						break;
 					}
@@ -2972,11 +3053,14 @@ class mhomex extends CI_Model{
 			case "tbl_cust_costobject":
 			case "tbl_loc_costobject":
 				$table = "tbl_ptp";
+				$cost_rate = $data['cost_rate'];
 				unset($data['customer_name']);
 				unset($data['location_name']);
+				unset($data['cost_rate']);
+				unset($data['profit']);
 				unset($data['editing']);
 				
-				$cost = ($data['sell_price'] * $data['quantity']);
+				$cost = ($cost_rate * $data['quantity']);
 				$data['cost'] = $cost;
 			break;
 			

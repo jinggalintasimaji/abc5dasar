@@ -13,6 +13,7 @@
 						<td width='50%'>
 							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Customer ID' name='customer_id' value={$data.customer_id|default:''} }
 							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Customer Name' name='customer_name' value={$data.customer_name|default:''} }
+							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Revenue' name='revenue' value={$data.revenue|default:''} }
 						</td>
 						<td width='50%' valign='top'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Month' name='bulan' option={$bulan_form} } 
