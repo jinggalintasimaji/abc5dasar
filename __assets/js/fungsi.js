@@ -1993,7 +1993,7 @@ function get_total_cost(url,divtotcost,divtotpercent,divtxtpercent){
 
 function perhitungan_cost_object(act_cost){
 	if(act_cost == undefined){
-		var activity_cost = $('#activity_cost_bener').html();
+		var activity_cost = $('#activity_cost_bener').val();
 	}else{
 		var activity_cost = act_cost;
 	}
@@ -2007,10 +2007,19 @@ function perhitungan_cost_object(act_cost){
 	cost_rate = parseInt(abc_cost) / parseInt(prod_qty);
 	target_rate = parseInt(abc_cost) / parseInt(target_qty);
 	
-	$('#abc_cost').val(abc_cost.toFixed(0));
-	$('#profit_lost').val(profit.toFixed(0));
-	$('#cost_rate').val(cost_rate.toFixed(0));
-	$('#target_rate').val(target_rate.toFixed(0));
+	$('#abc_cost').html(NumberFormat(abc_cost));
+	$('#profit').html(NumberFormat(profit));
+	$('#cost_rate').html(NumberFormat(cost_rate));
+	$('#target_rate').html(NumberFormat(target_rate));
+	
+	
+	$('#activity_cost_bener').val(activity_cost);
+	$('#abc_cost_bener').val(abc_cost);
+	$('#profit_bener').val(profit);
+	$('#cost_rate_bener').val(cost_rate.toFixed(2));
+	$('#target_rate_bener').val(target_rate.toFixed(2));
+	
+	//*/
 }
 
 function validasi_proportion(div,target,divtxtpercent){
