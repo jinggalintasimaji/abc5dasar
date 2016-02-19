@@ -339,7 +339,7 @@ class mhomex extends CI_Model{
 					$join = "
 						LEFT JOIN tbl_acm B ON B.id = A.tbl_acm_id 
 						LEFT JOIN tbl_exp C ON C.id = A.tbl_exp_id
-						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id
+						LEFT JOIN tbl_rdm D ON C.tbl_rdm_id = D.id
 					";
 					
 				}elseif($type == 'emp_to_exp'){
@@ -350,7 +350,7 @@ class mhomex extends CI_Model{
 						LEFT JOIN tbl_exp C ON C.id = A.tbl_exp_id
 						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id						
 					";
-					$where .= " AND A.tbl_emp_id IS NOT NULL AND A.tbl_emp_id <> '0'";
+					$where .= " AND (A.tbl_emp_id IS NOT NULL OR A.tbl_emp_id <> 0)";
 					
 				}elseif($type == 'ass_to_exp'){
 					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.assets_name, B.amount, B.bulan, B.tahun, D.descript AS resource_name  ";
@@ -358,9 +358,9 @@ class mhomex extends CI_Model{
 					$join = "
 						LEFT JOIN tbl_assets B ON B.id = A.tbl_assets_id 
 						LEFT JOIN tbl_exp C ON C.id = A.tbl_exp_id
-						LEFT JOIN tbl_rdm D ON B.tbl_rdm_id = D.id	
+						LEFT JOIN tbl_rdm D ON C.tbl_rdm_id = D.id	
 					";
-					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
+					$where .= " AND (A.tbl_assets_id IS NOT NULL OR A.tbl_assets_id <> 0)";
 					
 				}
 				
@@ -391,7 +391,7 @@ class mhomex extends CI_Model{
 						LEFT JOIN tbl_assets C ON C.id = A.tbl_assets_id
 						LEFT JOIN tbl_rdm D ON D.id = B.tbl_rdm_id
 					";
-					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
+					$where .= " AND (A.tbl_assets_id IS NOT NULL OR A.tbl_assets_id <> 0)";
 					
 				}elseif($type == 'exp_to_ass'){
 					$select = " A.*, C.tbl_rdm_id, C.rd_tot_qty, B.descript as expense_name, B.amount, B.bulan, B.tahun, D.descript AS resource_name ";
@@ -401,7 +401,7 @@ class mhomex extends CI_Model{
 						LEFT JOIN tbl_assets C ON C.id = A.tbl_assets_id
 						LEFT JOIN tbl_rdm D ON D.id = B.tbl_rdm_id
 					";
-					$where .= " AND A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> '0'";
+					$where .= " AND (A.tbl_assets_id IS NOT NULL AND A.tbl_assets_id <> 0)";
 				}
 				
 				$sql = "
@@ -537,7 +537,7 @@ class mhomex extends CI_Model{
 						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id 
 						LEFT JOIN tbl_prm C ON C.id = A.tbl_prm_id
 					";
-					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+					$where .= " AND (tbl_cust_id IS NOT NULL OR tbl_cust_id <> 0) ";
 				}elseif($type == 'loc_to_cobj'){
 					$select = " A.*, B.location_name, B.revenue, C.cost_rate, (B.revenue - A.cost) as profit ";
 					$from = "tbl_ptp";
@@ -545,7 +545,7 @@ class mhomex extends CI_Model{
 						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id 
 						LEFT JOIN tbl_prm C ON C.id = A.tbl_prm_id
 					";
-					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+					$where .= " AND (tbl_location_id IS NOT NULL OR tbl_location_id <> 0) ";
 				}
 				
 				$sql = "
@@ -594,14 +594,14 @@ class mhomex extends CI_Model{
 					$join = "
 						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id 
 					";
-					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+					$where .= " AND (tbl_prm_id IS NOT NULL OR tbl_prm_id <> 0) ";
 				}elseif($type == 'loc_to_cust'){
 					$select = " A.*, B.location_name ";
 					$from = "tbl_ptp";
 					$join = "
 						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id 
 					";
-					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+					$where .= " AND (tbl_location_id IS NOT NULL OR tbl_location_id <> 0) ";
 				}
 				
 				$sql = "
@@ -652,14 +652,14 @@ class mhomex extends CI_Model{
 					$join = "
 						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id 
 					";
-					$where .= " AND (tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0') ";
+					$where .= " AND (tbl_prm_id IS NOT NULL OR tbl_prm_id <> 0) ";
 				}elseif($type == 'cust_to_location'){
 					$select = " A.*, B.customer_name ";
 					$from = "tbl_ptp";
 					$join = "
 						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id 
 					";
-					$where .= " AND (tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0') ";
+					$where .= " AND (tbl_cust_id IS NOT NULL OR tbl_cust_id <> 0) ";
 				}
 				
 				$sql = "
@@ -709,7 +709,7 @@ class mhomex extends CI_Model{
 					$field_where = "tbl_prm_id";
 					$field_select = "tbl_cust_id";
 					$table_beda = "tbl_ptp";
-					$wheretambah .= "AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0'";
+					$wheretambah .= "AND (tbl_cust_id IS NOT NULL OR tbl_cust_id <> 0)";
 				}elseif($type == 'list_location_costobject'){
 					$select = " A.id, A.location_name, A.location_id ";
 					$from = "tbl_location";
@@ -718,7 +718,7 @@ class mhomex extends CI_Model{
 					$field_where = "tbl_prm_id";
 					$field_select = "tbl_location_id";
 					$table_beda = "tbl_ptp";
-					$wheretambah .= "AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0'";
+					$wheretambah .= "AND (tbl_location_id IS NOT NULL OR tbl_location_id <> 0)";
 					
 				}elseif($type == 'list_costobject_customer'){
 					$select = " A.id, A.descript, A.prod_id ";
@@ -728,7 +728,7 @@ class mhomex extends CI_Model{
 					$field_where = "tbl_cust_id";
 					$field_select = "tbl_prm_id";
 					$table_beda = "tbl_ptp";
-					$wheretambah .= "AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0'";
+					$wheretambah .= "AND (tbl_prm_id IS NOT NULL OR tbl_prm_id <> 0)";
 				}elseif($type == 'list_location_customer'){
 					$select = " A.id, A.location_name, A.location_id ";
 					$from = "tbl_location";
@@ -737,7 +737,7 @@ class mhomex extends CI_Model{
 					$field_where = "tbl_cust_id";
 					$field_select = "tbl_location_id";
 					$table_beda = "tbl_ptp";
-					$wheretambah .= "AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0'";
+					$wheretambah .= "AND (tbl_location_id IS NOT NULL OR tbl_location_id <> 0)";
 					
 				}elseif($type == 'list_costobject_location'){
 					$select = " A.id, A.descript, A.prod_id ";
@@ -747,7 +747,7 @@ class mhomex extends CI_Model{
 					$field_where = "tbl_location_id";
 					$field_select = "tbl_prm_id";
 					$table_beda = "tbl_ptp";
-					$wheretambah .= "AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0'";
+					$wheretambah .= "AND (tbl_prm_id IS NOT NULL OR tbl_prm_id <> 0)";
 				}elseif($type == 'list_customer_location'){
 					$select = " A.id, A.customer_name, A.customer_id ";
 					$from = "tbl_cust";
@@ -756,7 +756,7 @@ class mhomex extends CI_Model{
 					$field_where = "tbl_location_id";
 					$field_select = "tbl_cust_id";
 					$table_beda = "tbl_ptp";
-					$wheretambah .= "AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0'";
+					$wheretambah .= "AND (tbl_cust_id IS NOT NULL OR tbl_cust_id <> 0)";
 					
 					
 					
@@ -792,21 +792,21 @@ class mhomex extends CI_Model{
 			case "total_cost":
 				$where = "";
 				if($p5 == 'expense_emp'){
-					$where .= " AND tbl_emp_id IS NOT NULL AND tbl_emp_id <> '0' ";
+					$where .= " AND (tbl_emp_id IS NOT NULL OR tbl_emp_id <> 0) ";
 				}elseif($p5 == 'expense_ass'){
-					$where .= " AND tbl_assets_id IS NOT NULL AND tbl_assets_id <> '0' ";
+					$where .= " AND (tbl_assets_id IS NOT NULL OR tbl_assets_id <> 0) ";
 				}elseif($p5 == 'customer_costobject'){
-					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+					$where .= " AND (tbl_cust_id IS NOT NULL OR tbl_cust_id <> 0) ";
 				}elseif($p5 == 'location_costobject'){
-					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+					$where .= " AND (tbl_location_id IS NOT NULL OR tbl_location_id <> 0) ";
 				}elseif($p5 == 'costobject_customer'){
-					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+					$where .= " AND (tbl_prm_id IS NOT NULL OR tbl_prm_id <> 0) ";
 				}elseif($p5 == 'location_customer'){
-					$where .= " AND tbl_location_id IS NOT NULL AND tbl_location_id <> '0' ";
+					$where .= " AND (tbl_location_id IS NOT NULL OR tbl_location_id <> 0) ";
 				}elseif($p5 == 'costobject_location'){
-					$where .= " AND tbl_prm_id IS NOT NULL AND tbl_prm_id <> '0' ";
+					$where .= " AND (tbl_prm_id IS NOT NULL OR tbl_prm_id <> 0) ";
 				}elseif($p5 == 'customer_location'){
-					$where .= " AND tbl_cust_id IS NOT NULL AND tbl_cust_id <> '0' ";
+					$where .= " AND (tbl_cust_id IS NOT NULL OR tbl_cust_id <> 0) ";
 				}
 				
 				if($p2 != 'tbl_prd'){
@@ -825,9 +825,9 @@ class mhomex extends CI_Model{
 			case "total_percent_models":
 				$where = "";
 				if($p5 == 'expense_emp'){
-					$where .= " AND tbl_emp_id IS NOT NULL AND tbl_emp_id <> '0' ";
+					$where .= " AND (tbl_emp_id IS NOT NULL OR tbl_emp_id <> 0) ";
 				}elseif($p5 == 'expense_ass'){
-					$where .= " AND tbl_assets_id IS NOT NULL AND tbl_assets_id <> '0' ";
+					$where .= " AND (tbl_assets_id IS NOT NULL OR tbl_assets_id <> 0) ";
 				}
 				
 				$sql = "
@@ -869,7 +869,7 @@ class mhomex extends CI_Model{
 				if($this->modeling){
 					$whereexp = " AND tbl_model_id = '".$this->modeling['id']."' ";
 				}else{
-					$whereexp = " AND tbl_model_id = '0' ";
+					$whereexp = " AND tbl_model_id = 0 ";
 				}
 				$sqlexpense = "
 					SELECT id
@@ -886,15 +886,15 @@ class mhomex extends CI_Model{
 				if($type == 'total_expense_activity'){
 					$sum = 'cost';
 					$tabel = 'tbl_are';
-					$where .= " AND tbl_exp_id <> 0 AND tbl_exp_id IS NOT NULL ";
+					$where .= " AND (tbl_exp_id <> 0 OR tbl_exp_id IS NOT NULL) ";
 				}elseif($type == 'total_expense_employee'){
 					$sum = 'cost';
 					$tabel = 'tbl_efx';
-					$where .= " AND tbl_emp_id <> 0 AND tbl_emp_id IS NOT NULL ";
+					$where .= " AND (tbl_emp_id <> 0 OR tbl_emp_id IS NOT NULL) ";
 				}elseif($type == 'total_expense_assets'){
 					$sum = 'cost';
 					$tabel = 'tbl_efx';
-					$where .= " AND tbl_assets_id <> 0 AND tbl_assets_id IS NOT NULL ";
+					$where .= " AND (tbl_assets_id <> 0 OR tbl_assets_id IS NOT NULL) ";
 				}
 				
 				$sql = "
@@ -1098,7 +1098,7 @@ class mhomex extends CI_Model{
 						FROM tbl_efx A
 						LEFT JOIN tbl_emp B ON B.id = A.tbl_emp_id 
 						WHERE tbl_exp_id = '".$v['id']."'
-						AND tbl_emp_id IS NOT NULL AND tbl_emp_id <> '0'
+						AND (tbl_emp_id IS NOT NULL OR tbl_emp_id <> 0)
 					";
 					$query3 = $this->db->query($sql3)->result_array();
 					foreach($query3 as $x => $z){
@@ -1112,7 +1112,7 @@ class mhomex extends CI_Model{
 						FROM tbl_efx A
 						LEFT JOIN tbl_assets B ON B.id = A.tbl_assets_id 
 						WHERE tbl_exp_id = '".$v['id']."'
-						AND tbl_assets_id IS NOT NULL AND tbl_assets_id <> '0'
+						AND (tbl_assets_id IS NOT NULL OR tbl_assets_id <> 0)
 					";
 					$query4 = $this->db->query($sql4)->result_array();
 					foreach($query4 as $j => $b){
@@ -1219,7 +1219,7 @@ class mhomex extends CI_Model{
 						FROM tbl_ptp A
 						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id
 						WHERE A.tbl_prm_id = '".$v['id']."'
-						AND A.tbl_cust_id IS NOT NULL AND A.tbl_cust_id <> '0'
+						AND (A.tbl_cust_id IS NOT NULL OR A.tbl_cust_id <> 0)
 					";
 					$query3 = $this->db->query($sql3)->result_array();
 					foreach($query3 as $x => $z){
@@ -1234,7 +1234,7 @@ class mhomex extends CI_Model{
 						FROM tbl_ptp A
 						LEFT JOIN tbl_location B ON B.id = A.tbl_location_id
 						WHERE A.tbl_prm_id = '".$v['id']."'
-						AND A.tbl_location_id IS NOT NULL AND A.tbl_location_id <> '0'
+						AND (A.tbl_location_id IS NOT NULL OR A.tbl_location_id <> 0)
 					";
 					$query3 = $this->db->query($sql3)->result_array();
 					foreach($query3 as $o => $n){
@@ -1273,7 +1273,7 @@ class mhomex extends CI_Model{
 						FROM tbl_ptp A 
 						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id
 						WHERE tbl_cust_id = '".$v['id']."'
-						AND A.tbl_prm_id IS NOT NULL AND A.tbl_prm_id <> '0'
+						AND (A.tbl_prm_id IS NOT NULL OR A.tbl_prm_id <> 0)
 					";
 					$query2 = $this->db->query($sql2)->result_array();
 					foreach($query2 as $t => $y){
@@ -1319,7 +1319,7 @@ class mhomex extends CI_Model{
 						FROM tbl_ptp A 
 						LEFT JOIN tbl_prm B ON B.id = A.tbl_prm_id
 						WHERE tbl_location_id = '".$v['id']."'
-						AND A.tbl_prm_id IS NOT NULL AND A.tbl_prm_id <> '0'
+						AND (A.tbl_prm_id IS NOT NULL OR A.tbl_prm_id <> 0)
 					";
 					$query2 = $this->db->query($sql2)->result_array();
 					foreach($query2 as $t => $y){
@@ -1334,7 +1334,7 @@ class mhomex extends CI_Model{
 						FROM tbl_ptp A 
 						LEFT JOIN tbl_cust B ON B.id = A.tbl_cust_id
 						WHERE tbl_location_id = '".$v['id']."'
-						AND A.tbl_cust_id IS NOT NULL AND A.tbl_cust_id <> '0'
+						AND (A.tbl_cust_id IS NOT NULL OR A.tbl_cust_id <> 0)
 					";
 					$query3 = $this->db->query($sql3)->result_array();
 					foreach($query3 as $x => $z){
@@ -1362,6 +1362,7 @@ class mhomex extends CI_Model{
 		
 		$id = $data['id'];
 		$field_id = 'id';
+		$tot_cost = false;
 		unset($data['id']);
 		
 		switch ($table){
@@ -2680,12 +2681,23 @@ class mhomex extends CI_Model{
 					$this->db->insert_batch($table, $array_batch_insert);
 				}					
 			break;
-			case "tbl_are_assignment": // tabs employee = toActivity , tabs expense = toActivity
+			case "tbl_are_assignment": // tabs employee = toActivity , tabs expense = toActivity, tabs assets = toActivity
 				$table = "tbl_are";
 				$tot_qty = $data['rd_tot_qty'];
 				$gaji = $data['gaji'];
 				$bulan = $data['bulan'];
 				$tahun = $data['tahun'];
+				$tot_cost = true;
+				
+				if($data['tbl_emp_id'] == 0){
+					unset($data['tbl_emp_id']);
+				}
+				if($data['tbl_exp_id'] == 0){
+					unset($data['tbl_exp_id']);
+				}
+				if($data['tbl_assets_id'] == 0){
+					unset($data['tbl_assets_id']);
+				}
 				
 				unset($data['activity_name']);
 				unset($data['resource_name']);
@@ -2694,6 +2706,11 @@ class mhomex extends CI_Model{
 				unset($data['bulan']);
 				unset($data['tahun']);
 				unset($data['editing']);
+				unset($data['tbl_loc_id']);
+				unset($data['tbl_acm_child_id']);
+				unset($data['tbl_model_id']);
+				unset($data['cost_nbr']);
+				unset($data['total_cost']);
 				
 				if($tot_qty == null){
 					$amount = ( $data['percent'] / 100 ) * $gaji;
@@ -2704,57 +2721,12 @@ class mhomex extends CI_Model{
 					$data['rd_qty'] = null;
 					$data['tbl_rdm_id'] = null;
 				}else{
-					/*
-					if($data['rd_qty'] >= $tot_qty){
-						exit;
-					}
-					*/
 					$amount = ($data['rd_qty'] * $gaji) / $tot_qty;
 					$percent = ($amount/$gaji) * 100;
-					$data['percent'] = number_format($percent,0);
-				}
-				
-				/*
-				$cek_percent = $this->db->get_where('tbl_are', array('id' => $id) )->row_array();				
-				if($data['percent'] >= $cek_percent['percent']){
-					if($data['tbl_emp_id'] != "" || $data['tbl_emp_id'] != 0){
-						$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_are", "tbl_emp_id", $data['tbl_emp_id']);
-					}
-					if($data['tbl_exp_id'] != "" || $data['tbl_exp_id'] != 0){
-						$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_are", "tbl_exp_id", $data['tbl_exp_id']);
-					}
-					if($data['tbl_assets_id'] != "" || $data['tbl_assets_id'] != 0){
-						$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_are", "tbl_assets_id", $data['tbl_assets_id']);
-					}
-										
-					$percent_allowed = (($total_percent['total_percent'] - $cek_percent['percent']) + $data['percent']);
-					
-					//echo $total_percent['total_percent']." + ".$data['percent']." = ".$percent_allowed; exit;
-					
-					if($percent_allowed > 100){
-						exit;
-					}
-				}
-				*/
-				
+					$data['percent'] = number_format($percent,2);
+				}				
 				$data['cost'] = $amount;
-				
-				/*
-				$cek_data = $this->db->get_where('tbl_acm_total_cost', array('tbl_acm_id'=>$data['tbl_acm_id'], 'bulan'=>$bulan, 'tahun'=>$tahun ) )->row_array();
-				if($cek_data){
-					$total_cost = ($cek_data['total_cost'] + $amount);
-					$this->db->update('tbl_acm_total_cost', array('total_cost'=>$total_cost), array('tbl_acm_id'=>$data['tbl_acm_id'], 'bulan'=>$bulan, 'tahun'=>$tahun ) );
-				}else{
-					$arrayinsert = array(
-						'tbl_acm_id' => $data['tbl_acm_id'],
-						'bulan' => $bulan,
-						'tahun' => $tahun,
-						'total_cost' => $amount,
-					);
-					$this->db->insert('tbl_acm_total_cost', $arrayinsert);
-				}
-				*/
-				
+				//*/
 			break;
 			case "list_expense_employee":
 				$table = "tbl_efx";
@@ -2784,6 +2756,13 @@ class mhomex extends CI_Model{
 					$bulan = $data['bulan'];
 					$tahun = $data['tahun'];
 					
+					if($data['tbl_emp_id'] == 0){
+						unset($data['tbl_emp_id']);
+					}
+					if($data['tbl_exp_id'] == 0){
+						unset($data['tbl_exp_id']);
+					}
+					
 					unset($data['expense_name']);
 					unset($data['employee_name']);
 					unset($data['resource_name']);
@@ -2793,6 +2772,7 @@ class mhomex extends CI_Model{
 					unset($data['amount']);
 					unset($data['bulan']);
 					unset($data['tahun']);
+					unset($data['tbl_assets_id']);
 					
 					if($tot_qty == null){
 						$amount = ( $data['percent'] / 100 ) * $amounts;
@@ -2811,20 +2791,8 @@ class mhomex extends CI_Model{
 						
 						$amount = ($data['rd_qty'] * $amounts) / $tot_qty;
 						$percent = ($amount/$amounts) * 100;
-						$data['percent'] = number_format($percent,0);
-					}
-					
-					/*
-					$cek_percent = $this->db->get_where('tbl_efx', array('id' => $id) )->row_array();
-					if($data['percent'] >= $cek_percent['percent']){
-						$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_efx", "tbl_emp_id", $data['tbl_emp_id']);
-						$percent_allowed = (($total_percent['total_percent'] - $cek_percent['percent']) + $data['percent']);
-						if($percent_allowed > 100){
-							exit;
-						}
-					}
-					*/
-					
+						$data['percent'] = number_format($percent,2);
+					}					
 					$data['cost'] = $amount;
 				}
 			break;
@@ -2894,6 +2862,7 @@ class mhomex extends CI_Model{
 				unset($data['amount']);
 				unset($data['bulan']);
 				unset($data['tahun']);
+				unset($data['tbl_emp_id']);
 				
 				if($tot_qty == null){
 					$amount = ( $data['percent'] / 100 ) * $amounts;
@@ -2909,20 +2878,9 @@ class mhomex extends CI_Model{
 					*/
 					$amount = ($amounts * $data['rd_qty']) / $tot_qty;
 					$percent = ($amount/$amounts) * 100;
-					$data['percent'] = number_format($percent,0);
+					$data['percent'] = number_format($percent,2);
 				}
 				
-				/*
-				$cek_percent = $this->db->get_where('tbl_efx', array('id' => $id) )->row_array();
-				if($data['percent'] >= $cek_percent['percent']){
-					$total_percent = $this->getdata('total_percent_models', 'row_array', "percent", "tbl_efx", "tbl_assets_id", $data['tbl_assets_id']);
-					$percent_allowed = (($total_percent['total_percent'] - $cek_percent['percent']) + $data['percent']);
-					if($percent_allowed > 100){
-						echo 1;
-						exit;
-					}
-				}
-				*/
 				$data['cost'] = $amount;
 				
 			break;
@@ -3062,6 +3020,14 @@ class mhomex extends CI_Model{
 			case "tbl_loc_costobject":
 				$table = "tbl_ptp";
 				$cost_rate = $data['cost_rate'];
+				
+				if($data['tbl_cust_id'] == 0){
+					unset($data['tbl_cust_id']);
+				}
+				if($data['tbl_location_id'] == 0){
+					unset($data['tbl_location_id']);
+				}
+				
 				unset($data['customer_name']);
 				unset($data['location_name']);
 				unset($data['cost_rate']);
@@ -3151,6 +3117,7 @@ class mhomex extends CI_Model{
 				unset($data['cost_object_name']);
 				unset($data['location_name']);
 				unset($data['editing']);
+				unset($data['tbl_prm_id']);
 				
 				$cost = ($data['sell_price'] * $data['quantity']);
 				$data['cost'] = $cost;
@@ -3213,6 +3180,7 @@ class mhomex extends CI_Model{
 				unset($data['cost_object_name']);
 				unset($data['customer_name']);
 				unset($data['editing']);
+				unset($data['tbl_prm_id']);
 				
 				$cost = ($data['sell_price'] * $data['quantity']);
 				$data['cost'] = $cost;
@@ -4081,6 +4049,29 @@ class mhomex extends CI_Model{
 				}
 				$this->db->update($tabel, $array_update, array('id'=>$id) );
 			break;
+		}
+		
+		if($tot_cost == true){
+			$sql_tot_cost = "
+				SELECT SUM(cost) as total_cost
+				FROM tbl_are
+				WHERE tbl_acm_id = ".$data['tbl_acm_id']."
+				AND bulan = ".$bulan." AND tahun = ".$tahun."
+				GROUP BY tbl_acm_id
+			";
+			$qrytotcost = $this->db->query($sql_tot_cost)->row_array();
+			$cek_data = $this->db->get_where('tbl_acm_total_cost', array('tbl_acm_id'=>$data['tbl_acm_id'], 'bulan'=>$bulan, 'tahun'=>$tahun ) )->row_array();
+			if($cek_data){
+				$this->db->update('tbl_acm_total_cost', array('total_cost'=>$qrytotcost['total_cost']), array('tbl_acm_id'=>$data['tbl_acm_id'], 'bulan'=>$bulan, 'tahun'=>$tahun ) );
+			}else{
+				$arrayinsert = array(
+					'tbl_acm_id' => $data['tbl_acm_id'],
+					'bulan' => $bulan,
+					'tahun' => $tahun,
+					'total_cost' => $qrytotcost['total_cost'],
+				);
+				$this->db->insert('tbl_acm_total_cost', $arrayinsert);
+			}
 		}
 		
 		if($this->db->trans_status() == false){

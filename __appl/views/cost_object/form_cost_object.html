@@ -5,11 +5,16 @@
 			<input type='hidden' name='editstatus' value="{$editstatus}">
 			<input type='hidden' id='bulan_costobject' value="{$bulan}">
 			<input type='hidden' id='tahun_costobject' value="{$tahun}">
-			<input type='hidden' id='net_revenue_bener' value="{$data.net_revenue_bener|default:''}">
+			<input type='hidden' id='net_revenue_bener' name='net_revenue' value="{$data.net_revenue_bener|default:''}">
 			<input type='hidden' id='direct_cost_bener' value="{$data.direct_cost_bener|default:''}">
 			<input type='hidden' id='prod_qty_bener' value="{$data.prod_qty_bener|default:''}">
 			<input type='hidden' id='target_qty_bener' value="{$data.target_qty_bener|default:''}">
-			<input type='hidden' id='activity_cost_bener' value="{$data.total_cost_driver_bener|default:''}">
+			
+			<input type='hidden' id='activity_cost_bener' name='activity_cost' value="{$total_cost_driver_bener|default:''}">
+			<input type='hidden' id='abc_cost_bener' name='abc_cost' value="{$data.abc_cost_bener|default:''}">
+			<input type='hidden' id='profit_bener' name='profit_lost' value="{$data.profit_bener|default:''}">
+			<input type='hidden' id='cost_rate_bener' name='cost_rate' value="{$data.cost_rate_bener|default:''}">
+			<input type='hidden' id='target_rate_bener' name='target_rate' value="{$data.target_rate_bener|default:''}">
 			
 			<fieldset>
 			<legend>Profit Detail</legend>
@@ -28,22 +33,25 @@
 				<table width='100%' style='margin-top:10px;'>
 					<tr>
 						<td width='50%'>							
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' class='duit' name='revenue' value={$data.revenue|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' class='duit' name='reduction' value={$data.reduction|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' class='duit' name='net_revenue' value={$data.net_revenue|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' class='duit' name='direct_cost' value={$data.direct_cost|default:''} }
-							<label style='width:150px'>Activity Cost</label> : Rp. <span id='activity_cost'>{$total_cost_driver|default:'0'}</span> <br/>
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' class='duit' name='abc_cost' value={$data.abc_cost|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' class='duit' name='profit_lost' value={$data.profit_lost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Revenue' class='duit' align='right' name='revenue' value={$data.revenue|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Reduction' class='duit' align='right' name='reduction' value={$data.reduction|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Direct Cost' class='duit' align='right' name='direct_cost' value={$data.direct_cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' name='uom' value={$data.uom|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' align='right' class='duit' name='prod_qty' value={$data.prod_qty|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Quantity' class='duit' align='right' name='target_qty' value={$data.target_qty|default:''} }							
 						</td>
-						<td width='50%'>
+						<td width='50%' valign='top'>
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Segment' name='segment_id' option={$segment_id} }
 							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Service Group' name='service_group_id' option={$service_group_id} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Quantity of Production' class='duit' name='prod_qty' value={$data.prod_qty|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Unit Of Measurement' name='uom' value={$data.uom|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' class='duit' name='cost_rate' value={$data.cost_rate|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Quantity' class='duit' name='target_qty' value={$data.target_qty|default:''} }
-							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Rate' class='duit' name='target_rate' value={$data.target_rate|default:''} }
+							<br/>
+							{if $editstatus eq 'edit'}
+								<label style='width:150px'>Net Revenue</label> : Rp. <span id='net_revenue'>{$data.net_revenue|default:'0'}</span> <br/>
+								<label style='width:150px'>Activity Cost</label> : Rp. <span id='activity_cost'>{$total_cost_driver|default:'0'}</span> <br/>
+								<label style='width:150px'>ABC Cost</label> : Rp. <span id='abc_cost'>{$data.abc_cost|default:'0'}</span> <br/>
+								<label style='width:150px'>Profit</label> : Rp. <span id='profit'>{$data.profit_lost|default:'0'}</span> <br/>
+								<label style='width:150px'>Cost Rate</label> : Rp. <span id='cost_rate'>{$data.cost_rate|default:'0'}</span> <br/>
+								<label style='width:150px'>Target Rate</label> : Rp. <span id='target_rate'>{$data.target_rate|default:'0'}</span> <br/>
+							{/if}
 						</td>
 					</tr>
 				</table>
@@ -173,10 +181,53 @@
 </div>
 
 <script>
+	var editstatus = "{$editstatus}";
+	
 	$(document).ready(function() {
 		$(".duit").maskMoney( 'mask' );
 		$(".duit").maskMoney( { precision:0, thousands:'.', allowNegative:true } );
-	} );
+	});
+	
+		$('#revenue').on('keyup', function(){
+			rev = $(this).val().replace(/\./g,'');
+			red = $('#reduction').val().replace(/\./g,'');
+			net_rev = ( parseInt(rev) - parseInt(red) );
+			
+			$('#net_revenue_bener').val(net_rev);
+			$('#net_revenue').html(NumberFormat(net_rev));
+			perhitungan_cost_object();
+			//*/
+		});
+		$('#reduction').on('keyup', function(){
+			rev = $('#revenue').val().replace(/\./g,'');
+			red = $(this).val().replace(/\./g,'');
+			net_rev = ( parseInt(rev) - parseInt(red) );
+			
+			$('#net_revenue_bener').val(net_rev);
+			$('#net_revenue').html(NumberFormat(net_rev));
+			perhitungan_cost_object();
+			//*/
+		});	
+	if(editstatus == 'edit'){
+		$('#direct_cost').on('keyup', function(){
+			dir_cost = $(this).val().replace(/\./g,'');			
+			$('#direct_cost_bener').val(dir_cost);
+			perhitungan_cost_object();
+			//*/
+		});
+		$('#prod_qty').on('keyup', function(){
+			prod = $(this).val().replace(/\./g,'');			
+			$('#prod_qty_bener').val(prod);
+			perhitungan_cost_object();
+			//*/
+		});
+		$('#target_qty').on('keyup', function(){
+			target = $(this).val().replace(/\./g,'');			
+			$('#target_qty_bener').val(target);
+			perhitungan_cost_object();
+			//*/
+		});
+	}
 
 	$('.monthhsss').html($('#bulan option:selected').text());
 	$('.yearrsss').html($('#tahun option:selected').text());
@@ -222,3 +273,12 @@
 	
 
 </script>
+
+
+							{*
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Cost Rate' class='duit' name='cost_rate' value={$data.cost_rate|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Target Rate' class='duit' name='target_rate' value={$data.target_rate|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='ABC Cost' class='duit' name='abc_cost' value={$data.abc_cost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Profit Lost' class='duit' name='profit_lost' value={$data.profit_lost|default:''} }
+							{include file='template/input_form.html' size='kecil' type='text' tampilan='label' label='Net Revenue' class='duit' align='right' name='net_revenue' value={$data.net_revenue|default:''} }
+							*}

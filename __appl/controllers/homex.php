@@ -209,6 +209,11 @@ class homex extends MY_Controller {
 									$data['direct_cost_bener'] = $data['direct_cost'];	
 									$data['prod_qty_bener'] = $data['prod_qty'];	
 									$data['target_qty_bener'] = $data['target_qty'];
+									$data['abc_cost_bener'] = $data['abc_cost'];
+									$data['profit_bener'] = $data['profit_lost'];
+									$data['cost_rate_bener'] = $data['cost_rate'];
+									$data['target_rate_bener'] = $data['target_rate'];
+									
 									$data['revenue'] = number_format($data['revenue'],0,",",".");
 									$data['reduction'] = number_format($data['reduction'],0,",",".");									
 									$data['net_revenue'] = number_format($data['net_revenue'],0,",",".");									
@@ -704,7 +709,7 @@ class homex extends MY_Controller {
 		if($p2 != 'tbl_prd'){
 			$array = array(
 				'total_cost' => number_format($data['total_cost'],2,",","."),
-				'total_percent' => number_format($data['total_percent'],0,",",".")
+				'total_percent' => number_format($data['total_percent'],2,",",".")
 			);
 		}else{
 			$array = array(
