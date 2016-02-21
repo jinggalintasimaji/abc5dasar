@@ -457,8 +457,13 @@ class mhome extends CI_Model{
 							SUM(A.direct_cost)as direct_cost,
 							SUM(A.abc_cost)as abc_cost
 							FROM tbl_prm A ".$where." AND A.tbl_model_id=".$model;
-				$data_co=$this->db->query($sql_co)->row_array();			
+				$data_co=$this->db->query($sql_co)->row_array();
+				$sql_res="SELECT SUM(A.head_count)as tot_head,SUM(fte_count)as tot_fte,SUM(total)as gaji
+							FROM tbl_emp A 
+							".$where." AND A.tbl_model_id=".$model;
+				$data_res=$this->db->query($sql_res)->row_array();
 				$data['act']=$data_act;
+				$data['res']=$data_res;
 				$data['co']=$data_co;
 				return $data;
 			break;
