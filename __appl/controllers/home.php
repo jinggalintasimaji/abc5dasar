@@ -45,8 +45,12 @@ class home extends MY_Controller {
 							$this->smarty->assign('tahun',$tahun);
 						break;
 						case "data_model":
-							$data = $this->mhome->getdata('get_dashboard');
-							$this->smarty->assign('data',$data);
+							if($this->input->post('model')!=""){
+								$data = $this->mhome->getdata('get_dashboard');
+								$this->smarty->assign('data',$data);
+							}else{
+								echo '<fieldset style="width:95%"><center>NO DATA MODEL PLEASE CREATE NEW MODEL!!!!</center></fieldset>';exit;
+							}
 							//echo "<pre>";print_r($data);echo "</pre>";
 						break;
 					}
