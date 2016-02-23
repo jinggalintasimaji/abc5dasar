@@ -270,7 +270,7 @@ class mhome extends CI_Model{
 					$data[$x['id']]=array();
 					$data[$x['id']]['nama_segment']=$x['segment'];
 					$data[$x['id']]['are']=array();
-					$sql_are="SELECT A.tbl_acm_id,B.descript,C.segment,sum(A.percent)as percent,sum(A.rd_qty)as qty,sum(total_cost)as total_cost 
+					$sql_are="SELECT A.tbl_acm_id,B.descript,C.segment,sum(A.percent)as percent,sum(A.rd_qty)as qty,sum(cost)as total_cost 
 								FROM tbl_are A 
 								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 								LEFT JOIN cl_segment C ON B.cl_segment_id=C.id
@@ -292,7 +292,7 @@ class mhome extends CI_Model{
 			break;
 			case "report_resource":
 				$data=array();
-				$sql="SELECT A.tbl_acm_id,B.descript,sum(A.percent)as percent,sum(A.rd_qty) as qty,sum(total_cost)as total_cost 
+				$sql="SELECT A.tbl_acm_id,B.descript,sum(A.percent)as percent,sum(A.rd_qty) as qty,sum(cost)as total_cost 
 						FROM tbl_are A 
 						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 						WHERE A.bulan=".$bulan." AND A.tahun=".$tahun." 
@@ -308,7 +308,7 @@ class mhome extends CI_Model{
 					$data[$y['tbl_acm_id']]['emp']=array();
 					$data[$y['tbl_acm_id']]['exp']=array();
 					$data[$y['tbl_acm_id']]['asset']=array();
-					$sql_emp="SELECT A.tbl_acm_id,B.descript,A.tbl_emp_id,C.last,A.percent,A.rd_qty,A.total_cost  
+					$sql_emp="SELECT A.tbl_acm_id,B.descript,A.tbl_emp_id,C.last,A.percent,A.rd_qty,A.cost  
 								FROM tbl_are A 
 								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 								LEFT JOIN tbl_emp C ON A.tbl_emp_id=C.id
@@ -317,7 +317,7 @@ class mhome extends CI_Model{
 								AND A.tbl_emp_id IS NOT NULL AND A.tbl_acm_id=".$y['tbl_acm_id'];
 					$emp=$this->db->query($sql_emp)->result_array();
 					
-					$sql_exp="SELECT A.tbl_acm_id,B.descript,A.tbl_exp_id,C.descript as exp_name,A.percent,A.rd_qty,A.total_cost  
+					$sql_exp="SELECT A.tbl_acm_id,B.descript,A.tbl_exp_id,C.descript as exp_name,A.percent,A.rd_qty,A.cost  
 								FROM tbl_are A 
 								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 								LEFT JOIN tbl_exp C ON A.tbl_exp_id=C.id
@@ -326,7 +326,7 @@ class mhome extends CI_Model{
 								AND A.tbl_exp_id IS NOT NULL AND A.tbl_acm_id=".$y['tbl_acm_id'];
 					$exp=$this->db->query($sql_exp)->result_array();
 					
-					$sql_asset="SELECT A.tbl_acm_id,B.descript,A.tbl_assets_id,C.assets_name,A.percent,A.rd_qty,A.total_cost  
+					$sql_asset="SELECT A.tbl_acm_id,B.descript,A.tbl_assets_id,C.assets_name,A.percent,A.rd_qty,A.cost  
 								FROM tbl_are A 
 								LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 								LEFT JOIN tbl_assets C ON A.tbl_assets_id=C.id
@@ -339,21 +339,21 @@ class mhome extends CI_Model{
 						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['nama']=$b['last'];
 						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['percent']=$b['percent'];
 						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['rd_qty']=$b['rd_qty'];
-						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['total_cost']=$b['total_cost'];
+						$data[$y['tbl_acm_id']]['emp'][$b['tbl_emp_id']]['total_cost']=$b['cost'];
 					}
 					foreach($exp as $a=>$b){
 						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]=array();
 						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['nama']=$b['exp_name'];
 						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['percent']=$b['percent'];
 						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['rd_qty']=$b['rd_qty'];
-						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['total_cost']=$b['total_cost'];
+						$data[$y['tbl_acm_id']]['exp'][$b['tbl_exp_id']]['total_cost']=$b['cost'];
 					}
 					foreach($asset as $a=>$b){
 						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]=array();
 						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['nama']=$b['assets_name'];
 						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['percent']=$b['percent'];
 						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['rd_qty']=$b['rd_qty'];
-						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['total_cost']=$b['total_cost'];
+						$data[$y['tbl_acm_id']]['asset'][$b['tbl_assets_id']]['total_cost']=$b['cost'];
 					}
 				}
 				//echo "<pre>";print_r($data);echo "</pre>";
@@ -537,15 +537,16 @@ class mhome extends CI_Model{
 					$join .=" LEFT JOIN tbl_assets C ON A.tbl_assets_id=C.id ";
 					$whr .=" AND tbl_assets_id IS NOT NULL ";
 				}
-				$sql="SELECT SUM(A.total_cost)as total 
+				$sql="SELECT SUM(A.cost)as total 
 						FROM tbl_are A 
 						LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id 
 						".$join."
-						WHERE A.tbl_acm_id=274 AND A.bulan=".$bulan." 
+						WHERE A.tbl_acm_id=".$this->input->post('id_act')." AND A.bulan=".$bulan." 
 						".$whr."
 						AND A.tahun=".$tahun." 
 						AND B.tbl_model_id=".$this->modeling['id']." 
 						AND C.cost_type='".$p2."'";
+					//echo $sql;exit;
 				return $this->db->query($sql)->row_array();
 			break;
 			case "data_login":
@@ -808,33 +809,41 @@ class mhome extends CI_Model{
 				WHERE A.bulan=".$this->input->post('bulan')."  
 				AND A.tahun=".$this->input->post('tahun')."  
 				AND B.tbl_model_id=".$this->modeling['id'];
-				$sql_emp="SELECT SUM(A.total_cost) as total_emp 
+				$sql_emp="SELECT SUM(A.cost) as total_emp 
 				FROM tbl_are A
 				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 				WHERE A.tbl_emp_id IS NOT NULL 
 				AND A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
 				AND B.tbl_model_id=".$this->modeling['id'];
-				$sql_exp="SELECT SUM(A.total_cost) as total_exp 
+				$sql_exp="SELECT SUM(A.cost) as total_exp 
 				FROM tbl_are A
 				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 				WHERE A.tbl_exp_id IS NOT NULL 
 				AND A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
 				AND B.tbl_model_id=".$this->modeling['id'];
-				$sql_asset="SELECT SUM(A.total_cost) as total_asset 
+				$sql_asset="SELECT SUM(A.cost) as total_asset 
 				FROM tbl_are A
 				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id
 				WHERE A.tbl_assets_id IS NOT NULL 
 				AND A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
 				AND B.tbl_model_id=".$this->modeling['id'];
+				$sql_co="SELECT SUM(A.cost) as total_cost_obj 
+				FROM tbl_prd A
+				LEFT JOIN tbl_prm B ON A.tbl_prm_id=B.id
+				WHERE A.bulan=".$this->input->post('bulan')."  AND A.tahun=".$this->input->post('tahun')." 
+				AND B.tbl_model_id=".$this->modeling['id'];
+				
 				$tot_act=$this->db->query($sql_act)->row_array();
 				$tot_exp=$this->db->query($sql_exp)->row_array();
 				$tot_emp=$this->db->query($sql_emp)->row_array();
 				$tot_asset=$this->db->query($sql_asset)->row_array();
+				$tot_co=$this->db->query($sql_co)->row_array();
 				
 				$data=array('act'=>$tot_act['total_act'],
 							'emp'=>$tot_emp['total_emp'],
 							'exp'=>$tot_exp['total_exp'],
 							'asset'=>$tot_asset['total_asset'],
+							'co'=>$tot_co['total_cost_obj']
 				);
 				return $data;
 				
@@ -1025,7 +1034,7 @@ class mhome extends CI_Model{
 				$id_act=(int)$this->input->post('id_act');
 				$where .=" AND A.bulan=".$bulan." AND A.tahun=".$tahun." AND A.tbl_model_id=".$this->modeling['id'];
 				
-				$sql = "SELECT A.*,B.costcenter,CONCAT(A.first,' ',A.last) as name_na,C.tot_persen
+				$sql = "SELECT A.*,B.costcenter,CONCAT(A.last) as name_na,C.tot_persen
 					FROM tbl_emp A
 					LEFT JOIN tbl_loc B ON A.tbl_loc_id=B.id 
 					LEFT JOIN (
