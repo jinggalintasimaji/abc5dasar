@@ -1740,7 +1740,9 @@ class mhome extends CI_Model{
 				if($sts_crud=='delete'){
 					$id_model=$this->input->post('id');
 					
-					$tables = array("tbl_emp","tbl_exp","tbl_assets","tbl_prd","tbl_are","tbl_acm_total_cost","tbl_acm");
+					$tables = array("tbl_emp","tbl_exp","tbl_assets","tbl_prd","tbl_are",
+									"tbl_acm_total_cost","tbl_acm","tbl_cdm","tbl_cust",
+									"tbl_efx","tbl_loc","tbl_location","tbl_prd","tbl_prm","tbl_rdm");
 					foreach($tables as $x) {
 						if($x=='tbl_are'){
 							$sql="DELETE A
@@ -1943,10 +1945,11 @@ class mhome extends CI_Model{
 		$objReader->setReadDataOnly(true);
 		$nama_sheet=$objPHPExcel->getSheetNames();
 		$worksheet = $objPHPExcel->getSheet(0);
-		
-		
-		
-		
+		$sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+		/*echo "<pre>";
+		print_r($sheetData);
+		echo "</pre>";exit;
+		*/
 		switch($p2){
 			case "are_emp":
 				$bulan=$this->input->post('bulan_empMonth');
