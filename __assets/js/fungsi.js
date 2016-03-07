@@ -2658,6 +2658,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
+			param['month'] = $('#bulan_cost_center').val();
+			param['year'] = $('#tahun_cost_center').val();			
 			kolom[modnya] = [	
 				{field:'location',title:'Location',width:100, halign:'center',align:'center'},
 				{field:'costcenter',title:'Cost Center',width:150, halign:'center',align:'left'},
@@ -2672,6 +2674,8 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			urlglobal = host+'homex/getdata/'+urlnya;
 			fitnya = true;
 			pagesizeboy = 50;
+			param['month'] = $('#bulan_resource_driver').val();
+			param['year'] = $('#tahun_resource_driver').val();			
 			kolom[modnya] = [	
 				{field:'resource',title:'Resource',width:200, halign:'center',align:'left'},
 				{field:'descript',title:'Description',width:250, halign:'center',align:'left'},
