@@ -22,6 +22,13 @@ class mhomex extends CI_Model{
 			$where .= " AND A.tbl_loc_id = '".$costcenter."' ";
 		}
 		
+		if(!empty($month) && !empty($year)){
+			$arrayres = $this->modeling;
+			$arrayres['month'] = $month;
+			$arrayres['year'] = $year;
+			$this->session->set_userdata($this->config->item('modeling'), base64_encode(serialize($arrayres)));
+		}
+		
 		if($month){
 			$where .= " AND A.bulan = '".$month."' ";
 		}
@@ -858,8 +865,8 @@ class mhomex extends CI_Model{
 				}
 				
 				$sql = "
-					SELECT SUM(amount) as total_expense
-					FROM tbl_exp
+					SELECT SUM(A.amount) as total_expense
+					FROM tbl_exp A
 					$where
 				";
 			break;
@@ -872,8 +879,8 @@ class mhomex extends CI_Model{
 					$whereexp = " AND tbl_model_id = 0 ";
 				}
 				$sqlexpense = "
-					SELECT id
-					FROM tbl_exp
+					SELECT A.id
+					FROM tbl_exp A
 					WHERE 1=1 $whereexp 
 				";
 				$dataexpense = $this->db->query($sqlexpense)->result_array();
@@ -885,15 +892,15 @@ class mhomex extends CI_Model{
 				
 				if($type == 'total_expense_activity'){
 					$sum = 'cost';
-					$tabel = 'tbl_are';
+					$tabel = 'tbl_are A';
 					$where .= " AND (tbl_exp_id <> 0 OR tbl_exp_id IS NOT NULL) ";
 				}elseif($type == 'total_expense_employee'){
 					$sum = 'cost';
-					$tabel = 'tbl_efx';
+					$tabel = 'tbl_efx A';
 					$where .= " AND (tbl_emp_id <> 0 OR tbl_emp_id IS NOT NULL) ";
 				}elseif($type == 'total_expense_assets'){
 					$sum = 'cost';
-					$tabel = 'tbl_efx';
+					$tabel = 'tbl_efx A';
 					$where .= " AND (tbl_assets_id <> 0 OR tbl_assets_id IS NOT NULL) ";
 				}
 				
@@ -1509,6 +1516,21 @@ class mhomex extends CI_Model{
 					$array_batch_update = array();
 					
 					switch($type_import){
+						case "tbl_tester":
+							$datax = array();
+							$sss = $objPHPExcel->getSheetByName('emp');
+							$rws = $sss->toArray();
+							$cols = array_splice($rws[0], 0, 22);
+							unset($rws[0]);
+							foreach($rws as $k => $v){
+								$v[0] = str_replace("'", '', $v[0]);
+								$datax[$k] = array_combine($cols, array_splice($v, 0, 22) );
+							}
+							
+							echo "<pre>";
+							print_r($datax);
+							exit;
+						break;
 						case "tbl_emp":
 							for($i=2; $i <= $worksheet->getHighestRow(); $i++){
 								if($worksheet->getCell("B".$i)->getCalculatedValue() != "" || $worksheet->getCell("B".$i)->getCalculatedValue() != null){

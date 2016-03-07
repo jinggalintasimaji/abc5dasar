@@ -191,6 +191,7 @@ class lib {
 					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
 					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
 					'2' => array('id'=>'tbl_assets','txt'=>'Data Assets'),
+					'3' => array('id'=>'tbl_tester','txt'=>'Data tester'),
 				);
 			break;
 			case "import_cost_object":

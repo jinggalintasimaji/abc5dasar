@@ -17,8 +17,8 @@
 							{include file='template/input_form.html' size='sedang' type='text' tampilan='label' label='Position' name='position' value={$data.position|default:''} }						
 						</td>
 						<td width='50%' valign='top'>
-							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Month' name='bulan' option={$bulan_form} } 
-							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Year' name='tahun' option={$tahun_form} } 						
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Month' name='bulan' readonly='disabled' option={$bulan_form} } 
+							{include file='template/input_form.html' size='sedang' type='select' tampilan='label' label='Year' name='tahun' readonly='disabled' option={$tahun_form} } 						
 						</td>
 					</tr>
 				</table>

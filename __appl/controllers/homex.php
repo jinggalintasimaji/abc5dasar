@@ -66,10 +66,18 @@ class homex extends MY_Controller {
 							}elseif($p2 == 'assets'){
 								$tbl = 'tbl_assets';
 							}
-							$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
-						
-							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
-							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
+							
+							if(isset($this->modeling['month']) && isset($this->modeling['year'])){
+								$bln = $this->modeling['month'];
+								$thn = $this->modeling['year'];
+							}else{
+								$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
+								$bln = $maxbulan['bln'];
+								$thn = $maxbulan['thn'];
+							}
+							
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($bln) ? $bln : "" ) ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($thn) ? $thn : "" ) ) );
 							$this->smarty->assign('costcenter', $this->lib->fillcombo('tbl_loc_search', 'return') );
 							
 							if($p2 == 'expenses'){
@@ -190,10 +198,17 @@ class homex extends MY_Controller {
 							}elseif($p2 == 'location'){
 								$tbl = 'tbl_location';
 							}
-							$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
-
-							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
-							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
+							if(isset($this->modeling['month']) && isset($this->modeling['year'])){
+								$bln = $this->modeling['month'];
+								$thn = $this->modeling['year'];
+							}else{
+								$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
+								$bln = $maxbulan['bln'];
+								$thn = $maxbulan['thn'];
+							}
+							
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($bln) ? $bln : "" ) ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($thn) ? $thn : "" ) ) );
 						break;
 						
 						case "form_cost_object": 
@@ -408,10 +423,17 @@ class homex extends MY_Controller {
 							}elseif($p2 == 'cost_driver'){
 								$tbl = 'tbl_cdm';
 							}
-							$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
-
-							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($maxbulan['bln']) ? $maxbulan['bln'] : "" ) ) );
-							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($maxbulan['thn']) ? $maxbulan['thn'] : "" ) ) );
+							if(isset($this->modeling['month']) && isset($this->modeling['year'])){
+								$bln = $this->modeling['month'];
+								$thn = $this->modeling['year'];
+							}else{
+								$maxbulan = $this->mhomex->getdata('max_bulan', 'row_array', $tbl);
+								$bln = $maxbulan['bln'];
+								$thn = $maxbulan['thn'];
+							}
+							
+							$this->smarty->assign('bulan', $this->lib->fillcombo('bulan', 'return', ( isset($bln) ? $bln : "" ) ) );
+							$this->smarty->assign('tahun', $this->lib->fillcombo('tahun', 'return', ( isset($thn) ? $thn : "" ) ) );
 						break;
 						case "form_cost_center": 
 						case "form_resource_driver":
@@ -825,7 +847,7 @@ class homex extends MY_Controller {
 	
 	function tester(){
 		echo "<pre>";
-		print_r($dataservice);exit;
+		print_r($this->modeling);exit;
 	}
 	
 }
