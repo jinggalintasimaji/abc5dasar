@@ -429,7 +429,7 @@ class mhome extends CI_Model{
 				}
 				$data=array();
 				
-				$sql_act="SELECT sum(A.total_cost)as total_cost,
+				$sql_act="SELECT sum(A.cost)as total_cost,
 						  (sum(A.percent)/100) as FTE,
 						  count(A.tbl_emp_id)as head_count 
 						  FROM tbl_are A 
@@ -437,11 +437,11 @@ class mhome extends CI_Model{
 				//echo $sql_act;
 				$data_act=$this->db->query($sql_act)->row_array();
 				
-				$sql_seg="SELECT C.segment,sum(A.total_cost)as total_cost
+				$sql_seg="SELECT C.segment,sum(A.cost)as total_cost
 				FROM tbl_are A 
 				LEFT JOIN tbl_acm B ON A.tbl_acm_id=B.id 
 				LEFT JOIN cl_segment C ON B.cl_segment_id=C.id
-				WHERE 1=1 AND A.tahun=2015 AND A.bulan=11 AND B.tbl_model_id=2
+				".$where." AND B.tbl_model_id=".$model." AND B.cl_segment_id IS NOT NULL
 				GROUP BY C.segment";
 				
 				$data_seg=$this->db->query($sql_seg)->result_array();
